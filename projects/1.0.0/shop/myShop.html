@@ -121,7 +121,7 @@
     //获取初始数据
     function getShopInfo(){
         loading(true);
-
+        
         var token = window.localStorage.token;
         $.getJSON(locahost+'/goods/shopGoodses?&token='+token,function(data){
           loading(false);
