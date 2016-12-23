@@ -260,9 +260,8 @@
 
     //更新PHP购物车 0-1
     function updataCar(goods_id,goodes_num){
-
+        fb_alert(window.localStorage.app );
           if(window.localStorage.app == 1 ){
-
             window.localStorage.token  = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
           }else if(window.localStorage.token == undefined){
             fb_alert("请先登录");
