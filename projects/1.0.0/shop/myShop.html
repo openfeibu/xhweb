@@ -118,7 +118,7 @@
   $(function(){
     var proArray = {};
     var shop_id,
-    shop_status,nowIndex;
+    shop_status,nowIndex; 
     //获取数据
     getShopInfo();
     //获取初始数据
@@ -195,7 +195,7 @@
     //获取初始数据
     //获取分类商品
     function getMoreInfo(){
-
+        fb_alert(nowIndex)
         if(!cat_id){
           cat_id = $(".shop-pro-class ul li").eq(0).attr("cat_id");
         }
