@@ -213,6 +213,7 @@
                     "pay_password":$.md5(wallet_pass)
                 };
                 $.post(locahost+'/orderInfo/store',alipay_info,  function(data){
+                    is_alipay(false);
                     if(data.code == 2001){
                         fb_alert(fb_error["2001"])
                         window.location.href = "login.html";
@@ -228,7 +229,7 @@
                     }else{
                         fb_alert(data.detail)
                     }
-                    is_alipay(false);
+                    
                 })
             }else{
                 for(var j = 0,c=wallet_pass.length ; j <c;j++ ){
