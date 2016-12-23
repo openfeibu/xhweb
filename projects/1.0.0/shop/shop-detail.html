@@ -167,6 +167,7 @@
           $(".shop-pro-all").eq(0).show().html('<dl>'+shop_html+'</dl>').append("<div id='loaded'>我是有底线的</div>").attr("loca",true);
           $(".shop-pro-class ul").html(categories_html);
           $("[data-name='shopName']").text(data.shop.shop_name);
+          $("title").text(data.shop.shop_name);
           $("[data-name='shopDescription']").text(data.shop.description);
           $("[data-name='shopImg']").attr("src",data.shop.shop_img);
           if(data.goodes == ''){
