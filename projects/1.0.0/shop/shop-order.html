@@ -78,13 +78,15 @@
 </body>
 <script>
     var app = 0;
-    if(window.localStorage.app == 1){
+    if(window.localStorage.app == 1 || GetString("device") == "android"){
       $(".header_title").remove();
       $(".pt2").addClass("pt1").removeClass("pt2");
       // $(".shop-detail-con").addClass("appheight");
       $(".shopOrder-select").css("top","0");
+      window.localStorage.token  = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
       app =1;
     }
+
     /*头部切换事件 S*/
 
     $(".shopOrder-select > div").click(function(){
