@@ -126,15 +126,11 @@
         loading(true);
 
         var token = window.localStorage.token;
-        fb_alert( window.localStorage.token);
         $.getJSON(locahost+'/goods/shopGoodses?&token='+token,function(data){
           loading(false);
-          if(data.shop == null){
+          if(data.shop == null || data.code != 200){
             //没店铺
             window.history.go(-1);
-          }
-          if(data.code != 200){
-            fb_alert(data.detail);
           }
           if(data.categories.length == 0 ){
             //没有产品
