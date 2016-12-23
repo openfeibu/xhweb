@@ -117,7 +117,7 @@
                             </li>';
           })
 
-          $(".shopOrder_info ul").html(shop_html);
+            $(".shopOrder_info ul").html(shop_html);
             $("[data-name='addressName']").text(data.order_info.consignee);
             $("[data-name='addressMap']").text(data.order_info.address);
             $("[data-name='addressPhone']").text(data.order_info.mobile);
@@ -127,6 +127,7 @@
             $("[data-name='order_sn']").text(data.order_info.order_sn);
             $("[data-name='created_at']").text(data.order_info.created_at);
             $("[data-name='shopName']").text(data.order_info.shop_name);
+            window.localStorage.total_fee = data.order_info.total_fee;//缓存总价格
             if(data.order_info.pay_time == null){
               $("[data-name='pay_time']").parents("p").remove();
             }else{
@@ -134,7 +135,7 @@
             }
             switch(data.order_info.status_desc){
               case "待付款" :
-                $(".submitButton").html('<div class="closeOrder opa_active" onclick="closeOrder()">取消订单</div>');
+                $(".submitButton").html('<div class="gopay opa_active" onclick="gopay()">去付款</div><div class="closeOrder opa_active" onclick="closeOrder()">取消订单</div>');
                 break;
               case "待发货" :
                 $(".submitButton").html('<div class="returnMoney opa_active" onclick="returnMoney()">申请退款</div>');
@@ -218,10 +219,32 @@
               })       
         })
       }
-
+        //去付款
+    function gopay(){
+        is_alipay(true);
+        var alipay_info = {
+                "token":token,
+                "order_id":order_id
+          }
+         $.post(locahost+'/orderInfo/pay',alipay_info, function(data){
+                    if(data.code == 2001){
+                        fb_alert(fb_error["2001"])
+                        window.location.href = "login.html";
+                        return;
+                    }else if(data.code == 200){
+                        is_alipay(false)
+                        $("body").append(data.data)
+                        $("#alipaysubmit").submit();
+                    }else{
+                      is_alipay(false)
+                       fb_alert(data.detail)
+                    }
+        })
+    }
     window.returnMoney = returnMoney;
     window.closeOrder = closeOrder;
     window.takeGood = takeGood;
+    window.gopay = gopay;
   })
 </script>
 </html>
