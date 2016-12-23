@@ -232,6 +232,8 @@
                         fb_alert(data.detail)
                     }
                     
+                }).error(function(){
+                    fb_alert("服务器出小差啦")
                 })
             }else{
                 for(var j = 0,c=wallet_pass.length ; j <c;j++ ){
