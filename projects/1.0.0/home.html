@@ -194,25 +194,22 @@
                 var datadom = '<div class="will"></div>';
                 var classT='startTime';
               }
-              dom += "<div class='item'>" + datadom + "<a href='#/associationActive/" + value.actid + "'>\
-                        <div class='item_img' style='background:url("+value.img_url.split(",")[0]+") no-repeat center;background-size:cover;'>\
+              dom += "<div class='item clearfix'>" + datadom + "<a href='#/associationActive/" + value.actid + "'>\
+                        <div class='item_text'>\
                           <div class='item_text_bg'>\
-                            <div class='title'>" + value.title + "</div>\
-                            <div class='content'>\
-                              <p>" + value.content +"</p>\
-                            </div>\
+                              <div class='item_ass_info'>\
+                                <div class='item_ass_img'><img src='"+value.avatar_url+"' /></div>\
+                                <div class='item_ass_name'>"+value.aname+"</div>\
+                              </div>\
+                              <div class='title'>" + value.title + "</div>\
+                              <div class='time'>"+value.created_at.substr(5,11)+"</div>\
+                              <div class='user-num'>阅读 " + value.view_num + "</div>\
                           </div>\
                         </div>\
-                          <div class='ass_info'>\
-                            <div class='place'>地点："+value.place+"</div>\
-                            <div class='time'>\
-                              <div class='"+classT+"'>开始时间："+value.start_time+"</div>\
-                              <div class='endTime'>结束时间："+value.end_time+"</div>\
-                            </div>\
-                            <div class='content-bottom'>\
-                              <span class='user-num'>浏览 " + value.view_num + "</span>\
-                              <span class='social-name'>" + value.aname + "</span>\
-                            </div></div></a></div>";
+                        <div class='item_img' style='background:url("+value.img_url.split(",")[0]+") no-repeat center;background-size:auto 100%;'>\
+                        </div>\
+                          </a>\
+                        </div>";
 		          })
 		        htmldom='<div class="club_play_title"><i></i><p>社团活动</p></div>'+
 		                '<ul class="club_play_con">'+
