@@ -104,11 +104,11 @@
 </body>
 <script>
   var app = 0;
-  if(window.localStorage.app == 1){
+  if(window.localStorage.app == 1 || GetString("device") == "android"){
     $(".header_title").remove();
     $(".pt1").removeClass("pt1");
     $(".shop-detail-con").addClass("appheight");
-
+    window.localStorage.token  = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
     app =1;
   }
   // $("html").html(window.localStorage.token)
@@ -121,6 +121,7 @@
     //获取初始数据
     function getShopInfo(){
         loading(true);
+
         var token = window.localStorage.token;
         $.getJSON(locahost+'/goods/shopGoodses?&token='+token,function(data){
           loading(false);
