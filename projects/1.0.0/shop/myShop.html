@@ -105,11 +105,13 @@
 <script>
   var app = 0;
   if(window.localStorage.app == 1 || GetString("device") == "android"){
+    fb_alert(GetString("device"));
     $(".header_title").remove();
     $(".pt1").removeClass("pt1");
     $(".shop-detail-con").addClass("appheight");
     window.localStorage.token  = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
     app =1;
+    window.localStorage.app == 1
   }
   // $("html").html(window.localStorage.token)
   $(function(){
