@@ -519,8 +519,8 @@
     function getCar(){
         var token = window.localStorage.token || "";
           $.getJSON(locahost+'/cart/shopCarts',{"token":token,"shop_id":shop_id},function(data){
-           if(data.code == 2001){
-                fb_alert(fb_error["2001"])
+            if(data.code == 2001){
+                // fb_alert(fb_error["2001"])
                 // window.location.href = "../login.html";
                 return;
              }
