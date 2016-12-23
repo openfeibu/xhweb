@@ -365,7 +365,7 @@ function removeBr(obj){
 function winGo(str){
   // $("body").html('http://192.168.0.129/fb/'+str)
   if(window.localStorage.app == 1){
-    window.localStorage.token  = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
+    
     // $("body").html(window.localStorage.token )
     feibu.openWindow('shop','http://192.168.0.129/'+str)
   }else{

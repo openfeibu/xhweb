@@ -112,7 +112,7 @@
         loading(true);
         var token = window.localStorage.token;
       // $("html").html(locahost+'/goods/shopGoodses?shop_id='+shop_id+'&token='+token)
-        $.getJSON(locahost+'/goods/shopGoodses?shop_id='+shop_id+'&token='+token,function(data){
+        $.getJSON(locahost+'/goods/shopGoodses?shop_id='+shop_id,function(data){
             // fb_alert(locahost+'/goods/shopGoodses?shop_id='+shop_id+'&token='+token)
          
           if(data.categories.length == 0 ){
@@ -259,6 +259,12 @@
 
     //更新PHP购物车 0-1
     function updataCar(goods_id,goodes_num){
+          if(window.localStorage.app == 1 && window.localStorage.token != undefined){
+            window.localStorage.token  = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
+          }else if(window.localStorage.token == undefined){
+            fb_alert("请先登录");
+            return false;
+          }
           var token = window.localStorage.token;
           var postData = {
             "token" : token,
@@ -488,7 +494,6 @@
     //更新数量
     //更新总价格
     function updataValue(){
-
       var cV = 0;
       for(var i = 0,c=$(".car-list dd").length;i<c;i++){
         cV += Number($(".car-list dd").eq(i).find(".car-money span").text())* Number($(".car-list dd").eq(i).find(".CCinput").text());
@@ -511,7 +516,7 @@
     //获取购物车
     getCar();
     function getCar(){
-        var token = window.localStorage.token;
+        var token = window.localStorage.token || "";
           $.getJSON(locahost+'/cart/shopCarts',{"token":token,"shop_id":shop_id},function(data){
            if(data.code == 2001){
                 fb_alert(fb_error["2001"])
@@ -550,6 +555,12 @@
     //创建订单
     $(".shop-buy").on("click",createOrder);
     function createOrder(){
+      if(window.localStorage.app == 1 && window.localStorage.token != undefined){
+        window.localStorage.token  = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
+      }else if(window.localStorage.token == undefined){
+        fb_alert("请先登录");
+        return false;
+      }
       if($(this).hasClass("active")){
          window.location.href = "shop-createOrder.html?sid="+shop_id;
       }else{
