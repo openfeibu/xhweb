@@ -129,6 +129,7 @@
       var i  = $(this).index(".shopMap ul li");
       $(this).addClass("on").siblings("li").removeClass("on");
       window.localStorage.user_address = mapArray[i];
+      window.history.go(-1);
     })
     
      $(".shopMap ul").on("click",".updata",function(event){ 

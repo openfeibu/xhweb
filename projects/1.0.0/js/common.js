@@ -367,15 +367,15 @@ function winGo(str){
   if(window.localStorage.app == 1){
     window.localStorage.token  = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
     // $("body").html(window.localStorage.token )
-    feibu.openWindow('shop','http://192.168.0.129/fb/'+str)
+    feibu.openWindow('shop','http://192.168.0.129/'+str)
   }else{
-    window.location.href='http://192.168.0.129/fb/'+str;
+    window.location.href='http://192.168.0.129/'+str;
   }
 }
 //链接跳转
 function locaGo(str){
   // $("body").html('http://192.168.0.129/fb/'+str)
-    window.location.href='http://192.168.0.129/fb/'+str;
+    window.location.href='http://192.168.0.129/'+str;
 
 }
 //错误提示

@@ -289,6 +289,7 @@
     nowProId; //定时时间
     // 加入购物车
     $(".shop-detail-con").on("click",".addC",function(){
+      $(".shop-buy").off("click",createOrder);
       var addCar = $(this).parents(".addCar"),
       num = Number(addCar.find(".Cinput").text()),
       dd= $(this).parents("dd"),
@@ -296,7 +297,8 @@
       maxNum = addCar.attr("maxNum"),
       nowNum = num+1;
         if(num >= maxNum){
-          fb_alert("超过了库存")
+          fb_alert("超过了库存");
+          $(".shop-buy").on("click",createOrder);
         }else if(num==0){
             addCar.removeClass("no").find(".Cinput").text(nowNum);
             var pro_info = {
@@ -311,6 +313,7 @@
             }
             carTime = setTimeout(function(){
                 updataCar(proid,nowNum)//加入购物车
+                $(".shop-buy").on("click",createOrder);
             },1000)
             nowProId = proid;
         }else{
@@ -322,12 +325,14 @@
             }
             carTime = setTimeout(function(){
                 updataCar(proid,nowNum)//加入购物车
+                $(".shop-buy").on("click",createOrder);
             },1000)
             nowProId = proid;
         }
 
     })
     $(".car-list").on("click",".CaddC",function(){
+      $(".shop-buy").off("click",createOrder);
       var CaddCar = $(this).parents(".CaddCar"),
       num = Number(CaddCar.find(".CCinput").text()),
       dd= $(this).parents("dd"),
@@ -335,7 +340,8 @@
       maxNum = CaddCar.attr("maxNum"),
       nowNum = num+1;
         if(num >= maxNum){
-          fb_alert("超过了库存")
+          fb_alert("超过了库存");
+          $(".shop-buy").on("click",createOrder);
         }else{
           CaddCar.find(".CCinput").text(nowNum);
           $(".shop-pro-all dd[proid='"+proid+"']").find(".Cinput").text(nowNum);
@@ -345,6 +351,7 @@
             }
             carTime = setTimeout(function(){
                 updataCar(proid,nowNum)//加入购物车
+                $(".shop-buy").on("click",createOrder);
             },1000)
             nowProId = proid;
         }
@@ -355,6 +362,7 @@
     // 加入购物车
     // 减少购物车
     $(".shop-detail-con").on("click",".prevC",function(){
+      $(".shop-buy").off("click",createOrder);
       var addCar = $(this).parents(".addCar"),
       num = Number(addCar.find(".Cinput").text()),
       dd= $(this).parents("dd"),
@@ -369,6 +377,7 @@
             }
             carTime = setTimeout(function(){
                 updataCar(proid,nowNum)//加入购物车
+                $(".shop-buy").on("click",createOrder);
             },1000)
             nowProId = proid;
         }else{
@@ -380,6 +389,7 @@
             }
             carTime = setTimeout(function(){
                 updataCar(proid,nowNum)//加入购物车
+                $(".shop-buy").on("click",createOrder);
             },200)
             nowProId = proid;
 
@@ -388,6 +398,7 @@
     })
 
     $(".car-list").on("click",".CprevC",function(){
+      $(".shop-buy").off("click",createOrder);
        var CaddCar = $(this).parents(".CaddCar"),
           num = Number(CaddCar.find(".CCinput").text()),
           dd= $(this).parents("dd"),
@@ -403,6 +414,7 @@
                 }
                 carTime = setTimeout(function(){
                     updataCar(proid,nowNum)//加入购物车
+                    $(".shop-buy").on("click",createOrder);
                 },1000)
                 nowProId = proid;
             }else{
@@ -414,6 +426,7 @@
                 }
                 carTime = setTimeout(function(){
                     updataCar(proid,nowNum)//加入购物车
+                    $(".shop-buy").on("click",createOrder);
                 },1000)
                 nowProId = proid;
 
