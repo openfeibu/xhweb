@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta content="telephone=no" name="format-detection" />
+  <!-- uc强制竖屏 -->
+  <meta name="screen-orientation" content="portrait">
+  <!-- UC应用模式 --> 
+  <meta name="browsermode" content="application">
+  <!-- QQ强制竖屏 -->
+  <meta name="x5-orientation" content="portrait">
+  <!-- QQ应用模式 -->
+  <meta name="x5-page-mode" content="app">
+  <!-- UC禁止放大字体 -->
+  <meta name="wap-font-scale" content="no">
+  <title>校汇Plus | 校汇 </title>
+  <meta name="Keywords" content="校汇,广东农工商职业技术学院,AIB,农工商,能赚钱,大学生,大学生创业,大学生校园,大学生校园社团,大学生校园快递,大学生周边生活" />
+  <meta name="Description" content="校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、社团文化、校园资讯、学生互动" />
+  <link rel="apple-touch-icon-precomposed" href="./icon.png" />
+  <link rel="shortcut icon" href="../icon.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="../css/reset.css">
+  <link rel="stylesheet" type="text/css" href="../css/index.css">
+  <link rel="stylesheet" type="text/css" href="../css/shop.css">
+  <script type="text/javascript"src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/common.js"></script>
+  <script type="text/javascript"src="../js/director.js"></script>
+  <script type="text/javascript" src="../js/updata.js"></script>
+</head>
+<body  style="height:100%">
+	<section class='main' style="height:100%;padding:0">
+        <div class="header_title">
+          <p data-name="shopName">XX的店铺</p>
+          <div class="return" onclick="returnUp()">
+          </div>
+        </div>
+        <div class="shop-detail pt1">
+            <div class="shop-header">
+                <div class="shop-img"><img data-name="shopImg" src="" alt=""></div>
+                <div class="shop-test">
+                  <div class="shopName" data-name="shopName">2121</div>
+                  <div class="shopDescription" data-name="shopDescription">dsdasdsaddsdasdsaddsdasdsaddsdasdsaddsdasdsaddsdasdsaddsdasdsaddsdasdsad</div>
+                </div>
+                <div class="nocollection" onclick="collection(event,this)"></div>
+            </div>
+            <div class="shop-detail-con">
+              <div class="shop-pro-class">
+                  <ul>
+                    
+                  </ul>
+              </div>
+              
+              <div class="noGoods">
+                等待商家上架
+              </div>
+            </div>
+        </div>
+        <div class="shop-car">
+
+            <div class="shop-car-icon">
+             <!--  <span>1</span> -->
+            </div>
+            <div class="shop-count">￥<span>0</span></div>
+            <div class="shop-buy">去结算</div>
+            <div class="car-list">
+                 <div class="car-list-header"><p>购物车</p><span class="clearCar">清空</span></div>
+              <dl>
+               <!-- <dd>
+                 <p class="car-name">购物车撒旦</p>
+                 <p class="car-money">￥119</p>
+                  <div class="CaddCar" maxNum="10">
+                    <div class="CprevC">-</div>
+                    <div class="CCinput">1</div>
+                    <div class="CaddC">+</div>
+                  </div>
+               </dd> -->
+            </dl>
+            </div>
+          
+        </div>
+	      <div class="shop_info_fixed">
+          <div class="shopName"  data-name="shopName">121</div> 
+          <div class="shopDescription" >
+              <div class="title">商家简介:</div>
+              <p data-name="shopDescription"></p>
+          </div>
+          <div class="close">X</div>
+        </div>
+	</section>
+</body>
+<script>
+  var app = 0;
+  if(window.localStorage.app == 1){
+    $(".header_title").remove();
+    $(".pt1").removeClass("pt1");
+    $(".shop-detail-con").addClass("appheight");
+
+    app =1;
+  }
+  // $("html").html(window.localStorage.token)
+  $(function(){
+    //获取数据
+    var shop_id = GetString("sid"),
+    nowIndex = 0,//当前分类索引
+    cat_id;//当前分类ID
+    getShopInfo();
+    window.localStorage.removeItem("user_address"); //清除选中的地址
+    //获取初始数据
+    function getShopInfo(){
+        loading(true);
+        var token = window.localStorage.token;
+      // $("html").html(locahost+'/goods/shopGoodses?shop_id='+shop_id+'&token='+token)
+        $.getJSON(locahost+'/goods/shopGoodses?shop_id='+shop_id+'&token='+token,function(data){
+            // fb_alert(locahost+'/goods/shopGoodses?shop_id='+shop_id+'&token='+token)
+         
+          if(data.categories.length == 0 ){
+            //没有产品
+            $(".noGoods").show();
+            $(".shop-pro-class , .shop-pro-all").hide();
+          }
+          loading(false);
+          var shop_html = "",categories_html="";
+          $.each(data.categories,function(a,b){
+            if(a == 0){
+              categories_html += '<li cat_id="'+b.cat_id+'" class="on">'+b.cat_name+'</li>';
+            }else{
+              categories_html += '<li cat_id="'+b.cat_id+'">'+b.cat_name+'</li>';
+            }
+            $(".shop-detail-con").append("<div class='shop-pro-all' ></div>");
+          })
+          $.each(data.goodes,function(a,b){
+             var pro_html = '<dd proid="'+b.goods_id+'">\
+                               <div class="shop-pro-img">\
+                                  <img src="'+b.goods_img+'" alt="">\
+                                </div>\
+                                <div class="shop-pro-right">\
+                                  <div class="shop-pro-name">'+b.goods_name+'</div>\
+                                  <div class="shop-pro-d">'+b.goods_desc+'</div>\
+                                  <div class="shop-pro-ed">已售'+b.goods_sale_count+'件</div>\
+                                </div>';
+              if(b.cart_goods_number != 0){
+                  pro_html += '<div class="shop-pro-bottom">\
+                                    <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
+                                    <div class="addCar " maxNum="'+b.goods_number+'">\
+                                      <div class="prevC">-</div>\
+                                      <div class="Cinput">'+b.cart_goods_number+'</div>\
+                                      <div class="addC">+</div>\
+                                    </div>\
+                              </div>\
+                            </dd>';
+              }else{
+                  pro_html += '<div class="shop-pro-bottom">\
+                                    <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
+                                    <div class="addCar no" maxNum="'+b.goods_number+'">\
+                                      <div class="prevC">-</div>\
+                                      <div class="Cinput">0</div>\
+                                      <div class="addC">+</div>\
+                                    </div>\
+                              </div>\
+                            </dd>';
+              }
+              shop_html += pro_html;
+          })
+
+          $(".shop-pro-all").eq(0).show().html('<dl>'+shop_html+'</dl>').append("<div id='loaded'>我是有底线的</div>").attr("loca",true);
+          $(".shop-pro-class ul").html(categories_html);
+          $("[data-name='shopName']").text(data.shop.shop_name);
+          $("[data-name='shopDescription']").text(data.shop.description);
+          $("[data-name='shopImg']").attr("src",data.shop.shop_img);
+          if(data.goodes == ''){
+              //没商品数据
+              $("#loading").remove();
+              $(".shop-pro-all").eq(0).append("<div id='loaded'>暂没数据</div>")
+          }
+          if(data.shop.is_collect == 1){
+            //已收藏
+            $(".nocollection").addClass("collection");
+          }
+          
+          }).error(function(){
+            fb_alert("服务器出小差啦")
+          })
+    }
+    //获取初始数据
+    //获取分类商品
+    function getMoreInfo(){
+        if(!cat_id){
+          cat_id = $(".shop-pro-class ul li").eq(0).attr("cat_id");
+        }
+         $(".shop-pro-all").eq(nowIndex).html("<div class='ing'>正在加载中...</div>");
+         var token = window.localStorage.token;
+        $.getJSON(locahost+'/goods/shopGoodses?shop_id='+shop_id+'&cat_id='+cat_id+'&token='+token,function(data){
+          loading(false);
+          var shop_html = "";
+          $.each(data.goodes,function(a,b){
+              var pro_html = '<dd proid="'+b.goods_id+'">\
+                               <div class="shop-pro-img">\
+                                  <img src="'+b.goods_img+'" alt="">\
+                                </div>\
+                                <div class="shop-pro-right">\
+                                  <div class="shop-pro-name">'+b.goods_name+'</div>\
+                                  <div class="shop-pro-d">'+b.goods_desc+'</div>\
+                                  <div class="shop-pro-ed">已售'+b.goods_sale_count+'件</div>\
+                                </div>';
+              if(b.cart_goods_number != 0){
+                  pro_html += '<div class="shop-pro-bottom">\
+                                    <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
+                                    <div class="addCar  " maxNum="'+b.goods_number+'">\
+                                      <div class="prevC">-</div>\
+                                      <div class="Cinput">'+b.cart_goods_number+'</div>\
+                                      <div class="addC">+</div>\
+                                    </div>\
+                              </div>\
+                            </dd>';
+              }else{
+                  pro_html += '<div class="shop-pro-bottom">\
+                                    <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
+                                    <div class="addCar no" maxNum="'+b.goods_number+'">\
+                                      <div class="prevC">-</div>\
+                                      <div class="Cinput">0</div>\
+                                      <div class="addC">+</div>\
+                                    </div>\
+                              </div>\
+                            </dd>';
+              }
+              shop_html += pro_html;
+          })
+
+          $(".shop-pro-all").eq(nowIndex).html('<dl>'+shop_html+'</dl>').attr("loca",true);
+          if(data.goodes == ''){
+              //没商品数据
+            $("#loading").remove();
+            $(".shop-pro-all").eq(nowIndex).append("<div id='loaded'>暂没数据</div>")
+ 
+            }
+
+          })
+    }
+    //获取分类
+    
+    //点击分类
+    $(".shop-pro-class").on("click","li",function(){
+      if($(this).hasClass("on")){
+        return false;
+      }
+      nowIndex = $(this).index(".shop-pro-class li");
+      cat_id = $(this).attr("cat_id");
+      $(this).addClass("on").siblings("li").removeClass("on");
+      var loca = $(".shop-pro-all").eq(nowIndex).attr("loca");
+      $(".shop-pro-all").eq(nowIndex).show().siblings(".shop-pro-all").hide();
+      if(!loca){
+        getMoreInfo();
+      }
+      
+    })
+    //点击分类
+
+    //更新PHP购物车 0-1
+    function updataCar(goods_id,goodes_num){
+          var token = window.localStorage.token;
+          var postData = {
+            "token" : token,
+            "goods_id" : goods_id,
+            "goods_number" : goodes_num
+          }
+           $.post(locahost+'/cart/updateCartGoodsNumber',postData,function(data){
+               if(data.code == 2001){
+                    fb_alert(fb_error["2001"])
+                    // window.location.href = "../login.html";
+                    return;
+                 }
+                 if(data.code == "200"){    
+                   
+                 }else{
+                     fb_alert(data.detail);    
+                }
+          }).error(function(xhr,errorText,errorType){
+                  alert('网络超时，请稍后再试')
+        });
+
+    }
+    //更新PHP购物车
+    
+    //总购物车数量
+    var car_count=0,
+    carTime=null,
+    nowProId; //定时时间
+    // 加入购物车
+    $(".shop-detail-con").on("click",".addC",function(){
+      var addCar = $(this).parents(".addCar"),
+      num = Number(addCar.find(".Cinput").text()),
+      dd= $(this).parents("dd"),
+      proid= dd.attr("proid"),
+      maxNum = addCar.attr("maxNum"),
+      nowNum = num+1;
+        if(num >= maxNum){
+          fb_alert("超过了库存")
+        }else if(num==0){
+            addCar.removeClass("no").find(".Cinput").text(nowNum);
+            var pro_info = {
+              "name":dd.find(".shop-pro-name").text(),
+              "value":dd.find(".shop-pro-money span").text(),
+              "maxNum":addCar.attr("maxNum"),
+              "proid":proid
+            }
+            updataCount(1,pro_info);
+            if(nowProId == proid){
+              clearTimeout(carTime);
+            }
+            carTime = setTimeout(function(){
+                updataCar(proid,nowNum)//加入购物车
+            },1000)
+            nowProId = proid;
+        }else{
+            addCar.find(".Cinput").text(nowNum);
+            $(".car-list dd[proid='"+proid+"']").find(".CCinput").text(nowNum);
+            updataCount(1);
+            if(nowProId == proid){
+              clearTimeout(carTime);
+            }
+            carTime = setTimeout(function(){
+                updataCar(proid,nowNum)//加入购物车
+            },1000)
+            nowProId = proid;
+        }
+
+    })
+    $(".car-list").on("click",".CaddC",function(){
+      var CaddCar = $(this).parents(".CaddCar"),
+      num = Number(CaddCar.find(".CCinput").text()),
+      dd= $(this).parents("dd"),
+      proid= dd.attr("proid"),
+      maxNum = CaddCar.attr("maxNum"),
+      nowNum = num+1;
+        if(num >= maxNum){
+          fb_alert("超过了库存")
+        }else{
+          CaddCar.find(".CCinput").text(nowNum);
+          $(".shop-pro-all dd[proid='"+proid+"']").find(".Cinput").text(nowNum);
+            updataCount(1);
+            if(nowProId == proid){
+              clearTimeout(carTime);
+            }
+            carTime = setTimeout(function(){
+                updataCar(proid,nowNum)//加入购物车
+            },1000)
+            nowProId = proid;
+        }
+
+
+    })
+
+    // 加入购物车
+    // 减少购物车
+    $(".shop-detail-con").on("click",".prevC",function(){
+      var addCar = $(this).parents(".addCar"),
+      num = Number(addCar.find(".Cinput").text()),
+      dd= $(this).parents("dd"),
+      proid= dd.attr("proid"),
+      nowNum = num-1;
+        if(nowNum == 0){
+            addCar.addClass("no").find(".Cinput").text(nowNum);
+            $(".car-list dd[proid='"+proid+"']").remove();
+            updataCount(0);
+            if(nowProId == proid){
+              clearTimeout(carTime);
+            }
+            carTime = setTimeout(function(){
+                updataCar(proid,nowNum)//加入购物车
+            },1000)
+            nowProId = proid;
+        }else{
+            addCar.find(".Cinput").text(nowNum);
+            $(".car-list dd[proid='"+proid+"']").find(".CCinput").text(nowNum);
+            updataCount(0);
+            if(nowProId == proid){
+              clearTimeout(carTime);
+            }
+            carTime = setTimeout(function(){
+                updataCar(proid,nowNum)//加入购物车
+            },200)
+            nowProId = proid;
+
+        }
+        
+    })
+
+    $(".car-list").on("click",".CprevC",function(){
+       var CaddCar = $(this).parents(".CaddCar"),
+          num = Number(CaddCar.find(".CCinput").text()),
+          dd= $(this).parents("dd"),
+          proid= dd.attr("proid"),
+          nowNum = num-1;
+            if(nowNum == 0){
+                dd.remove();
+                CaddCar.find(".CCinput").text(nowNum);
+                $(".shop-pro-all dd[proid='"+proid+"']").find(".Cinput").text(nowNum).end().find(".addCar").addClass("no");
+                updataCount(0);
+                if(nowProId == proid){
+                  clearTimeout(carTime);
+                }
+                carTime = setTimeout(function(){
+                    updataCar(proid,nowNum)//加入购物车
+                },1000)
+                nowProId = proid;
+            }else{
+                CaddCar.find(".CCinput").text(nowNum);
+                $(".shop-pro-all dd[proid='"+proid+"']").find(".Cinput").text(nowNum);
+                updataCount(0);
+                if(nowProId == proid){
+                  clearTimeout(carTime);
+                }
+                carTime = setTimeout(function(){
+                    updataCar(proid,nowNum)//加入购物车
+                },1000)
+                nowProId = proid;
+
+            }
+        
+    })
+    // 减少购物车
+    //打开购物车
+    $(".shop-car-icon").on("click",function(){
+      if($(this).hasClass("on") && $(".car-bg").length == 0){
+        $("body").append("<div class='car-bg'></div>");
+        $(".car-list").css("max-height","4.8rem")
+      }else{
+        closeCar();
+      }
+    })
+    //打开购物车
+     //收起购物车
+     function closeCar(){
+        $(".car-bg").remove();
+        $(".car-list").css("max-height","0")
+
+      }
+    $("body").on("click",".car-bg",function(){
+      closeCar();
+    })
+    //收起购物车
+    //更新数量
+    function updataCount(flag,info){
+      // 1为加 0为减
+        if(flag){
+          car_count++;   
+          if($(".shop-car-icon").find("span").length == 0){
+            $(".shop-car-icon").append("<span></span>")
+          }
+          $(".shop-car-icon").addClass("on").find("span").text(car_count);
+          if(info){
+            var info_html = '<dd proid="'+info.proid+'">\
+                               <p class="car-name">'+info.name+'</p>\
+                               <p class="car-money">￥<span>'+info.value+'</span></p>\
+                                <div class="CaddCar" maxNum="'+info.maxNum+'">\
+                                  <div class="CprevC">-</div>\
+                                  <div class="CCinput">1</div>\
+                                  <div class="CaddC">+</div>\
+                                </div>\
+                             </dd>';
+            $(".car-list dl").append(info_html);
+          }
+          updataValue();
+        }else{
+            car_count--;
+           $(".shop-car-icon").find("span").text(car_count);
+           if(car_count == 0){
+             $(".shop-car-icon").removeClass("on");
+           }
+            updataValue();
+        }
+    }
+    //更新数量
+    //更新总价格
+    function updataValue(){
+
+      var cV = 0;
+      for(var i = 0,c=$(".car-list dd").length;i<c;i++){
+        cV += Number($(".car-list dd").eq(i).find(".car-money span").text())* Number($(".car-list dd").eq(i).find(".CCinput").text());
+      }
+      if(cV == 0){
+        closeCar();
+        $(".shop-car-icon span").remove();
+        $(".shop-buy").removeClass("active");
+      }else{
+        $(".shop-buy").addClass("active");
+      }
+      $(".shop-count span").text(cV.toFixed(2));
+        
+
+      
+      
+    }
+    //更新总价格
+    
+    //获取购物车
+    getCar();
+    function getCar(){
+        var token = window.localStorage.token;
+          $.getJSON(locahost+'/cart/shopCarts',{"token":token,"shop_id":shop_id},function(data){
+           if(data.code == 2001){
+                fb_alert(fb_error["2001"])
+                // window.location.href = "../login.html";
+                return;
+             }
+             if(data.code == "200"){    
+                  var car_html="";
+                  $.each(data.carts,function(a,b){
+                    car_html += '<dd proid="'+b.goods_id+'">\
+                                    <p class="car-name">'+b.goods_name+'</p>\
+                                    <p class="car-money">￥<span>'+b.goods_price+'</span></p>\
+                                    <div class="CaddCar" maxnum="100">\
+                                      <div class="CprevC">-</div>\
+                                      <div class="CCinput">'+b.goods_number+'</div>\
+                                      <div class="CaddC">+</div>\
+                                   </div>\
+                                  </dd>';
+                   car_count += b.goods_number;
+                  })
+                 if(data.carts.length != 0){
+                    $(".car-list dl").html(car_html);
+                    $(".shop-car-icon").addClass("on").append("<span>"+car_count+"</span>");
+                    $(".shop-count span").text(data.shop_total)
+                    $(".shop-buy").addClass("active");
+                 }
+             }else{
+                 fb_alert(data.detail);    
+            }
+      }).error(function(xhr,errorText,errorType){
+              alert('网络超时，请稍后再试')
+      });
+    }
+    //获取购物车
+    
+    //创建订单
+    $(".shop-buy").on("click",createOrder);
+    function createOrder(){
+      if($(this).hasClass("active")){
+         window.location.href = "shop-createOrder.html?sid="+shop_id;
+      }else{
+        fb_alert(fb_error["s_001"]);
+      }
+          
+    }
+    //打开简介
+    $(".shop-header").on("click",function(){
+       $(".shop_info_fixed").fadeIn(200);
+    })
+    //关闭简介
+    $(".shop_info_fixed .close").on("click",function(){
+      $(".shop_info_fixed").fadeOut(200);
+    })
+
+    //清空购物车
+    $(".clearCar").on("click",function(){
+       alert_flag("确定清空购物车？")
+        $(".flag_true").on("click",function(){
+         clearCar();
+          $(".flag_A").remove();
+        })
+    })
+    function clearCar(){
+      is_alipay(true);
+      var token = window.localStorage.token;
+      var postData={
+        "token":token,
+        "shop_id":shop_id
+      }
+      $.post(locahost+'/cart/destroyAll',postData,function(data){
+               if(data.code == 2001){
+                    fb_alert(fb_error["2001"])
+                    window.location.href = "../login.html";
+                    return;
+                 }
+                 if(data.code == "200"){   
+                    is_alipay(false);            
+                     closeCar();  
+                    $(".car-list dl").html("");
+                    $(".shop-car-icon").removeClass("on").find("span").remove();
+                    $(".shop-count span").text("0.00")
+                    $(".shop-buy").removeClass("active");
+                    $(".addCar").addClass("no").find(".Cinput").text(0);
+                    car_count = 0;
+                     fb_alert(data.detail);                    
+                 }else{
+                    is_alipay(false);  
+                     fb_alert(data.detail);
+                }
+          }).error(function(xhr,errorText,errorType){
+                  alert('网络超时，请稍后再试')
+        });
+    }
+    //收藏店铺
+    function collection(event,obj){
+      is_alipay(true);
+      event.stopPropagation();
+      var that = $(obj);
+      var token = window.localStorage.token;
+      $.post(locahost+'/shop/collect?token='+token+"&shop_id="+shop_id,  function(data){
+           is_alipay(false);
+           if(data.code == 2001){
+                fb_alert(fb_error["2001"])
+                window.location.href = "../login.html";
+                return;
+             }
+             if(data.code == "200"){     
+               if(data.is_collect == 1){
+                //收藏成功
+                  that.addClass("collection");
+               }else if(data.is_collect == -1){
+                  that.removeClass("collection");
+               }
+             }else{
+                 fb_alert(data.detail);    
+              }
+      }).error(function(xhr,errorText,errorType){
+              alert('网络超时，请稍后再试')
+          });
+
+    }
+  window.collection = collection;
+  })
+</script>
+</html>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+

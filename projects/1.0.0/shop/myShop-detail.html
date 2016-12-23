@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta content="telephone=no" name="format-detection" />
+  <!-- uc强制竖屏 -->
+  <meta name="screen-orientation" content="portrait">
+  <!-- UC应用模式 --> 
+  <meta name="browsermode" content="application">
+  <!-- QQ强制竖屏 -->
+  <meta name="x5-orientation" content="portrait">
+  <!-- QQ应用模式 -->
+  <meta name="x5-page-mode" content="app">
+  <!-- UC禁止放大字体 -->
+  <meta name="wap-font-scale" content="no">
+  <title>校汇Plus | 校汇 </title>
+  <meta name="Keywords" content="校汇,广东农工商职业技术学院,AIB,农工商,能赚钱,大学生,大学生创业,大学生校园,大学生校园社团,大学生校园快递,大学生周边生活" />
+  <meta name="Description" content="校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、社团文化、校园资讯、学生互动" />
+  <link rel="apple-touch-icon-precomposed" href="./icon.png" />
+  <link rel="shortcut icon" href="../icon.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="../css/reset.css">
+  <link rel="stylesheet" type="text/css" href="../css/index.css">
+  <link rel="stylesheet" type="text/css" href="../css/shop.css">
+  <script type="text/javascript"src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/common.js"></script>
+  <script type="text/javascript"src="../js/director.js"></script>
+  <script type="text/javascript" src="../js/updata.js"></script>
+  <script type="text/javascript" src="../js/webuploader.js"></script>
+</head>
+<body  style="height:100%">
+	<section class='main' style="height:100%;padding:0">
+        <div class="header_title">
+          <p data-name="shopName">商品详情</p>
+          <div class="return" onclick="returnUp()">
+          </div>
+        </div>
+        <div class="pro-detail pt1">
+            <div class="pro-detail-img">
+              <img data-name="pro-detail-img" src="../images/1.jpg" alt="">
+              <div id="post_img">选择图片</div>
+            </div>
+            <div class="pro-detail-test">
+               <div class="input_b"><label for="">名称</label><input data-name="pro-detail-name"  type="text" placeholder="商品名称"></div>
+               <div class="input_b"><label for="">库存</label><input data-name="pro-detail-num"  type="text" placeholder="库存"></div>
+               <div class="input_b"><label for="">价格(元)</label><input data-name="pro-detail-money"  type="text" placeholder="价格(元)"></div>
+            </div>
+            <div class="pro-class">
+              <select data-name="pro-class" id="">
+                  
+              </select>
+            </div>
+            <div class="pro-detail-jj">
+              <textarea placeholder="商品简介" data-name="pro-detail-jj" ></textarea>
+            </div>
+        </div>
+        <div class="pro-updata-submit opa_active">保存</div>
+	</section>
+</body>
+<script>
+  var app = 0;
+  if(window.localStorage.app == 1){
+    $(".header_title").remove();
+    $(".pt1").removeClass("pt1");
+    $(".shop-detail-con").addClass("appheight");
+
+    app =1;
+  }
+  // $("html").html(window.localStorage.token)
+  $(function(){
+    //获取数据
+    var token = window.localStorage.token,
+    proInfo = window.localStorage.proInfo,
+    categories = window.localStorage.categories,
+    goods_id;
+    if(categories != undefined){
+      //获取分类
+      categories = JSON.parse(categories);
+      var categoriesHTML="";
+      $.each(categories,function(a,b){
+        categoriesHTML += '<option value="'+b.cat_id+'">'+b.cat_name+'</option>';
+      })
+      $('[data-name="pro-class"]').html(categoriesHTML);
+    }
+    if(proInfo != undefined){
+      //修改商品
+      proInfo = JSON.parse(proInfo);
+      $('[data-name="pro-detail-img" ]').attr("src",proInfo.goods_img);
+      $('[data-name="pro-detail-name" ]').val(proInfo.goods_name);
+      $('[data-name="pro-detail-num" ]').val(proInfo.goods_number);
+      $('[data-name="pro-detail-money" ]').val(proInfo.goods_price);
+      $('[data-name="pro-detail-jj" ]').text(proInfo.goods_desc);
+      // photoarray = proInfo.goods_img;
+      goods_id = proInfo.goods_id;
+    }
+    $(".pro-updata-submit").on("click",function(){
+        is_alipay(true);
+        var prodata = {
+          "token":token,
+          "goods_id":goods_id,
+          "is_on_sale":1
+        };
+        var name = $('[data-name="pro-detail-name" ]').val(),
+        num = $('[data-name="pro-detail-num" ]').val(),
+        money = $('[data-name="pro-detail-money" ]').val(),
+        jj = $('[data-name="pro-detail-jj" ]').val(),
+        cat_id = $('.pro-class option:selected') .val();
+        //图片
+        if(photoarray != "" ){
+          prodata.goods_img = photoarray;
+          if(photoarray_thumb != ""){
+            prodata.goods_thumb = photoarray_thumb;
+          }
+        }
+        //图片
+        //商品名称
+        if(name.length == 0){
+          fb_alert(fb_error["ms_002"]);
+          is_alipay(false); 
+          return false;
+        }else if(name.length > 10){
+          fb_alert(fb_error["ms_003"]);
+          is_alipay(false); 
+          return false;
+        }else{
+          prodata.goods_name = name;
+        }
+        //商品名称
+        //商品库存
+        if(parseInt(num) < 0){
+          fb_alert(fb_error["ms_004"]);
+          is_alipay(false); 
+          return false;
+        }else if(isNaN(num)){
+          fb_alert(fb_error["ms_005"]);
+          is_alipay(false); 
+          return false;
+        }else{
+          prodata.goods_number = parseInt(num);
+        }
+        //商品库存
+        //商品价格
+        if(parseFloat(money).toFixed(2) < 0){
+          fb_alert(fb_error["ms_006"]);
+          is_alipay(false); 
+          return false;
+        }else if(isNaN(money)){
+          fb_alert(fb_error["ms_007"]);
+          is_alipay(false); 
+          return false;
+        }else{
+          prodata.goods_price = parseFloat(money).toFixed(2);
+        }
+        //商品价格
+         //商品描述
+        if(jj.length <= 0){
+          fb_alert(fb_error["ms_008"]);
+          is_alipay(false); 
+          return false;
+        }else{
+          prodata.goods_desc = jj;
+        }
+        //商品描述 
+        // $('#testSelect option:selected') .val();
+        //商品分类
+        prodata.cat_id = cat_id;
+        //商品商品分类描述 
+        $.post(locahost+'/goods/update/',prodata,function(data){
+            is_alipay(false);
+            if(data.code == 200){
+
+            }else{
+              fb_alert(data.detail)
+            }
+        }).error(function(){
+          is_alipay(false);
+        })
+    })
+
+    
+        var $list = $(  '#fileList'),
+        // 优化retina, 在retina下这个值是2
+        ratio = window.devicePixelRatio || 1,
+
+        // 缩略图大小
+        thumbnailWidth = 100 * ratio,
+        thumbnailHeight = 100 * ratio,
+
+        // Web Uploader实例
+        uploader;
+
+        // 初始化Web Uploader
+    uploader = WebUploader.create({
+
+        // 自动上传。
+        auto: true,
+        crop: true,
+        // swf文件路径
+        swf:  '/js/webuploader/js/Uploader.swf',
+ 
+        // 文件接收服务端。
+        server: locahost+'/goods/uploadGoodsImage/?token='+token,
+         
+        // [默认值：'file']  设置文件上传域的name。
+        fileVal:'uploadfile',
+ 
+        // 选择文件的按钮。可选。
+        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+        pick: '#post_img',
+        fileNumLimit : 1,
+        // 只允许选择文件，可选。
+        accept: {
+            title: 'Images',
+            extensions: 'gif,jpg,jpeg,bmp,png',
+            mimeTypes: 'image/*'
+        }
+    });
+      // console.log(uploader.options.fileVal)
+ 
+    // 当有文件添加进来的时候
+    uploader.on( 'fileQueued', function( file ) {
+      if($(".alipay_alert").length == 0){
+         is_alipay(true)
+       }
+ 
+        // 创建缩略图
+        uploader.makeThumb( file, function( error, src ) {
+            if ( error ) {
+                $img.replaceWith('<span>不能预览</span>');
+                return;
+            }
+        }, thumbnailWidth, thumbnailHeight );
+    });
+ 
+    // 文件上传过程中创建进度条实时显示。
+    uploader.on( 'uploadProgress', function( file, percentage ) {
+
+    });
+ 
+    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+    uploader.on( 'uploadSuccess', function( data ) {
+      //photoarray 上传的图片数组
+        //更新缓存
+        is_alipay(false);
+        // console.log(photoarray_thumb)
+        $('[data-name="pro-detail-img"]').attr("src",photoarray_thumb.substr(0,photoarray_thumb.length-1))
+
+        uploader.reset();
+
+        photoarray = photoarray.substr(0,photoarray.length-1);
+        photoarray_thumb= photoarray_thumb.substr(0,photoarray_thumb.length-1);
+    });
+ 
+    // 文件上传失败，现实上传出错。
+    uploader.on( 'uploadError', function( file ) {
+      is_alipay(false);
+
+        var $li = $( '#'+file.id ),
+            $error = $li.find('div.error');
+ 
+        // 避免重复创建
+        if ( !$error.length ) {
+            $error = $('<div class="error"></div>').appendTo( $li );
+        }
+ 
+        $error.text('上传失败!!!');
+    });
+ 
+    // 完成上传完了，成功或者失败，先删除进度条。
+    uploader.on( 'uploadComplete', function( file ) {
+        $( '#'+file.id ).find('.progress').remove();
+    });
+     uploader.addButton({
+      id: '#btnContainer',
+      innerHTML: '选择图片'
+  });
+  
+
+  })
+</script>
+</html>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+

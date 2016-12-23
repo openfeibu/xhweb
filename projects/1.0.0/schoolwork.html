@@ -1,0 +1,336 @@
+	
+	<div class="work_list_main">
+		<div class="header_title">
+			<p>校园任务</p>
+			<div class=""><a href="">任务包</a></div>
+		</div>
+		<div class="work_tab">
+			<span class="on"><a href="#/work/all">全部</a></span>
+			<span><a href="#/work/persona">校友任务</a></span>
+			<span><a href="#/work/business">店铺任务</a></span>
+		</div>
+		<div class="work_list work_list_all " >
+			
+		</div>
+		<div class="work_list work_list_personal " >
+			
+		</div>
+		<div class="work_list work_list_business " >
+			
+		</div>
+		<div class="postWork box-shadow">
+			<a href="#/postwork">发布</a>
+		</div>
+	</div>
+<script> 	 
+	var n = 1 ,
+	workPageNum = 10,
+	worlAllPage = 1,
+	worlPersonalPage = 1,
+	worlBusinessPage = 1;
+	work();
+	// 全部任务
+	function work(a) {
+		loading(true);
+		var thislocaTime = locaTime;
+	if(a) {
+	   thislocaTime = 0;
+	}
+		if(!getItemATime("schoolwork") && a != 1){
+	    var loca = getItem("schoolwork");
+	    var htmldom = loca[0]; 
+	    $(".work_list_all").html(htmldom);
+	    loading(false); //移除动画
+	     $(window).on("scroll",function(){
+	        if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
+	          //到底  
+	          work_get(2);
+	        }
+	     })
+	  }else{
+	    //没有缓存
+	    work_get();
+	  }  
+	};
+
+	function work_get(page){
+		page = page == undefined ? 1 : page;
+		$(window).off("scroll");   //清除滚动事件
+		if($("#loading").length == 0 && page!=1){
+		$(".work_list_main").append("<div id='loading'>正在玩命的加载中...</div>");
+		}
+		$.getJSON(locahost+'/order/getOrderList/?page='+page+'&type=all',function(data){
+		loading(false);
+		clearLoading()
+		var work_html = "";
+		$.each(data.data,function(a,b){
+			var href = "";
+			var bg = b["order_status"] == "可接单" ? "#87cbf6" :  b["order_status"] == "已接单" ? "#80b995" : "#bbbbbb"
+			if(b.order_status == "可接单"){
+				var href = 'href="schoolwork_de.html?oid='+b.oid+'"';
+			}
+			work_html += '<div class="work_content box-shadow">\
+							<a '+href+'>\
+							<div class="content-inner-container">\
+								<div class="fl">\
+									<div class="user-pic">\
+										<img src="'+b.avatar_url+'" alt="" />\
+									</div>\
+									<span class="user-name">'+b.nickname+'</span>\
+									<span class="user-time">'+afterTime(b.created_at)+'</span>\
+									<div class="user-content">\
+										<p class="user-content-p">'+b.description+'</p>\
+									</div>\
+									<div class="destination">送达地点：'+b.destination+'</div>\
+								</div>\
+								<div class="time-only" style="background:'+bg+'">\
+									<span class="money"><b>'+parseInt(b.fee)+'</b>元</span>\
+								</div>\
+								<div class="order_status_line">\
+									<div class="order_status"  style="background:'+bg+'">'+b.order_status+'</div>\
+								</div>\
+							</div>\
+							</a>\
+						</div>';
+		})
+		if(data.data == ''){
+		    //没数据
+		    if(page == 1){
+		    	$(".work_list_all").html("<div class='noWork'>暂无任务</div>");
+		    	$("#loading").remove();
+
+		    }else{
+		    	$("#loading").remove();
+		    	$(".work_list_main").append("<div id='loaded'>我是有底线的</div>")
+		    }
+		  }else{
+		  	//是否为第一页 是替换数据 否追加数据 S
+		  	if(page == 1){
+		     $(".work_list_all").html(work_html);
+		     $("#loading").remove();
+		     setItem("schoolwork",work_html)
+		  	}else{
+		  	 $(".work_list_all").append(work_html);
+		  	}
+		  	//是否为第一页 是替换数据 否追加数据 E
+		  	//是否为最后一页  否追加滑动事件 S
+		    if(data.data.length < workPageNum ){
+		  		//已经没数据
+		        $("#loading").remove()
+		        $(".work_list_main").append("<div id='loaded'>我是有底线的</div>");
+
+		  		}else{
+		         $(window).on("scroll",function(){   
+		         	 if(tab != "work"){
+						$(window).off("scroll");   //清除滚动事件
+		         	 	return false;
+		         	 }
+		              if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
+		                //到底
+		                worlAllPage = page;
+		                worlAllPage++;
+		                work_get(worlAllPage);
+		              }
+		           
+		          })
+			    }
+		  	//是否为最后一页  否追加滑动事件 E
+		  }
+
+		})
+	}		
+	// 全部任务
+	// 校友任务
+	
+
+	function personalWork_get(page){
+		page = page == undefined ? 1 : page;
+		$(window).off("scroll");   //清除滚动事件
+		if($("#loading").length == 0 && page!=1){
+			$(".work_list_main").append("<div id='loading'>正在玩命的加载中...</div>");
+		}
+		$.getJSON(locahost+'/order/getOrderList/?page='+page+'&type=personal',function(data){
+		loading(false);
+		clearLoading()
+		var work_html = "";
+		$.each(data.data,function(a,b){
+			var href = "";
+			var bg = b["order_status"] == "可接单" ? "#87cbf6" :  b["order_status"] == "已接单" ? "#80b995" : "#bbbbbb"
+			if(b.order_status == "可接单"){
+				var href = 'href="schoolwork_de.html?oid='+b.oid+'"';
+			}
+			work_html += '<div class="work_content box-shadow">\
+							<a '+href+'>\
+							<div class="content-inner-container">\
+								<div class="fl">\
+									<div class="user-pic">\
+										<img src="'+b.avatar_url+'" alt="" />\
+									</div>\
+									<span class="user-name">'+b.nickname+'</span>\
+									<span class="user-time">'+afterTime(b.created_at)+'</span>\
+									<div class="user-content">\
+										<p class="user-content-p">'+b.description+'</p>\
+									</div>\
+									<div class="destination">送达地点：'+b.destination+'</div>\
+								</div>\
+								<div class="time-only" style="background:'+bg+'">\
+									<span class="money"><b>'+parseInt(b.fee)+'</b>元</span>\
+								</div>\
+								<div class="order_status_line">\
+									<div class="order_status"  style="background:'+bg+'">'+b.order_status+'</div>\
+								</div>\
+							</div>\
+							</a>\
+						</div>';
+		})
+		if(data.data == ''){
+		    //没数据
+		    if(page == 1){
+		    	$(".work_list_personal").html("<div class='noWork'>暂无任务</div>");
+		    	$("#loading").remove();
+
+		    }else{
+		    	$("#loading").remove();
+		    	$(".work_list_main").append("<div id='loaded'>我是有底线的</div>")
+		    }
+
+		   
+		  }else{
+		  	//是否为第一页 是替换数据 否追加数据 S
+		  	if(page == 1){
+		     $(".work_list_personal").html(work_html);
+		     $("#loading").remove();
+
+		     setItem("personalWork",work_html)
+		  	}else{
+		  	 $(".work_list_personal").append(work_html);
+		  	}
+		  	//是否为第一页 是替换数据 否追加数据 E
+		  	//是否为最后一页  否追加滑动事件 S
+		    if(data.data.length < workPageNum ){
+		  		//已经没数据
+		        $("#loading").remove()
+		        $(".work_list_main").append("<div id='loaded'>我是有底线的</div>");
+		  		}else{
+		         $(window).on("scroll",function(){   
+		         	 if(tab != "personalWork"){
+						$(window).off("scroll");   //清除滚动事件
+		         	 	return false;
+		         	 }
+		              if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
+		                //到底
+		                worlPersonalPage = page;
+		                worlPersonalPage++;
+		                personalWork_get(worlPersonalPage);
+		              }
+		           
+		          })
+			    }
+		  	//是否为最后一页  否追加滑动事件 E
+		  }
+
+		})
+	}
+
+	// 校友任务
+	// 店铺任务
+	
+	function businessWork_get(page){
+		page = page == undefined ? 1 : page;
+		$(window).off("scroll");   //清除滚动事件
+		if($("#loading").length == 0 && page!=1){
+			$(".work_list_main").append("<div id='loading'>正在玩命的加载中...</div>");
+		}
+		$.getJSON(locahost+'/order/getOrderList/?page='+page+'&type=business',function(data){
+		loading(false);
+		clearLoading()
+		var work_html = "";
+		$.each(data.data,function(a,b){
+			var href = "";
+			var bg = b["order_status"] == "可接单" ? "#87cbf6" :  b["order_status"] == "已接单" ? "#80b995" : "#bbbbbb"
+			if(b.order_status == "可接单"){
+				var href = 'href="schoolwork_de.html?oid='+b.oid+'"';
+			}
+			work_html += '<div class="work_content box-shadow">\
+							<a '+href+'>\
+							<div class="content-inner-container">\
+								<div class="fl">\
+									<div class="user-pic">\
+										<img src="'+b.avatar_url+'" alt="" />\
+									</div>\
+									<span class="user-name">'+b.nickname+'</span>\
+									<span class="user-time">'+afterTime(b.created_at)+'</span>\
+									<div class="user-content">\
+										<p class="user-content-p">'+b.description+'</p>\
+									</div>\
+									<div class="destination">送达地点：'+b.destination+'</div>\
+								</div>\
+								<div class="time-only" style="background:'+bg+'">\
+									<span class="money"><b>'+parseInt(b.fee)+'</b>元</span>\
+								</div>\
+								<div class="order_status_line">\
+									<div class="order_status"  style="background:'+bg+'">'+b.order_status+'</div>\
+								</div>\
+							</div>\
+							</a>\
+						</div>';
+		})
+		if(data.data == ''){
+		    //没数据
+		    if(page == 1){
+		    	$(".work_list_business").html("<div class='noWork'>暂无任务</div>");
+		    	$("#loading").remove();
+
+		    }else{
+		    	$("#loading").remove();
+		    	$(".work_list_main").append("<div id='loaded'>我是有底线的</div>")
+		    }
+		  }else{
+		  	//是否为第一页 是替换数据 否追加数据 S
+		  	if(page == 1){
+		     $(".work_list_business").html(work_html);
+		     $("#loading").remove();
+
+		     setItem("businessWork",work_html)
+		  	}else{
+		  	 $(".work_list_business").append(work_html);
+		  	}
+		  	//是否为第一页 是替换数据 否追加数据 E
+		  	//是否为最后一页  否追加滑动事件 S
+		    if(data.data.length < workPageNum ){
+		  		//已经没数据
+		        $("#loading").remove()
+		        $(".work_list_main").append("<div id='loaded'>我是有底线的</div>");
+		  		}else{
+		         $(window).on("scroll",function(){   
+		         	 if(tab != "businessWork"){
+						$(window).off("scroll");   //清除滚动事件
+		         	 	return false;
+		         	 }
+		              if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
+		                //到底
+		                worlBusinessPage = page;
+		                worlBusinessPage++;
+		                businessWork_get(worlBusinessPage);
+		              }
+		           
+		          })
+			    }
+		  	//是否为最后一页  否追加滑动事件 E
+		  }
+
+		})
+	}
+
+	// 店铺任务
+
+	//切换TAB
+	function tabNav(n){
+		$(".work_tab span").eq(n).addClass("on").siblings("span").removeClass("on");
+		$(".work_list").eq(n).show().siblings(".work_list").hide();
+	}
+
+    refresh["work"] = work_get;
+    refresh["personalWork"] = personalWork_get;
+    refresh["businessWork"] = businessWork_get;
+</script>

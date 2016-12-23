@@ -1,0 +1,110 @@
+<link rel="stylesheet" type="text/css" href="css/shop.css">
+<div class="header_title">
+  <input type="text" class="shopSearch" placeholder="搜索商品"/>
+  <div class="myOrder-enter"><a href=""></a></div>
+</div>
+<div class="shop pt1">
+	<div class="shop-list">
+		<!-- <div class="shop-item">
+			<a href="">
+				<div class="shop-img">
+					<img src="images/product-img.jpg" alt="">
+				</div>
+				<div class="shop-right">
+					<div class="shop-name">皇后的新装</div>
+					<div class="shop-d">店铺简介</div>
+					<div class="shop-bottom">
+						<div class="shop-min">评分4.9</div>
+						<div class="shop-pei">20元起送</div>
+						<div class="shop-map">广东农工商</div>
+					</div>
+				</div>
+			</a>
+		</div> -->
+	</div>
+</div>
+<script>
+ tab = "shop";
+  loading(true); //动画
+  getShopList();
+  var app = 0;
+  if(GetString("device") == "android"){
+  	$("footer").remove();
+  	app =1;
+    window.localStorage.app=1;
+  }
+  function getShopList(a) {
+        if (!getItemATime("shop") && a != 1) {
+            var loca = getItem("shop");
+            var htmldom = loca[0];
+            $(".shop-list").html(htmldom);
+            loading(false); 
+          }else{
+            getShopCon()
+          };
+      }
+  function getShopCon(page) {
+        var page = page == undefined ? 1 : page,
+        token = window.localStorage.token;
+        if($("#loading").length == 0 && page!=1){
+			$(".shop").append("<div id='loading'>正在玩命的加载中...</div>");
+		}
+        $.getJSON(locahost + "/shop/shops/?page="+page,
+        function(data) {
+          if (data.code == 200) {
+              clearLoading();
+              loading(false);
+              var htmldom='';
+              $.each(data.shops,function(a,b){
+                htmldom += '<div class="shop-item">\
+								<a onclick="winGo(\'shop/shop-detail.html?sid='+b.shop_id+'\')">\
+									<div class="shop-img">\
+										<img src="'+b.shop_img+'" alt="">\
+									</div>\
+									<div class="shop-right">\
+										<div class="shop-name">'+b.shop_name+'</div>\
+										<div class="shop-d">'+b.description+'</div>\
+										<div class="shop-bottom">\
+											<div class="shop-pei">'+b.uid+'元起送</div>\
+											<div class="shop-map">'+b.address+'</div>\
+										</div>\
+									</div>\
+								</a>\
+							</div>';
+							// <div class="shop-min">评分'+b.shop_img+'</div>
+              })
+               if(page != 1){
+                  $('.shop-list').append(htmldom);
+                }else{
+                  if(data.shops.length == 0){
+                    $(".noShop").show();
+                    $(".shop-list").hide();
+                  }else{
+                    $('.shop-list').html(htmldom);
+                    setItem("shop",htmldom);
+                  }
+                }
+              
+              if (data.shops.length == '' || data.shops.length < 10) {
+                $("#loading").remove();
+                $(".shop").append('<div id="loaded" >我是有底线的</div>')
+              } else {
+                 $(window).on("scroll",function(){
+                  if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
+                    //到底
+                    page++;
+                    getShopCon(page);
+                  }
+                 })
+              }
+            }        
+        });
+      }
+      //打开搜索页面
+      $(".shopSearch").focus(function(){
+        winGo("shop/shop-search.html");
+      })
+  refresh["shop"]= getShopList;    
+</script>
+
+

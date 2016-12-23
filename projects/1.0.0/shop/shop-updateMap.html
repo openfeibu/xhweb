@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta content="telephone=no" name="format-detection" />
+  <!-- uc强制竖屏 -->
+  <meta name="screen-orientation" content="portrait">
+  <!-- UC应用模式 --> 
+  <meta name="browsermode" content="application">
+  <!-- QQ强制竖屏 -->
+  <meta name="x5-orientation" content="portrait">
+  <!-- QQ应用模式 -->
+  <meta name="x5-page-mode" content="app">
+  <!-- UC禁止放大字体 -->
+  <meta name="wap-font-scale" content="no">
+  <title>校汇Plus | 校汇 </title>
+  <meta name="Keywords" content="校汇,广东农工商职业技术学院,AIB,农工商,能赚钱,大学生,大学生创业,大学生校园,大学生校园社团,大学生校园快递,大学生周边生活" />
+  <meta name="Description" content="校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、社团文化、校园资讯、学生互动" />
+  <link rel="apple-touch-icon-precomposed" href="./icon.png" />
+  <link rel="shortcut icon" href="../icon.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="../css/reset.css">
+  <link rel="stylesheet" type="text/css" href="../css/index.css">
+  <link rel="stylesheet" type="text/css" href="../css/shop.css">
+  <script type="text/javascript"src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/common.js"></script>
+  <script type="text/javascript"src="../js/director.js"></script>
+  <script type="text/javascript" src="../js/updata.js"></script>
+</head>
+<body  style="height:100%">
+  <section class='main' style="height:100%;padding:0">
+        <div class="header_title">
+          <p data-name="shopName">编辑收货地址</p>
+          <div class="return" onclick="replaceLocation('shop-map.html')">
+
+          </div>
+        </div>
+        <div class="shop-order pt1">
+            <div class="shopMap">
+              <form action="">
+                <div class="input_b">
+                  <label for="">收货人</label>
+                  <input type="text" placeholder="请填写收货人" name="name">
+                </div>
+                <div class="input_b">
+                  <label for="">手机号码</label>
+                  <input type="text" placeholder="请填写手机号码"  name="phone">
+                </div>
+                <div class="input_b">
+                  <label for="">收货地址</label>
+                  <input type="text" placeholder="请填写收货地址"  name="address">
+                </div>
+                <div class="input_b">
+                  <label for="">设置为默认地址</label>
+                  <input type="checkbox" name="is_default">
+                </div>
+                <div class="submitButton opa_active">保存地址</div>
+              </form>
+            </div>
+        </div>
+
+  </section>
+</body>
+<script>
+  var app = 0;
+  if(window.localStorage.app == 1){
+    $(".header_title").remove();
+    $(".pt1").removeClass("pt1");
+    app =1;
+  }
+  $(function(){
+    //是否为修改的
+    var address_id = GetString("address_id");
+    if(address_id){
+      var updateData = JSON.parse(window.localStorage.update_address);
+       $('[name="name"]').val(updateData.consignee);
+       $('[name="phone"]').val(updateData.mobile);
+       $('[name="address"]').val(updateData.address);
+       updateData.is_default ? $('[name="is_default"]').attr("checked", true) : "";
+       address_id =updateData.address_id;
+    }
+    
+
+
+    //获取数据
+    token = window.localStorage.token; 
+    function createMap(){
+        //loading(true);
+        var name = $('[name="name"]').val(),
+        phone = $('[name="phone"]').val(),
+        address = $('[name="address"]').val(),
+        is_default = $('[name="is_default"]').is(":checked") ? 1 : 0;;
+        if(name.length == 0){
+            fb_alert(fb_error["m_001"]);
+            is_alipay(false);
+            return false;
+        }else if(!checkMobile(phone)){
+            fb_alert(fb_error["m_002"]);
+            is_alipay(false);
+            return false;
+        }else if(address.length == 0){
+            fb_alert(fb_error["m_003"]);
+            is_alipay(false);
+            return false;
+        }
+        var parameter = {
+          "token" : token,
+          "consignee":name,
+          "address":address,
+          "mobile":phone,
+          "is_default":is_default
+        }
+       $.post(locahost+'/userAddress/store?',parameter,function(data){
+          if(data.code == "200"){
+            window.localStorage.user_address = JSON.stringify(data.user_address);
+            replaceLocation('shop-map.html');
+            is_alipay(false);
+          }
+        }).error(function(){
+          fb_alert("服务器出小差")
+        })
+    }
+
+    function updateMap(){
+        //loading(true);
+        var name = $('[name="name"]').val(),
+        phone = $('[name="phone"]').val(),
+        address = $('[name="address"]').val(),
+        is_default = $('[name="is_default"]').is(":checked") ? 1 : 0;;
+        if(name.length == 0){
+            fb_alert(fb_error["m_001"]);
+            is_alipay(false);
+            return false;
+        }else if(!checkMobile(phone)){
+            fb_alert(fb_error["m_002"]);
+            is_alipay(false);
+            return false;
+        }else if(address.length == 0){
+            fb_alert(fb_error["m_003"]);
+            is_alipay(false);
+            return false;
+        }
+        var parameter = {
+          "token" : token,
+          "consignee":name,
+          "address":address,
+          "mobile":phone,
+          "is_default":is_default,
+          "address_id":address_id
+        }
+       $.post(locahost+'/userAddress/update?',parameter,function(data){
+          if(data.code == "200"){
+            // window.localStorage.user_address = JSON.stringify(data.user_address);
+            replaceLocation('shop-map.html');
+            is_alipay(false);
+          }
+        }).error(function(){
+          fb_alert("服务器出小差")
+        })
+    }
+    $(".submitButton").click(function(){
+      is_alipay(true);
+      console.log(address_id)
+      if(address_id != null){
+        updateMap();
+        return false;
+      } 
+        createMap();
+    })
+   
+   
+  })
+</script>
+</html>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+

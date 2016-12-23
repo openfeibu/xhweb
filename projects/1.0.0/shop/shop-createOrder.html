@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta content="telephone=no" name="format-detection" />
+  <!-- uc强制竖屏 -->
+  <meta name="screen-orientation" content="portrait">
+  <!-- UC应用模式 --> 
+  <meta name="browsermode" content="application">
+  <!-- QQ强制竖屏 -->
+  <meta name="x5-orientation" content="portrait">
+  <!-- QQ应用模式 -->
+  <meta name="x5-page-mode" content="app">
+  <!-- UC禁止放大字体 -->
+  <meta name="wap-font-scale" content="no">
+  <title>校汇Plus | 校汇 </title>
+  <meta name="Keywords" content="校汇,广东农工商职业技术学院,AIB,农工商,能赚钱,大学生,大学生创业,大学生校园,大学生校园社团,大学生校园快递,大学生周边生活" />
+  <meta name="Description" content="校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、社团文化、校园资讯、学生互动" />
+  <link rel="apple-touch-icon-precomposed" href="./icon.png" />
+  <link rel="shortcut icon" href="../icon.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="../css/reset.css">
+  <link rel="stylesheet" type="text/css" href="../css/index.css">
+  <link rel="stylesheet" type="text/css" href="../css/shop.css">
+  <script type="text/javascript"src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/common.js"></script>
+  <script type="text/javascript"src="../js/director.js"></script>
+  <script type="text/javascript" src="../js/updata.js"></script>
+</head>
+<body  style="height:100%">
+	<section class='main' style="height:100%;padding:0">
+        <div class="header_title">
+          <p data-name="shopName">提交订单</p>
+          <div class="return" onclick="returnUp()">
+          </div>
+        </div>
+        <div class="shop-order pt1">
+            <div class="checkMap" onclick="locaGo('shop/shop-map.html')">
+                <div class="usermap">
+
+                </div>
+                <div class="noMap">请选择收货地址</div>
+            </div>
+            <div class="shopOrder_info">
+              <div class="shopName" data-name="shopName">XXX店铺</div>
+              <ul>
+                <!-- <li>
+                  <div class="img"><img src="images/tx.jpg" alt=""></div>
+                  <div class="test">
+                    <div class="proName">香蕉汁</div>
+                    <div class="moneyNum">
+                      <span>￥16</span>
+                      <span>×2</span>
+                    </div>
+                  </div>
+                </li> -->
+              </ul>
+            </div>
+            <div class="dispatching">
+              <label for="">配送费</label>
+              <span data-name="shipping_fee">2元</span>
+            </div>
+            <div class="procount">
+              <label for="">合计</label>
+              <span  data-name="total_fee">41元</span>
+            </div>
+            <div class="remark">
+              <label for="">买家留言</label>
+              <input type="text" placeholder="可选填">
+            </div>
+        </div>
+        <div class="shopOrder-footer">
+            <div class="fl">
+              <p>共<span data-name="num">3</span>件商品 合计：￥<span data-name="count" class="count">3</span></p>
+            </div>
+            <div class="fr">
+              <div class="submitButton opa_active">提交订单</div>
+            </div>
+        </div>
+	</section>
+</body>
+<script>
+  var app = 0;
+  if(window.localStorage.app == 1){
+    $(".header_title").remove();
+    $(".pt1").removeClass("pt1");
+    app =1;
+  }
+  // $("html").html(window.localStorage.token)
+  $(function(){
+    //获取数据
+    var shop_id = GetString("sid"),
+    token = window.localStorage.token,
+    nowIndex = 0,//当前分类索引
+    address_id,//选中得地址ID
+    cat_id;//当前分类ID
+    getShopInfo();
+    //获取初始数据
+    function getShopInfo(){
+         loading(true);
+        $.getJSON(locahost+'/orderInfo/create?shop_id='+shop_id+'&token='+token,function(data){
+            // fb_alert(locahost+'/goods/shopGoodses?shop_id='+shop_id+'&token='+token)
+         
+          if(data.carts.length == 0 ){
+            //没有产品
+            window.history.go(-1);
+          }
+          if(window.localStorage.user_address){
+            //有选择的地址
+            var map_user_address = JSON.parse(window.localStorage.user_address);
+            var mapHtml = '<div class="li_header">\
+                              <span>'+map_user_address.consignee+'</span>\
+                              <span>'+map_user_address.mobile+'</span>\
+                            </div>\
+                            <div class="li_bottom">\
+                              '+map_user_address.address+'\
+                            </div>';
+            address_id = map_user_address.address_id;
+            $(".usermap").html(mapHtml);
+            
+          }else if(data.user_address != null ){
+            //有默认地址
+            var mapHtml = '<div class="li_header">\
+                              <span>'+data.user_address.consignee+'</span>\
+                              <span>'+data.user_address.mobile+'</span>\
+                            </div>\
+                            <div class="li_bottom">\
+                              <span>[默认地址]</span>'+data.user_address.address+'\
+                            </div>';
+             address_id = data.user_address.address_id;
+            $(".usermap").html(mapHtml);
+          }else{
+            $(".noMap").show();
+            $(".usermap").hide();
+          }
+          loading(false);
+          var shop_html = "";
+          $.each(data.carts,function(a,b){
+              shop_html += '<li>\
+                              <div class="img"><img src="'+b.goods_thumb+'" alt=""></div>\
+                              <div class="test">\
+                                <div class="proName">'+b.goods_name+'</div>\
+                                <div class="moneyNum">\
+                                  <span>￥'+b.goods_total+'</span>\
+                                  <span>×'+b.goods_number+'</span>\
+                                </div>\
+                              </div>\
+                            </li>';
+          })
+          $(".shopOrder_info ul").html(shop_html);
+          $("[data-name='shopName']").text(data.shop_name);
+          $("[data-name='num']").text(data.goods_count);
+          $("[data-name='shipping_fee']").text(data.shipping_fee);
+          $("[data-name='count'],[data-name='total_fee']").text(data.total_fee+"元");
+
+          }).error(function(){
+            fb_alert("服务器出小差")
+          })
+    }
+    //获取初始数据
+
+    //提交订单
+    $(".submitButton").on("click",function(){
+      if(address_id == undefined){
+          fb_alert(fb_error["s_002"]);
+          return false;
+      }
+      window.location.href="shop-pay.html?sid="+shop_id+"&address_id="+address_id;
+    })
+    
+  })
+</script>
+</html>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+

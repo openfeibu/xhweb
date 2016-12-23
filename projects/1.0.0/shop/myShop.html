@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta content="telephone=no" name="format-detection" />
+  <!-- uc强制竖屏 -->
+  <meta name="screen-orientation" content="portrait">
+  <!-- UC应用模式 --> 
+  <meta name="browsermode" content="application">
+  <!-- QQ强制竖屏 -->
+  <meta name="x5-orientation" content="portrait">
+  <!-- QQ应用模式 -->
+  <meta name="x5-page-mode" content="app">
+  <!-- UC禁止放大字体 -->
+  <meta name="wap-font-scale" content="no">
+  <title>校汇Plus | 校汇 </title>
+  <meta name="Keywords" content="校汇,广东农工商职业技术学院,AIB,农工商,能赚钱,大学生,大学生创业,大学生校园,大学生校园社团,大学生校园快递,大学生周边生活" />
+  <meta name="Description" content="校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、社团文化、校园资讯、学生互动" />
+  <link rel="apple-touch-icon-precomposed" href="./icon.png" />
+  <link rel="shortcut icon" href="../icon.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="../css/reset.css">
+  <link rel="stylesheet" type="text/css" href="../css/index.css">
+  <link rel="stylesheet" type="text/css" href="../css/shop.css">
+  <script type="text/javascript"src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/common.js"></script>
+  <script type="text/javascript"src="../js/director.js"></script>
+  <script type="text/javascript" src="../js/updata.js"></script>
+</head>
+<body  style="height:100%">
+	<section class='main' style="height:100%;padding:0">
+        <div class="header_title">
+          <p data-name="shopName"></p>
+          <div class="return" onclick="returnUp()">
+          </div>
+        </div>
+        <div class="shop-detail pt1">
+            <div class="myshop-header">
+                <div class="shop-img"><img data-name="shopImg" src="" alt=""></div>
+                <div class="shop-test">
+                  <div class="shopName" data-name="shopName"></div>
+                </div>
+                <div class="switchShop off">我要关店</div>
+            </div><!--myshop-header end-->
+            <div class="shop-data ">
+              <ul>
+                <li>
+                  <p>销售量</p>
+                  <span>10</span>
+                </li>
+                <li>
+                  <p>总收入（元）</p>
+                  <span>10</span>
+                </li> 
+                <li>
+                  <p>商品数</p>
+                  <span>10</span>
+                </li>
+              </ul>
+            </div><!--shop-data end-->
+            <div class="myshop-power">
+              <ul>
+                <li>
+                  <a href="myshop-up.html">
+                    上传商品
+                  </a>
+                </li>
+                <li>
+                  <a href="myshop-class.html">
+                    分类管理
+                  </a>
+                </li>
+                <li>
+                  <a href="myshop-order.html">
+                    订单管理
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="shop-detail-con">
+              <div class="shop-pro-class">
+                  <ul>
+                    
+                  </ul>
+              </div>
+              
+              <div class="noGoods">
+                等待商家上架
+              </div>
+            </div><!--shop-detail-con end-->
+        </div>
+       
+	      <div class="shop_info_fixed">
+          <div class="shopName"  data-name="shopName">121</div> 
+          <div class="shopDescription" >
+              <div class="title">商家简介:</div>
+              <p data-name="shopDescription"></p>
+          </div>
+          <div class="close">X</div>
+        </div>
+	</section>
+</body>
+<script>
+  var app = 0;
+  if(window.localStorage.app == 1){
+    $(".header_title").remove();
+    $(".pt1").removeClass("pt1");
+    $(".shop-detail-con").addClass("appheight");
+
+    app =1;
+  }
+  // $("html").html(window.localStorage.token)
+  $(function(){
+    var proArray = {};
+    var shop_id,
+    shop_status;
+    //获取数据
+    getShopInfo();
+    //获取初始数据
+    function getShopInfo(){
+        loading(true);
+        var token = window.localStorage.token;
+        $.getJSON(locahost+'/goods/shopGoodses?&token='+token,function(data){
+          loading(false);
+          if(data.shop == null){
+            //没店铺
+            // window.history.go(-1);
+          }
+          if(data.categories.length == 0 ){
+            //没有产品
+            $(".noGoods").show();
+            $(".shop-pro-class , .shop-pro-all").hide();
+          }    
+          var shop_html = "",categories_html="";
+          $.each(data.categories,function(a,b){       
+            if(a == 0){
+              categories_html += '<li cat_id="'+b.cat_id+'" class="on">'+b.cat_name+'</li>';
+            }else{
+              categories_html += '<li cat_id="'+b.cat_id+'">'+b.cat_name+'</li>';
+            }
+            $(".shop-detail-con").append("<div class='shop-pro-all' ></div>");
+          })
+          $.each(data.goodes,function(a,b){
+             proArray[b.goods_id] = JSON.stringify(b);
+             var pro_html = '<dd proid="'+b.goods_id+'">\
+                               <div class="shop-pro-img">\
+                                  <img src="'+b.goods_img+'" alt="">\
+                                </div>\
+                                <div class="shop-pro-right">\
+                                  <div class="shop-pro-name">'+b.goods_name+'</div>\
+                                  <div class="shop-pro-d">'+b.goods_desc+'</div>\
+                                  <div class="shop-pro-ed">已售'+b.goods_sale_count+'件</div>\
+                                </div>\
+                                <div class="shop-pro-bottom">\
+                                    <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
+                              </div>\
+                            </dd>';
+              shop_html += pro_html;
+          })
+          if(data.goodes == ''){
+              //没商品数据
+              $("#loading").remove();
+              $(".shop-pro-all").eq(0).append("<div id='loaded'>暂没数据</div>");
+              return false;
+          }else{
+               $(".shop-pro-all").eq(0).append("<div id='loaded'>我是有底线的</div>");
+            }
+          $(".shop-pro-all").eq(0).show().html('<dl>'+shop_html+'</dl>').attr("loca",true);
+          $(".shop-pro-class ul").html(categories_html);
+          $("[data-name='shopName']").text(data.shop.shop_name);
+          $("[data-name='shopDescription']").text(data.shop.description);
+          $("[data-name='shopImg']").attr("src",data.shop.shop_img);
+          window.localStorage.categories = JSON.stringify(data.categories); //缓存分类信息
+          shop_id = data.shop.shop_id;
+          shop_status = data.shop.shop_status;
+          if(shop_status == 1){
+              $(".switchShop").addClass("off").text("我要关店")
+          }else{
+             $(".switchShop").removeClass("off").text("我要营业")
+          }
+          }).error(function(){
+            fb_alert("服务器出小差啦")
+          })
+    }
+    //获取初始数据
+    //获取分类商品
+    function getMoreInfo(){
+        if(!cat_id){
+          cat_id = $(".shop-pro-class ul li").eq(0).attr("cat_id");
+        }
+         $(".shop-pro-all").eq(nowIndex).html("<div class='ing'>正在加载中...</div>");
+         var token = window.localStorage.token;
+        $.getJSON(locahost+'/goods/shopGoodses?shop_id='+shop_id+'&cat_id='+cat_id+'&token='+token,function(data){
+          loading(false);
+          var shop_html = "";
+          $.each(data.goodes,function(a,b){
+              var pro_html = '<dd proid="'+b.goods_id+'">\
+                               <div class="shop-pro-img">\
+                                  <img src="'+b.goods_img+'" alt="">\
+                                </div>\
+                                <div class="shop-pro-right">\
+                                  <div class="shop-pro-name">'+b.goods_name+'</div>\
+                                  <div class="shop-pro-d">'+b.goods_desc+'</div>\
+                                  <div class="shop-pro-ed">已售'+b.goods_sale_count+'件</div>\
+                                </div>\
+                              <div class="shop-pro-bottom">\
+                                    <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
+                              </div>\
+                            </dd>';
+             
+              shop_html += pro_html;
+          })
+
+          $(".shop-pro-all").eq(nowIndex).html('<dl>'+shop_html+'</dl>').attr("loca",true);
+          if(data.goodes == ''){
+              //没商品数据
+              $("#loading").remove();
+              $(".shop-pro-all").eq(nowIndex).append("<div id='loaded'>暂没数据</div>")
+            }else{
+               $(".shop-pro-all").eq(nowIndex).append("<div id='loaded'>我是有底线的</div>");
+            }
+
+          })
+    }
+    //获取分类
+    
+    //点击分类
+    $(".shop-pro-class").on("click","li",function(){
+      if($(this).hasClass("on")){
+        return false;
+      }
+      nowIndex = $(this).index(".shop-pro-class li");
+      cat_id = $(this).attr("cat_id");
+      $(this).addClass("on").siblings("li").removeClass("on");
+      var loca = $(".shop-pro-all").eq(nowIndex).attr("loca");
+      $(".shop-pro-all").eq(nowIndex).show().siblings(".shop-pro-all").hide();
+      if(!loca){
+        getMoreInfo();
+      }
+      
+    })
+    //点击分类
+
+
+    //带商品Id进行链接跳转
+    $(".shop-detail-con").on("click","dd",function(){
+      var proId = $(this).attr("proid");
+      window.localStorage.proInfo = proArray[proId];
+      window.location.href="myshop-detail.html";
+    })
+    //带商品Id进行链接跳转
+
+
+    
+    
+
+    //打开简介
+    $(".shop-header").on("click",function(){
+       $(".shop_info_fixed").fadeIn(200);
+    })
+    //关闭简介
+    $(".shop_info_fixed .close").on("click",function(){
+      $(".shop_info_fixed").fadeOut(200);
+    })
+
+    //开关店铺
+    $(".switchShop").on("click",function(){
+          var token = window.localStorage.token;
+          is_alipay(true);
+          if(shop_status == 1){
+            var status =3;
+          }else if(shop_status == 3){
+             var status =1;
+          }
+          $.post(locahost+'/shop/update/?&token='+token+'&shop_status='+status,function(data){
+              is_alipay(false);
+              if(data.code == 200){
+                if(status == 1){
+                  $(".switchShop").addClass("off").text("我要关店")
+                }else if(status == 3){
+                  $(".switchShop").removeClass("off").text("我要营业")
+
+                }
+              }
+          }).error(function(){
+            fb_alert("服务器出小差啦")
+          })
+    })
+
+  })
+</script>
+</html>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+

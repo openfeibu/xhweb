@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta content="telephone=no" name="format-detection" />
+  <!-- uc强制竖屏 -->
+  <meta name="screen-orientation" content="portrait">
+  <!-- UC应用模式 --> 
+  <meta name="browsermode" content="application">
+  <!-- QQ强制竖屏 -->
+  <meta name="x5-orientation" content="portrait">
+  <!-- QQ应用模式 -->
+  <meta name="x5-page-mode" content="app">
+  <!-- UC禁止放大字体 -->
+  <meta name="wap-font-scale" content="no">
+  <title>校汇Plus | 校汇 </title>
+  <meta name="Keywords" content="校汇,广东农工商职业技术学院,AIB,农工商,能赚钱,大学生,大学生创业,大学生校园,大学生校园社团,大学生校园快递,大学生周边生活" />
+  <meta name="Description" content="校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、社团文化、校园资讯、学生互动" />
+  <link rel="apple-touch-icon-precomposed" href="./icon.png" />
+  <link rel="shortcut icon" href="../icon.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="../css/reset.css">
+  <link rel="stylesheet" type="text/css" href="../css/index.css">
+  <link rel="stylesheet" type="text/css" href="../css/shop.css">
+  <script type="text/javascript"src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/common.js"></script>
+  <script type="text/javascript"src="../js/director.js"></script>
+  <script type="text/jav
+  ascript" src="../js/updata.js"></script>
+</head>
+<body  >
+	<section class='main' style="padding-bottom:0">
+      <div id="ClassA" class= "routes">
+        <div class="header_title">
+          <p>我的订单</p>
+          <div class="return" onclick="returnUp()">
+          </div>
+        </div>
+        <div class="shopOrder-select myshopOrder-select">
+            <!-- <div class="left select"><span>待付款</span></div> -->
+            <div class="left select"><span>待发货</span></div>
+            <div class="left"><span>发货中</span></div>
+            <div class="left"><span>已完成</span></div>
+            <div class="left"><span>退款|售后</span></div>
+        </div>
+        <div class="myOrder pt2">
+          <!-- <div class="myOrderBox waitpay">
+              <div class="shopOrder-item">
+                <a href="">
+                  <div class="img"><img src="../images/loaded.png" alt=""></div>
+                  <div class="test">
+                    <div class="shopName">我们之间</div>
+                    <div class="status_desc">状态：待付款</div>
+                    <div class="shopNum">数量：1</div>
+                    <div class="count">总价：￥129</div>
+                  </div>
+                 </a>
+              </div>
+
+          </div> -->
+           <div class="myOrderBox beship">
+
+          </div>
+          <div class="myOrderBox shipping">
+
+          </div>
+          <div class="myOrderBox succ">
+
+          </div>
+          <div class="myOrderBox cancell">
+
+          </div>
+        </div>
+      </div>
+	</section>
+</body>
+<script>
+    var app = 0;
+    if(window.localStorage.app == 1){
+      $(".header_title").remove();
+      $(".pt2").addClass("pt1").removeClass("pt2");
+      // $(".shop-detail-con").addClass("appheight");
+      $(".shopOrder-select").css("top","0");
+      app =1;
+    }
+    /*头部切换事件 S*/
+
+    $(".shopOrder-select > div").click(function(){
+      if($(this).hasClass("select")){
+        return false;
+      }
+      var i = $(this).index(".shopOrder-select > div");
+      $(this).addClass("select").siblings().removeClass("select");
+      $(".myOrderBox").eq(i).show().html("").siblings().hide();
+      clearWindowScroll();
+      loading(true);
+      switch(i){
+        // case 0 :
+        //   waitpayOrder(1,"waitpay");
+        //   break;
+        case 0 :
+          beshipOrder(1,"beship");
+          break;
+        case 1 :
+          shippingOrder(1,"shipping");
+          break;
+        case 2 :
+          succOrder(1,"succ");
+          break;
+        case 3 :
+           cancellOrder(1,"cancell");
+          break;
+        default :
+          break;
+      }
+    })
+
+      
+
+    /*头部切换事件 E*/
+
+    var token = window.localStorage.token;
+    var orderId ;//订单详情id
+    var pageNum = 20;
+    loading(true);
+    beshipOrder(1,"beship");
+
+    // waitpayOrder(1,"waitpay");
+    // //待付款
+    // function waitpayOrder(page,type){
+    //   if(!page){
+    //     page = 1;
+    //   }
+    //   $(window).off("scroll");   //清除滚动事件
+    //   if($("#loading").length == 0 && page!=1){
+    //     $(".waitpay").append("<div id='loading'>正在玩命的加载中...</div>");
+    //   }
+    //   $.getJSON(locahost+'/orderInfo/sellerOrderInfos?token='+token+'&page='+page+'&type='+type,function(data){
+    //     if(data.code == 2001){
+    //       fb_alert(fb_error["2001"]);
+    //       window.location.href="../login.html";
+    //     }
+    //     loading(false);
+    //     var order_html = "";
+    //     $.each(data.order_infos,function(a,b){
+    //       order_html += '<div class="shopOrder-item">\
+    //                       <a href="myshop-orderDetail.html?order_id='+b.order_id+'">\
+    //                         <div class="img"><img src="'+b.shop_img+'" alt=""></div>\
+    //                         <div class="test">\
+    //                           <div class="shopName">'+b.shop_name+'</div>\
+    //                           <div class="status_desc">状态：'+b.status_desc+'</div>\
+    //                           <div class="shopNum">数量：1</div>\
+    //                           <div class="count">总价：￥'+b.total_fee+'</div>\
+    //                         </div>\
+    //                        </a>\
+    //                     </div>';
+    //       })
+    //         if(data.order_infos == '' ){
+    //             //没数据
+    //             $("#loading").remove()
+    //             if(page == 1){
+    //               $(".waitpay").append("<div id='loaded'>暂无数据</div>")
+
+    //             }else{
+    //               $(".waitpay").append("<div id='loaded'>我是有底线的</div>")
+    //             }
+    //           }else{
+    //             //是否为第一页 是替换数据 否追加数据 S
+    //             if(page == 1){
+    //              $(".waitpay").html(order_html);
+    //              n=1;
+    //              $("#loading").remove();
+    //             }else{
+    //              $(".waitpay").append(order_html);
+    //             }
+    //             //是否为第一页 是替换数据 否追加数据 E
+    //             //是否为最后一页  否追加滑动事件 S
+    //             if(data.order_infos.length < pageNum ){
+    //               //已经没数据
+    //               $("#loading").remove()
+    //               $(".waitpay").append("<div id='loaded'>我是有底线的</div>");
+    //               }else{
+    //                $(window).on("scroll",function(){   
+    //                     if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
+    //                       //到底
+    //                       n = page;
+    //                       n++;
+    //                       waitpayOrder(n,"waitpay");
+    //                     }
+                     
+    //                 })
+    //             }
+    //           //是否为最后一页  否追加滑动事件 E
+
+    //           }
+
+    //   })
+    // }
+    //待发货
+    function beshipOrder(page,type){
+      if(!page){
+        page = 1;
+      }
+      $(window).off("scroll");   //清除滚动事件
+      if($("#loading").length == 0 && page!=1){
+        $(".beship").append("<div id='loading'>正在玩命的加载中...</div>");
+      }
+      $.getJSON(locahost+'/orderInfo/sellerOrderInfos?token='+token+'&page='+page+'&type='+type,function(data){
+        if(data.code == 2001){
+          fb_alert(fb_error["2001"]);
+          window.location.href="../login.html";
+        }
+        loading(false);
+        var order_html = "";
+        $.each(data.order_infos,function(a,b){
+          order_html += '<div class="shopOrder-item">\
+                          <a href="myshop-orderDetail.html?order_id='+b.order_id+'">\
+                            <div class="img"><img src="'+b.shop_img+'" alt=""></div>\
+                            <div class="test">\
+                              <div class="shopName">'+b.shop_name+'</div>\
+                              <div class="status_desc">状态：'+b.status_desc+'</div>\
+                              <div class="shopNum">数量：1</div>\
+                              <div class="count">总价：￥'+b.total_fee+'</div>\
+                            </div>\
+                           </a>\
+                        </div>';
+          })
+            if(data.order_infos == '' ){
+                //没数据
+                $("#loading").remove()
+                if(page == 1){
+                  $(".beship").append("<div id='loaded'>暂无数据</div>")
+
+                }else{
+                  $(".beship").append("<div id='loaded'>我是有底线的</div>")
+                }
+              }else{
+                //是否为第一页 是替换数据 否追加数据 S
+                if(page == 1){
+                 $(".beship").html(order_html);
+                 n=1;
+                 $("#loading").remove();
+                }else{
+                 $(".beship").append(order_html);
+                }
+                //是否为第一页 是替换数据 否追加数据 E
+                //是否为最后一页  否追加滑动事件 S
+                if(data.order_infos.length < pageNum ){
+                  //已经没数据
+                  $("#loading").remove()
+                  $(".beship").append("<div id='loaded'>我是有底线的</div>");
+                  }else{
+                   $(window).on("scroll",function(){   
+                        if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
+                          //到底
+                          n = page;
+                          n++;
+                          beshipOrder(n,"beship");
+                        }
+                     
+                    })
+                }
+              //是否为最后一页  否追加滑动事件 E
+
+              }
+
+      })
+    }
+    //待收货
+    function shippingOrder(page,type){
+      if(!page){
+        page = 1;
+      }
+      $(window).off("scroll");   //清除滚动事件
+      if($("#loading").length == 0 && page!=1){
+        $(".shipping").append("<div id='loading'>正在玩命的加载中...</div>");
+      }
+      $.getJSON(locahost+'/orderInfo/sellerOrderInfos?token='+token+'&page='+page+'&type='+type,function(data){
+        if(data.code == 2001){
+          fb_alert(fb_error["2001"]);
+          window.location.href="../login.html";
+        }
+        loading(false);
+        var order_html = "";
+        $.each(data.order_infos,function(a,b){
+          order_html += '<div class="shopOrder-item">\
+                          <a href="myshop-orderDetail.html?order_id='+b.order_id+'">\
+                            <div class="img"><img src="'+b.shop_img+'" alt=""></div>\
+                            <div class="test">\
+                              <div class="shopName">'+b.shop_name+'</div>\
+                              <div class="status_desc">状态：'+b.status_desc+'</div>\
+                              <div class="shopNum">数量：1</div>\
+                              <div class="count">总价：￥'+b.total_fee+'</div>\
+                            </div>\
+                           </a>\
+                        </div>';
+          })
+            if(data.order_infos == '' ){
+                //没数据
+                $("#loading").remove()
+                if(page == 1){
+                  $(".shipping").append("<div id='loaded'>暂无数据</div>")
+
+                }else{
+                  $(".shipping").append("<div id='loaded'>我是有底线的</div>")
+                }
+              }else{
+                //是否为第一页 是替换数据 否追加数据 S
+                if(page == 1){
+                 $(".shipping").html(order_html);
+                 n=1;
+                 $("#loading").remove();
+                }else{
+                 $(".shipping").append(order_html);
+                }
+                //是否为第一页 是替换数据 否追加数据 E
+                //是否为最后一页  否追加滑动事件 S
+                if(data.order_infos.length < pageNum ){
+                  //已经没数据
+                  $("#loading").remove()
+                  $(".shipping").append("<div id='loaded'>我是有底线的</div>");
+                  }else{
+                   $(window).on("scroll",function(){   
+                        if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
+                          //到底
+                          n = page;
+                          n++;
+                          shippingOrder(n,"shipping");
+                        }
+                     
+                    })
+                }
+              //是否为最后一页  否追加滑动事件 E
+
+              }
+
+      })
+    }
+    //已完成
+    function succOrder(page,type){
+      if(!page){
+        page = 1;
+      }
+      $(window).off("scroll");   //清除滚动事件
+      if($("#loading").length == 0 && page!=1){
+        $(".succ").append("<div id='loading'>正在玩命的加载中...</div>");
+      }
+      $.getJSON(locahost+'/orderInfo/sellerOrderInfos?token='+token+'&page='+page+'&type='+type,function(data){
+        if(data.code == 2001){
+          fb_alert(fb_error["2001"]);
+          window.location.href="../login.html";
+        }
+        loading(false);
+        var order_html = "";
+        $.each(data.order_infos,function(a,b){
+          order_html += '<div class="shopOrder-item">\
+                          <a href="myshop-orderDetail.html?order_id='+b.order_id+'">\
+                            <div class="img"><img src="'+b.shop_img+'" alt=""></div>\
+                            <div class="test">\
+                              <div class="shopName">'+b.shop_name+'</div>\
+                              <div class="status_desc">状态：'+b.status_desc+'</div>\
+                              <div class="shopNum">数量：1</div>\
+                              <div class="count">总价：￥'+b.total_fee+'</div>\
+                            </div>\
+                           </a>\
+                        </div>';
+          })
+            if(data.order_infos == '' ){
+                //没数据
+                $("#loading").remove()
+                if(page == 1){
+                  $(".succ").append("<div id='loaded'>暂无数据</div>")
+
+                }else{
+                  $(".succ").append("<div id='loaded'>我是有底线的</div>")
+                }
+              }else{
+                //是否为第一页 是替换数据 否追加数据 S
+                if(page == 1){
+                 $(".succ").html(order_html);
+                 n=1;
+                 $("#loading").remove();
+                }else{
+                 $(".succ").append(order_html);
+                }
+                //是否为第一页 是替换数据 否追加数据 E
+                //是否为最后一页  否追加滑动事件 S
+                if(data.order_infos.length < pageNum ){
+                  //已经没数据
+                  $("#loading").remove()
+                  $(".succ").append("<div id='loaded'>我是有底线的</div>");
+                  }else{
+                   $(window).on("scroll",function(){   
+                        if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
+                          //到底
+                          n = page;
+                          n++;
+                          succOrder(n,"succ");
+                        }
+                     
+                    })
+                }
+              //是否为最后一页  否追加滑动事件 E
+
+              }
+
+      })
+    }
+    //退款
+    function cancellOrder(page,type){
+      if(!page){
+        page = 1;
+      }
+      $(window).off("scroll");   //清除滚动事件
+      if($("#loading").length == 0 && page!=1){
+        $(".cancell").append("<div id='loading'>正在玩命的加载中...</div>");
+      }
+      $.getJSON(locahost+'/orderInfo/sellerOrderInfos?token='+token+'&page='+page+'&type='+type,function(data){
+        if(data.code == 2001){
+          fb_alert(fb_error["2001"]);
+          window.location.href="../login.html";
+        }
+        loading(false);
+        var order_html = "";
+        $.each(data.order_infos,function(a,b){
+          order_html += '<div class="shopOrder-item">\
+                          <a href="myshop-orderDetail.html?order_id='+b.order_id+'">\
+                            <div class="img"><img src="'+b.shop_img+'" alt=""></div>\
+                            <div class="test">\
+                              <div class="shopName">'+b.shop_name+'</div>\
+                              <div class="status_desc">状态：'+b.status_desc+'</div>\
+                              <div class="shopNum">数量：1</div>\
+                              <div class="count">总价：￥'+b.total_fee+'</div>\
+                            </div>\
+                           </a>\
+                        </div>';
+          })
+            if(data.order_infos == '' ){
+                //没数据
+                $("#loading").remove()
+                if(page == 1){
+                  $(".cancell").append("<div id='loaded'>暂无数据</div>")
+
+                }else{
+                  $(".cancell").append("<div id='loaded'>我是有底线的</div>")
+                }
+              }else{
+                //是否为第一页 是替换数据 否追加数据 S
+                if(page == 1){
+                 $(".cancell").html(order_html);
+                 n=1;
+                 $("#loading").remove();
+                }else{
+                 $(".cancell").append(order_html);
+                }
+                //是否为第一页 是替换数据 否追加数据 E
+                //是否为最后一页  否追加滑动事件 S
+                if(data.order_infos.length < pageNum ){
+                  //已经没数据
+                  $("#loading").remove()
+                  $(".cancell").append("<div id='loaded'>我是有底线的</div>");
+                  }else{
+                   $(window).on("scroll",function(){   
+                        if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
+                          //到底
+                          n = page;
+                          n++;
+                          cancellOrder(n,"cancell");
+                        }
+                     
+                    })
+                }
+              //是否为最后一页  否追加滑动事件 E
+
+              }
+
+      })
+    }
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

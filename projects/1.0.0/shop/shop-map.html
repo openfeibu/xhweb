@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta content="telephone=no" name="format-detection" />
+  <!-- uc强制竖屏 -->
+  <meta name="screen-orientation" content="portrait">
+  <!-- UC应用模式 --> 
+  <meta name="browsermode" content="application">
+  <!-- QQ强制竖屏 -->
+  <meta name="x5-orientation" content="portrait">
+  <!-- QQ应用模式 -->
+  <meta name="x5-page-mode" content="app">
+  <!-- UC禁止放大字体 -->
+  <meta name="wap-font-scale" content="no">
+  <title>校汇Plus | 校汇 </title>
+  <meta name="Keywords" content="校汇,广东农工商职业技术学院,AIB,农工商,能赚钱,大学生,大学生创业,大学生校园,大学生校园社团,大学生校园快递,大学生周边生活" />
+  <meta name="Description" content="校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、社团文化、校园资讯、学生互动" />
+  <link rel="apple-touch-icon-precomposed" href="./icon.png" />
+  <link rel="shortcut icon" href="../icon.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="../css/reset.css">
+  <link rel="stylesheet" type="text/css" href="../css/index.css">
+  <link rel="stylesheet" type="text/css" href="../css/shop.css">
+  <script type="text/javascript"src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/common.js"></script>
+  <script type="text/javascript"src="../js/director.js"></script>
+  <script type="text/javascript" src="../js/updata.js"></script>
+</head>
+<body  style="height:100%">
+	<section class='main' style="height:100%;padding:0">
+        <div class="header_title">
+          <p data-name="shopName">收货地址</p>
+          <div class="return" onclick="returnUp()">
+          </div>
+        </div>
+        <div class="shop-order pt1">
+            <div class="checkMap">
+                <div class="addMap" onclick="replaceLocation('shop-updateMap.html')">新增收货地址</div>
+            </div>
+            <div class="shopMap">
+              <div class="noAddresses">没有收货地址</div>
+              <ul>
+               <!--  <li class="clearfix">
+                    <div class="li_header">
+                      <span>lisid</span>
+                      <span>12345678910</span>
+                    </div>
+                    <div class="li_bottom">
+                      <span>[默认地址]</span>广东省广州市
+                    </div>
+                    <div class="updata"><a href=""></a></div>
+                </li> -->
+              </ul>
+            </div>
+        </div>
+
+	</section>
+</body>
+<script>
+
+  var app = 0;
+  if(window.localStorage.app == 1){
+    $(".header_title").remove();
+    $(".pt1").removeClass("pt1");
+    app =1;
+  }
+  // $("html").html(window.localStorage.token)
+  $(function(){
+    //获取数据
+    var shop_id = GetString("sid"),
+    token = window.localStorage.token,
+    nowIndex = 0,//当前分类索引
+    cat_id,//当前分类ID
+    mapArray= [];
+    getShopInfo();
+    //获取初始数据
+    function getShopInfo(){
+         loading(true);
+        $.getJSON(locahost+'/userAddress/index?token='+token,function(data){
+
+          if(data.user_addresses.length == 0 ){
+            //没有地址
+            $(".noAddresses").show();
+          }  
+          loading(false);
+          var shop_html = "";
+          $.each(data.user_addresses,function(a,b){
+              mapArray.push(JSON.stringify(b));
+              if(b.is_default){
+                shop_html += ' <li class="clearfix">\
+                                  <div class="li_header">\
+                                    <span>'+b.consignee+'</span>\
+                                    <span>'+b.mobile+'</span>\
+                                  </div>\
+                                  <div class="li_bottom">\
+                                    <span>[默认地址]</span>'+b.address+'\
+                                  </div>\
+                                  <div class="updata"><a onclick=\"replaceLocation(\'shop-updateMap.html?address_id='+b.address_id+'\')\"></a></div>\
+                                  <div class="dele" address_id="'+b.address_id+'"></div>\
+                              </li>';
+              }else{
+                shop_html += ' <li class="clearfix">\
+                                  <div class="li_header">\
+                                    <span>'+b.consignee+'</span>\
+                                    <span>'+b.mobile+'</span>\
+                                  </div>\
+                                  <div class="li_bottom">\
+                                    '+b.address+'\
+                                  </div>\
+                                  <div class="updata"><a onclick=\"replaceLocation(\'shop-updateMap.html?address_id='+b.address_id+'\')\"></a></div>\
+                                  <div class="dele" address_id="'+b.address_id+'"></div>\
+                              </li>';
+              }
+
+          })
+          $(".shopMap ul").html(shop_html);
+
+          }).error(function(){
+            fb_alert("服务器出小差")
+          })
+    }
+    //获取初始数据
+
+    //选择地址
+    $(".shopMap ul").on("click","li",function(){
+      var i  = $(this).index(".shopMap ul li");
+      $(this).addClass("on").siblings("li").removeClass("on");
+      window.localStorage.user_address = mapArray[i];
+    })
+    
+     $(".shopMap ul").on("click",".updata",function(event){ 
+      event.stopPropagation();
+      var i  = $(this).index(".shopMap ul li .updata");
+      window.localStorage.update_address = mapArray[i];
+    })
+     //删除地址
+    $(".shopMap ul").on("click",".dele",function(event){ 
+      event.stopPropagation();
+      var address_id  = $(this).attr("address_id"),
+      that=$(this);
+      alert_flag("是否删除该地址？")
+      $(".flag_true").on("click",function(){
+          $(".flag_A").remove();
+          is_alipay(true);
+          $.post(locahost+'/userAddress/destroy?address_id='+address_id+'&token='+token,function(data){
+            is_alipay(false);
+            if(data.code == 200){
+              fb_alert("删除成功");
+              that.parents("li").remove();
+            }else{
+              fb_alert(data.detail)
+
+            }
+         
+          }).error(function(){
+            fb_alert("服务器出小差")
+          })
+      })
+
+    })
+  })
+</script>
+</html>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
