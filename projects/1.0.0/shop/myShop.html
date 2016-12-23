@@ -37,14 +37,14 @@
           </div>
         </div>
         <div class="shop-detail pt1">
-            <div class="myshop-header">
+          <!--   <div class="myshop-header">
                 <div class="shop-img"><img data-name="shopImg" src="" alt=""></div>
                 <div class="shop-test">
                   <div class="shopName" data-name="shopName"></div>
                 </div>
                 <div class="switchShop off">我要关店</div>
-            </div><!--myshop-header end-->
-            <div class="shop-data ">
+            </div> --><!--myshop-header end-->
+           <!--  <div class="shop-data ">
               <ul>
                 <li>
                   <p>销售量</p>
@@ -59,8 +59,8 @@
                   <span>10</span>
                 </li>
               </ul>
-            </div><!--shop-data end-->
-            <div class="myshop-power">
+            </div> --><!--shop-data end-->
+            <!-- <div class="myshop-power">
               <ul>
                 <li>
                   <a href="myshop-up.html">
@@ -78,7 +78,7 @@
                   </a>
                 </li>
               </ul>
-            </div>
+            </div> -->
             <div class="shop-detail-con">
               <div class="shop-pro-class">
                   <ul>
@@ -220,8 +220,8 @@
              
               shop_html += pro_html;
           })
-
-          $(".shop-pro-all").eq(nowIndex).html('<dl>'+shop_html+'</dl>').attr("loca",true);
+          $(".shop-pro-all").hide();
+          $(".shop-pro-all").eq(nowIndex).show().html('<dl>'+shop_html+'</dl>').attr("loca",true);
           if(data.goodes == ''){
               //没商品数据
               $("#loading").remove();
@@ -243,8 +243,7 @@
       cat_id = $(this).attr("cat_id");
       $(this).addClass("on").siblings("li").removeClass("on");
       var loca = $(".shop-pro-all").eq(nowIndex).attr("loca");
-      // $(".shop-pro-all").eq(nowIndex).show().siblings(".shop-pro-all").hide();
-      $(".shop-pro-all").hide();
+      $(".shop-pro-all").eq(nowIndex).show().siblings(".shop-pro-all").hide();
 
       if(!loca){
         getMoreInfo();
