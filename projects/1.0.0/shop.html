@@ -57,13 +57,18 @@
               loading(false);
               var htmldom='';
               $.each(data.shops,function(a,b){
+                if(b.shop_status == 1){
+                  var shop_status = "<span class='business'>(营业中)</span>"
+                }else if(b.shop_status == 3){
+                  var shop_status = "<span class='rest'>(休息中)</span>"
+                }
                 htmldom += '<div class="shop-item">\
 								<a onclick="winGo(\'shop/shop-detail.html?sid='+b.shop_id+'\')">\
 									<div class="shop-img">\
 										<img src="'+b.shop_img+'" alt="">\
 									</div>\
 									<div class="shop-right">\
-										<div class="shop-name">'+b.shop_name+'</div>\
+										<div class="shop-name">'+b.shop_name+shop_status+'</div>\
 										<div class="shop-d">'+b.description+'</div>\
 										<div class="shop-bottom">\
 											<div class="shop-pei">'+b.shipping_fee+'元起送</div>\

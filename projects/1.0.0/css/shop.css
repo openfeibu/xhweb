@@ -218,3 +218,5 @@
 .goHome{width: 3rem;height: 0.8rem;background: #5AC8FA;margin:0.5rem auto;color: #fff;text-align: center;border:1px solid #2a2a2a;line-height: 0.8rem;font-size: 0.28rem;position: fixed;bottom:1rem;left:50%;margin-left: -1.5rem;}
 .goHome a{color: #fff;}
 .asdie{font-size: 0.4rem;padding: 0 0.3rem;margin:1rem auto;text-align: center;color: #666;display: none;}
+.business{color: #f58705;font-size: 0.28rem;margin-left: 0.15rem;}
+.rest{color: #ef7272;font-size: 0.28rem;margin-left: 0.15rem;}

@@ -32,7 +32,7 @@
 <body  style="height:100%">
 	<section class='main' style="height:100%;padding:0">
         <div class="header_title">
-          <p data-name="shopName">XX的店铺</p>
+          <p data-name="shopName"></p>
           <div class="return" onclick="returnUp()">
           </div>
         </div>
@@ -104,7 +104,8 @@
     //获取数据
     var shop_id = GetString("sid"),
     nowIndex = 0,//当前分类索引
-    cat_id;//当前分类ID
+    cat_id,//当前分类ID
+    shopStatus;//营业状况
     getShopInfo();
     window.localStorage.removeItem("user_address"); //清除选中的地址
     //获取初始数据
@@ -114,11 +115,10 @@
       // $("html").html(locahost+'/goods/shopGoodses?shop_id='+shop_id+'&token='+token)
         $.getJSON(locahost+'/goods/shopGoodses?shop_id='+shop_id,function(data){
             // fb_alert(locahost+'/goods/shopGoodses?shop_id='+shop_id+'&token='+token)
-         
           if(data.categories.length == 0 ){
             //没有产品
             $(".noGoods").show();
-            $(".shop-pro-class , .shop-pro-all").hide();
+            $(".shop-pro-class, .shop-pro-all").hide();
           }
           loading(false);
           var shop_html = "",categories_html="";
@@ -138,9 +138,16 @@
                                 <div class="shop-pro-right">\
                                   <div class="shop-pro-name">'+b.goods_name+'</div>\
                                   <div class="shop-pro-d">'+b.goods_desc+'</div>\
-                                  <div class="shop-pro-ed">已售'+b.goods_sale_count+'件</div>\
+                                  <div class="shop-pro-ed">已售'+b.goods_sale_count+'件&nbsp&nbsp库存：'+b.goods_number+'</div>\
                                 </div>';
-              if(b.cart_goods_number != 0){
+              if(data.shop.shop_status == 3){
+                  //店家休息 不显示加号
+                   pro_html += '<div class="shop-pro-bottom">\
+                                    <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
+                              </div>\
+                            </dd>';
+
+              }else if(b.cart_goods_number != 0){
                   pro_html += '<div class="shop-pro-bottom">\
                                     <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
                                     <div class="addCar " maxNum="'+b.goods_number+'">\
@@ -163,10 +170,18 @@
               }
               shop_html += pro_html;
           })
-
+          // 营业状况 s
+          if(data.shop.shop_status == 1){
+              shopStatus = 1;
+              var shop_status = "<span class='business'>(营业中)</span>"
+            }else if(data.shop.shop_status == 3){
+              shopStatus = 3;
+              var shop_status = "<span class='rest'>(休息中)</span>"
+            }
+          // 营业状况  e
           $(".shop-pro-all").eq(0).show().html('<dl>'+shop_html+'</dl>').append("<div id='loaded'>我是有底线的</div>").attr("loca",true);
           $(".shop-pro-class ul").html(categories_html);
-          $("[data-name='shopName']").text(data.shop.shop_name);
+          $("[data-name='shopName']").html(data.shop.shop_name+shop_status);
           $("title").text(data.shop.shop_name);
           $("[data-name='shopDescription']").text(data.shop.description);
           $("[data-name='shopImg']").attr("src",data.shop.shop_img);
@@ -562,7 +577,9 @@
         fb_alert("请先登录");
         return false;
       }
-      if($(this).hasClass("active")){
+      if(shopStatus == 3){
+        fb_alert(fb_error["s_009"]); 
+      }else if($(this).hasClass("active")){
          window.location.href = "shop-createOrder.html?sid="+shop_id;
       }else{
         fb_alert(fb_error["s_001"]);

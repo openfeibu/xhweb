@@ -365,7 +365,6 @@ function removeBr(obj){
 function winGo(str){
   // $("body").html('http://192.168.0.129/fb/'+str)
   if(window.localStorage.app == 1){
-    
     // $("body").html(window.localStorage.token )
     feibu.openWindow('shop','http://192.168.0.129/'+str)
   }else{
@@ -440,6 +439,7 @@ var fb_error ={
                 "s_006":"取消成功",
                 "s_007":"发货成功",
                 "s_008":"退款成功",
+                "s_009":"店铺休息中",
                 "ms_001":"请上传商品图片",
                 "ms_002":"商品名称不可为空",
                 "ms_003":"商品名称不可大于10个字符",
