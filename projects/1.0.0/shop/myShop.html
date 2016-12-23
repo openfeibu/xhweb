@@ -195,7 +195,6 @@
     //获取初始数据
     //获取分类商品
     function getMoreInfo(){
-        fb_alert(nowIndex)
         if(!cat_id){
           cat_id = $(".shop-pro-class ul li").eq(0).attr("cat_id");
         }
@@ -244,7 +243,8 @@
       cat_id = $(this).attr("cat_id");
       $(this).addClass("on").siblings("li").removeClass("on");
       var loca = $(".shop-pro-all").eq(nowIndex).attr("loca");
-      $(".shop-pro-all").eq(nowIndex).show().siblings(".shop-pro-all").hide();
+      // $(".shop-pro-all").eq(nowIndex).show().siblings(".shop-pro-all").hide();
+      $(".shop-pro-all").hide();
 
       if(!loca){
         getMoreInfo();
