@@ -150,7 +150,7 @@
                     }
         })
          }
-          $('body').on("click",".payNum li",function(){
+          $('body').on("touchstart",".payNum li",function(){
                 var i = $(this).index(".payNum li");
                 var key;
                 switch (i) {
@@ -223,6 +223,7 @@
                     }
                     if(data.code == 200){
                         fb_alert(fb_error["s_004"]);
+                        locaGo("shop/shop-paysucc.html");
                         
                     }else{
                         fb_alert(data.detail)
