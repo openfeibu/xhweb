@@ -244,7 +244,7 @@
       $(this).addClass("on").siblings("li").removeClass("on");
       var loca = $(".shop-pro-all").eq(nowIndex).attr("loca");
       $(".shop-pro-all").eq(nowIndex).show().siblings(".shop-pro-all").hide();
-      fb_alert(nowIndex)
+      fb_alert(loca)
       if(!loca){
         getMoreInfo();
       }
