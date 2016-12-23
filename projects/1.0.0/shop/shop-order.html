@@ -124,6 +124,7 @@
     var token = window.localStorage.token;
     var orderId ;//订单详情id
     var pageNum = 20;
+    loading(true);
     waitpayOrder(1,"waitpay");
     //待付款
     function waitpayOrder(page,type){

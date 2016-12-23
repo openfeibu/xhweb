@@ -60,11 +60,11 @@
             </div>
             <div class="dispatching">
               <label for="">配送费</label>
-              <span data-name="shipping_fee">2元</span>
+              <span data-name="shipping_fee"></span>
             </div>
             <div class="procount">
               <label for="">合计</label>
-              <span  data-name="total_fee">41元</span>
+              <span  data-name="total_fee"></span>
             </div>
             <div class="remark">
               <label for="">买家留言</label>
@@ -154,6 +154,7 @@
           $("[data-name='num']").text(data.goods_count);
           $("[data-name='shipping_fee']").text(data.shipping_fee);
           $("[data-name='count'],[data-name='total_fee']").text(data.total_fee+"元");
+          window.localStorage.total_fee = data.total_fee;//缓存总价格
 
           }).error(function(){
             fb_alert("服务器出小差")

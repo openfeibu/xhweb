@@ -39,7 +39,7 @@
         </div>
         <div class="pay pt1">
           <div class="countMoney">
-              支付总金额：<span>￥30</span>
+              支付总金额：<span data-name="countMoney">￥30</span>
             </div>
           <ul class="payList">
              <li class="">
@@ -76,7 +76,10 @@
     getPay();
     //获取初始数据
     function getPay(){
+        is_alipay(true);
+       $('[data-name="countMoney"]').text("￥"+window.localStorage.total_fee);
         $.getJSON(locahost+'/pay',function(data){
+           is_alipay(false);
             var payHtml = "";
             $.each(data,function(a,b){
               payHtml += '<li class="">\

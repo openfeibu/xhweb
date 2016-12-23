@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="height:100%">
+<html lang="en" class="bgf">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
@@ -29,8 +29,8 @@
   <script type="text/javascript"src="../js/director.js"></script>
   <script type="text/javascript" src="../js/updata.js"></script>
 </head>
-<body  style="height:100%">
-	<section class='main' style="height:100%;padding:0">
+<body >
+	<section class='main' style="padding:0">
         <div class="header_title">
           <p >订单详情</p>
           <div class="return" onclick="returnUp()">
@@ -143,7 +143,7 @@
                 $(".submitButton").html('');
                 break;
               default :
-                $(".submitButton").html('<div class="delivery opa_active" onclick="delivery()">同意退款</div>');
+                $(".submitButton").html('<div class="refund opa_active" onclick="refund()">同意退款</div>');
                 break;
             }
 
@@ -172,16 +172,16 @@
               })       
         })
       }
-    //取消订单
-    function closeOrder(){
-       alert_flag("是否取消订单？")
+    //退款
+    function refund(){
+       alert_flag("是否退款？")
         $(".flag_true").on("click",function(){
           $(".flag_A").remove();
            is_alipay(true);
-           $.post(locahost+'/orderInfo/destroy?order_id='+order_id+'&token='+token,function(data){
+           $.post(locahost+'/orderInfo/agreeCancel?order_id='+order_id+'&token='+token,function(data){
                 is_alipay(false);
                 if(data.code == 200){
-                  fb_alert(fb_error["s_006"]);
+                  fb_alert(fb_error["s_008"]);
                   window.history.go(-1);
 
                 }else{
@@ -195,7 +195,7 @@
       }
 
     window.delivery = delivery;
-    window.closeOrder = closeOrder;
+    window.refund = refund;
   })
 </script>
 </html>
