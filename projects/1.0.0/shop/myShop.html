@@ -30,8 +30,7 @@
   <script type="text/javascript" src="../js/updata.js"></script>
 </head>
 <body  style="height:100%">
-  <div class="close" style="padding:1rem;background:#fff;">关闭</div>
-	<section class='main' style="height:100%;padding:0;display:none" >
+	<section class='main' style="height:100%;padding:0;" >
         <div class="header_title">
           <p data-name="shopName"></p>
           <div class="return" onclick="returnUp()">
@@ -99,41 +98,38 @@
               <div class="title">商家简介:</div>
               <p data-name="shopDescription"></p>
           </div>
-          <div class="close">X</div>
         </div>
 	</section>
 </body>
 <script>
-$(".close").click(function(){
-   window.feibu.closeWeb('{"action":"true"}');
-})
-  
+ 
  
   var app = 0;
   if(window.localStorage.app == 1 || GetString("device") == "android"){  
     $(".header_title").remove();
     $(".pt1").removeClass("pt1");
     $(".shop-detail-con").addClass("appheight");
-   // window.localStorage.token  = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
+    window.localStorage.token  = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
     app =1;
     window.localStorage.app == 1
   }
-  // $("html").html(window.localStorage.token)
+
   $(function(){
     var proArray = {};
     var shop_id,
     shop_status,nowIndex; 
     //获取数据
-    //getShopInfo();
+    getShopInfo();
     //获取初始数据
     function getShopInfo(){
-        // loading(true);
+        loading(true);
         var token = window.localStorage.token;
         $.getJSON(locahost+'/goods/shopGoodses?&token='+token,function(data){
           loading(false);
           if(data.shop == null || data.code != 200){
             //没店铺
-          //  window.history.go(-1);
+            //window.history.go(-1);
+            return false;
           }
           if(data.categories.length == 0 ){
             //没有产品
