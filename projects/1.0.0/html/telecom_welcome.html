@@ -52,10 +52,20 @@
 		</div>
 	</section>
 	<script>
-	
+
 		var is_app=0;
 		var android_token = "";
-		if(GetString("device") == "android"){
+		　try {
+		　　// 此处是可能产生例外的语句
+			android_token = JSON.parse(window.feibu.getToken()).value
+		　　} catch(error) {
+		　　// 此处是负责例外处理的语句
+			is_app = 1;
+		　　} finally {
+		　　// 此处是出口语句
+			is_app = 0;
+		　　}
+		if(is_app){
 			$(".goWrite a").on("click",function(){
 				android_token = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
 				if(android_token == ""){
@@ -86,6 +96,7 @@
 			is_app = 1;
 			android_token = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;  //获取客户端token;			
 		}else{
+
 			$(".goWrite a").on("click",function(){
 				window.location.href="telecom.html";
 			});

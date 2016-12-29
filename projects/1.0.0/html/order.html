@@ -32,7 +32,6 @@
 </head>
 <body >
 	<section class='main' style="padding-bottom:0">
-      <div id="ClassA" class= "routes">
         <div class="header_title">
           <p>我的任务</p>
           <div class="return" onclick="returnUp()">
@@ -50,22 +49,6 @@
 
           </div>
         </div>
-      </div>
-      <div id="ClassB" class= "routes">
-        <div class="header_title">
-            <p>订单详情</p>
-            <div class="return" onclick="returnUp()">
-            </div>
-        </div>
-        <div class="schoolwork_de schoolwork_de pt1">
-          <div class="schoolwork_info">
-          </div>
-          <div class="postwork_footer">
-            <span class="declare"><a href="../statement/workAgreement.html">校园任务声明</a></span>
-            <div class="postwork_button"></div>
-          </div>
-        </div>
-      </div>
 	     <!-- 支付界面 -->
       <div class="walletPass orderWalletPass" >
 
@@ -126,18 +109,10 @@
     var token = window.localStorage.token;
     var orderId ;//订单详情id
     var pageNum = 10;
-    var routes = {
-      '/order': order,
-      '/orderFaDetail/:id': orderFaDetail,
-      '/orderJieDetail/:id':orderJieDetail
-    };
-    var router = Router(routes);
-    router.init("/order");
-
+    order();
     //我的订单
     function order(){
       clearWindowScroll();
-      routDom($("#ClassA"));
       loading(true);
       getJieloca();
       var i = $(".content-select .select").index(".content-select div");
@@ -176,7 +151,6 @@
         $(window).on("scroll",function(){
               if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
                 //到底
-                
                 getFaOrder(2);
               }
         })
@@ -203,7 +177,7 @@
           $.each(data.data,function(a,b){
             var bg = b["order_status"] == "进行中" ? "#87cbf6" :  b["order_status"] == "待结算" ? "#80b995" : "#bbbbbb";
               order_html += '<div class="work_content box-shadow">\
-                      <a href="#/orderJieDetail/'+b.oid+'">\
+                      <a href="../works/schoolwork_de.html?oid='+b.oid+'">\
                       <div class="content-inner-container">\
                         <div class="fl">\
                           <div class="user-pic">\
@@ -290,7 +264,7 @@
             var bg = b["order_status"] == "已接单" ? "#87cbf6" :  b["order_status"] == "待结算" ? "#80b995" : "#bbbbbb";
             b.avatar_url = b.avatar_url == '' ? "../images/footer05h.png" :  b.avatar_url;
             order_html += '<div class="work_content box-shadow">\
-                      <a href="#/orderFaDetail/'+b.oid+'">\
+                      <a href="../works/schoolwork_de.html?oid='+b.oid+'">\
                       <div class="content-inner-container">\
                         <div class="fl">\
                           <div class="user-pic">\
@@ -357,388 +331,6 @@
 
         })
       }
-      //发单详情
-      function orderFaDetail(oid){
-        orderId = oid;
-        clearWindowScroll();
-        routDom($("#ClassB"));
-        $("#ClassB").css("minHeight",$(window).height())
-        loading(true);
-        $.getJSON(locahost+'/order/getOrderByToken/?order_id='+oid+"&token="+token,function(data){
-           if(data.code == 2001){
-            fb_alert(fb_error["2001"]);
-            window.location.href="login.html";
-          }
-         loading(false); 
-         var b = data.data;
-          /*时间进程 S*/
-         if(b.time['cancelled_time']){
-          //取消的订单
-           
-         }else{
-          //非取消的订单
-            if(b.time['completed_time']){
-              //已结算
-               var state = '<ul class="schedule clearfix">\
-                              <li class="on">\
-                                <label>发单</label>\
-                                <p>'+b.time['new_time'].substr(5,11)+'</p>\
-                              </li>\
-                              <li class="on">\
-                                <label>接单</label>\
-                                <p>'+b.time['accepted_time'].substr(5,11)+'</p>\
-                              </li>\
-                              <li class="on">\
-                                <label>完成</label>\
-                                <p>'+b.time['finish_time'].substr(5,11)+'</p>\
-                              </li>\
-                              <li class="on">\
-                                <label>结算</label>\
-                                <p>'+b.time['completed_time'].substr(5,11)+'</p>\
-                              </li>\
-                          </ul>';
-            }else if(b.time['finish_time']){
-              //已完成
-               var state = '<ul class="schedule clearfix">\
-                              <li class="on">\
-                                <label>发单</label>\
-                                <p>'+b.time['new_time'].substr(5,11)+'</p>\
-                              </li>\
-                              <li class="on">\
-                                <label>接单</label>\
-                                <p>'+b.time['accepted_time'].substr(5,11)+'</p>\
-                              </li>\
-                              <li class="on">\
-                                <label>完成</label>\
-                                <p>'+b.time['finish_time'].substr(5,11)+'</p>\
-                              </li>\
-                              <li >\
-                                <label>结算</label>\
-                              </li>\
-                          </ul>';
-            }else if(b.time['accepted_time']){
-              //已接单
-               var state = '<ul class="schedule clearfix">\
-                              <li class="on">\
-                                <label>发单</label>\
-                                <p>'+b.time['new_time'].substr(5,11)+'</p>\
-                              </li>\
-                              <li class="on">\
-                                <label>接单</label>\
-                                <p>'+b.time['accepted_time'].substr(5,11)+'</p>\
-                              </li>\
-                              <li >\
-                                <label>完成</label>\
-                              </li>\
-                              <li >\
-                                <label>结算</label>\
-                              </li>\
-                          </ul>';
-            }else{
-              //未接单
-               var state = '<ul class="schedule clearfix">\
-                              <li class="on">\
-                                <label>发单</label>\
-                                <p>'+b.time['new_time'].substr(5,11)+'</p>\
-                              </li>\
-                              <li>\
-                                <label>接单</label>\
-                              </li>\
-                              <li >\
-                                <label>完成</label>\
-                              </li>\
-                              <li >\
-                                <label>结算</label>\
-                              </li>\
-                          </ul>';
-            }
-         }
-        
-         /*时间进程 E*/
-
-         if( b.status == "new"  ){
-          var contact = "";
-         }else{
-          var contact = '<div class="contact"><a href="tel:'+b.courier_mobile_no+'">联系TA</a></div>'
-         }
-              var workHtml = '<div class="namedata clear">\
-                          <div class="name fl">\
-                            <p>发单人：'+b.nickname+'</p>\
-                          </div>\
-                          <div class="data fr">\
-                              <span>'+b.order_status+'</span>\
-                          </div>  \
-                        </div>'+contact+'\
-                        <div class="money">赏金：<span>'+b.fee+'元</span></div>\
-                        <div class="donemap">到达地点：'+b.destination+'</div>\
-                        '+state+'\
-                        <div class="detail">'+b.description+'</div>'; 
-
-           if(b.status == "new"){
-                var input_submit = '<input type="button" value="取消任务" class="closeOrder opa_active"/>'
-              }else if(b.status == "finish"){
-                var input_submit = '<input type="button" value="结算任务" class="completedOrder"/>'
-              }else {
-                var input_submit = ''
-
-              }
-              $(".schoolwork_info").html(workHtml);
-              $(".postwork_button").html(input_submit)
-        })
-
-      
-      }
-      //接单详情
-      function orderJieDetail(oid){
-        orderId = oid;
-        clearWindowScroll();
-        routDom($("#ClassB"));
-        $("#ClassB").css("minHeight",$(window).height())
-
-        loading(true);
-        $.getJSON(locahost+'/order/getOrderByToken/?order_id='+oid+"&token="+token,function(data){
-          if(data.code == 2001){
-            fb_alert(fb_error["2001"]);
-            window.location.href="login.html";
-          }
-         loading(false); 
-         var b = data.data;
-         /*时间进程 S*/
-         if(b.time['cancelled_time']){
-          //取消的订单
-           
-         }else{
-          //非取消的订单
-            if(b.time['completed_time']){
-              //已结算
-               var state = '<ul class="schedule clearfix">\
-                              <li class="on">\
-                                <label>发单</label>\
-                                <p>'+b.time['new_time']+'</p>\
-                              </li>\
-                              <li class="on">\
-                                <label>接单</label>\
-                                <p>'+b.time['accepted_time']+'</p>\
-                              </li>\
-                              <li class="on">\
-                                <label>完成</label>\
-                                <p>'+b.time['finish_time']+'</p>\
-                              </li>\
-                              <li class="on">\
-                                <label>结算</label>\
-                                <p>'+b.time['completed_time']+'</p>\
-                              </li>\
-                          </ul>';
-            }else if(b.time['finish_time']){
-              //已完成
-               var state = '<ul class="schedule clearfix">\
-                              <li class="on">\
-                                <label>发单</label>\
-                                <p>'+b.time['new_time']+'</p>\
-                              </li>\
-                              <li class="on">\
-                                <label>接单</label>\
-                                <p>'+b.time['accepted_time']+'</p>\
-                              </li>\
-                              <li class="on">\
-                                <label>完成</label>\
-                                <p>'+b.time['finish_time']+'</p>\
-                              </li>\
-                              <li >\
-                                <label>结算</label>\
-                              </li>\
-                          </ul>';
-            }else if(b.time['accepted_time']){
-              //已接单
-               var state = '<ul class="schedule clearfix">\
-                              <li class="on">\
-                                <label>发单</label>\
-                                <p>'+b.time['new_time']+'</p>\
-                              </li>\
-                              <li class="on">\
-                                <label>接单</label>\
-                                <p>'+b.time['accepted_time']+'</p>\
-                              </li>\
-                              <li >\
-                                <label>完成</label>\
-                              </li>\
-                              <li >\
-                                <label>结算</label>\
-                              </li>\
-                          </ul>';
-            }else{
-              //未接单
-               var state = '<ul class="schedule clearfix">\
-                              <li class="on">\
-                                <label>发单</label>\
-                                <p>'+b.time['new_time']+'</p>\
-                              </li>\
-                              <li>\
-                                <label>接单</label>\
-                              </li>\
-                              <li >\
-                                <label>完成</label>\
-                              </li>\
-                              <li >\
-                                <label>结算</label>\
-                              </li>\
-                          </ul>';
-            }
-         }
-        
-         /*时间进程 E*/
-        
-         
-         var workHtml = '<div class="namedata clear">\
-                          <div class="name fl">\
-                            <p>发单人：'+b.nickname+'</p>\
-                          </div>\
-                          <div class="data fr">\
-                              <span>'+b.order_status+'</span>\
-                          </div>  \
-                        </div>\
-                        <div class="contact"><a href="tel:'+b.alt_phone+'">联系TA</a></div>\
-                        <div class="money">赏金：<span>'+b.fee+'元</span></div>\
-                        <div class="donemap">到达地点：'+b.destination+'</div>\
-                        '+state+'\
-                        <div class="detail">'+b.description+'</div>'; 
-
-              if(b.status == "accepted"){
-                var input_submit = '<input type="button" value="确认送达" class="DoneOrder"/>'
-              }else{
-                 var input_submit = "";
-              }
-              $(".schoolwork_info").html(workHtml);
-              $(".postwork_button").html(input_submit)
-        })
-
-      
-      }
-      //完成任务
-      $("body").on("click",".DoneOrder",function(){
-        $(this).addClass("on");
-        $.post(locahost+'/order/finishWork/?token='+token+'&order_id='+orderId,function(data){
-          if(data.code == 2001){
-            fb_alert(fb_error["2001"]);
-            window.location.href="login.html";
-          }
-          if(data.code == 200){
-            fb_alert(fb_error["3001"]);
-            history.go(-1)
-          }
-        })
-      })
-      //结算任务
-       $("body").on("click",".completedOrder",function(){
-        wallet_pass='';
-        $(".payPassVal span").text("");
-        $(".walletPass").fadeIn(200);
-        $(this).addClass("on");
-      })
-       //取消任务
-      $("body").on("click",".closeOrder",function(){
-        alert_flag("是否删除该任务?");
-          $(".flag_true").on("click",function(){
-            is_alipay(true);
-            $.post(locahost+'/order/askCancel/?token='+token+'&order_id='+orderId,function(data){
-                is_alipay(false);
-                if(data.code == 2001){
-                  fb_alert(fb_error["2001"]);
-                  window.localStorage.removeItem("faloca");
-                  window.location.href="login.html";
-                }
-                if(data.code == 200){
-                  fb_alert(fb_error["3003"]);
-                  history.go(-1)
-                }
-              })
-            $(".flag_A").remove();
-          })
-
-      })
-    var wallet_pass='';
-     $('.walletPass').on("click",".payNum li",function(){
-                var i = $(this).index(".payNum li");
-                var key;
-                switch (i) {
-                    case 0 : 
-                        key = 1;
-                        break;
-                    case 1 : 
-                        key = 2;
-                        break;
-                    case 2 : 
-                        key = 3;
-                        break;
-                    case 3 : 
-                        key = 4;
-                        break;
-                    case 4 : 
-                        key = 5;
-                        break;
-                    case 5 : 
-                        key = 6;
-                        break;
-                    case 6 : 
-                        key = 7;
-                        break;
-                    case 7 : 
-                        key = 8;
-                        break;
-                    case 8 : 
-                        key = 9;
-                        break;
-                    case 9 : 
-                        return;
-                    case 10 : 
-                        key = 0;
-                        break;
-                    case 11 : 
-                        key = 11;
-                        break;
-                }
-            if(key == 11){
-                //删除键
-                wallet_pass = wallet_pass.substr(0,wallet_pass.length-1);
-                $(".payPassVal span").text("")
-                for(var j = 0,c=wallet_pass.length ; j <c;j++ ){
-                    $(".payPassVal span").eq(j).text("*")
-                }
-                return;
-            }
-            wallet_pass += key;
-            if(wallet_pass.length == 6 ){
-                //满6位 
-                  $(".payPassVal span").text("*");
-                  is_alipay(true)
-                  $(".walletPass").fadeOut(200);
-                   $.post(locahost+'/order/confirmFinishWork/?token='+token+'&order_id='+orderId+'&pay_password='+$.md5(wallet_pass),function(data){
-                    if(data.code == 2001){
-                      fb_alert(fb_error["2001"]);
-                      window.location.href="login.html";
-                    }
-                    if(data.code == 200){
-                      fb_alert(fb_error["3002"]);
-                      history.go(-1)
-                    }else{
-                      fb_alert(data.detail);
-
-                    }
-                    is_alipay(false)
-                    $(".schoolwork_de .postwork_footer .postwork_button input").removeClass("on")
-                  })
-
-              }else{
-                for(var j = 0,c=wallet_pass.length ; j <c;j++ ){
-                    $(".payPassVal span").eq(j).text("*")
-                }
-            }
-
-          })
-     $(".payPass_close").on("click",function(){
-        $('.walletPass').fadeOut(200);
-        $(".completedOrder").removeClass("on")
-     })
      refresh["jieOrder"] = getJieloca;
      refresh["faOrder"] = getFaloca;
 </script>

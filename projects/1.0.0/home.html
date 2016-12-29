@@ -17,29 +17,16 @@
     </li>
   </ul>
 </div>
-<div class='index_no'>
-  
-</div>
 <!-- 推荐任务 -->
 <div class="recommendOrders">
   <div class="title"><i></i><p>推荐任务</p></div>
   <div class="orderList">
-    <!-- <div class="order-item">
-      <a href="">
-        <div class="order-up">
-          <div class="img"><img src="images/tx.png" alt="" /></div>
-          <div class="test">
-            <div class="name">xiaoc</div>
-            <div class="money">¥2</div>
-          </div>
+    <div class="swiper-container Orders">
+        <div class="swiper-wrapper">
+           
         </div>
-        <div class="order-dowm">
-          <div class="con">dadas</div>
-          <div class="map">[sdasd]</div>
-        </div>
-        <div class="order-button">抢</div>
-      </a>
-    </div> -->
+    </div>
+   
   </div>
 </div>
 <div class='index_club_play'>
@@ -82,23 +69,7 @@
       bannerGet()
     }
     //获取轮播图 E
-    //获取index_no S
-    if(!!getItem("indexNo")){
-      var loca = getItem("indexNo");
-      var now = new Date().getTime();
-       /*先展示旧内容 S*/
-      var htmldom = loca[0]; 
-      $(".index_no").html(htmldom);
-      /*先展示旧内容 E*/
-      if(now-loca[1] >= thislocaTime){
-        //已过期
-          noGet();
-      }
-    }else{
-      //没有缓存
-      noGet()
-    }
-     //获取index_no E
+
     
     //获取活动资讯 S
     if(!!getItem("club_play")){
@@ -123,12 +94,16 @@
       var now = new Date().getTime();
       /*先展示旧内容 S*/
       var htmldom = loca[0]; 
-      $(".orderList").html(htmldom);
+      $(".orderList .swiper-wrapper").html(htmldom);
       /*先展示旧内容 E*/
       if(now-loca[1] >= thislocaTime){
         //已过期
           getRecommendOrders()
       }
+     var Orders = new Swiper('.Orders', {
+                    slidesPerView: 2.8,
+                    spaceBetween:25,
+        });
     }else{
       //没有缓存
       getRecommendOrders()
@@ -237,33 +212,30 @@
   }
   //获取推荐任务方法
   function getRecommendOrders(){
-     $.getJSON(locahost+'/order/getRecommendOrders/?number=2',function(data, status, xhr){
+     $.getJSON(locahost+'/order/getRecommendOrders/',function(data, status, xhr){
         if(data.code == "200"){
            var htmldom='';
             $.each(data.data,function(a,b){
-              htmldom += '<div class="order-item">\
-                        <a href="schoolwork_de.html?oid='+b.oid+'">\
-                          <div class="order-up">\
-                            <div class="img"><img src="'+b.avatar_url+'" alt="" /></div>\
-                            <div class="test">\
-                              <div class="name">'+b.nickname+'</div>\
-                              <div class="money">¥'+b.fee+'</div>\
-                            </div>\
-                          </div>\
-                          <div class="order-dowm">\
-                            <div class="con">'+b.description+'</div>\
-                            <div class="map">['+b.destination+']</div>\
-                          </div>\
-                          <div class="order-button">抢</div>\
-                        </a>\
-                      </div>';
+              htmldom += '<div class="swiper-slide">\
+                            <a href="schoolwork_de.html?oid='+b.oid+'">\
+                              <div class="ord-img" style="background:url('+b.avatar_url+') no-repeat center/100%;"></div>\
+                              <div class="ord-con">'+b.description+'</div>\
+                              <div class="ord-time">'+afterTime(b.created_at)+'</div>\
+                              <div class="ord-address">'+b.destination+'</div>\
+                              <div class="ord-price">'+b.fee+'元</div>\
+                            </a>\
+                          </div>';
             })
             if(data.data.length == 0){
                $(".orderList").html("<aside>暂无推荐任务</aside>");
 
             }else{
-               $(".orderList").html(htmldom);
+               $(".orderList .swiper-wrapper").html(htmldom);
                 setItem("recommendOrders",htmldom)//增加缓存
+                 var Orders = new Swiper('.Orders', {
+                      slidesPerView: 2.8,
+                      spaceBetween:25,
+                  });
             }
           
             }
@@ -316,5 +288,4 @@
   }
   router.on("associationActive/:id",associationActive)
   refresh["home"]= home;
-
 </script>

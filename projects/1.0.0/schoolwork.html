@@ -63,11 +63,14 @@
 		loading(false);
 		clearLoading()
 		var work_html = "";
+		var mine_id = window.localStorage.uid;
 		$.each(data.data,function(a,b){
 			var href = "";
-			var bg = b["order_status"] == "可接单" ? "#87cbf6" :  b["order_status"] == "已接单" ? "#80b995" : "#bbbbbb"
-			if(b.order_status == "可接单"){
-				var href = 'href="schoolwork_de.html?oid='+b.oid+'"';
+			var bg = b["order_status"] == "可接单" ? "#87cbf6" :  b["order_status"] == "已接单" ? "#80b995" : "#bbbbbb";
+			 var owner_id = b.owner_id; //发单人ID
+             var courier_id = b.courier_id; //接单人ID
+			if(b.order_status == "可接单" || mine_id == owner_id || mine_id == courier_id){
+				var href = 'href="works/schoolwork_de.html?oid='+b.oid+'"';
 			}
 			work_html += '<div class="work_content box-shadow">\
 							<a '+href+'>\
@@ -153,11 +156,14 @@
 		loading(false);
 		clearLoading()
 		var work_html = "";
+		var mine_id = window.localStorage.uid;
 		$.each(data.data,function(a,b){
 			var href = "";
-			var bg = b["order_status"] == "可接单" ? "#87cbf6" :  b["order_status"] == "已接单" ? "#80b995" : "#bbbbbb"
-			if(b.order_status == "可接单"){
-				var href = 'href="schoolwork_de.html?oid='+b.oid+'"';
+			var bg = b["order_status"] == "可接单" ? "#87cbf6" :  b["order_status"] == "已接单" ? "#80b995" : "#bbbbbb";
+			 var owner_id = b.owner_id; //发单人ID
+             var courier_id = b.courier_id; //接单人ID
+			if(b.order_status == "可接单" || mine_id == owner_id || mine_id == courier_id){
+				var href = 'href="works/schoolwork_de.html?oid='+b.oid+'"';
 			}
 			work_html += '<div class="work_content box-shadow">\
 							<a '+href+'>\
@@ -245,11 +251,15 @@
 		loading(false);
 		clearLoading()
 		var work_html = "";
+		var mine_id = window.localStorage.uid; //我的D
 		$.each(data.data,function(a,b){
 			var href = "";
-			var bg = b["order_status"] == "可接单" ? "#87cbf6" :  b["order_status"] == "已接单" ? "#80b995" : "#bbbbbb"
-			if(b.order_status == "可接单"){
-				var href = 'href="schoolwork_de.html?oid='+b.oid+'"';
+			var bg = b["order_status"] == "可接单" ? "#87cbf6" :  b["order_status"] == "已接单" ? "#80b995" : "#bbbbbb";
+			 var owner_id = b.owner_id; //发单人ID
+             var courier_id = b.courier_id; //接单人ID
+			if(b.order_status == "可接单" || mine_id == owner_id || mine_id == courier_id){
+
+				var href = 'href="works/schoolwork_de.html?oid='+b.oid+'"';
 			}
 			work_html += '<div class="work_content box-shadow">\
 							<a '+href+'>\
