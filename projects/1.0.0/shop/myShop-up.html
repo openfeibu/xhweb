@@ -39,8 +39,8 @@
         </div>
         <div class="pro-detail pt1">
             <div class="pro-detail-img">
-              <img data-name="pro-detail-img" src="../images/ass_add.png" alt="">
-             <input name="bookpic" type="file" id="bookpic" class="upload">
+              <img data-name="pro-detail-img" src="../images/ass_add.png" alt="" >
+             <input name="bookpic" type="file" id="bookpic" class="upload" onchange="change(this)">
             </div>
             <div class="pro-detail-test">
                <div class="input_b"><label for="">名称</label><input data-name="pro-detail-name"  type="text" placeholder="商品名称"></div>
@@ -176,16 +176,13 @@
     })
 
     // 上传图片
-  $(".pro_img").on('click','.img_close',function (e) {
-    new upField($(this)).del();
-    
-  })
-    $("body").on('change','.upload',function (e) {
+
+  function change(that){
         fb_alert(123);
-        var field=new upField($(this));
+        var field=new upField($(that));
         var maxSize=500; //kb
-    var name=$(this).attr('name');
-        var pic = $(this).prop('files');
+         var name=$(that).attr('name');
+        var pic = $(that).prop('files');
         var fordata=new FormData();
         fordata.append('uploadfile',pic[0]); //添加字段
     
@@ -217,11 +214,10 @@
       }
         })
 
-    })
+    };
+    window.change = change;
 
 
-
-  
 
   })
 </script>
