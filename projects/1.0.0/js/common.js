@@ -20,7 +20,9 @@
   win.addEventListener(resizeEvt, recalc, false);
   doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
-
+// 获取token
+//  JSON.parse(window.feibu.getToken()).value;
+//   window.feibu.closeWeb('{"action":"true"}');
 // var locahost ="http://xhplus.feibu.info";
 // var locahost ="http://xh.feibu.info";
 var locahost ="http://192.168.0.146:8085";
@@ -455,16 +457,16 @@ var fb_error ={
 
 
       // $.post(locahost+'/user/sendResetPayPasswordSMS/?token='+token,  function(data){
-           // if(data.code == 2001){
-           //      fb_alert(fb_error["2001"])
-           //      window.location.href = "../login.html";
-           //      return;
-           //   }
-           //   if(data.code == "200"){    
+      //      if(data.code == 2001){
+      //           fb_alert(fb_error["2001"])
+      //           window.location.href = "../login.html";
+      //           return;
+      //        }
+      //        if(data.code == "200"){    
                
-           //   }else{
-           //       fb_alert(data.detail);    
-           //     }
+      //        }else{
+      //            fb_alert(data.detail);    
+      //          }
       // }).error(function(xhr,errorText,errorType){
       //         alert('网络超时，请稍后再试')
       //     });

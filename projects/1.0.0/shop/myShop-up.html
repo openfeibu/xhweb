@@ -87,6 +87,8 @@
     }
   //上传商品
     $(".pro-updata-submit").on("click",function(){
+        fb_alert(456);
+
         is_alipay(true);
         var prodata = {
           "token":token,
@@ -179,6 +181,7 @@
     
   })
     $("body").on('change','.upload',function (e) {
+        fb_alert(123);
         var field=new upField($(this));
         var maxSize=500; //kb
     var name=$(this).attr('name');
