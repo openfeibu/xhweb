@@ -100,12 +100,19 @@
                 var input_submit = '<input style="width:100%" type="button" value="结算任务" class="completedOrder"/>'
               }else {
                 var input_submit = ''
-
               }
              
               // var tell = '<div class="tell"><a href="tel:">联系TA</a></div>';
-              var tell = '';
-              var workType = "发单人";
+              if(courier_id == 0){
+                //未被接
+                var tell = '';
+                var workType = "发单人";
+              }else{
+                //已被接
+                var tell = '<div class="tell"><a href="tel:'+b.courier_mobile_no+'">联系TA</a></div>';
+                var workType = "接单人";
+              }
+             
                 /*时间进程 S*/ 
                 if(b.time['cancelled_time']){
                 //取消的订单 
@@ -195,6 +202,7 @@
                 var tell = '';
                 var workType = "发单人";
                 var state = '';
+                var Img
              }else if(mine_id == courier_id ){
                  //我接的单
                 if(b.status == "accepted"){

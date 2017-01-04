@@ -45,12 +45,25 @@
           };
       }
   function getShopCon(page) {
-        var page = page == undefined ? 1 : page,
-        token = window.localStorage.token;
+        var page = page == undefined ? 1 : page;
         if($("#loading").length == 0 && page!=1){
-			$(".shop").append("<div id='loading'>正在玩命的加载中...</div>");
-		}
-        $.getJSON(locahost + "/shop/shops/?page="+page,
+    			$(".shop").append("<div id='loading'>正在玩命的加载中...</div>");
+    		}
+        var getData = {
+          "page" : page 
+        }
+        if(app){
+          var token = window.localStorage.token;
+          if(token != undefined){
+            getData["token"] = token;
+          }
+        }else{
+          if( window.localStorage.token != undefined){
+            var token = window.localStorage.token;
+            getData["token"] = token;
+          }
+        }
+        $.getJSON(locahost + "/shop/shops/",getData,
         function(data) {
           if (data.code == 200) {
               clearLoading();
@@ -58,13 +71,21 @@
               var htmldom='';
               $.each(data.shops,function(a,b){
                 if(b.shop_status == 1){
-                  var shop_status = "<span class='business'>(营业中)</span>"
+                  var shop_status = ""
                 }else if(b.shop_status == 3){
                   var shop_status = "<span class='rest'>(休息中)</span>"
                 }
+
+                var cart_countHtml =""
+                if(b.cart_count != undefined && b.cart_count !=  0 && b.shop_status != 3){
+                  //没有购物车
+                  cart_countHtml = "<span class='cart_count'>"+b.cart_count+"</span>"
+                }
+
                 htmldom += '<div class="shop-item">\
 								<a onclick="winGo(\'shop/shop-detail.html?sid='+b.shop_id+'\')">\
 									<div class="shop-img" style="background:url('+b.shop_img+') no-repeat center;background-size:cover;">\
+                    '+cart_countHtml+'\
 									</div>\
 									<div class="shop-right">\
 										<div class="shop-name">'+b.shop_name+shop_status+'</div>\
@@ -76,7 +97,6 @@
 									</div>\
 								</a>\
 							</div>';
-							// <div class="shop-min">评分'+b.shop_img+'</div>
               })
                if(page != 1){
                   $('.shop-list').append(htmldom);

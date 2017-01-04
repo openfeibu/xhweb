@@ -3,7 +3,7 @@
 .myOrder-enter a{display: block;width: 1rem;height: 1rem;}
 .shop-list{background: #fff;}
 .shop-item{padding:0.3rem 0.25rem;height: 1.88rem;border-bottom: 1px solid #eeeeee;}
-.shop-item .shop-img{float: left;width: 1.88rem;height: 1.88rem;}
+.shop-item .shop-img{float: left;width: 1.88rem;height: 1.88rem;position: relative;}
 .shop-item .shop-img img{max-width: 1.88rem;max-height: 1.88rem;}
 .shop-item .shop-right{margin-left: 2.15rem;}
 .shop-item .shop-right .shop-name{font-size: 0.33rem;color: #28282e;}
@@ -15,7 +15,7 @@
 
 
 /*店铺详情*/
-.shop-detail{height: -webkit-calc(100% - 1rem);height: calc(100% - 1rem);}
+.shop-detail{height: -webkit-calc(100% - 1rem);height: calc(100% - 1rem);height: -moz-calc(100%-1rem);}
 .shop-header{position: relative;background: url("../images/shop-bg.jpg") no-repeat center top;background-size:cover;height: 2rem;}
 .shop-header .shop-img{width: 1.5rem;height: 1.5rem;float: left;margin:0.25rem 0.25rem 0 0.25rem;border-radius: 50%;overflow: hidden;background: #fff;}
 .shop-header .shop-img img{width: 100%;height: 100%;}
@@ -28,7 +28,7 @@
 .shop-detail-con.appheight{height: -webkit-calc(100% -2rem);height: calc(100% - 2rem);}
 .shop-detail-con dl dd{padding:0.1rem 0;height: auto;border-bottom: 1px solid #eeeeee;}
 .shop-detail-con dl dt{height: 0.8rem;line-height: 0.8rem;font-size: 0.28rem;color: #404040;text-indent: 1em;background: #f5f5f5}
-.shop-detail-con .shop-pro-class{background: #fafafa;float: left;overflow-y: scroll;height:100%;}
+.shop-detail-con .shop-pro-class{background: #fafafa;float: left;overflow-y: scroll;height:100%;padding-bottom: 1rem;}
 .shop-detail-con .shop-pro-class.on{position: fixed;top:1rem;}
 .shop-detail-con .shop-pro-class li{padding:0.4rem 0.2rem;width: 1.2rem;color: #404040;border-bottom: 1px solid #fff;text-align: center;}
 .shop-detail-con .shop-pro-class li.on{background: #fff;}
@@ -40,7 +40,7 @@
 .shop-detail-con .shop-pro-bottom{height: 0.8rem;line-height: 0.8rem;margin-left: 2.15rem}
 .shop-detail-con .shop-pro-bottom .shop-pro-money{font-size: 0.36rem;color: #e48912;float: left;line-height: 0.8rem;}
 .shop-detail-con  .shop-pro-ed{font-size: 0.28rem;color: #aaaaaa;margin-right: 0.25rem;}
-.shop-pro-all{margin-left: 1.5rem;overflow-y: scroll;height:100%;display: none;}
+.shop-pro-all{overflow-y: scroll;height:100%;display: none;width: -webkit-calc(100% - 1.6rem);width: calc(100% - 1.6rem);width:-moz-calc(100%-1.6rem);float: left;box-sizing:border-box; -moz-box-sizing:border-box; /* Firefox */ -webkit-box-sizing:border-box; /* Safari */}
 .shop-pro-all .ing{color: #999;font-size: 0.3rem;line-height: 2rem;text-align: center;}
 .addCar{float: right;line-height: 0.5rem;}
 .addCar .prevC{display: inline-block;width: 0.5rem;height: 0.5rem;background: #aaa;border-radius: 50%;text-align: center;color: #fff;font-size: 0.4rem;}
@@ -51,6 +51,7 @@
 
 
 .shop-car{width: 100%;height: 1rem;background: rgba(0,0,0,0.7);position: fixed;bottom:0;left:0;max-width: 750px;right:0;margin:0 auto;z-index: 99;}
+.shop-car .restText{font-size: 0.35rem;color: #fff;text-align: center;line-height: 1rem;letter-spacing: 0.2rem;}
 .shop-car .shop-car-icon{width: 0.8rem;height: 0.8rem;background: #999 url("../images/car.png") no-repeat center;background-size: 50% auto;border-radius: 50%;top:0.1rem;left:0.2rem;position: absolute;}
 .shop-car .shop-car-icon.on{transition:all 0.1s;width: 0.9rem;height: 0.9rem;background-color: #5ac8fa;top:0.05rem;left:0.1rem;}
 .shop-car .shop-car-icon span{position: absolute;top:0;right:-0.15rem;width: 0.35rem;height: 0.35rem;text-align: center;line-height: 0.35rem;background: #ef7272;color: #fff;border-radius: 50%;font-size: 0.2rem;}
@@ -219,4 +220,5 @@
 .goHome a{color: #fff;}
 .asdie{font-size: 0.4rem;padding: 0 0.3rem;margin:1rem auto;text-align: center;color: #666;display: none;}
 .business{color: #f58705;font-size: 0.28rem;margin-left: 0.15rem;}
-.rest{color: #ef7272;font-size: 0.28rem;margin-left: 0.15rem;}
+.rest{color: #999;font-size: 0.28rem;margin-left: 0.15rem;}
+.cart_count{position: absolute;right:-0.2rem;top:-0.2rem;width: 0.5rem;height: 0.5rem;border-radius: 50%;text-align: center;line-height: 0.5rem;color: #fff;font-size: 0.2rem;background: #ef7272}

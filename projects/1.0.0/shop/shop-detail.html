@@ -40,8 +40,8 @@
             <div class="shop-header">
                 <div class="shop-img"><img data-name="shopImg" src="" alt=""></div>
                 <div class="shop-test">
-                  <div class="shopName" data-name="shopName">2121</div>
-                  <div class="shopDescription" data-name="shopDescription">dsdasdsaddsdasdsaddsdasdsaddsdasdsaddsdasdsaddsdasdsaddsdasdsaddsdasdsad</div>
+                  <div class="shopName" data-name="shopName"></div>
+                  <div class="shopDescription" data-name="shopDescription"></div>
                 </div>
                 <div class="nocollection" onclick="collection(event,this)"></div>
             </div>
@@ -57,29 +57,23 @@
               </div>
             </div>
         </div>
+        <!-- 购物车 S -->
         <div class="shop-car">
 
             <div class="shop-car-icon">
              <!--  <span>1</span> -->
             </div>
             <div class="shop-count">￥<span>0</span></div>
-            <div class="shop-buy">去结算</div>
+            <div class="shop-buy"></div>
             <div class="car-list">
                  <div class="car-list-header"><p>购物车</p><span class="clearCar">清空</span></div>
               <dl>
-               <!-- <dd>
-                 <p class="car-name">购物车撒旦</p>
-                 <p class="car-money">￥119</p>
-                  <div class="CaddCar" maxNum="10">
-                    <div class="CprevC">-</div>
-                    <div class="CCinput">1</div>
-                    <div class="CaddC">+</div>
-                  </div>
-               </dd> -->
-            </dl>
+
+              </dl>
             </div>
           
         </div>
+        <!-- 购物车 E -->
 	      <div class="shop_info_fixed">
           <div class="shopName"  data-name="shopName">121</div> 
           <div class="shopDescription" >
@@ -96,7 +90,6 @@
     $(".header_title").remove();
     $(".pt1").removeClass("pt1");
     $(".shop-detail-con").addClass("appheight");
-
     app =1;
   }
   // $("html").html(window.localStorage.token)
@@ -105,16 +98,35 @@
     var shop_id = GetString("sid"),
     nowIndex = 0,//当前分类索引
     cat_id,//当前分类ID
-    shopStatus;//营业状况
+    shopStatus,//营业状况
+    min_goods_amount;//起送价
     getShopInfo();
     window.localStorage.removeItem("user_address"); //清除选中的地址
     //获取初始数据
     function getShopInfo(){
         loading(true);
-        var token = window.localStorage.token;
-      // $("html").html(locahost+'/goods/shopGoodses?shop_id='+shop_id+'&token='+token)
-        $.getJSON(locahost+'/goods/shopGoodses?shop_id='+shop_id,function(data){
-            // fb_alert(locahost+'/goods/shopGoodses?shop_id='+shop_id+'&token='+token)
+        var Getdata = {
+          "shop_id":shop_id
+        }
+        if(app){
+          //app
+          var token = JSON.parse(window.feibu.getToken()).value;
+        }else{
+          var token = window.localStorage.token;
+        }
+        if(token != undefined){
+            Getdata['token'] = token;
+        }
+        $.getJSON(locahost+'/goods/shopGoodses',Getdata,function(data){
+          if(data.code == 2001){
+            //token 失效
+            fb_alert("2001");
+            if(!app){
+              window.location.href="../login.html";
+            }else{
+              JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
+            }
+          }
           if(data.categories.length == 0 ){
             //没有产品
             $(".noGoods").show();
@@ -133,7 +145,7 @@
           $.each(data.goodes,function(a,b){
              var pro_html = '<dd proid="'+b.goods_id+'">\
                                <div class="shop-pro-img">\
-                                  <img src="'+b.goods_img+'" alt="">\
+                                  <img src="'+b.goods_thumb+'" alt="">\
                                 </div>\
                                 <div class="shop-pro-right">\
                                   <div class="shop-pro-name">'+b.goods_name+'</div>\
@@ -173,10 +185,12 @@
           // 营业状况 s
           if(data.shop.shop_status == 1){
               shopStatus = 1;
-              var shop_status = "<span class='business'>(营业中)</span>"
+              var shop_status = "";
+              getCar();//获取购物车
             }else if(data.shop.shop_status == 3){
               shopStatus = 3;
-              var shop_status = "<span class='rest'>(休息中)</span>"
+              var shop_status = "<span class='rest'>(休息中)</span>";
+              $(".shop-car").html("<div class='restText'>本店已打烊</div>");
             }
           // 营业状况  e
           $(".shop-pro-all").eq(0).show().html('<dl>'+shop_html+'</dl>').append("<div id='loaded'>我是有底线的</div>").attr("loca",true);
@@ -185,6 +199,8 @@
           $("title").text(data.shop.shop_name);
           $("[data-name='shopDescription']").text(data.shop.description);
           $("[data-name='shopImg']").attr("src",data.shop.shop_img);
+          min_goods_amount = data.shop.min_goods_amount;
+          
           if(data.goodes == ''){
               //没商品数据
               $("#loading").remove();
@@ -194,7 +210,6 @@
             //已收藏
             $(".nocollection").addClass("collection");
           }
-          
           }).error(function(){
             fb_alert("服务器出小差啦")
           })
@@ -213,17 +228,23 @@
           $.each(data.goodes,function(a,b){
               var pro_html = '<dd proid="'+b.goods_id+'">\
                                <div class="shop-pro-img">\
-                                  <img src="'+b.goods_img+'" alt="">\
+                                  <img src="'+b.goods_thumb+'" alt="">\
                                 </div>\
                                 <div class="shop-pro-right">\
                                   <div class="shop-pro-name">'+b.goods_name+'</div>\
                                   <div class="shop-pro-d">'+b.goods_desc+'</div>\
-                                  <div class="shop-pro-ed">已售'+b.goods_sale_count+'件</div>\
+                                   <div class="shop-pro-ed">已售'+b.goods_sale_count+'件&nbsp&nbsp库存：'+b.goods_number+'</div>\
                                 </div>';
-              if(b.cart_goods_number != 0){
+               if(data.shop.shop_status == 3 ){
+                  //店家休息 不显示加号
+                   pro_html += '<div class="shop-pro-bottom">\
+                                    <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
+                              </div>\
+                            </dd>';
+              }else if(b.cart_goods_number != 0){
                   pro_html += '<div class="shop-pro-bottom">\
                                     <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
-                                    <div class="addCar  " maxNum="'+b.goods_number+'">\
+                                    <div class="addCar" maxNum="'+b.goods_number+'">\
                                       <div class="prevC">-</div>\
                                       <div class="Cinput">'+b.cart_goods_number+'</div>\
                                       <div class="addC">+</div>\
@@ -243,7 +264,6 @@
               }
               shop_html += pro_html;
           })
-
           $(".shop-pro-all").eq(nowIndex).html('<dl>'+shop_html+'</dl>').attr("loca",true);
           if(data.goodes == ''){
               //没商品数据
@@ -276,7 +296,7 @@
     //更新PHP购物车 0-1
     function updataCar(goods_id,goodes_num){
           if(window.localStorage.app == 1 ){
-            window.localStorage.token  = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
+            window.localStorage.token  = JSON.parse(window.feibu.getToken()).value;
           }else if(window.localStorage.token == undefined){
             fb_alert("请先登录");
             return false;
@@ -517,23 +537,22 @@
       if(cV == 0){
         closeCar();
         $(".shop-car-icon span").remove();
-        $(".shop-buy").removeClass("active");
+        $(".shop-buy").removeClass("active").html("￥"+min_goods_amount+"元起送");
+      }else if(cV < min_goods_amount ){
+        $(".shop-buy").removeClass("active").html("￥"+min_goods_amount+"元起送");
       }else{
-        $(".shop-buy").addClass("active");
+        $(".shop-buy").addClass("active").html("去结算");
       }
       $(".shop-count span").text(cV.toFixed(2));
-        
-
-      
-      
     }
     //更新总价格
     
     //获取购物车
-    getCar();
     function getCar(){
+          is_alipay(true);
         var token = window.localStorage.token || "";
           $.getJSON(locahost+'/cart/shopCarts',{"token":token,"shop_id":shop_id},function(data){
+            is_alipay(false);
             if(data.code == 2001){
                 // fb_alert(fb_error["2001"])
                 // window.location.href = "../login.html";
@@ -545,7 +564,7 @@
                     car_html += '<dd proid="'+b.goods_id+'">\
                                     <p class="car-name">'+b.goods_name+'</p>\
                                     <p class="car-money">￥<span>'+b.goods_price+'</span></p>\
-                                    <div class="CaddCar" maxnum="100">\
+                                    <div class="CaddCar" maxnum="'+b.goods_number+'">\
                                       <div class="CprevC">-</div>\
                                       <div class="CCinput">'+b.goods_number+'</div>\
                                       <div class="CaddC">+</div>\
@@ -557,7 +576,15 @@
                     $(".car-list dl").html(car_html);
                     $(".shop-car-icon").addClass("on").append("<span>"+car_count+"</span>");
                     $(".shop-count span").text(data.shop_total)
-                    $(".shop-buy").addClass("active");
+                    if(data.shop_total >= min_goods_amount){
+                      // 超过起送价
+                      $(".shop-buy").addClass("active").html("去结算");
+                    }else{
+                      // 未满起送价
+                      $(".shop-buy").html("￥"+min_goods_amount+"元起送");
+                      
+                    }
+                    
                  }
              }else{
                  fb_alert(data.detail);    
