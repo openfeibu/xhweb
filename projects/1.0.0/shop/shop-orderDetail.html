@@ -135,13 +135,13 @@
             }
             switch(data.order_info.status_desc){
               case "待付款" :
-                $(".submitButton").html('<div class="gopay opa_active" onclick="gopay()">去付款</div><div class="closeOrder opa_active" onclick="closeOrder()">取消订单</div>');
+                $(".submitButton").html('<div class="gopay opa_active" style="width:50%" onclick="gopay()">去付款</div><div class="closeOrder opa_active" style="width:50%" onclick="closeOrder()">取消订单</div>');
                 break;
               case "待发货" :
-                $(".submitButton").html('<div class="returnMoney opa_active" onclick="returnMoney()">申请退款</div>');
+                $(".submitButton").html('<div class="returnMoney opa_active" style="width:100%" onclick="returnMoney()">申请退款</div>');
                 break;
               case "发货中" :
-                $(".submitButton").html('<div class="takeGood opa_active" onclick="takeGood()"> 确定收货</div>');
+                $(".submitButton").html('<div class="takeGood opa_active" style="width:100%" onclick="takeGood()"> 确定收货</div>');
                 break;
               case "已完成" :
                 $(".submitButton").html('');

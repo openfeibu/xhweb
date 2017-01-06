@@ -48,15 +48,15 @@
               <ul>
                 <li>
                   <p>销售量</p>
-                  <span>10</span>
+                  <span data-name="sale_count">10</span>
                 </li>
                 <li>
                   <p>总收入（元）</p>
-                  <span>10</span>
+                  <span data-name="income">10</span>
                 </li> 
                 <li>
                   <p>商品数</p>
-                  <span>10</span>
+                  <span data-name="goods_count">10</span>
                 </li>
               </ul>
             </div> <!-- shop-data end -->
@@ -80,7 +80,7 @@
               </ul>
             </div> 
             <div class="shop-detail-con">
-              <div class="shop-pro-class">
+              <div class="shop-pro-class nopaddingBottom">
                   <ul>
                     
                   </ul>
@@ -143,14 +143,13 @@
             }else{
               categories_html += '<li cat_id="'+b.cat_id+'">'+b.cat_name+'</li>';
             }
-            $(".shop-detail-con").append("<div class='shop-pro-all' ></div>");
+            $(".shop-detail-con").append("<div class='shop-pro-all nopaddingBottom' ></div>");
           })
           $.each(data.goodes,function(a,b){
              proArray[b.goods_id] = JSON.stringify(b);
              var pro_html = '<dd proid="'+b.goods_id+'">\
-                               <div class="shop-pro-img">\
-                                  <img src="'+b.goods_thumb+'" alt="">\
-                                </div>\
+                               <div class="shop-pro-img" style="background-image:url('+b.goods_thumb+')">\
+                               </div>\
                                 <div class="shop-pro-right">\
                                   <div class="shop-pro-name">'+b.goods_name+'</div>\
                                   <div class="shop-pro-d">'+b.goods_desc+'</div>\
@@ -200,8 +199,7 @@
           var shop_html = "";
           $.each(data.goodes,function(a,b){
               var pro_html = '<dd proid="'+b.goods_id+'">\
-                               <div class="shop-pro-img">\
-                                  <img src="'+b.goods_img+'" alt="">\
+                               <div class="shop-pro-img" style="background-image:url('+b.goods_thumb+')">\
                                 </div>\
                                 <div class="shop-pro-right">\
                                   <div class="shop-pro-name">'+b.goods_name+'</div>\

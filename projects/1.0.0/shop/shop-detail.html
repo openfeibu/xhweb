@@ -42,6 +42,10 @@
                 <div class="shop-test">
                   <div class="shopName" data-name="shopName"></div>
                   <div class="shopDescription" data-name="shopDescription"></div>
+                  <div class="shop-bottom">
+                    <div class="shop-pei">0.00元起送</div>
+                    <div class="shop-map">农工商北区</div>
+                  </div>
                 </div>
                 <div class="nocollection" onclick="collection(event,this)"></div>
             </div>
@@ -144,8 +148,7 @@
           })
           $.each(data.goodes,function(a,b){
              var pro_html = '<dd proid="'+b.goods_id+'">\
-                               <div class="shop-pro-img">\
-                                  <img src="'+b.goods_thumb+'" alt="">\
+                               <div class="shop-pro-img" style="background-image:url('+b.goods_thumb+')">\
                                 </div>\
                                 <div class="shop-pro-right">\
                                   <div class="shop-pro-name">'+b.goods_name+'</div>\
@@ -227,8 +230,7 @@
           var shop_html = "";
           $.each(data.goodes,function(a,b){
               var pro_html = '<dd proid="'+b.goods_id+'">\
-                               <div class="shop-pro-img">\
-                                  <img src="'+b.goods_thumb+'" alt="">\
+                               <div class="shop-pro-img" style="background-image:url('+b.goods_thumb+')">\
                                 </div>\
                                 <div class="shop-pro-right">\
                                   <div class="shop-pro-name">'+b.goods_name+'</div>\
