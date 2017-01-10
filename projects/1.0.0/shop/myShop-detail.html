@@ -70,116 +70,123 @@
   }
   // $("html").html(window.localStorage.token)
   $(function(){
-    //获取数据
-    var token = window.localStorage.token,
-    proInfo = window.localStorage.proInfo,
-    categories = window.localStorage.categories,
-    goods_id;
-    if(categories != undefined){
-      //获取分类
-      categories = JSON.parse(categories);
-      var categoriesHTML="";
-      $.each(categories,function(a,b){
-        categoriesHTML += '<option value="'+b.cat_id+'">'+b.cat_name+'</option>';
-      })
-      $('[data-name="pro-class"]').html(categoriesHTML);
-    }
-    if(proInfo != undefined){
-      //修改商品
-      proInfo = JSON.parse(proInfo);
-      $('[data-name="pro-detail-img" ]').attr("src",proInfo.goods_img);
-      $('[data-name="pro-detail-name" ]').val(proInfo.goods_name);
-      $('[data-name="pro-detail-num" ]').val(proInfo.goods_number);
-      $('[data-name="pro-detail-money" ]').val(proInfo.goods_price);
-      $('[data-name="pro-detail-jj" ]').text(proInfo.goods_desc);
-      // photoarray = proInfo.goods_img;
-      goods_id = proInfo.goods_id;
-    }
-    $(".pro-updata-submit").on("click",function(){
-        is_alipay(true);
-        var prodata = {
-          "token":token,
-          "goods_id":goods_id,
-          "is_on_sale":1
-        };
-        var name = $('[data-name="pro-detail-name" ]').val(),
-        num = $('[data-name="pro-detail-num" ]').val(),
-        money = $('[data-name="pro-detail-money" ]').val(),
-        jj = $('[data-name="pro-detail-jj" ]').val(),
-        cat_id = $('.pro-class option:selected') .val();
-        //图片
-        if(photoarray != "" ){
-          prodata.goods_img = photoarray;
-          if(photoarray_thumb != ""){
-            prodata.goods_thumb = photoarray_thumb;
-          }
-        }
-        //图片
-        //商品名称
-        if(name.length == 0){
-          fb_alert(fb_error["ms_002"]);
-          is_alipay(false); 
-          return false;
-        }else if(name.length > 10){
-          fb_alert(fb_error["ms_003"]);
-          is_alipay(false); 
-          return false;
-        }else{
-          prodata.goods_name = name;
-        }
-        //商品名称
-        //商品库存
-        if(parseInt(num) < 0){
-          fb_alert(fb_error["ms_004"]);
-          is_alipay(false); 
-          return false;
-        }else if(isNaN(num)){
-          fb_alert(fb_error["ms_005"]);
-          is_alipay(false); 
-          return false;
-        }else{
-          prodata.goods_number = parseInt(num);
-        }
-        //商品库存
-        //商品价格
-        if(parseFloat(money).toFixed(2) < 0){
-          fb_alert(fb_error["ms_006"]);
-          is_alipay(false); 
-          return false;
-        }else if(isNaN(money)){
-          fb_alert(fb_error["ms_007"]);
-          is_alipay(false); 
-          return false;
-        }else{
-          prodata.goods_price = parseFloat(money).toFixed(2);
-        }
-        //商品价格
-         //商品描述
-        if(jj.length <= 0){
-          fb_alert(fb_error["ms_008"]);
-          is_alipay(false); 
-          return false;
-        }else{
-          prodata.goods_desc = jj;
-        }
-        //商品描述 
-        // $('#testSelect option:selected') .val();
-        //商品分类
-        prodata.cat_id = cat_id;
-        //商品商品分类描述 
-        $.post(locahost+'/goods/update/',prodata,function(data){
-            is_alipay(false);
-            if(data.code == 200){
-
-            }else{
-              fb_alert(data.detail)
-            }
-        }).error(function(){
-          is_alipay(false);
+      //获取数据
+      var token = window.localStorage.token,
+      proInfo = window.localStorage.proInfo,
+      categories = window.localStorage.categories,
+      goods_id;
+      if(categories != undefined){
+        //获取分类
+        categories = JSON.parse(categories);
+        var categoriesHTML="";
+        $.each(categories,function(a,b){
+          categoriesHTML += '<option value="'+b.cat_id+'">'+b.cat_name+'</option>';
         })
+        $('[data-name="pro-class"]').html(categoriesHTML);
+      }
+      if(proInfo != undefined){
+        //修改商品
+        proInfo = JSON.parse(proInfo);
+        $('[data-name="pro-detail-img" ]').attr("src",proInfo.goods_img);
+        $('[data-name="pro-detail-name" ]').val(proInfo.goods_name);
+        $('[data-name="pro-detail-num" ]').val(proInfo.goods_number);
+        $('[data-name="pro-detail-money" ]').val(proInfo.goods_price);
+        $('[data-name="pro-detail-jj" ]').text(proInfo.goods_desc);
+        // photoarray = proInfo.goods_img;
+        goods_id = proInfo.goods_id;
+      }
+      $(".pro-updata-submit").on("click",function(){
+          is_alipay(true);
+          var prodata = {
+            "token":token,
+            "goods_id":goods_id,
+            "is_on_sale":1
+          };
+          var name = $('[data-name="pro-detail-name" ]').val(),
+          num = $('[data-name="pro-detail-num" ]').val(),
+          money = $('[data-name="pro-detail-money" ]').val(),
+          jj = $('[data-name="pro-detail-jj" ]').val(),
+          cat_id = $('.pro-class option:selected') .val();
+          //图片
+          if(photoarray != "" ){
+            prodata.goods_img = photoarray;
+            if(photoarray_thumb != ""){
+              prodata.goods_thumb = photoarray_thumb;
+            }
+          }
+          //图片
+          //商品名称
+          if(name.length == 0){
+            fb_alert(fb_error["ms_002"]);
+            is_alipay(false); 
+            return false;
+          }else if(name.length > 10){
+            fb_alert(fb_error["ms_003"]);
+            is_alipay(false); 
+            return false;
+          }else{
+            prodata.goods_name = name;
+          }
+          //商品名称
+          //商品库存
+          if(parseInt(num) < 0){
+            fb_alert(fb_error["ms_004"]);
+            is_alipay(false); 
+            return false;
+          }else if(isNaN(num)){
+            fb_alert(fb_error["ms_005"]);
+            is_alipay(false); 
+            return false;
+          }else{
+            prodata.goods_number = parseInt(num);
+          }
+          //商品库存
+          //商品价格
+          if(parseFloat(money).toFixed(2) < 0){
+            fb_alert(fb_error["ms_006"]);
+            is_alipay(false); 
+            return false;
+          }else if(isNaN(money)){
+            fb_alert(fb_error["ms_007"]);
+            is_alipay(false); 
+            return false;
+          }else{
+            prodata.goods_price = parseFloat(money).toFixed(2);
+          }
+          //商品价格
+           //商品描述
+          if(jj.length <= 0){
+            fb_alert(fb_error["ms_008"]);
+            is_alipay(false); 
+            return false;
+          }else{
+            prodata.goods_desc = jj;
+          }
+          //商品描述 
+          // $('#testSelect option:selected') .val();
+          //商品分类
+          prodata.cat_id = cat_id;
+          //商品商品分类描述 
+          $.post(locahost+'/goods/update/',prodata,function(data){
+              
+              if(data.code == 200){
+                fb_alert(fb_error["ms_010"]);
+                setTimeout(function(){
+                  is_alipay(false);
+                  window.history.go(-1);
+                },100)
+
+              }else{
+                is_alipay(false);
+                fb_alert(data.detail)
+              }
+          }).error(function(){
+            is_alipay(false);
+          })
+
     })
 
-    
+
         var $list = $(  '#fileList'),
         // 优化retina, 在retina下这个值是2
         ratio = window.devicePixelRatio || 1,

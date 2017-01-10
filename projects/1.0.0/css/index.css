@@ -657,12 +657,14 @@ display: -webkit-box;
 /*支付键盘*/
 .payPass{position: fixed;width: 100%;max-width: 750px;height: 100%;background: rgba(0,0,0,0.5);top:0;z-index: 9999}
 .payPassVal{width: 6rem;height: 2.5rem;position: relative; top:3rem;background: #fff;border-radius: 0.2rem;left:0;right:0;margin:0 auto;}
-.payPassVal .payPassVal_title{font-size: 0.3rem;color: #333;line-height: 0.8rem;text-align: center;}
+.payPassVal .payPassVal_title{font-size: 0.32rem;color: #333;line-height: 0.4rem;text-align: center;padding-top: 0.2rem;}
+.payPassVal .payPassVal_title label{color: #e48912;font-size: 0.28rem;display: block;}
 .payPassVal  span{width: 0.8rem;height: 0.8rem;border:1px solid #ccc;border-right: none;display: block;float: left;margin-top: 0.2rem;text-align: center;line-height: 0.8rem;color: #666;font-size: 0.5rem;}
 .payPassVal  span:nth-of-type(1){margin-left: 0.5rem; }
 .payPassVal  span:nth-of-type(6){border-right:1px solid #ccc; }
 
-.payNum{position: absolute;width: 100%;max-width: 750px;bottom: 0;background: #fff;}
+.payNum{position: absolute;width: 100%;max-width: 750px;bottom:-4rem;background: #fff;}
+.payNum.top{transition:bottom 0.3s ;-webkit-transition:bottom 0.3s;-moz-transition:bottom 0.3s;-o-transition:bottom 0.3s;bottom:0;}
 .payNum li{width: 33.33%;height: 1rem;color:#666;float: left;line-height: 1rem;border:1px solid #ccc;border-right: none;border-bottom: none;text-align: center;font-size: 0.35rem;box-sizing:border-box; -moz-box-sizing:border-box; /* Firefox */ -webkit-box-sizing:border-box; /* Safari */}
 .payNum li:hover{background: #f5f5f5}
 .payPass_close{position: absolute;width: 0.6rem;height: 0.6rem;border-radius: 50%;background: #000;top:-0.3rem;right:-0.3rem;color: #fff;line-height: 0.6rem;text-align: center;font-size: 0.3rem;}

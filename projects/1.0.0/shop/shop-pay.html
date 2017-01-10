@@ -71,6 +71,7 @@
     order_id = GetString("order_id"),
     address_id = GetString("address_id"),
     token = window.localStorage.token,
+    total_fee = window.localStorage.total_fee,
     nowIndex = 0,//当前分类索引
     pay_id,//当前支付宝ID
     cat_id;//当前分类ID
@@ -79,7 +80,7 @@
     //获取初始数据
     function getPay(){
         is_alipay(true);
-       $('[data-name="countMoney"]').text("￥"+window.localStorage.total_fee);
+       $('[data-name="countMoney"]').text("￥"+total_fee);
         $.getJSON(locahost+'/pay',function(data){
            is_alipay(false);
             var payHtml = "";
@@ -104,7 +105,7 @@
             var payHtml = '<div class="payPass">\
                             <div class="payPassVal">\
                                 <div class="payPass_close">X</div>\
-                                <div class="payPassVal_title">请输入钱包支付密码</div>\
+                                <div class="payPassVal_title">请输入钱包支付密码<label>需支付￥'+total_fee+'元</label></div>\
                                 <span></span>\
                                 <span></span>\
                                 <span></span>\
@@ -128,6 +129,10 @@
                             </ul>\
                         </div>';
             $('body').append(payHtml);
+            setTimeout(function(){
+              $(".payNum").addClass("top")
+            },1)
+            
          }
          function payPay(){
             is_alipay(true)

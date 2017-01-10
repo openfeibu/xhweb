@@ -48,15 +48,15 @@
               <ul>
                 <li>
                   <p>销售量</p>
-                  <span data-name="sale_count">10</span>
+                  <span data-name="sale_count"></span>
                 </li>
                 <li>
                   <p>总收入（元）</p>
-                  <span data-name="income">10</span>
+                  <span data-name="income"></span>
                 </li> 
                 <li>
                   <p>商品数</p>
-                  <span data-name="goods_count">10</span>
+                  <span data-name="goods_count"></span>
                 </li>
               </ul>
             </div> <!-- shop-data end -->
@@ -109,7 +109,7 @@
     $(".header_title").remove();
     $(".pt1").removeClass("pt1");
     $(".shop-detail-con").addClass("appheight");
-    window.localStorage.token  = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
+    window.localStorage.token  = JSON.parse(window.feibu.getToken()).value;
     app =1;
     window.localStorage.app = 1;
   }
@@ -128,7 +128,11 @@
           loading(false);
           if(data.shop == null || data.code != 200){
             //没店铺
-            //window.history.go(-1);
+            if(app){
+              window.feibu.closeWeb('{"action":"true"}');
+            }else{
+              window.history.go(-1);
+            }
             return false;
           }
           if(data.categories.length == 0 ){
@@ -167,6 +171,9 @@
           $("[data-name='shopName']").text(data.shop.shop_name);
           $("[data-name='shopDescription']").text(data.shop.description);
           $("[data-name='shopImg']").attr("src",data.shop.shop_img);
+          $("[data-name='sale_count']").text(data.shop.sale_count);
+          $("[data-name='income']").text(data.shop.income);
+          $("[data-name='goods_count']").text(data.shop.goods_count);
           window.localStorage.categories = JSON.stringify(data.categories); //缓存分类信息
           shop_id = data.shop.shop_id;
           shop_status = data.shop.shop_status;

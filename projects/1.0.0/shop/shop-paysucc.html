@@ -33,11 +33,12 @@
 <body  style="height:100%">
 	<section class='main' style="height:100%;padding:0;background:#fff">
        <div class="paysucc">
-         <div class="paysucc_icon"></div> 
+         <div class="paysucc_icon animate animate_time"></div> 
          <div class="paysucc_text">支付成功</div> 
        </div>
-       <div class="asdie">点击右上角关闭返回首页</div>
-       <div class="goHome"><a href="../index.html#shop">回首页</a></div>
+       <!-- <div class="asdie">点击右上角关闭返回首页</div> -->
+       <div class="goHome">点击去查看订单</div>
+       <!-- <div class="goHome"><a href="../index.html#shop">点击去查看订单</a></div> -->
 	</section> 
 </body>
 <script>
@@ -47,6 +48,10 @@
     $(".goHome").remove();
     $(".asdie").show();
   }
+  setTimeout(function(){
+     $(".paysucc_icon").css({"top":"30%"})
+   },0)
+ 
   // $("html").html(window.localStorage.token)
 
 </script>

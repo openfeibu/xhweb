@@ -237,7 +237,7 @@
                                   <div class="shop-pro-d">'+b.goods_desc+'</div>\
                                    <div class="shop-pro-ed">已售'+b.goods_sale_count+'件&nbsp&nbsp库存：'+b.goods_number+'</div>\
                                 </div>';
-               if(data.shop.shop_status == 3 ){
+              if(data.shop.shop_status == 3 ){
                   //店家休息 不显示加号
                    pro_html += '<div class="shop-pro-bottom">\
                                     <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
@@ -504,7 +504,12 @@
         if(flag){
           car_count++;   
           if($(".shop-car-icon").find("span").length == 0){
-            $(".shop-car-icon").append("<span></span>")
+            $(".shop-car-icon").append("<span></span>");
+          }else{
+            $(".shop-car-icon").addClass("addCarA");
+            setTimeout(function(){
+              $(".shop-car-icon").removeClass("addCarA");
+            },200)
           }
           $(".shop-car-icon").addClass("on").find("span").text(car_count);
           if(info){
@@ -560,13 +565,13 @@
                 // window.location.href = "../login.html";
                 return;
              }
-             if(data.code == "200"){    
+             if(data.code == "200"){  
                   var car_html="";
                   $.each(data.carts,function(a,b){
                     car_html += '<dd proid="'+b.goods_id+'">\
                                     <p class="car-name">'+b.goods_name+'</p>\
                                     <p class="car-money">￥<span>'+b.goods_price+'</span></p>\
-                                    <div class="CaddCar" maxnum="'+b.goods_number+'">\
+                                    <div class="CaddCar" maxnum="'+b.goods_maxNus+'">\
                                       <div class="CprevC">-</div>\
                                       <div class="CCinput">'+b.goods_number+'</div>\
                                       <div class="CaddC">+</div>\
@@ -574,6 +579,7 @@
                                   </dd>';
                    car_count += b.goods_number;
                   })
+
                  if(data.carts.length != 0){
                     $(".car-list dl").html(car_html);
                     $(".shop-car-icon").addClass("on").append("<span>"+car_count+"</span>");
@@ -585,8 +591,9 @@
                       // 未满起送价
                       $(".shop-buy").html("￥"+min_goods_amount+"元起送");
                       
-                    }
-                    
+                    }   
+                 }else{
+                     $(".shop-buy").html("￥"+min_goods_amount+"元起送");
                  }
              }else{
                  fb_alert(data.detail);    
@@ -691,7 +698,9 @@
           });
 
     }
-  window.collection = collection;
+
+
+     window.collection = collection;
   })
 </script>
 </html>

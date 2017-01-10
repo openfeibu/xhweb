@@ -82,7 +82,7 @@
                   cart_countHtml = "<span class='cart_count'>"+b.cart_count+"</span>"
                 }
 
-                htmldom += '<div class="shop-item">\
+                htmldom += '<div class="shop-item opa_active">\
 								<a onclick="winGo(\'shop/shop-detail.html?sid='+b.shop_id+'\')">\
 									<div class="shop-img" style="background:url('+b.shop_img+') no-repeat center;background-size:cover;">\
                     '+cart_countHtml+'\
@@ -100,20 +100,25 @@
               })
                if(page != 1){
                   $('.shop-list').append(htmldom);
+                  if(data.shops.length < 10 && $("#loaded").length == 0){
+                     $(".shop").append('<div id="loaded" >我是有底线的</div>')
+                  }
                 }else{
                   if(data.shops.length == 0){
                     $(".noShop").show();
                     $(".shop-list").hide();
                   }else{
+                    console.log(1)
                     $('.shop-list').html(htmldom);
                     setItem("shop",htmldom);
+                    if( $("#loaded").length == 0){
+                      $(".shop").append('<div id="loaded" >我是有底线的</div>')
+                    }
+                   
                   }
                 }
               
-              if (data.shops.length == '' || data.shops.length < 10) {
-                $("#loading").remove();
-                $(".shop").append('<div id="loaded" >我是有底线的</div>')
-              } else {
+              if ( data.shops.length == 10) {
                  $(window).on("scroll",function(){
                   if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
                     //到底

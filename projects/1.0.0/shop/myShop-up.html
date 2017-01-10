@@ -87,8 +87,6 @@
     }
   //上传商品
     $(".pro-updata-submit").on("click",function(){
-        fb_alert(456);
-
         is_alipay(true);
         var prodata = {
           "token":token,
@@ -164,10 +162,16 @@
         prodata.cat_id = cat_id;
         //商品商品分类描述 
         $.post(locahost+'/goods/store/',prodata,function(data){
-            is_alipay(false);
+           
             if(data.code == 200){
+              fb_alert(fb_error["ms_011"]);
+              setTimeout(function(){
+                is_alipay(false);
+                location.reload();
+              },100)
 
             }else{
+               is_alipay(false);
               fb_alert(data.detail)
             }
         }).error(function(){
@@ -178,7 +182,7 @@
     // 上传图片
 
   function change(that){
-        fb_alert(123);
+        fb_alert("开始上传");
         var field=new upField($(that));
         var maxSize=10240; //kb
          var name=$(that).attr('name');

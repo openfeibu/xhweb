@@ -57,6 +57,7 @@
     var token = window.localStorage.token;
     var categories = JSON.parse(window.localStorage.categories);
     var categoriesHTML="";
+    console.log(categories)
     $.each(categories,function(a,b){
       categoriesHTML += '<li><input type="text" catId="'+b.cat_id+'" value="'+b.cat_name+'"></li>';
     })
@@ -89,7 +90,8 @@
             $.post(locahost+'/goods/addCat/',prodata,function(data){
                 is_alipay(false);
                 if(data.code == 200){
-                  fb_alert(fb_error["ms_011"])
+                  fb_alert(fb_error["ms_011"]);
+
                 }else{
                   fb_alert(data.detail)
                 }
@@ -106,7 +108,14 @@
             $.post(locahost+'/goods/updateCat/',prodata,function(data){
                 is_alipay(false);
                 if(data.code == 200){
-                  fb_alert(fb_error["ms_010"])
+                  fb_alert(fb_error["ms_010"]);
+                  for(var i = 0,c= categories.length;i<c;i++){
+                    if(categories[i]["cat_id"] == catId){
+                       categories[i]["cat_name"]  = lastClassName;
+                    }
+                  }
+
+                  window.localStorage.categories =JSON.stringify(categories);
                 }else{
                   fb_alert(data.detail)
                 }
@@ -120,21 +129,3 @@
   })
 </script>
 </html>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-

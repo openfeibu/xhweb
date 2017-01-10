@@ -164,7 +164,7 @@
             var payHtml = '<div class="payPass">\
                             <div class="payPassVal">\
                                 <div class="payPass_close">X</div>\
-                                <div class="payPassVal_title">请输入钱包支付密码</div>\
+                                <div class="payPassVal_title">请输入钱包支付密码<label>需支付￥'+money_input+'元</label></div>\
                                 <span></span>\
                                 <span></span>\
                                 <span></span>\
@@ -187,8 +187,11 @@
                                 <li>删除</li>\
                             </ul>\
                         </div>';
-            $('.postwork').append(payHtml)
-            $(".payType").removeClass("on")
+            $('.postwork').append(payHtml);
+            $(".payType").removeClass("on");
+            setTimeout(function(){
+              $(".payNum").addClass("top")
+            },50)
          })
           $('.postwork').on("click",".payNum li",function(){
 
