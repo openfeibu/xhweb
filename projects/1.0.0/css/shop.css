@@ -35,7 +35,7 @@
 .shop-detail-con.appheight{height: -webkit-calc(100% -2rem);height: calc(100% - 2rem);}
 .shop-detail-con dl dd{padding:0.1rem 0;height: auto;border-bottom: 1px solid #eeeeee;}
 .shop-detail-con dl dt{height: 0.8rem;line-height: 0.8rem;font-size: 0.28rem;color: #404040;text-indent: 1em;background: #f5f5f5}
-.shop-detail-con .shop-pro-class{background: #fafafa;float: left;overflow-y: scroll;height:100%;padding-bottom: 1rem;}
+.shop-detail-con .shop-pro-class{background: #fafafa;float: left;overflow-y: scroll;height:100%;padding-bottom: 1rem;width: 1.6rem;}
 .shop-detail-con .shop-pro-class.on{position: fixed;top:1rem;}
 .shop-detail-con .shop-pro-class li{padding:0.4rem 0.2rem;width: 1.2rem;color: #404040;border-bottom: 1px solid #fff;text-align: center;}
 .shop-detail-con .shop-pro-class li.on{background: #fff;}
