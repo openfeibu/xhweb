@@ -96,6 +96,13 @@
 	</div>
 </body>
 <script type="text/javascript">
+	  var app = 0;
+	  if(GetString("device") == "android"){
+	  	$(".header_title").remove();
+    	$(".pt1").removeClass("pt1");
+	  	app =1;
+	    window.localStorage.app=1;
+	  }
 	var token = window.localStorage.token;
 	var pageNum = 20;
 	var routes = {
