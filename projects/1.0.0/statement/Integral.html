@@ -81,6 +81,7 @@
     android_token = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;  //获取客户端token;
     $(".header_title").hide();
     $(".main").removeClass("pt1");
+    $("body").html(android_token)
     //$(".write-container").css("marginTop","0");
   }
 
@@ -99,7 +100,7 @@
       $.post(locahost+'/integral/integral_explain/?token='+token,  function(data){
                if(data.code == 2001){
                     fb_alert(fb_error["2001"])
-                    window.location.href = "../login.html";
+                    // window.location.href = "../login.html";
                     return;
                  }
                  if(data.code == "200"){ 
