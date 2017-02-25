@@ -80,93 +80,93 @@
       </div>
 </body>
 <script>
-    /*获取参数*/
-    var oid = GetString("oid");
-    var token = window.localStorage.token;
-    loading(true);
-    $(".main ").css("minHeight",$(window).height());
-    $.getJSON(locahost+'/order/getOrderByToken/?token='+token+'&order_id='+oid,function(data){
-             loading(false); 
-             var b = data.data;
-             var owner_id = b.owner_id; //发单人ID
-             var courier_id = b.courier_id; //接单人ID
-             var mine_id = window.localStorage.uid; //我的D
+ /*获取参数*/
+var oid = GetString("oid");
+var token = window.localStorage.token;
+loading(true);
+$(".main ").css("minHeight", $(window).height());
+$.getJSON(locahost + '/order/getOrderByToken/?token=' + token + '&order_id=' + oid,
+function(data) {
+    loading(false);
+    var b = data.data;
+    var owner_id = b.owner_id; //发单人ID
+    var courier_id = b.courier_id; //接单人ID
+    var mine_id = window.localStorage.uid; //我的D
+    if (owner_id == mine_id) {
+        //我发的单
+        if (b.status == "new") {
+            var input_submit = '<input style="width:100%" type="button" value="取消任务" class="closeOrder opa_active"/>';
+        } else if (b.status == "finish") {
+            var input_submit = '<input style="width:100%" type="button" value="结算任务" class="completedOrder"/>'
+        } else {
+            var input_submit = ''
+        }
 
-             if(owner_id == mine_id){
-              //我发的单
-              if(b.status == "new"){
-                 var input_submit ='<input style="width:100%" type="button" value="取消任务" class="closeOrder opa_active"/>';
-              }else if(b.status == "finish"){
-                var input_submit = '<input style="width:100%" type="button" value="结算任务" class="completedOrder"/>'
-              }else {
-                var input_submit = ''
-              }
-             
-              // var tell = '<div class="tell"><a href="tel:">联系TA</a></div>';
-              if(courier_id == 0){
-                //未被接
-                var tell = '';
-                var workType = "发单人";
-              }else{
-                //已被接
-                var tell = '<div class="tell"><a href="tel:'+b.courier_mobile_no+'">联系TA</a></div>';
-                var workType = "接单人";
-              }
-             
-                /*时间进程 S*/ 
-                if(b.time['cancelled_time']){
-                //取消的订单 
-                 }else{
-                  //非取消的订单
-                    if(b.time['completed_time']){
-                      //已结算
-                       var state = '<ul class="schedule clearfix">\
+        // var tell = '<div class="tell"><a href="tel:">联系TA</a></div>';
+        if (courier_id == 0) {
+            //未被接
+            var tell = '';
+            var workType = "发单人";
+        } else {
+            //已被接
+            var tell = '<div class="tell"><a href="tel:' + b.courier_mobile_no + '">联系TA</a></div>';
+            var workType = "接单人";
+        }
+
+        /*时间进程 S*/
+        if (b.time['cancelled_time']) {
+            //取消的订单 
+        } else {
+            //非取消的订单
+            if (b.time['completed_time']) {
+                //已结算
+                var state = '<ul class="schedule clearfix">\
                                       <li class="on">\
                                         <label>发单</label>\
-                                        <p>'+b.time['new_time']+'</p>\
+                                        <p>' + b.time['new_time'] + '</p>\
                                       </li>\
                                       <li class="on">\
                                         <label>接单</label>\
-                                        <p>'+b.time['accepted_time']+'</p>\
+                                        <p>' + b.time['accepted_time'] + '</p>\
                                       </li>\
                                       <li class="on">\
                                         <label>完成</label>\
-                                        <p>'+b.time['finish_time']+'</p>\
+                                        <p>' + b.time['finish_time'] + '</p>\
                                       </li>\
                                       <li class="on">\
                                         <label>结算</label>\
-                                        <p>'+b.time['completed_time']+'</p>\
+                                        <p>' + b.time['completed_time'] + '</p>\
                                       </li>\
                                   </ul>';
-                    }else if(b.time['finish_time']){
-                      //已完成
-                       var state = '<ul class="schedule clearfix">\
+            } else if (b.time['finish_time']) {
+                //已完成
+                var state = '<ul class="schedule clearfix">\
                                       <li class="on">\
                                         <label>发单</label>\
-                                        <p>'+b.time['new_time']+'</p>\
+                                        <p>' + b.time['new_time'] + '</p>\
                                       </li>\
                                       <li class="on">\
                                         <label>接单</label>\
-                                        <p>'+b.time['accepted_time']+'</p>\
+                                        <p>' + b.time['accepted_time'] + '</p>\
                                       </li>\
                                       <li class="on">\
                                         <label>完成</label>\
-                                        <p>'+b.time['finish_time']+'</p>\
+                                        <p>' + b.time['finish_time'] + '</p>\
                                       </li>\
                                       <li >\
                                         <label>结算</label>\
                                       </li>\
                                   </ul>';
-                    }else if(b.time['accepted_time']){
-                      //已接单
-                       var state = '<ul class="schedule clearfix">\
+            } else if (b.time['accepted_time']) {
+                //已接单
+                var state = '<ul class="schedule clearfix">\
                                       <li class="on">\
                                         <label>发单</label>\
-                                        <p>'+b.time['new_time']+'</p>\
+                                        <p>' + b.time['new_time'] + '</p>\
                                       </li>\
                                       <li class="on">\
                                         <label>接单</label>\
-                                        <p>'+b.time['accepted_time']+'</p>\
+                                        <p>' + b.time['accepted_time'] + '</p>\
                                       </li>\
                                       <li >\
                                         <label>完成</label>\
@@ -175,12 +175,12 @@
                                         <label>结算</label>\
                                       </li>\
                                   </ul>';
-                    }else{
-                      //未接单
-                       var state = '<ul class="schedule clearfix">\
+            } else {
+                //未接单
+                var state = '<ul class="schedule clearfix">\
                                       <li class="on">\
                                         <label>发单</label>\
-                                        <p>'+b.time['new_time']+'</p>\
+                                        <p>' + b.time['new_time'] + '</p>\
                                       </li>\
                                       <li>\
                                         <label>接单</label>\
@@ -192,83 +192,81 @@
                                         <label>结算</label>\
                                       </li>\
                                   </ul>';
-                    }
-                 }
-                /*时间进程 E*/ 
-             }else if(mine_id != owner_id && courier_id==0){
-                //别人发的未接单
-                 var input_submit = '<input style="width:100%"  type="button" value="接受任务" class="work_submit opa_active"/>';
-                // var tell = '<div class="tell"><a href="tel:">联系TA</a></div>';
-                var tell = '';
-                var workType = "发单人";
-                var state = '';
-                var Img
-             }else if(mine_id == courier_id ){
-                 //我接的单
-                if(b.status == "accepted"){
-                  var input_submit = '<input type="button" style="width:50%" value="确认送达" class="DoneOrder opa_active"/><input style="width:50%" type="button" value="取消任务" class="closeOrder opa_active"/>';
-                }else{
-                   var input_submit = "";
-                }
-                 
-                // var tell = '<div class="tell"><a href="tel:">联系TA</a></div>';
-                var tell = '';
-                var workType = "接单人";
-                 /*时间进程 S*/
-               if(b.time['cancelled_time']){
-                //取消的订单
-                 
-                 }else{
-                  //非取消的订单
-                    if(b.time['completed_time']){
-                      //已结算
-                       var state = '<ul class="schedule clearfix">\
+            }
+        }
+        /*时间进程 E*/
+    } else if (mine_id != owner_id && courier_id == 0) {
+        //别人发的未接单
+        var input_submit = '<input style="width:100%"  type="button" value="接受任务" class="work_submit opa_active"/>';
+        // var tell = '<div class="tell"><a href="tel:">联系TA</a></div>';
+        var tell = '';
+        var workType = "发单人";
+        var state = '';
+        var Img
+    } else if (mine_id == courier_id) {
+        //我接的单
+        if (b.status == "accepted") {
+            var input_submit = '<input type="button" style="width:50%" value="确认送达" class="DoneOrder opa_active"/><input style="width:50%" type="button" value="取消任务" class="closeOrder opa_active"/>';
+        } else {
+            var input_submit = "";
+        }
+
+        var tell = '';
+        var workType = "发单人";
+        /*时间进程 S*/
+        if (b.time['cancelled_time']) {
+            //取消的订单
+        } else {
+            //非取消的订单
+            if (b.time['completed_time']) {
+                //已结算
+                var state = '<ul class="schedule clearfix">\
                                       <li class="on">\
                                         <label>发单</label>\
-                                        <p>'+b.time['new_time']+'</p>\
+                                        <p>' + b.time['new_time'] + '</p>\
                                       </li>\
                                       <li class="on">\
                                         <label>接单</label>\
-                                        <p>'+b.time['accepted_time']+'</p>\
+                                        <p>' + b.time['accepted_time'] + '</p>\
                                       </li>\
                                       <li class="on">\
                                         <label>完成</label>\
-                                        <p>'+b.time['finish_time']+'</p>\
+                                        <p>' + b.time['finish_time'] + '</p>\
                                       </li>\
                                       <li class="on">\
                                         <label>结算</label>\
-                                        <p>'+b.time['completed_time']+'</p>\
+                                        <p>' + b.time['completed_time'] + '</p>\
                                       </li>\
                                   </ul>';
-                    }else if(b.time['finish_time']){
-                      //已完成
-                       var state = '<ul class="schedule clearfix">\
+            } else if (b.time['finish_time']) {
+                //已完成
+                var state = '<ul class="schedule clearfix">\
                                       <li class="on">\
                                         <label>发单</label>\
-                                        <p>'+b.time['new_time']+'</p>\
+                                        <p>' + b.time['new_time'] + '</p>\
                                       </li>\
                                       <li class="on">\
                                         <label>接单</label>\
-                                        <p>'+b.time['accepted_time']+'</p>\
+                                        <p>' + b.time['accepted_time'] + '</p>\
                                       </li>\
                                       <li class="on">\
                                         <label>完成</label>\
-                                        <p>'+b.time['finish_time']+'</p>\
+                                        <p>' + b.time['finish_time'] + '</p>\
                                       </li>\
                                       <li >\
                                         <label>结算</label>\
                                       </li>\
                                   </ul>';
-                    }else if(b.time['accepted_time']){
-                      //已接单
-                       var state = '<ul class="schedule clearfix">\
+            } else if (b.time['accepted_time']) {
+                //已接单
+                var state = '<ul class="schedule clearfix">\
                                       <li class="on">\
                                         <label>发单</label>\
-                                        <p>'+b.time['new_time']+'</p>\
+                                        <p>' + b.time['new_time'] + '</p>\
                                       </li>\
                                       <li class="on">\
                                         <label>接单</label>\
-                                        <p>'+b.time['accepted_time']+'</p>\
+                                        <p>' + b.time['accepted_time'] + '</p>\
                                       </li>\
                                       <li >\
                                         <label>完成</label>\
@@ -277,12 +275,12 @@
                                         <label>结算</label>\
                                       </li>\
                                   </ul>';
-                    }else{
-                      //未接单
-                       var state = '<ul class="schedule clearfix">\
+            } else {
+                //未接单
+                var state = '<ul class="schedule clearfix">\
                                       <li class="on">\
                                         <label>发单</label>\
-                                        <p>'+b.time['new_time']+'</p>\
+                                        <p>' + b.time['new_time'] + '</p>\
                                       </li>\
                                       <li>\
                                         <label>接单</label>\
@@ -294,190 +292,202 @@
                                         <label>结算</label>\
                                       </li>\
                                   </ul>';
-                    }
-                 }
-                /*时间进程 E*/ 
-             }
-             var bg = b["order_status"] == "可接单" ? "#87cbf6" :  b["order_status"] == "已接单" ? "#80b995" : "#bbbbbb";
-             var workHtml = '<div class="works-state"><p style="background:'+bg+'">'+b.order_status+'</p></div>\
+            }
+        }
+        /*时间进程 E*/
+    }
+    var bg = b["order_status"] == "可接单" ? "#87cbf6": b["order_status"] == "已接单" ? "#80b995": "#bbbbbb";
+    var workHtml = '<div class="works-state"><p style="background:' + bg + '">' + b.order_status + '</p></div>\
                               <div class="namedata clear">\
                               <div class="name fl">\
-                                <div class="img" style="background:#fafafa url('+b.avatar_url+') no-repeat left center/0.7rem 0.7rem;width:0.7rem;height:0.7rem"></div>\
-                                <p >'+b.nickname+'<span>('+workType+')</span></p>\
-                              </div>'+tell+
-                            '</div>\
-                            <div class="money">赏金：<span>￥'+b.fee+'元</span></div>\
-                            <div class="donemap">到达地点：'+b.destination+'</div>\
-                            <div class="detail">'+b.description+'</div>\
-                            '+state;
-                  // var input_submit = '<input type="button" value="接受任务" class="work_submit"/>';
-                  $(".schoolwork_info").html(workHtml);
-                  $(".postwork_button").html(input_submit)
-  })
-    $(".schoolwork_de").on("click",".work_submit",function(){
-      alert_flag("确定接受此任务？");
-      $(".flag_true").on("click",workSubmit);
-    })
-    //接受任务
-    function workSubmit(){
-        $(".flag_A").remove();
-        if(window.localStorage.token == undefined || window.localStorage.token == "undefined"){
-          fb_alert(fb_error["2001"]);
-        window.location.href="login.html";
-          return;
-        }
-        if(!is_auth()){
+                                <div class="img" style="background:#fafafa url(' + b.avatar_url + ') no-repeat left center/0.7rem 0.7rem;width:0.7rem;height:0.7rem"></div>\
+                                <p >' + b.nickname + '<span>(' + workType + ')</span></p>\
+                              </div>' + tell + '</div>\
+                            <div class="money">赏金：<span>￥' + b.fee + '元</span></div>\
+                            <div class="donemap">到达地点：' + b.destination + '</div>\
+                            <div class="detail">' + b.description + '</div>\
+                            ' + state;
+    // var input_submit = '<input type="button" value="接受任务" class="work_submit"/>';
+    $(".schoolwork_info").html(workHtml);
+    $(".postwork_button").html(input_submit)
+}) ;
+$(".schoolwork_de").on("click", ".work_submit",
+function() {
+    alert_flag("确定接受此任务？");
+    $(".flag_true").on("click", workSubmit);
+})
+//接受任务
+function workSubmit() {
+    $(".flag_A").remove();
+    if (window.localStorage.token == undefined || window.localStorage.token == "undefined") {
+        fb_alert(fb_error["2001"]);
+        window.location.href = "login.html";
+        return;
+    }
+    if (!is_auth()) {
         fb_alert(fb_error["12"]);
         return;
-        }
-        $(this).addClass("on");
-        var token = window.localStorage.token;
-        is_alipay(true);
-      $.post(locahost+'/order/claimOrder/?token='+token+'&order_id='+oid,function(data){
-        is_alipay(false);
-        if(data.code == 2001){
-          fb_alert(fb_error["2001"]);
-          window.location.href="login.html";
-        }
-        if(data.code == 2011){
-          fb_alert(fb_error["2011"]);
-          setTimeout(function(){
-            history.go(-1);
-            return;
-          },500)
-          
-        }else if(data.code == 110){
-          fb_alert(fb_error["110"]);
-        }else if(data.code == 200){
-          fb_alert(fb_error["2"]);
-          window.location.href="../html/order.html";
-        }
-
-      })
     }
-     //完成任务
-      $("body").on("click",".DoneOrder",function(){
-        $.post(locahost+'/order/finishWork/?token='+token+'&order_id='+oid,function(data){
-          if(data.code == 2001){
+    $(this).addClass("on");
+    var token = window.localStorage.token;
+    is_alipay(true);
+    $.post(locahost + '/order/claimOrder/?token=' + token + '&order_id=' + oid,
+    function(data) {
+        is_alipay(false);
+        if (data.code == 2001) {
             fb_alert(fb_error["2001"]);
-            window.location.href="login.html";
-          }
-          if(data.code == 200){
-            fb_alert(fb_error["3001"]);
-            history.go(-1)
-          }
-        })
-      })
-      //取消任务
-      $("body").on("click",".closeOrder",function(){
-          alert_flag("是否删除该任务?");
-          $(".flag_true").on("click",function(){
-            $(".flag_A").remove();
-            is_alipay(true);
-            $.post(locahost+'/order/askCancel/?token='+token+'&order_id='+oid,function(data){
-                is_alipay(false);
-                if(data.code == 2001){
-                  fb_alert(fb_error["2001"]);
-                  window.localStorage.removeItem("faloca");
-                  window.location.href="login.html";
-                }
-                if(data.code == 200){
-                  fb_alert(fb_error["3003"]);
-                  history.go(-1)
-                }
-              })
-            
-          })
-
-      })
-       //结算任务
-       $("body").on("click",".completedOrder",function(){
-        wallet_pass='';
-        $(".payPassVal span").text("");
-        $(".walletPass").fadeIn(200);
-      })
-       var wallet_pass='';
-     $('.walletPass').on("click",".payNum li",function(){
-                var i = $(this).index(".payNum li");
-                var key;
-                switch (i) {
-                    case 0 : 
-                        key = 1;
-                        break;
-                    case 1 : 
-                        key = 2;
-                        break;
-                    case 2 : 
-                        key = 3;
-                        break;
-                    case 3 : 
-                        key = 4;
-                        break;
-                    case 4 : 
-                        key = 5;
-                        break;
-                    case 5 : 
-                        key = 6;
-                        break;
-                    case 6 : 
-                        key = 7;
-                        break;
-                    case 7 : 
-                        key = 8;
-                        break;
-                    case 8 : 
-                        key = 9;
-                        break;
-                    case 9 : 
-                        return;
-                    case 10 : 
-                        key = 0;
-                        break;
-                    case 11 : 
-                        key = 11;
-                        break;
-                }
-            if(key == 11){
-                //删除键
-                wallet_pass = wallet_pass.substr(0,wallet_pass.length-1);
-                $(".payPassVal span").text("")
-                for(var j = 0,c=wallet_pass.length ; j <c;j++ ){
-                    $(".payPassVal span").eq(j).text("*")
-                }
+            window.location.href = "login.html";
+        }
+        if (data.code == 2011) {
+            fb_alert(fb_error["2011"]);
+            setTimeout(function() {
+                history.go( - 1);
                 return;
+            },
+            500)
+
+        } else if (data.code == 110) {
+            fb_alert(fb_error["110"]);
+        } else if (data.code == 200) {
+            fb_alert(fb_error["2"]);
+            window.location.href = "../html/order.html";
+        }
+
+    })
+}
+//完成任务
+$("body").on("click", ".DoneOrder",
+function() {
+    $.post(locahost + '/order/finishWork/?token=' + token + '&order_id=' + oid,
+    function(data) {
+        if (data.code == 2001) {
+            fb_alert(fb_error["2001"]);
+            window.location.href = "login.html";
+        }
+        if (data.code == 200) {
+            fb_alert(fb_error["3001"]);
+            history.go( - 1)
+        }
+    })
+})
+//取消任务
+$("body").on("click", ".closeOrder",
+function() {
+    alert_flag("是否删除该任务?");
+    $(".flag_true").on("click",
+    function() {
+        $(".flag_A").remove();
+        is_alipay(true);
+        $.post(locahost + '/order/askCancel/?token=' + token + '&order_id=' + oid,
+        function(data) {
+            is_alipay(false);
+            if (data.code == 2001) {
+                fb_alert(fb_error["2001"]);
+                window.localStorage.removeItem("faloca");
+                window.location.href = "login.html";
             }
-            wallet_pass += key;
-            if(wallet_pass.length == 6 ){
-                //满6位 
-                  $(".payPassVal span").text("*");
-                  is_alipay(true)
-                  $(".walletPass").fadeOut(200);
-                   $.post(locahost+'/order/confirmFinishWork/?token='+token+'&order_id='+oid+'&pay_password='+$.md5(wallet_pass),function(data){
-                    if(data.code == 2001){
-                      fb_alert(fb_error["2001"]);
-                      window.location.href="login.html";
-                    }
-                    if(data.code == 200){
-                      fb_alert(fb_error["3002"]);
-                      history.go(-1)
-                    }else{
-                      fb_alert(data.detail);
-
-                    }
-                    is_alipay(false)
-                    $(".schoolwork_de .postwork_footer .postwork_button input").removeClass("on")
-                  })
-
-              }else{
-                for(var j = 0,c=wallet_pass.length ; j <c;j++ ){
-                    $(".payPassVal span").eq(j).text("*")
-                }
+            if (data.code == 200) {
+                fb_alert(fb_error["3003"]);
+                history.go( - 1)
             }
+        })
 
-          })
-     $(".payPass_close").on("click",function(){
-        $('.walletPass').fadeOut(200);
-        $(".completedOrder").removeClass("on")
-     })
+    })
+
+})
+//结算任务
+$("body").on("click", ".completedOrder",
+function() {
+    wallet_pass = '';
+    $(".payPassVal span").text("");
+    $(".walletPass").fadeIn(200);
+});
+var wallet_pass = '';
+$('.walletPass').on("click", ".payNum li",
+function() {
+    var i = $(this).index(".payNum li");
+    var key;
+    switch (i) {
+    case 0:
+        key = 1;
+        break;
+    case 1:
+        key = 2;
+        break;
+    case 2:
+        key = 3;
+        break;
+    case 3:
+        key = 4;
+        break;
+    case 4:
+        key = 5;
+        break;
+    case 5:
+        key = 6;
+        break;
+    case 6:
+        key = 7;
+        break;
+    case 7:
+        key = 8;
+        break;
+    case 8:
+        key = 9;
+        break;
+    case 9:
+        return;
+    case 10:
+        key = 0;
+        break;
+    case 11:
+        key = 11;
+        break;
+    }
+    if (key == 11) {
+        //删除键
+        wallet_pass = wallet_pass.substr(0, wallet_pass.length - 1);
+        $(".payPassVal span").text("") ;
+        for (var j = 0,c = wallet_pass.length; j < c; j++) {
+            $(".payPassVal span").eq(j).text("*")
+        }
+        return;
+    }
+    wallet_pass += key;
+    if (wallet_pass.length == 6) {
+        //满6位 
+        $(".payPassVal span").text("*");
+        is_alipay(true);
+         $(".walletPass").fadeOut(200);
+        $.post(locahost + '/order/confirmFinishWork/?token=' + token + '&order_id=' + oid + '&pay_password=' + $.md5(wallet_pass),
+        function(data) {
+            if (data.code == 2001) {
+                fb_alert(fb_error["2001"]);
+                window.location.href = "login.html";
+            }
+            if (data.code == 200) {
+                fb_alert(fb_error["3002"]);
+                history.go( - 1)
+            } else {
+                fb_alert(data.detail);
+
+            }
+            is_alipay(false);
+            $(".schoolwork_de .postwork_footer .postwork_button input").removeClass("on")
+        })
+
+    } else {
+        for (var j = 0,
+        c = wallet_pass.length; j < c; j++) {
+            $(".payPassVal span").eq(j).text("*")
+        }
+    }
+
+})
+$(".payPass_close").on("click",
+function() {
+    $('.walletPass').fadeOut(200);
+    $(".completedOrder").removeClass("on")
+})
  </script>
 </html>

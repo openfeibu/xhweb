@@ -98,8 +98,10 @@
 <script type="text/javascript">
 	  var app = 0;
 	  if(GetString("device") == "android"){
+	  	 window.localStorage.token = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;  //获取客户端token;
 	  	$(".header_title").remove();
     	$(".pt1").removeClass("pt1");
+
 	  	app =1;
 	    window.localStorage.app=1;
 	  }

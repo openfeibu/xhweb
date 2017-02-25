@@ -340,6 +340,12 @@
 		$(".work_list").eq(n).show().siblings(".work_list").hide();
 	}
 
+	//不能进去的任务提醒
+	$(".work_list").on("click",".work_content a",function(){
+		if($(this).attr("href") == undefined){
+			fb_alert("该任务已被接")
+		}
+	})
     refresh["work"] = work_get;
     refresh["personalWork"] = personalWork_get;
     refresh["businessWork"] = businessWork_get;
