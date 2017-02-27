@@ -58,7 +58,6 @@
                   </div>
                  </a>
               </div>
-
           </div> -->
            <div class="myOrderBox beship">
 
@@ -127,77 +126,7 @@
     loading(true);
     beshipOrder(1,"beship");
 
-    // waitpayOrder(1,"waitpay");
-    // //待付款
-    // function waitpayOrder(page,type){
-    //   if(!page){
-    //     page = 1;
-    //   }
-    //   $(window).off("scroll");   //清除滚动事件
-    //   if($("#loading").length == 0 && page!=1){
-    //     $(".waitpay").append("<div id='loading'>正在玩命的加载中...</div>");
-    //   }
-    //   $.getJSON(locahost+'/orderInfo/sellerOrderInfos?token='+token+'&page='+page+'&type='+type,function(data){
-    //     if(data.code == 2001){
-    //       fb_alert(fb_error["2001"]);
-    //       window.location.href="../login.html";
-    //     }
-    //     loading(false);
-    //     var order_html = "";
-    //     $.each(data.order_infos,function(a,b){
-    //       order_html += '<div class="shopOrder-item">\
-    //                       <a href="myshop-orderDetail.html?order_id='+b.order_id+'">\
-    //                         <div class="img"><img src="'+b.shop_img+'" alt=""></div>\
-    //                         <div class="test">\
-    //                           <div class="shopName">'+b.shop_name+'</div>\
-    //                           <div class="status_desc">状态：'+b.status_desc+'</div>\
-    //                           <div class="shopNum">数量：1</div>\
-    //                           <div class="count">总价：￥'+b.total_fee+'</div>\
-    //                         </div>\
-    //                        </a>\
-    //                     </div>';
-    //       })
-    //         if(data.order_infos == '' ){
-    //             //没数据
-    //             $("#loading").remove()
-    //             if(page == 1){
-    //               $(".waitpay").append("<div id='loaded'>暂无数据</div>")
-
-    //             }else{
-    //               $(".waitpay").append("<div id='loaded'>我是有底线的</div>")
-    //             }
-    //           }else{
-    //             //是否为第一页 是替换数据 否追加数据 S
-    //             if(page == 1){
-    //              $(".waitpay").html(order_html);
-    //              n=1;
-    //              $("#loading").remove();
-    //             }else{
-    //              $(".waitpay").append(order_html);
-    //             }
-    //             //是否为第一页 是替换数据 否追加数据 E
-    //             //是否为最后一页  否追加滑动事件 S
-    //             if(data.order_infos.length < pageNum ){
-    //               //已经没数据
-    //               $("#loading").remove()
-    //               $(".waitpay").append("<div id='loaded'>我是有底线的</div>");
-    //               }else{
-    //                $(window).on("scroll",function(){   
-    //                     if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
-    //                       //到底
-    //                       n = page;
-    //                       n++;
-    //                       waitpayOrder(n,"waitpay");
-    //                     }
-                     
-    //                 })
-    //             }
-    //           //是否为最后一页  否追加滑动事件 E
-
-    //           }
-
-    //   })
-    // }
+   
     //待发货
     function beshipOrder(page,type){
       if(!page){
@@ -215,13 +144,14 @@
         loading(false);
         var order_html = "";
         $.each(data.order_infos,function(a,b){
-          order_html += '<div class="shopOrder-item">\
+            order_html += '<div class="shopOrder-item">\
+                          <div class="shopNum">订单号:'+b.order_sn+'</div>\
                           <a href="myshop-orderDetail.html?order_id='+b.order_id+'">\
-                            <div class="img"><img src="'+b.shop_img+'" alt=""></div>\
+                            <div class="img"><img src="'+b.order_goodses[0]["goods_img"]+'" alt=""></div>\
                             <div class="test">\
-                              <div class="shopName">'+b.shop_name+'</div>\
-                              <div class="status_desc">状态：'+b.status_desc+'</div>\
-                              <div class="shopNum">数量：1</div>\
+                              <div class="shopName">收货人：'+b.consignee+'</div>\
+                              <div class="status_desc">手机号：'+b.mobile+'</div>\
+                              <div class="status_desc">收货地址：'+b.address+'</div>\
                               <div class="count">总价：￥'+b.total_fee+'</div>\
                             </div>\
                            </a>\
@@ -286,12 +216,13 @@
         var order_html = "";
         $.each(data.order_infos,function(a,b){
           order_html += '<div class="shopOrder-item">\
+                          <div class="shopNum">订单号:'+b.order_sn+'</div>\
                           <a href="myshop-orderDetail.html?order_id='+b.order_id+'">\
-                            <div class="img"><img src="'+b.shop_img+'" alt=""></div>\
+                            <div class="img"><img src="'+b.order_goodses[0]["goods_img"]+'" alt=""></div>\
                             <div class="test">\
-                              <div class="shopName">'+b.shop_name+'</div>\
-                              <div class="status_desc">状态：'+b.status_desc+'</div>\
-                              <div class="shopNum">数量：1</div>\
+                              <div class="shopName">收货人：'+b.consignee+'</div>\
+                              <div class="status_desc">手机号：'+b.mobile+'</div>\
+                              <div class="status_desc">收货地址：'+b.address+'</div>\
                               <div class="count">总价：￥'+b.total_fee+'</div>\
                             </div>\
                            </a>\
@@ -355,13 +286,14 @@
         loading(false);
         var order_html = "";
         $.each(data.order_infos,function(a,b){
-          order_html += '<div class="shopOrder-item">\
+           order_html += '<div class="shopOrder-item">\
+                          <div class="shopNum">订单号:'+b.order_sn+'</div>\
                           <a href="myshop-orderDetail.html?order_id='+b.order_id+'">\
-                            <div class="img"><img src="'+b.shop_img+'" alt=""></div>\
+                            <div class="img"><img src="'+b.order_goodses[0]["goods_img"]+'" alt=""></div>\
                             <div class="test">\
-                              <div class="shopName">'+b.shop_name+'</div>\
-                              <div class="status_desc">状态：'+b.status_desc+'</div>\
-                              <div class="shopNum">数量：1</div>\
+                              <div class="shopName">收货人：'+b.consignee+'</div>\
+                              <div class="status_desc">手机号：'+b.mobile+'</div>\
+                              <div class="status_desc">收货地址：'+b.address+'</div>\
                               <div class="count">总价：￥'+b.total_fee+'</div>\
                             </div>\
                            </a>\
@@ -425,13 +357,14 @@
         loading(false);
         var order_html = "";
         $.each(data.order_infos,function(a,b){
-          order_html += '<div class="shopOrder-item">\
+            order_html += '<div class="shopOrder-item">\
+                          <div class="shopNum">订单号:'+b.order_sn+'</div>\
                           <a href="myshop-orderDetail.html?order_id='+b.order_id+'">\
-                            <div class="img"><img src="'+b.shop_img+'" alt=""></div>\
+                            <div class="img"><img src="'+b.order_goodses[0]["goods_img"]+'" alt=""></div>\
                             <div class="test">\
-                              <div class="shopName">'+b.shop_name+'</div>\
-                              <div class="status_desc">状态：'+b.status_desc+'</div>\
-                              <div class="shopNum">数量：1</div>\
+                              <div class="shopName">收货人：'+b.consignee+'</div>\
+                              <div class="status_desc">手机号：'+b.mobile+'</div>\
+                              <div class="status_desc">收货地址：'+b.address+'</div>\
                               <div class="count">总价：￥'+b.total_fee+'</div>\
                             </div>\
                            </a>\

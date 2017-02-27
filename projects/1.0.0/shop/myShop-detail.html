@@ -28,7 +28,7 @@
   <script type="text/javascript" src="../js/common.js"></script>
   <script type="text/javascript"src="../js/director.js"></script>
   <script type="text/javascript" src="../js/updata.js"></script>
-  <script type="text/javascript" src="../js/webuploader.js"></script>
+ <script type="text/javascript" src="../js/upload.js"></script>
 </head>
 <body  style="height:100%">
 	<section class='main' style="height:100%;padding:0">
@@ -40,7 +40,7 @@
         <div class="pro-detail pt1">
             <div class="pro-detail-img">
               <img data-name="pro-detail-img" src="../images/1.jpg" alt="">
-              <div id="post_img">选择图片</div>
+              <input name="bookpic" type="file" id="bookpic" class="upload" onchange="change(this)">
             </div>
             <div class="pro-detail-test">
                <div class="input_b"><label for="">名称</label><input data-name="pro-detail-name"  type="text" placeholder="商品名称"></div>
@@ -92,7 +92,7 @@
         $('[data-name="pro-detail-num" ]').val(proInfo.goods_number);
         $('[data-name="pro-detail-money" ]').val(proInfo.goods_price);
         $('[data-name="pro-detail-jj" ]').text(proInfo.goods_desc);
-        // photoarray = proInfo.goods_img;
+         photoarray = proInfo.goods_img;
         goods_id = proInfo.goods_id;
       }
       $(".pro-updata-submit").on("click",function(){
@@ -109,9 +109,9 @@
           cat_id = $('.pro-class option:selected') .val();
           //图片
           if(photoarray != "" ){
-            prodata.goods_img = photoarray;
-            if(photoarray_thumb != ""){
-              prodata.goods_thumb = photoarray_thumb;
+            prodata.goods_img = proImg;
+            if(proImg_thumb != ""){
+              prodata.goods_thumb = proImg_thumb;
             }
           }
           //图片
@@ -166,6 +166,7 @@
           // $('#testSelect option:selected') .val();
           //商品分类
           prodata.cat_id = cat_id;
+          console.log(prodata)
           //商品商品分类描述 
           $.post(locahost+'/goods/update/',prodata,function(data){
               
@@ -173,7 +174,7 @@
                 fb_alert(fb_error["ms_010"]);
                 setTimeout(function(){
                   is_alipay(false);
-                  window.history.go(-1);
+                  // window.history.go(-1);
                 },100)
 
               }else{
@@ -187,103 +188,51 @@
     })
 
 
-        var $list = $(  '#fileList'),
-        // 优化retina, 在retina下这个值是2
-        ratio = window.devicePixelRatio || 1,
+  // 上传图片
 
-        // 缩略图大小
-        thumbnailWidth = 100 * ratio,
-        thumbnailHeight = 100 * ratio,
-
-        // Web Uploader实例
-        uploader;
-
-        // 初始化Web Uploader
-    uploader = WebUploader.create({
-
-        // 自动上传。
-        auto: true,
-        crop: true,
-        // swf文件路径
-        swf:  '/js/webuploader/js/Uploader.swf',
- 
-        // 文件接收服务端。
-        server: locahost+'/goods/uploadGoodsImage/?token='+token,
-         
-        // [默认值：'file']  设置文件上传域的name。
-        fileVal:'uploadfile',
- 
-        // 选择文件的按钮。可选。
-        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-        pick: '#post_img',
-        fileNumLimit : 1,
-        // 只允许选择文件，可选。
-        accept: {
-            title: 'Images',
-            extensions: 'gif,jpg,jpeg,bmp,png',
-            mimeTypes: 'image/*'
-        }
-    });
-      // console.log(uploader.options.fileVal)
- 
-    // 当有文件添加进来的时候
-    uploader.on( 'fileQueued', function( file ) {
-      if($(".alipay_alert").length == 0){
-         is_alipay(true)
+  function change(that){
+        fb_alert("开始上传");
+        var field=new upField($(that));
+        var maxSize=10240; //kb
+         var name=$(that).attr('name');
+        var pic = $(that).prop('files');
+        var fordata=new FormData();
+        fordata.append('uploadfile',pic[0]); //添加字段
+    
+     
+    
+       if(pic[0].size/1024>maxSize) { 
+            fb_alert('图片不能超过'+maxSize+'kb')
+            return false; 
        }
- 
-        // 创建缩略图
-        uploader.makeThumb( file, function( error, src ) {
-            if ( error ) {
-                $img.replaceWith('<span>不能预览</span>');
-                return;
-            }
-        }, thumbnailWidth, thumbnailHeight );
-    });
- 
-    // 文件上传过程中创建进度条实时显示。
-    uploader.on( 'uploadProgress', function( file, percentage ) {
-
-    });
- 
-    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-    uploader.on( 'uploadSuccess', function( data ) {
-      //photoarray 上传的图片数组
-        //更新缓存
-        is_alipay(false);
-        // console.log(photoarray_thumb)
-        $('[data-name="pro-detail-img"]').attr("src",photoarray_thumb.substr(0,photoarray_thumb.length-1))
-
-        uploader.reset();
-
-        photoarray = photoarray.substr(0,photoarray.length-1);
-        photoarray_thumb= photoarray_thumb.substr(0,photoarray_thumb.length-1);
-    });
- 
-    // 文件上传失败，现实上传出错。
-    uploader.on( 'uploadError', function( file ) {
-      is_alipay(false);
-
-        var $li = $( '#'+file.id ),
-            $error = $li.find('div.error');
- 
-        // 避免重复创建
-        if ( !$error.length ) {
-            $error = $('<div class="error"></div>').appendTo( $li );
+       var token = window.localStorage.token;
+        $.ajax({
+            url:locahost+'/goods/uploadGoodsImage/?token='+token,
+            type:'POST',
+            dataType:'json',
+            data:fordata,
+            processData: false,
+            contentType: false,
+      error: function(){
+        fb_alert('未知错误')
+      },  
+      success: function(data){
+        if(data.code == 200){
+           $('[data-name="pro-detail-img"]').attr("src",data.thumb_url);
+           proImg_thumb = data.thumb_url;
+           proImg = data.url;
+        }else{  
+          fb_alert(data.detail);
         }
+      }
+        })
+
+    };
+    window.change = change;
+
  
-        $error.text('上传失败!!!');
-    });
+
  
-    // 完成上传完了，成功或者失败，先删除进度条。
-    uploader.on( 'uploadComplete', function( file ) {
-        $( '#'+file.id ).find('.progress').remove();
-    });
-     uploader.addButton({
-      id: '#btnContainer',
-      innerHTML: '选择图片'
-  });
-  
 
   })
 </script>

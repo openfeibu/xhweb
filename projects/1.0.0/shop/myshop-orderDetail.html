@@ -94,7 +94,7 @@
     //获取初始数据
     function getOrderInfo(){
         loading(true);
-       $.getJSON(locahost+'/orderInfo/show?order_id='+order_id+'&token='+token,function(data){
+       $.getJSON(locahost+'/orderInfo/show?order_id='+order_id+'&token='+token+'&type=seller',function(data){
           if(data.code == 2001){
               fb_alert(fb_error["2001"])
               // window.location.href = "../login.html";
@@ -134,16 +134,16 @@
             }
             switch(data.order_info.status_desc){
               case "待发货" :
-                $(".submitButton").html('<div class="delivery opa_active" onclick="delivery()">我要发货</div>');
+                $(".submitButton").html('<div class="delivery opa_active" style="width: 100%;" onclick="delivery()">我要发货</div>');
                 break;
               case "发货中" :
                 $(".submitButton").html('');
                 break;
-              case "已完成" :
+              case "已收款" :
                 $(".submitButton").html('');
                 break;
               default :
-                $(".submitButton").html('<div class="refund opa_active" onclick="refund()">同意退款</div>');
+                $(".submitButton").html('<div class="refund opa_active" style="width: 100%;" onclick="refund()">同意退款</div>');
                 break;
             }
 
