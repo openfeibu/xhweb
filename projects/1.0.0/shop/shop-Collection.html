@@ -57,6 +57,11 @@
             </div> -->
           </div>
         </div>
+          <div class="noAss">
+                  <p>你还收藏的店铺?</p>
+                  <p>赶紧去收藏吧~~~</p>
+                  <a href="../index.html#/shop">去收藏</a>
+            </div>
 	</section>
 </body>
 <script>
@@ -115,7 +120,14 @@
               
               if (data.shops.length == '' || data.shops.length < 10) {
                 $("#loading").remove();
-                $(".shop").append('<div id="loaded" >我是有底线的</div>')
+                console.log(page)
+                if(page == 1){
+                  //首页没数据
+                  $(".noAss").show()
+                }else{
+                   $(".shop").append('<div id="loaded" >我是有底线的</div>')
+                }
+               
               } else {
                  $(window).on("scroll",function(){
                   if($(window).scrollTop()+50>=$(document).height()-$(window).height()){

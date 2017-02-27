@@ -11,10 +11,10 @@ body{height: 100%;}
 .banner img{width: 100%;height: 3.7rem;margin:0 auto;display: block;}
 .banner .swiper-pagination1{text-align: right;}
 .banner .swiper-pagination1 .swiper-pagination-bullet{border:1px solid #fff;}
-.banner .swiper-pagination1 .swiper-pagination-bullet-active{border:1px solid #28282e;background: #28282e;}
+.banner .swiper-pagination1 .swiper-pagination-bullet-active{border:1px solid #5ac8fa;background: #5ac8fa;}
 /*banner e*/
 /*index_nav s*/
-.index_nav{background: #ffffff;padding-bottom: 0.2rem;border-bottom: 1px solid #dddddd;}
+.index_nav{background: #ffffff;padding: 0.2rem 0;border-bottom: 1px solid #dddddd;}
 .index_nav_title{height: 0.6rem;text-align: center;}
 .index_nav_title:before{content: "";display: inline-block;width: 0.34rem;height: 0.05rem;background: #aaaaaa;border-radius: 2px;vertical-align: middle;}
 .index_nav_title:after{content: "";display: inline-block;width: 0.34rem;height: 0.05rem;background: #aaaaaa;border-radius: 2px;vertical-align: middle;}
@@ -85,19 +85,19 @@ body{height: 100%;}
 .recommendOrders p{color: #555;font-size: 0.33rem;margin-left: 0.1rem;display: inline-block;*display: inline;*zoom:1;vertical-align: middle;}
 .orderList aside{height: 1rem;line-height: 1rem;color: #aaa;font-size: 0.28rem;text-align: center;}
 .orderList .swiper-container {width: 100%;height:3rem;margin: 0 auto;}
-.orderList .swiper-slide {text-align: left;font-size: 18px;background: #fff;width: 3.0rem;height: auto;border:1px solid #333333;border-radius: 5px;box-sizing:border-box; -moz-box-sizing:border-box; /* Firefox */ -webkit-box-sizing:border-box; /* Safari */}
+.orderList .swiper-slide {text-align: left;font-size: 18px;background: #fff;width: 3.0rem;height: auto;border:1px solid #5ac8fa;border-radius: 5px;box-sizing:border-box; -moz-box-sizing:border-box; /* Firefox */ -webkit-box-sizing:border-box; /* Safari */}
 .orderList   .swiper-slide:nth-child(2n) {width: 40%;}
 .orderList  .swiper-slide:nth-child(3n) {width: 20%;}
 .ord-img{width: 0.65rem;height: 0.65rem;margin: 0.07rem auto;border-radius: 50%;background: #333333;background-size:100% 100%;}
 .ord-con{color: #28282e;font-size: 0.24rem;text-align:left;padding: 0 0.05rem;line-height: 0.35rem;height: 0.75rem;overflow: hidden;}
 .ord-time{color: #aaa;font-size: 0.22rem;text-align:left;padding: 0 0.05rem;line-height: 0.35rem;height: 0.35rem;overflow: hidden;}
 .ord-address{color: #aaa;font-size: 0.22rem;text-align:left;padding: 0 0.05rem;line-height: 0.35rem;height: 0.35rem;overflow: hidden;}
-.ord-price{height: 0.76rem;line-height: 0.76rem;background: #333;text-align: center;line-height: 0.76rem;color: #fff;font-size: 0.28rem}
+.ord-price{height: 0.76rem;line-height: 0.76rem;background: #5ac8fa;text-align: center;line-height: 0.76rem;color: #fff;font-size: 0.28rem}
 
 /*推荐任务 E*/
 
 /*topic*/
-.header_title{height: 1rem;background: #fff;line-height: 1rem;text-align: center;position: fixed;top:0;width: 100%;max-width: 750px;z-index: 999;left:0;right:0;margin:0 auto;border-bottom: 1px solid #eeeeee;}
+.header_title{height: 1rem;background: #fff;line-height: 1rem;text-align: center;position: fixed;top:0;width: 100%;max-width: 750px;z-index: 999;left:0;right:0;margin:0 auto;border-bottom: 1px solid #eeeeee;box-shadow:0 5px 10px #c0c0c0;}
 .header_title p{color: #000;font-size: 0.38rem;line-height: 1rem}
 .header_title .search{position: absolute;width: 0.45rem;height: 0.45rem;background: url("../images/search.png") no-repeat center;background-size: 100% 100%;right:0.35rem;top:0.28rem;}
 .header_title .return{position: absolute;width: 1rem;height: 1rem;background: url("../images/return.png") no-repeat center;background-size: 0.24rem 0.43rem;left:0rem;top:0rem;}
@@ -565,7 +565,7 @@ body{height: 100%;}
 .noWork{line-height: 2rem;text-align: center;font-size: 0.35rem;color: #999;}
 .postWork{width: 0.75rem;height:1.1rem;padding: 0.2rem;border-radius: 0.95rem 0.95rem 0 0;position: fixed;bottom:1rem;left:0;right:0;margin:0 auto;background:#fff url("../images/postTopic.png") no-repeat center 0.2rem ;background-size: 0.75rem 0.75rem;}
 .postWork a{padding-top: 0.85rem;text-align: center;display: block;font-size: 0.24rem;color: #666666;}
-.work_content{width:100%;padding:0 0 0 0;background: #fafafa; margin:0.22rem auto ;position: relative;font-size: 0.28rem;color: #555555;height: 2.45rem;overflow: hidden;border-radius: 2px;}
+.work_content{width:100%;padding:0 0 0 0;background: #fafafa; margin:0.22rem auto ;position: relative;font-size: 0.28rem;color: #555555;height: 2.45rem;overflow: hidden;border-radius: 5px;overflow: hidden;}
 .work_content .content-inner-container{position: relative;background:url("../images/work_repeat.png") repeat-x bottom left;background-size: auto 0.05rem;padding: 0 0 0 0.25rem;}
 .work_content .content-inner-container .fl{width: 4.2rem;}
 .work_content .content-inner-container.will{background-color: #ff977f}
@@ -576,11 +576,10 @@ body{height: 100%;}
 .work_content .user-pic img{width: 100%;height: 100%;}
 .work_content .user-name{display: inline-block;line-height:0.64rem;vertical-align: top;color: #666666;font-size: 0.28rem;margin-top: 0.3rem;}
 .work_content .user-time{display: inline-block;line-height: 0.64rem;vertical-align: top;color: #666666;font-size: 0.28rem;margin-top: 0.3rem;}
-.work_content .time-only{font-size: 0.3rem;color: #fff;height: 2.45rem;background: #000;float: right;width: 2rem;text-align: center;line-height: 2.45rem;font-size: 0.48rem;}
-.work_content .time-only b{font-size: 0.88rem;font-weight: normal;}
+.work_content .time-only{color: #fff;height: 2.45rem;background: #000;float: right;width: 2rem;text-align: center;line-height:  1.65rem;font-size: 0.4rem;}
+.work_content .time-only b{font-size: 0.75rem;font-weight: normal;}
 .work_content .right{margin-right: 0.06rem;}
-.work_content .order_status_line{position: absolute;top:0;left:4.5rem;background: url("../images/order_status_line.png") no-repeat center top;background-size: auto 0.5rem;padding-top: 0.5rem;}
-.work_content .order_status{width: 0.45rem;font-size: 0.24rem;line-height: 0.3rem;border-radius: 0.35rem;text-align: center;color: #fff;padding: 0.1rem 0;}
+.work_content .order_status{width: 100%;font-size: 0.24rem;line-height:0.8rem;height:0.8rem;text-align: center;color: #fff;border-bottom: 1px solid #fff;}
 .user-content{padding:0 0 0 0.65rem;}
 .user-content .user-content-p{color: #28282e;font-size: 0.28rem;line-height: 0.35rem;height: 1.05rem;overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;}
 .cost{position: absolute;bottom: 0.15rem;color:#EF7272;right: 0.17rem;}
