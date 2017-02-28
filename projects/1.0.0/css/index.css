@@ -97,7 +97,7 @@ body{height: 100%;}
 /*推荐任务 E*/
 
 /*topic*/
-.header_title{height: 1rem;background: #fff;line-height: 1rem;text-align: center;position: fixed;top:0;width: 100%;max-width: 750px;z-index: 999;left:0;right:0;margin:0 auto;border-bottom: 1px solid #eeeeee;box-shadow:0 5px 10px #c0c0c0;}
+.header_title{height: 1rem;background: #fff;line-height: 1rem;text-align: center;position: fixed;top:0;width: 100%;max-width: 750px;z-index: 999;left:0;right:0;margin:0 auto;border-bottom: 1px solid #eeeeee;box-shadow:0 5px 5px #cbcbcb;-webkit-box-shadow:0 5px 5px #cbcbcb;-moz-box-shadow:0 5px 5px #cbcbcb;-o-box-shadow:0 5px 5px #cbcbcb;}
 .header_title p{color: #000;font-size: 0.38rem;line-height: 1rem}
 .header_title .search{position: absolute;width: 0.45rem;height: 0.45rem;background: url("../images/search.png") no-repeat center;background-size: 100% 100%;right:0.35rem;top:0.28rem;}
 .header_title .return{position: absolute;width: 1rem;height: 1rem;background: url("../images/return.png") no-repeat center;background-size: 0.24rem 0.43rem;left:0rem;top:0rem;}
@@ -121,6 +121,7 @@ body{height: 100%;}
 .topic_bottom .dele{width: 0.44rem;height: 100%;background: url("../images/dele.png") no-repeat center;background-size: 100% auto;transition:all 1s;-webkit-transition:all 1s;top:0;}
 .topic_bottom .zanping{background: #5ac8fa;width: 2rem;height: 0.48rem;line-height: 0.48rem;font-size: 0.24rem;color: #fff;border-radius: 0.1rem;margin-top: 0.1rem;}
 .topic_bottom .zanping .zan{float: left;width: 50%;height: 0.48rem;text-indent: 0.45rem;background: url("../images/like.png") no-repeat 0.1rem center;background-size: auto 0.25rem;border-right: 1px solid #fff;box-sizing:border-box; -moz-box-sizing:border-box; /* Firefox */ -webkit-box-sizing:border-box; /* Safari */ }
+.topic_bottom .zanping .zanEd{background: url("../images/liked.png") no-repeat 0.1rem center;background-size: auto 0.25rem;}
 .topic_bottom .zanping .ping{float: left;width: 50%;height: 0.48rem;text-indent: 0.45rem;background: url("../images/ping.png") no-repeat 0.1rem center;background-size: auto 0.25rem;}
 .topic_list .topic_box .topic_con ._bang{padding-right: 0.1rem;color: #5ac8fa;}
 .topic_list .topic_box .topic_con ._sui{padding-right: 0.1rem;color: #ef7272;}
@@ -209,7 +210,8 @@ body{height: 100%;}
 #account{background:url(../images/icon_phonenumber.png) no-repeat 0rem center;background-size: auto 0.5rem;border-bottom: 1px solid #cccccc; }
 #password{border-bottom: 1px solid #cccccc;background:url(../images/icon_password.png) no-repeat 0rem center;background-size: auto 0.5rem;}
 #login{border:none;width:100%;height:0.9rem;margin-top: 0.2rem;background: #eeeeee;border-radius: 0.9rem;color: #aaaaaa;font-size: 0.41rem;text-align: center;}
-#login:active{background: #5CACEE;}
+#login.active{background:#5AC8FA;color: #fff;}
+#login:active{background: #5AC8FA;color: #fff;}
 .login_inner-container{color:#5CACEE;margin-top: 0.6rem;position: relative;font-size: 0.33rem;}
 .login_inner-container .regist{color:#666666;float: left;margin-left: 0.02rem;}
 .login_inner-container .forgetPaw{color:#666666;float: right;margin-right: 0.02rem;}
@@ -565,14 +567,14 @@ body{height: 100%;}
 .noWork{line-height: 2rem;text-align: center;font-size: 0.35rem;color: #999;}
 .postWork{width: 0.75rem;height:1.1rem;padding: 0.2rem;border-radius: 0.95rem 0.95rem 0 0;position: fixed;bottom:1rem;left:0;right:0;margin:0 auto;background:#fff url("../images/postTopic.png") no-repeat center 0.2rem ;background-size: 0.75rem 0.75rem;}
 .postWork a{padding-top: 0.85rem;text-align: center;display: block;font-size: 0.24rem;color: #666666;}
-.work_content{width:100%;padding:0 0 0 0;background: #fafafa; margin:0.22rem auto ;position: relative;font-size: 0.28rem;color: #555555;height: 2.45rem;overflow: hidden;border-radius: 5px;overflow: hidden;}
+.work_content{width:100%;padding:0 0 0 0;background: #fff; margin:0.22rem auto ;position: relative;font-size: 0.28rem;color: #555555;height: 2.45rem;overflow: hidden;border-radius: 5px;overflow: hidden;}
 .work_content .content-inner-container{position: relative;background:url("../images/work_repeat.png") repeat-x bottom left;background-size: auto 0.05rem;padding: 0 0 0 0.25rem;}
 .work_content .content-inner-container .fl{width: 4.2rem;}
 .work_content .content-inner-container.will{background-color: #ff977f}
 .work_content .content-inner-container.ing{background-color: #83d8fd}
 .work_content .content-inner-container.ed{background-color: #aaaaaa}
 .work_content .content-inner-container:after{content: '';display: block;clear: both;height: 0;visibility: hidden;}
-.work_content .user-pic{display: inline-block; width: 0.64rem;height: 0.64rem;border-radius: 50%;overflow: hidden;margin:0.3rem 0 0 0;vertical-align: top;}
+.work_content .user-pic{display: inline-block; width: 0.64rem;height: 0.64rem;border-radius: 50%;overflow: hidden;margin:0.3rem 0 0 0;vertical-align: top;border:1px solid #eee;background: #eee;}
 .work_content .user-pic img{width: 100%;height: 100%;}
 .work_content .user-name{display: inline-block;line-height:0.64rem;vertical-align: top;color: #666666;font-size: 0.28rem;margin-top: 0.3rem;}
 .work_content .user-time{display: inline-block;line-height: 0.64rem;vertical-align: top;color: #666666;font-size: 0.28rem;margin-top: 0.3rem;}

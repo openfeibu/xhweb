@@ -74,8 +74,10 @@
                 /*是否点赞过 S*/      
                 if(b["favorited"]){
                   var zan = "取消";
+                  var zanEd = "zanEd";
                 }else{
                   var zan = "点赞";
+                  var zanEd = ""
                 }
                 /*是否点赞过 E*/      
 
@@ -101,7 +103,7 @@
                             '<div class="topic_bottom">'+
                               '<div class="zanN fl" >赞<span>'+b["favourites_count"]+'</span></div>'+
                               '<div class="zanping fr">'+
-                                '<div class="zan"  onclick=thumbUp(this,'+b["tid"]+')>'+zan+'</div>'+
+                                '<div class="zan '+zanEd+'"   onclick=thumbUp(this,'+b["tid"]+')>'+zan+'</div>'+
                                 '<div class="ping">评论</div>'+   
                               '</div>'+
                             '</div>'+comment+
@@ -215,8 +217,10 @@
                 /*是否点赞过 S*/      
                 if(b["favorited"]){
                   var zan = "取消";
+                  var zanEd = 'zanEd';
                   }else{
                     var zan = "点赞";
+                    var zanEd = ''
                   }
                 /*是否点赞过 E*/      
 
@@ -242,7 +246,7 @@
                             '<div class="topic_bottom">'+
                               '<div class="zanN fl" >赞<span>'+b["favourites_count"]+'</span></div>'+
                               '<div class="zanping fr">'+
-                                '<div class="zan"  onclick=thumbUp(this,'+b["tid"]+')>'+zan+'</div>'+
+                                '<div class="zan '+zanEd+'"  onclick=thumbUp(this,'+b["tid"]+')>'+zan+'</div>'+
                                 '<div class="ping">评论</div>'+   
                               '</div>'+
                             '</div>'+comment+

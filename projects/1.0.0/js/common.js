@@ -116,7 +116,9 @@ function toUnix(date){
 
 function thumbUp(obj,topic_id){
   var token = window.localStorage["token"];
+  is_alipay(true);
   $.post(locahost+'/topic/thumbUp/?token='+token+'&topic_id='+topic_id, function(data){
+    is_alipay(false);
     if(data.code == 2001){
       fb_alert(fb_error["2001"]);
       window.location.href="login.html";
@@ -124,11 +126,10 @@ function thumbUp(obj,topic_id){
       fb_alert(data.detail);
     }
     if(data.code == 200){
-      
       if(data.isthumb == 1){
-         $(obj).parents(".topic_bottom").find(".zan").text("取消");
+         $(obj).parents(".topic_bottom").find(".zan").text("取消").addClass("zanEd");
       }else if(data.isthumb == '-1'){
-         $(obj).parents(".topic_bottom").find(".zan").text("赞");
+         $(obj).parents(".topic_bottom").find(".zan").text("点赞").removeClass("zanEd");
       }
       $(obj).parents(".topic_bottom").find(".zanN span").text(data.data);
       setItem("topic",$(".topic_list ").html());

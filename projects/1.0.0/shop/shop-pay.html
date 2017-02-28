@@ -135,8 +135,7 @@
             
          }
          function payPay(){
-            is_alipay(true)
-
+                is_alipay(true)
                     var alipay_info = {
                         "token":token,
                         "shop_id":shop_id,
@@ -224,8 +223,6 @@
                 };
                 $.post(locahost+'/orderInfo/store',alipay_info,  function(data){
                     is_alipay(false);
-                    fb_alert(data.code)
-
                     if(data.code == 2001){
                         fb_alert(fb_error["2001"])
                         window.location.href = "login.html";
@@ -236,7 +233,7 @@
                     }
                     if(data.code == 200){
                         fb_alert(fb_error["s_004"]);
-                        locaGo("shop/shop-paysucc.html");
+                         locaGo("shop/shop-paysucc.html?order_id"+data.order_id );
                         
                     }else{
                         fb_alert(data.detail)

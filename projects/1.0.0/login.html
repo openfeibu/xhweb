@@ -23,7 +23,7 @@
   <link rel="shortcut icon" href="./icon.png" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="css/reset.css">
   <link rel="stylesheet" type="text/css" href="css/index.css">
-  <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+  <script src="js/jquery.min.js"></script>
   <script type="text/javascript" src="js/common.js"></script>
   <script src="js/director.js"></script>
   <script type="text/javascript" src="js/updata.js"></script>
@@ -356,7 +356,6 @@
 
 	 //下拉框效果
 	 $("#regist .input_b select").on("change",function(){
-
 	 	var val = $(this).val();
 	 	$(this).parents(".input_b").find("input").val(val)
 	 })
@@ -421,6 +420,13 @@
        $(".forgetPaw span").on("click",function(){
 
        })
+       //可下一步点击
+       $("#account,#password").on("input propertychange",function(){
+       	 	if($("#account").val().length > 0 && $("#password").val().length > 0){
+       	 		$("#login").addClass("active");
+       	 	}else{
+       	 		$("#login").removeClass("active");
+       	 	}
+       })
  </script>
 </html>
-
