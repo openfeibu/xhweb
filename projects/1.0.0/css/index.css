@@ -97,7 +97,7 @@ body{height: 100%;}
 /*推荐任务 E*/
 
 /*topic*/
-.header_title{height: 1rem;background: #fff;line-height: 1rem;text-align: center;position: fixed;top:0;width: 100%;max-width: 750px;z-index: 999;left:0;right:0;margin:0 auto;border-bottom: 1px solid #eeeeee;box-shadow:0 5px 5px #cbcbcb;-webkit-box-shadow:0 5px 5px #cbcbcb;-moz-box-shadow:0 5px 5px #cbcbcb;-o-box-shadow:0 5px 5px #cbcbcb;}
+.header_title{height: 1rem;background: #fff;line-height: 1rem;text-align: center;position: fixed;top:0;width: 100%;max-width: 750px;z-index: 999;left:0;right:0;margin:0 auto;border-bottom: 1px solid #eeeeee;box-shadow:0 2px 8px #cbcbcb;-webkit-box-shadow:0 2px 8px #cbcbcb;-moz-box-shadow:0 2px 8px #cbcbcb;-o-box-shadow:0 2px 8px #cbcbcb;}
 .header_title p{color: #000;font-size: 0.38rem;line-height: 1rem}
 .header_title .search{position: absolute;width: 0.45rem;height: 0.45rem;background: url("../images/search.png") no-repeat center;background-size: 100% 100%;right:0.35rem;top:0.28rem;}
 .header_title .return{position: absolute;width: 1rem;height: 1rem;background: url("../images/return.png") no-repeat center;background-size: 0.24rem 0.43rem;left:0rem;top:0rem;}
