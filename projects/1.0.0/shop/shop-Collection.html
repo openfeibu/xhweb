@@ -60,13 +60,15 @@
           <div class="noAss" style="display:none;">
                   <p>你还收藏的店铺?</p>
                   <p>赶紧去收藏吧~~~</p>
-<!--                   <a href="../index.html#/shop">去收藏</a> -->
+                  <a href="../index.html#/shop">去收藏</a>
             </div>
 	</section>
 </body>
 <script>
   var app = 0;
   var token = window.localStorage.token;
+  alert()
+  fb_alert(GetString("device"))
   if(window.localStorage.app == 1  || GetString("device") == "android"){
     $(".header_title").remove();
     $(".pt1").removeClass("pt1");
