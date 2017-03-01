@@ -67,13 +67,15 @@
 <script>
   var app = 0;
   var token = window.localStorage.token;
-  alert()
-  fb_alert(GetString("device"))
   if(window.localStorage.app == 1  || GetString("device") == "android"){
+  alert(GetString("device"))
+
     $(".header_title").remove();
     $(".pt1").removeClass("pt1");
     $(".shop-detail-con").addClass("appheight");
     window.localStorage.token  = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
+  alert(window.localStorage.token)
+
     app =1;
   }
   // $("html").html(window.localStorage.token)
@@ -88,6 +90,8 @@
       $.getJSON(locahost + "/shop/userCollects/?page="+page+"&token="+token,
         function(data) {
           if (data.code == 200) {
+          alert(3)
+
               clearLoading();
               loading(false);
               var htmldom='';
