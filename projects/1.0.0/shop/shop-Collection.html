@@ -86,7 +86,6 @@
         } 
       $.getJSON(locahost + "/shop/userCollects/?page="+page+"&token="+token,
         function(data) {
-             alert(data.detail)
           if (data.code == 200) {
               clearLoading();
               loading(false);
@@ -120,7 +119,7 @@
                   }
                 }
               
-              if (data.shops.length == '' || data.shops.length < 10) {
+              if (data.shops.length == '' ) {
                 $("#loading").remove();
                 if(page == 1){
                   //首页没数据
@@ -129,6 +128,8 @@
                    $(".shop").append('<div id="loaded" >我是有底线的</div>')
                 }
                
+              }else if(data.shops.length < 10){
+                 $(".shop").append('<div id="loaded" >我是有底线的</div>')
               } else {
                  $(window).on("scroll",function(){
                   if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
