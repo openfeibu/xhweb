@@ -43,7 +43,7 @@
 						<input type="text" id = "login_code_input" />
 						<div class="login_code_img"></div>
 					</div>
-					<input type="submit" value="登录" id="login">
+					<input type="button" value="登录" id="login">
 				</form>
 					<div class="login_inner-container">
 						<a href="#/reg" class="regist"><span>注册新账号</span></a>
@@ -177,18 +177,21 @@
       };
       var router = Router(routes);
       router.init("/login");
-	 $('.login_form').on('submit',function(){
+	 $('#login').on('click',onsubmit);
+	 function onsubmit(){
 			if(!checkMobile($("#account").val())){
 				fb_alert("手机格式不正确");
 			}else if($("#password").val().length<6){
 				fb_alert("密码不可小于6位数")
 			}else{
+	 			$('#login').off('click');
+
 				if($("#login_code_input").val() != 0){
 					var login_code = "&verify_code="+$("#login_code_input").val();
 				}else{
 					var login_code = "";
 				}
-				 $.post(locahost+'/user/login/?mobile_no='+$("#account").val()+'&password='+$.md5($("#password").val())+"&platform=web"+login_code,  function(data){
+				 $.post(locahost+'/user/login?mobile_no='+$("#account").val()+'&password='+$.md5($("#password").val())+"&platform=web"+login_code,  function(data){
 				 	if(data.code == "2005"){
 				    	$(".login_code").show();
 				    	fb_alert(data.detail);
@@ -216,6 +219,7 @@
 				      	},1000)
        					
 				    }else{
+	 					$('#login').on('click',onsubmit);
 				    	fb_alert(data.detail)
 				    }
 
@@ -224,8 +228,7 @@
 				
 			}
 			return false;
-		});
-
+		}
 	//获取登录验证码 S
 	function getLoginCode(){
 		$.getJSON(locahost+"/user/getVerifyImageURL/",function(data){
