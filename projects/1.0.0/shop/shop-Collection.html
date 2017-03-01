@@ -86,10 +86,8 @@
         } 
       $.getJSON(locahost + "/shop/userCollects/?page="+page+"&token="+token,
         function(data) {
-             alert(data.code)
+             alert(data.detail)
           if (data.code == 200) {
-         
-
               clearLoading();
               loading(false);
               var htmldom='';
