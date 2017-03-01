@@ -124,7 +124,6 @@
         $.getJSON(locahost+'/goods/shopGoodses',Getdata,function(data){
           if(data.code == 2001){
             //token 失效
-            fb_alert("2001");
             if(!app){
               window.location.href="../login.html";
             }else{
