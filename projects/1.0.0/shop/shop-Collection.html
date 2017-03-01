@@ -66,7 +66,6 @@
 </body>
 <script>
   var app = 0;
-  var token = window.localStorage.token;
   if(window.localStorage.app == 1  || GetString("device") == "android"){
     $(".header_title").remove();
     $(".pt1").removeClass("pt1");
@@ -75,6 +74,7 @@
 
     app =1;
   }
+   var token = window.localStorage.token;
   // $("html").html(window.localStorage.token)
   $(function(){
     loading(true); //动画
