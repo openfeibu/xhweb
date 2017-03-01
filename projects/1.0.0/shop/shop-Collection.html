@@ -57,7 +57,7 @@
             </div> -->
           </div>
         </div>
-          <div class="noAss">
+          <div class="noAss" style="display:none;">
                   <p>你还收藏的店铺?</p>
                   <p>赶紧去收藏吧~~~</p>
 <!--                   <a href="../index.html#/shop">去收藏</a> -->
@@ -120,7 +120,6 @@
               
               if (data.shops.length == '' || data.shops.length < 10) {
                 $("#loading").remove();
-                console.log(page)
                 if(page == 1){
                   //首页没数据
                   $(".noAss").show()
