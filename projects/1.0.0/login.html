@@ -43,7 +43,7 @@
 						<input type="text" id = "login_code_input" />
 						<div class="login_code_img"></div>
 					</div>
-					<input type="button" value="登录" id="login">
+					<input type="button" value="登录" id="login" class="opa_active">
 				</form>
 					<div class="login_inner-container">
 						<a href="#/reg" class="regist"><span>注册新账号</span></a>
@@ -191,7 +191,10 @@
 				}else{
 					var login_code = "";
 				}
+				is_alipay(true);
 				 $.post(locahost+'/user/login?mobile_no='+$("#account").val()+'&password='+$.md5($("#password").val())+"&platform=web"+login_code,  function(data){
+					is_alipay(false);
+
 				 	if(data.code == "2005"){
 				    	$(".login_code").show();
 				    	fb_alert(data.detail);

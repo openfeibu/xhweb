@@ -166,7 +166,6 @@
           // $('#testSelect option:selected') .val();
           //商品分类
           prodata.cat_id = cat_id;
-          console.log(prodata)
           //商品商品分类描述 
           $.post(locahost+'/goods/update/',prodata,function(data){
               
@@ -191,14 +190,14 @@
   // 上传图片
 
   function change(that){
-        fb_alert("开始上传");
         var field=new upField($(that));
         var maxSize=10240; //kb
          var name=$(that).attr('name');
         var pic = $(that).prop('files');
         var fordata=new FormData();
         fordata.append('uploadfile',pic[0]); //添加字段
-    
+        if(pic.length == 0) return;
+          fb_alert("开始上传");
      
     
        if(pic[0].size/1024>maxSize) { 

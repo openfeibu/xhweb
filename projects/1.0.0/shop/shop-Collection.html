@@ -92,7 +92,7 @@
               var htmldom='';
               $.each(data.shops,function(a,b){
                 htmldom += '<div class="shop-item">\
-                <a href="shop/shop-detail.html?sid='+b.shop_id+'">\
+                <a href="shop-detail.html?sid='+b.shop_id+'">\
                   <div class="shop-img">\
                     <img src="'+b.shop_img+'" alt="">\
                   </div>\
@@ -120,10 +120,14 @@
                 }
               
               if (data.shops.length == '' ) {
+
                 $("#loading").remove();
                 if(page == 1){
                   //首页没数据
-                  $(".noAss").show()
+                  $(".noAss").show();
+                  if(app == 1 ){
+                    $(".noAss a").hide();
+                  }
                 }else{
                    $(".shop").append('<div id="loaded" >我是有底线的</div>')
                 }

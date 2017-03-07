@@ -208,6 +208,7 @@
           loading(false);
           var shop_html = "";
           $.each(data.goodes,function(a,b){
+             proArray[b.goods_id] = JSON.stringify(b);
               var pro_html = '<dd proid="'+b.goods_id+'">\
                                <div class="shop-pro-img" style="background-image:url('+b.goods_thumb+')">\
                                 </div>\
@@ -261,6 +262,7 @@
     $(".shop-detail-con").on("click","dd",function(){
       var proId = $(this).attr("proid");
       window.localStorage.proInfo = proArray[proId];
+      console.log(proArray[proId])
       window.location.href="myshop-detail.html";
     })
     //带商品Id进行链接跳转
