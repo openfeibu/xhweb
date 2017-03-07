@@ -174,7 +174,7 @@
                 fb_alert(fb_error["ms_010"]);
                 setTimeout(function(){
                   is_alipay(false);
-                  // window.history.go(-1);
+                  window.history.go(-1);
                 },100)
 
               }else{
@@ -214,7 +214,7 @@
             processData: false,
             contentType: false,
       error: function(){
-        fb_alert('未知错误')
+        fb_alert('未知错误');
       },  
       success: function(data){
         if(data.code == 200){
