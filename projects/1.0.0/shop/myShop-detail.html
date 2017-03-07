@@ -65,7 +65,6 @@
     $(".header_title").remove();
     $(".pt1").removeClass("pt1");
     $(".shop-detail-con").addClass("appheight");
-
     app =1;
   }
   // $("html").html(window.localStorage.token)
@@ -108,7 +107,7 @@
           jj = $('[data-name="pro-detail-jj" ]').val(),
           cat_id = $('.pro-class option:selected') .val();
           //图片
-          if(photoarray != "" ){
+          if(proImg != "" ){
             prodata.goods_img = proImg;
             if(proImg_thumb != ""){
               prodata.goods_thumb = proImg_thumb;
