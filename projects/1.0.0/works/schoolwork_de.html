@@ -83,15 +83,22 @@
  /*获取参数*/
 var oid = GetString("oid");
 var token = window.localStorage.token;
+var getDate={
+  "order_id":oid,
+}
+if(token){
+  getDate["token"] = token;
+}
 loading(true);
 $(".main ").css("minHeight", $(window).height());
-$.getJSON(locahost + '/order/getOrderByToken/?token=' + token + '&order_id=' + oid,
+$.getJSON(locahost + '/order/getOrderByToken/',getDate,
 function(data) {
     loading(false);
     var b = data.data;
     var owner_id = b.owner_id; //发单人ID
     var courier_id = b.courier_id; //接单人ID
     var mine_id = window.localStorage.uid; //我的D
+
     if (owner_id == mine_id) {
         //我发的单
         if (b.status == "new") {
@@ -196,6 +203,7 @@ function(data) {
         }
         /*时间进程 E*/
     } else if (mine_id != owner_id && courier_id == 0) {
+
         //别人发的未接单
         var input_submit = '<input style="width:100%"  type="button" value="接受任务" class="work_submit opa_active"/>';
         // var tell = '<div class="tell"><a href="tel:">联系TA</a></div>';
@@ -321,7 +329,7 @@ function workSubmit() {
     $(".flag_A").remove();
     if (window.localStorage.token == undefined || window.localStorage.token == "undefined") {
         fb_alert(fb_error["2001"]);
-        window.location.href = "login.html";
+        window.location.href = "../login.html";
         return;
     }
     if (!is_auth()) {
