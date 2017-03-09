@@ -175,7 +175,7 @@
           loading(false);
           var order_html = "";
           $.each(data.data,function(a,b){
-            var bg = b["order_status"] == "进行中" ? "#87cbf6" :  b["order_status"] == "待结算" ? "#80b995" : "#bbbbbb";
+            var bg = b["order_status"] == "已接单" ? "#80b995" :  b["order_status"] == "待结算" ? "#80b995" : "#bbbbbb";
               order_html += '<div class="work_content box-shadow">\
                       <a href="../works/schoolwork_de.html?oid='+b.oid+'">\
                       <div class="content-inner-container">\
@@ -259,7 +259,7 @@
           }
           var order_html = "";
           $.each(data.data,function(a,b){
-            var bg = b["order_status"] == "已接单" ? "#87cbf6" :  b["order_status"] == "待结算" ? "#80b995" : "#bbbbbb";
+            var bg = b["order_status"] == "可接单" ? "#87cbf6" : b["order_status"] == "已接单" ? "#80b995" :  b["order_status"] == "待结算" ? "#80b995" : "#bbbbbb";
             b.avatar_url = b.avatar_url == '' ? "../images/footer05h.png" :  b.avatar_url;
             order_html += '<div class="work_content box-shadow">\
                       <a href="../works/schoolwork_de.html?oid='+b.oid+'">\

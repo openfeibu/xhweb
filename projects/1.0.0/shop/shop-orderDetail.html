@@ -42,7 +42,8 @@
                 <p><label for="">收货地址：</label><span data-name="addressMap"></span></p>
                 <p><label for="">手机号码：</label><span data-name="addressPhone"></span></p>
             </div>
-            <div class="shopOrder_info">
+            <div class="mobile_no"><span data-name="mobile_no"></span></div>
+            <div class="shopOrder_info" >
               <div class="shopName" data-name="shopName">XXX店铺</div>
               <ul>
                 <!-- <li>
@@ -127,6 +128,7 @@
             $("[data-name='order_sn']").text(data.order_info.order_sn);
             $("[data-name='created_at']").text(data.order_info.created_at);
             $("[data-name='shopName']").text(data.order_info.shop_name);
+            $("[data-name='mobile_no']").html("<a href='tel:"+data.order_info.shop.mobile_no+"'>联系卖家</a>");
             window.localStorage.total_fee = data.order_info.total_fee;//缓存总价格
             if(data.order_info.pay_time == null){
               $("[data-name='pay_time']").parents("p").remove();

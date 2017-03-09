@@ -118,6 +118,8 @@ function(data) {
             //已被接
             var tell = '<div class="tell"><a href="tel:' + b.courier_mobile_no + '">联系TA</a></div>';
             var workType = "接单人";
+            b.nickname = b.courier_nickname;
+            b.avatar_url = b.courier_avatar_url;
         }
 
         /*时间进程 S*/
@@ -219,7 +221,7 @@ function(data) {
             var input_submit = "";
         }
 
-        var tell = '';
+        var tell = '<div class="tell"><a href="tel:' + b.alt_phone + '">联系TA</a></div>';
         var workType = "发单人";
         /*时间进程 S*/
         if (b.time['cancelled_time']) {

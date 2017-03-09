@@ -127,6 +127,7 @@
             if(!app){
               window.location.href="../login.html";
             }else{
+              window.feibu.closeWeb();
               JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
             }
           }

@@ -173,7 +173,10 @@
 /*订单详情*/
 .order-address{padding: 0.27rem;background: #fafafa;line-height: 0.52rem;border-bottom: 1px solid #eeeeee;}
 .order-address p{font-size: 0.28rem;color: #666666;	}
+.order-address a{display: inline-block;color: #5AC8FA;}
 .order-detail{background: #fff;padding-bottom: 1rem;}
+.order-detail .mobile_no{height: 0.8rem;text-align: center;line-height: 0.8rem;background: #5ac8fa;margin:0.25rem 0.25rem 0 0.25rem;border-radius: 5px;}
+.order-detail .mobile_no a{color: #fff;font-size: 0.28rem;}
 .order-detail .shopOrder_info{margin-top: 0.25rem;border-top: 1px solid #eeeeee;}
 .applyReturn{padding: 0.22rem;}
 .applyReturn a{float: right;padding: 0.1rem 0.15rem;background: #80b995;color: #fff;}
