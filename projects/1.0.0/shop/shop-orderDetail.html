@@ -128,7 +128,7 @@
             $("[data-name='order_sn']").text(data.order_info.order_sn);
             $("[data-name='created_at']").text(data.order_info.created_at);
             $("[data-name='shopName']").text(data.order_info.shop_name);
-            $("[data-name='mobile_no']").text("联系卖家"+data.order_info.shop.mobile_no);
+            $("[data-name='mobile_no']").text("联系卖家:"+data.order_info.shop.mobile_no);
             window.localStorage.total_fee = data.order_info.total_fee;//缓存总价格
             if(data.order_info.pay_time == null){
               $("[data-name='pay_time']").parents("p").remove();
