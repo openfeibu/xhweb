@@ -120,7 +120,7 @@
           $(".shopOrder_info ul").html(shop_html);
             $("[data-name='addressName']").text(data.order_info.consignee);
             $("[data-name='addressMap']").text(data.order_info.address);
-            $("[data-name='addressPhone']").html('<a href="tel:'+data.order_info.mobile+'">'+data.order_info.mobile+'</a>');
+            $("[data-name='addressPhone']").text(data.order_info.mobile);
             $("[data-name='shipping_fee']").text(data.order_info.shipping_fee);
             $("[data-name='goods_amount']").text(data.order_info.goods_amount);
             $("[data-name='total_fee']").text(data.order_info.total_fee);
