@@ -675,7 +675,12 @@
       is_alipay(true);
       event.stopPropagation();
       var that = $(obj);
-      var token = window.localStorage.token;
+      if(app){
+        var token = JSON.parse(window.feibu.getToken()).value;
+      }else{
+        var token = window.localStorage.token;
+      }
+      
       $.post(locahost+'/shop/collect?token='+token+"&shop_id="+shop_id,  function(data){
            is_alipay(false);
            if(data.code == 2001){
