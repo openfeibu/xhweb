@@ -369,9 +369,9 @@ function winGo(str){
   // $("body").html('http://192.168.0.129/fb/'+str)
   if(window.localStorage.app == 1){
     // $("body").html(window.localStorage.token )
-    feibu.openWindow('shop','http://192.168.0.129/'+str)
+    feibu.openWindow('shop','http://192.168.0.129:33/'+str)
   }else{
-    window.location.href='http://192.168.0.129/'+str;
+    window.location.href='http://192.168.0.129:33/'+str;
   }
 }
 //链接跳转
