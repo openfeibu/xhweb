@@ -55,11 +55,11 @@
     $(".asdie").show();
   }
   setTimeout(function(){
-     $(".paysucc_icon").css({"top":"0.8rem"})
+     $(".paysucc_icon").css({"top":"0.8rem"});
    },0)
   var order_id = GetString("order_id");
    $(".goHome").on("click",function(){
-    locaGo("shop/shop-orderDetail.html?order_id"+order_id);
+    locaGo("shop/shop-orderDetail.html?order_id="+order_id);
    })
 
 

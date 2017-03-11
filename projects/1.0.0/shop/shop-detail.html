@@ -43,7 +43,7 @@
                   <div class="shopName" data-name="shopName"></div>
                   <div class="shopDescription" data-name="shopDescription"></div>
                   <div class="shop-bottom">
-                    <div class="shop-pei">0.00元起送</div>
+                    <div class="shop-pei">满<span data-name="min_goods_amount"></span>元起送</div>
                     <div class="shop-map">农工商北区</div>
                   </div>
                 </div>
@@ -202,6 +202,7 @@
           $("title").text(data.shop.shop_name);
           $("[data-name='shopDescription']").text(data.shop.description);
           $("[data-name='shopImg']").attr("src",data.shop.shop_img);
+          $("[data-name='min_goods_amount']").text(data.shop.min_goods_amount);
           min_goods_amount = data.shop.min_goods_amount;
           
           if(data.goodes == ''){
@@ -544,10 +545,12 @@
       if(cV == 0){
         closeCar();
         $(".shop-car-icon span").remove();
-        $(".shop-buy").removeClass("active").html("￥"+min_goods_amount+"元起送");
-      }else if(cV < min_goods_amount ){
-        $(".shop-buy").removeClass("active").html("￥"+min_goods_amount+"元起送");
-      }else{
+        $(".shop-buy").removeClass("active").html("￥"+min_goods_amount+"元起包邮");
+      }
+      // else if(cV < min_goods_amount ){
+      //   $(".shop-buy").removeClass("active").html("￥"+min_goods_amount+"元起包邮");
+      // }
+      else{
         $(".shop-buy").addClass("active").html("去结算");
       }
       $(".shop-count span").text(cV.toFixed(2));
@@ -584,14 +587,14 @@
                     $(".car-list dl").html(car_html);
                     $(".shop-car-icon").addClass("on").append("<span>"+car_count+"</span>");
                     $(".shop-count span").text(data.shop_total)
-                    if(data.shop_total >= min_goods_amount){
+                    // if(data.shop_total >= min_goods_amount){
                       // 超过起送价
                       $(".shop-buy").addClass("active").html("去结算");
-                    }else{
-                      // 未满起送价
-                      $(".shop-buy").html("￥"+min_goods_amount+"元起送");
+                    // }else{
+                    //   // 未满起送价
+                    //   $(".shop-buy").html("￥"+min_goods_amount+"元起送");
                       
-                    }   
+                    // }   
                  }else{
                      $(".shop-buy").html("￥"+min_goods_amount+"元起送");
                  }
