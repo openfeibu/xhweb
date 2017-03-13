@@ -95,6 +95,7 @@
     $(".pt1").removeClass("pt1");
     $(".shop-detail-con").addClass("appheight");
     app =1;
+    window.localStorage.token = JSON.parse(window.feibu.getToken()).value;
   }
   // $("html").html(window.localStorage.token)
   $(function(){
@@ -104,19 +105,14 @@
     cat_id,//当前分类ID
     shopStatus,//营业状况
     min_goods_amount;//起送价
-    getShopInfo();
+    var token = window.localStorage.token;
     window.localStorage.removeItem("user_address"); //清除选中的地址
+    getShopInfo();
     //获取初始数据
     function getShopInfo(){
         loading(true);
         var Getdata = {
           "shop_id":shop_id
-        }
-        if(app){
-          //app
-          var token = JSON.parse(window.feibu.getToken()).value;
-        }else{
-          var token = window.localStorage.token;
         }
         if(token != undefined){
             Getdata['token'] = token;
@@ -128,7 +124,11 @@
               window.location.href="../login.html";
             }else{
               // window.feibu.closeWeb();
-              JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
+              fb_alert("亲，请登录后再来购买");
+              setTimeout(function(){
+                window.feibu.closeWeb();
+                JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
+              },1000)
             }
           }
           if(data.categories.length == 0 ){
@@ -147,7 +147,18 @@
             $(".shop-detail-con").append("<div class='shop-pro-all' ></div>");
           })
           $.each(data.goodes,function(a,b){
-             var pro_html = '<dd proid="'+b.goods_id+'">\
+              if(b.goods_number == 0){
+                //没库存
+                var pro_html = '<dd proid="'+b.goods_id+'">\
+                               <div class="shop-pro-img no-kuncun" style="background-image:url('+b.goods_thumb+')">\
+                                </div>\
+                                <div class="shop-pro-right">\
+                                  <div class="shop-pro-name">'+b.goods_name+'</div>\
+                                  <div class="shop-pro-d">'+b.goods_desc+'</div>\
+                                  <div class="shop-pro-ed">已售'+b.goods_sale_count+'件&nbsp&nbsp库存：'+b.goods_number+'</div>\
+                                </div>';
+              }else{
+                var pro_html = '<dd proid="'+b.goods_id+'">\
                                <div class="shop-pro-img" style="background-image:url('+b.goods_thumb+')">\
                                 </div>\
                                 <div class="shop-pro-right">\
@@ -155,13 +166,14 @@
                                   <div class="shop-pro-d">'+b.goods_desc+'</div>\
                                   <div class="shop-pro-ed">已售'+b.goods_sale_count+'件&nbsp&nbsp库存：'+b.goods_number+'</div>\
                                 </div>';
+              }
+             
               if(data.shop.shop_status == 3){
                   //店家休息 不显示加号
                    pro_html += '<div class="shop-pro-bottom">\
                                     <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
                               </div>\
                             </dd>';
-
               }else if(b.cart_goods_number != 0){
                   pro_html += '<div class="shop-pro-bottom">\
                                     <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
@@ -225,7 +237,6 @@
           cat_id = $(".shop-pro-class ul li").eq(0).attr("cat_id");
         }
          $(".shop-pro-all").eq(nowIndex).html("<div class='ing'>正在加载中...</div>");
-         var token = window.localStorage.token;
         $.getJSON(locahost+'/goods/shopGoodses?shop_id='+shop_id+'&cat_id='+cat_id+'&token='+token,function(data){
           loading(false);
           var shop_html = "";
@@ -298,12 +309,6 @@
 
     //更新PHP购物车 0-1
     function updataCar(goods_id,goodes_num){
-          if(window.localStorage.app == 1 ){
-            window.localStorage.token  = JSON.parse(window.feibu.getToken()).value;
-          }else if(window.localStorage.token == undefined){
-            fb_alert("请先登录");
-            return false;
-          }
           var token = window.localStorage.token;
           var postData = {
             "token" : token,
@@ -652,7 +657,7 @@
       $.post(locahost+'/cart/destroyAll',postData,function(data){
                if(data.code == 2001){
                     fb_alert(fb_error["2001"])
-                    window.location.href = "../login.html";
+                    // window.location.href = "../login.html";
                     return;
                  }
                  if(data.code == "200"){   
@@ -688,7 +693,7 @@
            is_alipay(false);
            if(data.code == 2001){
                 fb_alert(fb_error["2001"])
-                window.location.href = "../login.html";
+                // window.location.href = "../login.html";
                 return;
              }
              if(data.code == "200"){     

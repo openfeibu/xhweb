@@ -91,7 +91,7 @@
 										<div class="shop-name">'+b.shop_name+shop_status+'</div>\
 										<div class="shop-d">'+b.description+'</div>\
 										<div class="shop-bottom">\
-											<div class="shop-pei">配送费：'+b.shipping_fee+'元</div>\
+											<div class="shop-pei">满 '+b.min_goods_amount+'元包邮</div>\
 											<div class="shop-map">'+b.address+'</div>\
 										</div>\
 									</div>\
@@ -108,7 +108,6 @@
                     $(".noShop").show();
                     $(".shop-list").hide();
                   }else{
-                    console.log(1)
                     $('.shop-list').html(htmldom);
                     setItem("shop",htmldom);
                     if( $("#loaded").length == 0){
