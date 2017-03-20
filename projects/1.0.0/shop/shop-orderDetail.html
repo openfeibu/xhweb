@@ -40,9 +40,9 @@
             <div class="order-address">
                 <p><label for="">收货人：</label><span data-name="addressName"></span></p>
                 <p><label for="">收货地址：</label><span data-name="addressMap"></span></p>
-                <p><label for="">手机号码：</label><span data-name="addressPhone"></span></p>
+                <p><label for="">手机号码：</label><span  data-name="addressPhone" ></span></p>
             </div>
-            <div class="mobile_no"><span data-name="mobile_no"></span></div>
+            <div class="mobile_no"><span data-name="mobile_no" phone="">联系卖家</span></div>
             <div class="shopOrder_info" >
               <div class="shopName" data-name="shopName">XXX店铺</div>
               <ul>
@@ -129,7 +129,7 @@
             $("[data-name='order_sn']").text(data.order_info.order_sn);
             $("[data-name='created_at']").text(data.order_info.created_at);
             $("[data-name='shopName']").text(data.order_info.shop_name);
-            $("[data-name='mobile_no']").text("联系卖家:"+data.order_info.shop.mobile_no);
+            $("[data-name='mobile_no']").attr("phone",data.order_info.shop.mobile_no);
             window.localStorage.total_fee = data.order_info.total_fee;//缓存总价格
             if(data.order_info.pay_time == null){
               $("[data-name='pay_time']").parents("p").remove();
@@ -244,6 +244,12 @@
                     }
         })
     }
+    //拨打电话
+    $('[data-name="mobile_no"]').on("click",function(){
+      var tel = $(this).attr("phone");
+       window.feibu.CallPhone(tel)
+    })
+    
     window.returnMoney = returnMoney;
     window.closeOrder = closeOrder;
     window.takeGood = takeGood;
