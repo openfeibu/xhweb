@@ -8,7 +8,7 @@
 	<meta content="telephone=no" name="format-detection" />
   <!-- uc强制竖屏 -->
   <meta name="screen-orientation" content="portrait">
-  <!-- UC应用模式 --> 
+  <!-- UC应用模式 -->
   <meta name="browsermode" content="application">
   <!-- QQ强制竖屏 -->
   <meta name="x5-orientation" content="portrait">
@@ -36,32 +36,32 @@
 </style>
 <body >
 	<section class='main'>
-		<div id="ClassHome" class="routes">      
+		<div id="ClassHome" class="routes">
     </div>
-    <div id="ClassTopic" class="routes">      
+    <div id="ClassTopic" class="routes">
     </div>
-    <div id="ClassSW" class="routes">      
+    <div id="ClassSW" class="routes">
     </div>
-    <div id="ClassShop" class="routes">      
+    <div id="ClassShop" class="routes">
     </div>
-    <div id="ClassMine" class="routes">      
+    <div id="ClassMine" class="routes">
     </div>
-    <div id="ClassTape" class="routes">      
+    <div id="ClassTape" class="routes">
     </div>
-    <div id="ClassB" class="routes">      
+    <div id="ClassB" class="routes">
     </div>
-    <div id="ClassC" class="routes">      
+    <div id="ClassC" class="routes">
     </div>
-    <div id="ClassF" class="routes">      
+    <div id="ClassF" class="routes">
     </div>
 	</section>
 	<footer>
 		<ul>
-			<li class="on"><a href="#/home">校园</a></li>
-      <li><a href="#/work/all">校园任务</a></li>
-			<li><a href="#/topic">校汇圈</a></li>
-      <li><a href="#/shop">小店铺</a></li>
-			<li><a href="#/mine">我的</a></li>
+			<li class="on animate"><a href="#/home">校园</a></li>
+      <li class="animate"><a href="#/work/all">校园任务</a></li>
+			<li class="animate"><a href="#/topic">校汇圈</a></li>
+      <li class="animate"><a href="#/shop">小店铺</a></li>
+			<li class="animate"><a href="#/mine">我的</a></li>
 		</ul>
 	</footer>
 </body>
@@ -112,11 +112,11 @@
           tab = window.location.hash.replace(/#\//,"")
           $("footer li").removeClass("on").eq(0).addClass("on")
           $.get('home.html',function(data){
-            routDom($("#ClassHome")); 
+            routDom($("#ClassHome"));
             $("#ClassHome").html(data);
-          })		
+          })
        };
-      var getTopic = function () { 
+      var getTopic = function () {
           clearWindowScroll();
           tab = window.location.hash.replace(/#\//,"")
           $("footer li").removeClass("on").eq(2).addClass("on")
@@ -183,19 +183,19 @@
         }
         if(!getItemATime("personalWork") && a != 1){
           var loca = getItem("personalWork");
-          var htmldom = loca[0]; 
+          var htmldom = loca[0];
           $(".work_list_personal").html(htmldom);
           loading(false); //移除动画
            $(window).on("scroll",function(){
               if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
-                //到底  
+                //到底
                 personalWork_get(2);
               }
            })
           }else{
             //没有缓存
             personalWork_get();
-          }  
+          }
         };
         function businessWork(a){
           if($(".work_list_business").length == 0){
@@ -211,19 +211,19 @@
           }
           if(!getItemATime("businessWork") && a != 1){
             var loca = getItem("businessWork");
-            var htmldom = loca[0]; 
+            var htmldom = loca[0];
             $(".work_list_business").html(htmldom);
             loading(false); //移除动画
              $(window).on("scroll",function(){
                 if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
-                  //到底  
+                  //到底
                   businessWork_get(2);
                 }
              })
             }else{
               //没有缓存
               businessWork_get();
-            }  
+            }
           };
 
       var routes = {
@@ -262,7 +262,7 @@
       router.init("/home");
     </script>
 
-    
+
 </html>
 
 

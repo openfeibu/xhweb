@@ -8,7 +8,7 @@
   <meta content="telephone=no" name="format-detection" />
   <!-- uc强制竖屏 -->
   <meta name="screen-orientation" content="portrait">
-  <!-- UC应用模式 --> 
+  <!-- UC应用模式 -->
   <meta name="browsermode" content="application">
   <!-- QQ强制竖屏 -->
   <meta name="x5-orientation" content="portrait">
@@ -74,7 +74,7 @@
                 <!-- <div class="delivery opa_active">确定收货</div> -->
               </div>
             </div>
-            
+
         </div>
 	</section>
 </body>
@@ -101,7 +101,7 @@
               // window.location.href = "../login.html";
               return;
           }else if(data.code == 110){
-              
+
           }
           loading(false);
           var shop_html = "";
@@ -174,10 +174,10 @@
                 }else{
                   fb_alert(data.detail)
                 }
-              
+
               }).error(function(){
                 fb_alert("服务器出小差啦");
-              })       
+              })
         })
       }
     //取消订单
@@ -195,10 +195,10 @@
                 }else{
                   fb_alert(data.detail)
                 }
-              
+
               }).error(function(){
                 fb_alert("服务器出小差啦");
-              })       
+              })
         })
       }
       //确定收货
@@ -216,10 +216,10 @@
                 }else{
                   fb_alert(data.detail)
                 }
-              
+
               }).error(function(){
                 fb_alert("服务器出小差啦");
-              })       
+              })
         })
       }
         //去付款
@@ -246,10 +246,16 @@
     }
     //拨打电话
     $('[data-name="mobile_no"]').on("click",function(){
-       var tel = $(this).attr("phone");
-       window.feibu.CallPhone(tel);
+      var tel = $(this).attr("phone");
+      if(app){
+        window.feibu.CallPhone(tel);
+      }else{
+        window.location.href="tel:"+tel;
+      }
+
+
     })
-    
+
     window.returnMoney = returnMoney;
     window.closeOrder = closeOrder;
     window.takeGood = takeGood;
@@ -261,7 +267,7 @@
 
 
 
-  
+
 
 
 

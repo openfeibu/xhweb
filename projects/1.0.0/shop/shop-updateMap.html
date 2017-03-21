@@ -8,7 +8,7 @@
   <meta content="telephone=no" name="format-detection" />
   <!-- uc强制竖屏 -->
   <meta name="screen-orientation" content="portrait">
-  <!-- UC应用模式 --> 
+  <!-- UC应用模式 -->
   <meta name="browsermode" content="application">
   <!-- QQ强制竖屏 -->
   <meta name="x5-orientation" content="portrait">
@@ -56,7 +56,7 @@
                   <label for="">设置为默认地址</label>
                   <input type="checkbox" name="is_default">
                 </div>
-                <div class="submitButton opa_active">保存地址</div>
+                <div class="submitButton opa_active">保存地址并使用</div>
               </form>
             </div>
         </div>
@@ -81,11 +81,11 @@
        updateData.is_default ? $('[name="is_default"]').attr("checked", true) : "";
        address_id =updateData.address_id;
     }
-    
+
 
 
     //获取数据
-    token = window.localStorage.token; 
+    token = window.localStorage.token;
     function createMap(){
         //loading(true);
         var name = $('[name="name"]').val(),
@@ -152,7 +152,7 @@
         }
        $.post(locahost+'/userAddress/update?',parameter,function(data){
           if(data.code == "200"){
-            // window.localStorage.user_address = JSON.stringify(data.user_address);
+            window.localStorage.user_address = JSON.stringify(data.user_address);
             replaceLocation('shop-map.html');
             is_alipay(false);
           }
@@ -166,11 +166,11 @@
       if(address_id != null){
         updateMap();
         return false;
-      } 
+      }
         createMap();
     })
-   
-   
+
+
   })
 </script>
 </html>
@@ -178,7 +178,7 @@
 
 
 
-  
+
 
 
 

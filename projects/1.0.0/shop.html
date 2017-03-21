@@ -25,7 +25,7 @@
 	</div>
 </div>
 <script>
- tab = "shop";
+  tab = "shop";
   loading(true); //动画
   getShopList();
   var app = 0;
@@ -39,7 +39,7 @@
             var loca = getItem("shop");
             var htmldom = loca[0];
             $(".shop-list").html(htmldom);
-            loading(false); 
+            loading(false);
           }else{
             getShopCon()
           };
@@ -50,7 +50,7 @@
     			$(".shop").append("<div id='loading'>正在玩命的加载中...</div>");
     		}
         var getData = {
-          "page" : page 
+          "page" : page
         }
         if(app){
           var token = window.localStorage.token;
@@ -69,7 +69,7 @@
           if (data.code == 200) {
               clearLoading();
               var htmldom='';
-              $.each(data.shops,function(a,b){
+              $.each(data.data,function(a,b){
                 if(b.shop_status == 1){
                   var shop_status = ""
                 }else if(b.shop_status == 3){
@@ -100,11 +100,11 @@
               })
                if(page != 1){
                   $('.shop-list').append(htmldom);
-                  if(data.shops.length < 10 && $("#loaded").length == 0){
+                  if(data.data.length < 10 && $("#loaded").length == 0){
                      $(".shop").append('<div id="loaded" >我是有底线的</div>')
                   }
                 }else{
-                  if(data.shops.length == 0){
+                  if(data.data.length == 0){
                     $(".noShop").show();
                     $(".shop-list").hide();
                   }else{
@@ -113,11 +113,11 @@
                     if( $("#loaded").length == 0){
                       $(".shop").append('<div id="loaded" >我是有底线的</div>')
                     }
-                   
+
                   }
                 }
-              
-              if ( data.shops.length == 10) {
+
+              if ( data.data.length == 10) {
                  $(window).on("scroll",function(){
                   if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
                     //到底
@@ -126,14 +126,14 @@
                   }
                  })
               }
-            }        
+            }
         });
       }
       //打开搜索页面
       $(".shopSearch").focus(function(){
         winGo("shop/shop-search.html");
       })
-  refresh["shop"]= getShopList;    
+  refresh["shop"]= getShopList;
 </script>
 
 

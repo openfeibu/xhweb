@@ -8,7 +8,7 @@
   <meta content="telephone=no" name="format-detection" />
   <!-- uc强制竖屏 -->
   <meta name="screen-orientation" content="portrait">
-  <!-- UC应用模式 --> 
+  <!-- UC应用模式 -->
   <meta name="browsermode" content="application">
   <!-- QQ强制竖屏 -->
   <meta name="x5-orientation" content="portrait">
@@ -52,10 +52,10 @@
             <div class="shop-detail-con">
               <div class="shop-pro-class">
                   <ul>
-                    
+
                   </ul>
               </div>
-              
+
               <div class="noGoods">
                 等待商家上架
               </div>
@@ -75,11 +75,11 @@
 
               </dl>
             </div>
-          
+
         </div>
         <!-- 购物车 E -->
 	      <div class="shop_info_fixed">
-          <div class="shopName"  data-name="shopName">121</div> 
+          <div class="shopName"  data-name="shopName">121</div>
           <div class="shopDescription" >
               <div class="title">商家简介:</div>
               <p data-name="shopDescription"></p>
@@ -90,7 +90,7 @@
 </body>
 <script>
   var app = 0;
-  if(window.localStorage.app == 1){
+  if(GetString("device") == "android" || window.localStorage.app == 1){
     $(".header_title").remove();
     $(".pt1").removeClass("pt1");
     $(".shop-detail-con").addClass("appheight");
@@ -104,10 +104,14 @@
     nowIndex = 0,//当前分类索引
     cat_id,//当前分类ID
     shopStatus,//营业状况
-    min_goods_amount;//起送价
+    min_goods_amount,//起送价
+    car_count=0,
+    carts;
     var token = window.localStorage.token;
     window.localStorage.removeItem("user_address"); //清除选中的地址
+    window.localStorage.removeItem("cart"); //清除选中的地址
     getShopInfo();
+
     //获取初始数据
     function getShopInfo(){
         loading(true);
@@ -125,9 +129,10 @@
             }else{
               // window.feibu.closeWeb();
               fb_alert("亲，请登录后再来购买");
-              
+
               setTimeout(function(){
-                window.feibu.closeWeb();
+
+                window.feibu.closeWeb('{"action":"shop"}');
                 // JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
               },1000)
             }
@@ -139,6 +144,7 @@
           }
           loading(false);
           var shop_html = "",categories_html="";
+
           $.each(data.categories,function(a,b){
             if(a == 0){
               categories_html += '<li cat_id="'+b.cat_id+'" class="on">'+b.cat_name+'</li>';
@@ -168,21 +174,11 @@
                                   <div class="shop-pro-ed">已售'+b.goods_sale_count+'件&nbsp&nbsp库存：'+b.goods_number+'</div>\
                                 </div>';
               }
-             
+
               if(data.shop.shop_status == 3){
                   //店家休息 不显示加号
                    pro_html += '<div class="shop-pro-bottom">\
                                     <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
-                              </div>\
-                            </dd>';
-              }else if(b.cart_goods_number != 0){
-                  pro_html += '<div class="shop-pro-bottom">\
-                                    <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
-                                    <div class="addCar " maxNum="'+b.goods_number+'">\
-                                      <div class="prevC">-</div>\
-                                      <div class="Cinput">'+b.cart_goods_number+'</div>\
-                                      <div class="addC">+</div>\
-                                    </div>\
                               </div>\
                             </dd>';
               }else{
@@ -202,10 +198,9 @@
           if(data.shop.shop_status == 1){
               shopStatus = 1;
               var shop_status = "";
-              getCar();//获取购物车
             }else if(data.shop.shop_status == 3){
               shopStatus = 3;
-              var shop_status = "<span class='rest'>(休息中)</span>";
+              var shop_status = "<span class='rest'>(打烊中)</span>";
               $(".shop-car").html("<div class='restText'>本店已打烊</div>");
             }
           // 营业状况  e
@@ -217,7 +212,7 @@
           $("[data-name='shopImg']").attr("src",data.shop.shop_img);
           $("[data-name='min_goods_amount']").text(data.shop.min_goods_amount);
           min_goods_amount = data.shop.min_goods_amount;
-          
+           getCar();//获取购物车
           if(data.goodes == ''){
               //没商品数据
               $("#loading").remove();
@@ -262,21 +257,11 @@
                                   <div class="shop-pro-ed">已售'+b.goods_sale_count+'件&nbsp&nbsp库存：'+b.goods_number+'</div>\
                                 </div>';
               }
-             
+
               if(data.shop.shop_status == 3 ){
                   //店家休息 不显示加号
                    pro_html += '<div class="shop-pro-bottom">\
                                     <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
-                              </div>\
-                            </dd>';
-              }else if(b.cart_goods_number != 0){
-                  pro_html += '<div class="shop-pro-bottom">\
-                                    <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
-                                    <div class="addCar" maxNum="'+b.goods_number+'">\
-                                      <div class="prevC">-</div>\
-                                      <div class="Cinput">'+b.cart_goods_number+'</div>\
-                                      <div class="addC">+</div>\
-                                    </div>\
                               </div>\
                             </dd>';
               }else{
@@ -293,17 +278,18 @@
               shop_html += pro_html;
           })
           $(".shop-pro-all").eq(nowIndex).html('<dl>'+shop_html+'</dl>').attr("loca",true);
+           updateProNum();//更新列表商品已选数量
           if(data.goodes == ''){
               //没商品数据
             $("#loading").remove();
             $(".shop-pro-all").eq(nowIndex).append("<div id='loaded'>暂没数据</div>")
- 
+
             }
 
           })
     }
     //获取分类
-    
+
     //点击分类
     $(".shop-pro-class").on("click","li",function(){
       if($(this).hasClass("on")){
@@ -317,7 +303,7 @@
       if(!loca){
         getMoreInfo();
       }
-      
+
     })
     //点击分类
 
@@ -335,10 +321,10 @@
                     // window.location.href = "../login.html";
                     return;
                  }
-                 if(data.code == "200"){    
-                   
+                 if(data.code == "200"){
+
                  }else{
-                     fb_alert(data.detail);    
+                     fb_alert(data.detail);
                 }
           }).error(function(xhr,errorText,errorType){
                   alert('网络超时，请稍后再试')
@@ -346,10 +332,9 @@
 
     }
     //更新PHP购物车
-    
+
     //总购物车数量
-    var car_count=0,
-    carTime=null,
+    var carTime=null,
     nowProId; //定时时间
     // 加入购物车
     $(".shop-detail-con").on("click",".addC",function(){
@@ -359,7 +344,8 @@
       dd= $(this).parents("dd"),
       proid= dd.attr("proid"),
       maxNum = addCar.attr("maxNum"),
-      nowNum = num+1;
+      nowNum = num+1,
+      carts = JSON.parse(window.localStorage.cart);
         if(num >= maxNum){
           fb_alert("超过了库存");
           $(".shop-buy").on("click",createOrder);
@@ -369,7 +355,12 @@
               "name":dd.find(".shop-pro-name").text(),
               "value":dd.find(".shop-pro-money span").text(),
               "maxNum":addCar.attr("maxNum"),
-              "proid":proid
+              "proid":proid,
+              "goods_id":proid,
+              "goods_name":dd.find(".shop-pro-name").text(),
+              "goods_price":dd.find(".shop-pro-money span").text(),
+              "goods_maxNus":addCar.attr("maxNum"),
+              "goods_number":1
             }
             updataCount(1,pro_info);
             if(nowProId == proid){
@@ -380,6 +371,9 @@
                 $(".shop-buy").on("click",createOrder);
             },1000)
             nowProId = proid;
+            carts.push(pro_info);
+            window.localStorage.cart = JSON.stringify(carts);
+            // console.log(window.localStorage.cart)
         }else{
             addCar.find(".Cinput").text(nowNum);
             $(".car-list dd[proid='"+proid+"']").find(".CCinput").text(nowNum);
@@ -392,6 +386,12 @@
                 $(".shop-buy").on("click",createOrder);
             },1000)
             nowProId = proid;
+            $.each(carts,function(a,b){
+              if(b["goods_id"] == proid){
+                b["goods_number"] = nowNum;
+              }
+            })
+            window.localStorage.cart = JSON.stringify(carts);
         }
 
     })
@@ -402,7 +402,8 @@
       dd= $(this).parents("dd"),
       proid= dd.attr("proid"),
       maxNum = CaddCar.attr("maxNum"),
-      nowNum = num+1;
+      nowNum = num+1,
+      carts = JSON.parse(window.localStorage.cart);
         if(num >= maxNum){
           fb_alert("超过了库存");
           $(".shop-buy").on("click",createOrder);
@@ -418,6 +419,12 @@
                 $(".shop-buy").on("click",createOrder);
             },1000)
             nowProId = proid;
+            $.each(carts,function(a,b){
+              if(b["goods_id"] == proid){
+                b["goods_number"] = nowNum;
+              }
+            })
+            window.localStorage.cart = JSON.stringify(carts);
         }
 
 
@@ -431,7 +438,8 @@
       num = Number(addCar.find(".Cinput").text()),
       dd= $(this).parents("dd"),
       proid= dd.attr("proid"),
-      nowNum = num-1;
+      nowNum = num-1,
+      carts = JSON.parse(window.localStorage.cart);
         if(nowNum == 0){
             addCar.addClass("no").find(".Cinput").text(nowNum);
             $(".car-list dd[proid='"+proid+"']").remove();
@@ -444,6 +452,13 @@
                 $(".shop-buy").on("click",createOrder);
             },1000)
             nowProId = proid;
+            $.each(carts,function(a,b){
+              if(b["goods_id"] == proid){
+                carts.splice(a,1);
+                return false;
+              }
+            })
+            window.localStorage.cart = JSON.stringify(carts);
         }else{
             addCar.find(".Cinput").text(nowNum);
             $(".car-list dd[proid='"+proid+"']").find(".CCinput").text(nowNum);
@@ -456,9 +471,14 @@
                 $(".shop-buy").on("click",createOrder);
             },200)
             nowProId = proid;
-
+            $.each(carts,function(a,b){
+              if(b["goods_id"] == proid){
+                b["goods_number"] = nowNum;
+              }
+            })
+            window.localStorage.cart = JSON.stringify(carts);
         }
-        
+
     })
 
     $(".car-list").on("click",".CprevC",function(){
@@ -467,7 +487,8 @@
           num = Number(CaddCar.find(".CCinput").text()),
           dd= $(this).parents("dd"),
           proid= dd.attr("proid"),
-          nowNum = num-1;
+          nowNum = num-1,
+          carts = JSON.parse(window.localStorage.cart);
             if(nowNum == 0){
                 dd.remove();
                 CaddCar.find(".CCinput").text(nowNum);
@@ -481,6 +502,13 @@
                     $(".shop-buy").on("click",createOrder);
                 },1000)
                 nowProId = proid;
+                $.each(carts,function(a,b){
+                  if(b["goods_id"] == proid){
+                    carts.splice(a,1);
+                    return false;
+                  }
+                })
+                window.localStorage.cart = JSON.stringify(carts);
             }else{
                 CaddCar.find(".CCinput").text(nowNum);
                 $(".shop-pro-all dd[proid='"+proid+"']").find(".Cinput").text(nowNum);
@@ -493,9 +521,14 @@
                     $(".shop-buy").on("click",createOrder);
                 },1000)
                 nowProId = proid;
-
+                $.each(carts,function(a,b){
+                  if(b["goods_id"] == proid){
+                    b["goods_number"] = nowNum;
+                  }
+                })
+                window.localStorage.cart = JSON.stringify(carts);
             }
-        
+
     })
     // 减少购物车
     //打开购物车
@@ -522,7 +555,7 @@
     function updataCount(flag,info){
       // 1为加 0为减
         if(flag){
-          car_count++;   
+          car_count++;
           if($(".shop-car-icon").find("span").length == 0){
             $(".shop-car-icon").append("<span></span>");
           }else{
@@ -575,19 +608,21 @@
       $(".shop-count span").text(cV.toFixed(2));
     }
     //更新总价格
-    
+
     //获取购物车
     function getCar(){
-          is_alipay(true);
+        is_alipay(true);
         var token = window.localStorage.token || "";
-          $.getJSON(locahost+'/cart/shopCarts',{"token":token,"shop_id":shop_id},function(data){
+        if(window.localStorage.cart == undefined || JSON.parse(window.localStorage.cart).length == 0 ){
+            $.getJSON(locahost+'/cart/shopCarts',{"token":token,"shop_id":shop_id},function(data){
             is_alipay(false);
             if(data.code == 2001){
                 // fb_alert(fb_error["2001"])
                 // window.location.href = "../login.html";
                 return;
              }
-             if(data.code == "200"){  
+             if(data.code == "200"){
+                carts = window.localStorage.cart = JSON.stringify(data.carts);
                   var car_html="";
                   $.each(data.carts,function(a,b){
                     car_html += '<dd proid="'+b.goods_id+'">\
@@ -606,26 +641,50 @@
                     $(".car-list dl").html(car_html);
                     $(".shop-car-icon").addClass("on").append("<span>"+car_count+"</span>");
                     $(".shop-count span").text(data.shop_total)
-                    // if(data.shop_total >= min_goods_amount){
-                      // 超过起送价
-                      $(".shop-buy").addClass("active").html("去结算");
-                    // }else{
-                    //   // 未满起送价
-                    //   $(".shop-buy").html("￥"+min_goods_amount+"元起送");
-                      
-                    // }   
+                    $(".shop-buy").addClass("active").html("去结算");
                  }else{
                      $(".shop-buy").html("￥"+min_goods_amount+"元起送");
                  }
+                  updateProNum();//更新列表商品已选数量
              }else{
-                 fb_alert(data.detail);    
+                 fb_alert(data.detail);
             }
-      }).error(function(xhr,errorText,errorType){
-              alert('网络超时，请稍后再试')
-      });
+
+            }).error(function(xhr,errorText,errorType){
+                    alert('网络超时，请稍后再试')
+            });
+
+          }else{
+            is_alipay(false);
+             var car_html="";
+             var carts = JSON.parse(window.localStorage.cart);
+              $.each(carts,function(a,b){
+                car_html += '<dd proid="'+b.goods_id+'">\
+                                <p class="car-name">'+b.goods_name+'</p>\
+                                <p class="car-money">￥<span>'+b.goods_price+'</span></p>\
+                                <div class="CaddCar" maxnum="'+b.goods_maxNus+'">\
+                                  <div class="CprevC">-</div>\
+                                  <div class="CCinput">'+b.goods_number+'</div>\
+                                  <div class="CaddC">+</div>\
+                               </div>\
+                              </dd>';
+               car_count += b.goods_number;
+              })
+             if(carts.length != 0){
+                $(".car-list dl").html(car_html);
+                $(".shop-car-icon").addClass("on").append("<span>"+car_count+"</span>");
+                // $(".shop-count span").text(data.shop_total)
+                $(".shop-buy").addClass("active").html("去结算");
+             }else{
+                 $(".shop-buy").html("￥"+min_goods_amount+"元起送");
+             }
+             updataValue();
+             updateProNum();//更新列表商品已选数量
+          }
+
     }
     //获取购物车
-    
+
     //创建订单
     $(".shop-buy").on("click",createOrder);
     function createOrder(){
@@ -636,13 +695,13 @@
         return false;
       }
       if(shopStatus == 3){
-        fb_alert(fb_error["s_009"]); 
+        fb_alert(fb_error["s_009"]);
       }else if($(this).hasClass("active")){
          window.location.href = "shop-createOrder.html?sid="+shop_id;
       }else{
         fb_alert(fb_error["s_001"]);
       }
-          
+
     }
     //打开简介
     $(".shop-header").on("click",function(){
@@ -674,18 +733,18 @@
                     // window.location.href = "../login.html";
                     return;
                  }
-                 if(data.code == "200"){   
-                    is_alipay(false);            
-                     closeCar();  
+                 if(data.code == "200"){
+                    is_alipay(false);
+                     closeCar();
                     $(".car-list dl").html("");
                     $(".shop-car-icon").removeClass("on").find("span").remove();
                     $(".shop-count span").text("0.00")
                     $(".shop-buy").removeClass("active");
                     $(".addCar").addClass("no").find(".Cinput").text(0);
                     car_count = 0;
-                     fb_alert(data.detail);                    
+                     fb_alert(data.detail);
                  }else{
-                    is_alipay(false);  
+                    is_alipay(false);
                      fb_alert(data.detail);
                 }
           }).error(function(xhr,errorText,errorType){
@@ -702,7 +761,7 @@
       }else{
         var token = window.localStorage.token;
       }
-      
+
       $.post(locahost+'/shop/collect?token='+token+"&shop_id="+shop_id,  function(data){
            is_alipay(false);
            if(data.code == 2001){
@@ -710,7 +769,7 @@
                 // window.location.href = "../login.html";
                 return;
              }
-             if(data.code == "200"){     
+             if(data.code == "200"){
                if(data.is_collect == 1){
                 //收藏成功
                   that.addClass("collection");
@@ -718,16 +777,24 @@
                   that.removeClass("collection");
                }
              }else{
-                 fb_alert(data.detail);    
+                 fb_alert(data.detail);
               }
       }).error(function(xhr,errorText,errorType){
               alert('网络超时，请稍后再试')
           });
 
     }
+    //更新已选数量
+    function updateProNum(){
 
+      var carts = JSON.parse(window.localStorage.cart);
 
-     window.collection = collection;
+      $.each(carts,function(a,b){
+         console.log( $(".shop-pro-all dd[proid='"+b.goods_id+"']").length);
+         $(".shop-pro-all dd[proid='"+b.goods_id+"']").find(".Cinput").text(b.goods_number).end().find(".addCar").removeClass("no");
+      })
+    }
+    window.collection = collection;
   })
 </script>
 </html>
@@ -735,7 +802,7 @@
 
 
 
-  
+
 
 
 
