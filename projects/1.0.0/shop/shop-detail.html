@@ -99,9 +99,9 @@
   }
   $(function(){
     //兼容低级浏览器设置高度
-    var fontS = parseFloat($("html").css("fontSize"));
+    var fontS = parseFloat($(window).width()/7.5) > 100 ? 100 : parseFloat($(window).width()/7.5) ;
+
     $(".shop-detail-con").css("height",$(window).height()-4*fontS)
-    console.log(fontS,$(window).height(),$(window).height()-4*fontS)
   })
   // $("html").html(window.localStorage.token)
   $(function(){
