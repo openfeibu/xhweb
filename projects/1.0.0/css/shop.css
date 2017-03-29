@@ -51,7 +51,6 @@
 .shop-pro-all{overflow-y: auto;height:100%;display: none;float: right;    -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
-    width: 0;
     height: 100%;box-sizing:border-box; -moz-box-sizing:border-box; /* Firefox */ -webkit-box-sizing:border-box; /* Safari */}  /*width: -webkit-calc(100% - 1.6rem);width: calc(100% - 1.6rem);width:-moz-calc(100%-1.6rem);*/
 .shop-pro-all .ing{color: #999;font-size: 0.3rem;line-height: 2rem;text-align: center;}
 .addCar{float: right;line-height: 0.5rem;}
