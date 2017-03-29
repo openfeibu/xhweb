@@ -25,7 +25,7 @@
 //   window.feibu.closeWeb('{"action":"true"}');
 // var locahost ="http://xhplus.feibu.info";
 // var locahost ="http://xh.feibu.info";
-var locahost ="http://192.168.0.146:8085";
+var locahost ="http://192.168.32.146:8085";
 // var locahost ="http://192.168.0.99:8080/xh1.0.0/server.php";
 var tab =window.location.hash.replace(/#\//,"");
 var locaTime = 600000; //十分钟  全局缓存
@@ -369,15 +369,15 @@ function winGo(str){
   // $("body").html('http://192.168.0.129/fb/'+str)
   if(window.localStorage.app == 1){
     // $("body").html(window.localStorage.token )
-    feibu.openWindow('shop','http://192.168.0.129:33/'+str)
+    feibu.openWindow('shop','http://192.168.32.63:33/'+str)
   }else{
-    window.location.href='http://192.168.0.129:33/'+str;
+    window.location.href='http://192.168.32.63:33/'+str;
   }
 }
 //链接跳转
 function locaGo(str){
   // $("body").html('http://192.168.0.129/fb/'+str)
-    window.location.href='http://192.168.0.129/'+str;
+    window.location.href='http://192.168.32.63:33/'+str;
 
 }
 //提示

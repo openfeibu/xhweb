@@ -97,6 +97,11 @@
     app =1;
     window.localStorage.token = JSON.parse(window.feibu.getToken()).value;
   }
+  $(function(){
+    //兼容低级浏览器设置高度
+    var fontS = parseFloat($("html").css("fontSize"));
+    $(".shop-detail-con").css("height",$(window).height()-3*fontS)
+  })
   // $("html").html(window.localStorage.token)
   $(function(){
     //获取数据
