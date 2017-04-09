@@ -23,7 +23,7 @@ body{height: 100%;}
 .index_nav ul li{display: inline-block;vertical-align: top;width: 23%;font-size: 0.2rem;margin:0 4%; }
 .index_nav ul li a{display: block;padding-top: 1rem;}
 .index_nav ul li:nth-of-type(1) a{background: url("../images/home/icon_association.png") no-repeat center top;background-size: .9rem .9rem;}
-.index_nav ul li:nth-of-type(2) a{background: url("../images/home/icon_soulsoother.png") no-repeat center top;background-size: .9rem .9rem;}
+.index_nav ul li:nth-of-type(2) a{background: url("../images/home/icon_swzl.png") no-repeat center top;background-size: .9rem .9rem;}
 .index_nav ul li:nth-of-type(3) a{background: url("../images/home/icon_fault.png") no-repeat center top;background-size: .9rem .9rem;}
 .index_nav ul li:nth-of-type(4) a{background: url("../images/nav_icon4.png") no-repeat center top;background-size: .9rem .9rem;}
 .index_nav ul li i{display: block;}
@@ -167,7 +167,7 @@ body{height: 100%;}
 .commen_input.on{z-index: 99999;opacity: 1;}
 .commen_input .commen_input_submit{width: 1.25rem;height: 0.84rem;float: left;margin:0.15rem 0;font-size: 0.33rem;border-radius: 5px;text-align: center;color: #999;background: #f5f5f5;border:1px solid #f5f5f5;}
 .commen_input .commen_input_submit.active{color: #fff;background: #5ac8fa;border:1px solid #f5f5f5;}
-.postTopic{background: url("../images/postTopic.png") no-repeat right center;width: 1rem;height: 1rem;position: absolute;bottom: 0;right: 0.2rem;z-index:99;background-size: 50% 50%}
+.postTopic{background: url("../images/postTopic.png") no-repeat right center;width: 1rem;height: 1rem;position: absolute;bottom: 0;right: 0.2rem;z-index:99;background-size: 40% 40%}
 .postTopic a{display: block;width: 100%;height: 100%;}
 
 .news-item{background: #fff;padding: 0.3rem;margin-top: 0.25rem;}

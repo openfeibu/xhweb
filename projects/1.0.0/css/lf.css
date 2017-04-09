@@ -1,0 +1,50 @@
+.lf-select{text-align: center;width: 100%;height: 1rem;border-top:1px solid #dddddd;border-bottom:1px solid #dddddd;position: fixed;top:1rem;background: #fafafa;z-index: 50;}
+.lf-select > div{width: 48%;line-height: 1rem;font-size: 0.33rem;}
+.lf-select a{color: #666;}
+.lf-select .select{border-bottom: 1px solid #72beef;}
+.lf-select .select a{color: #72beef;}
+.lf-list{background: #fff;}
+.lf-list-item{padding: 0.25rem;border-bottom: 1px solid #dddddd;}
+.lf-list-item .lf-header{height: 0.7rem;line-height: 0.7rem;overflow: hidden;}
+.lf-list-item .lf-header .img{width: 0.68rem;height: 0.68rem;float: left;border-radius: 50%;overflow: hidden;border:1px solid #eee;}
+.lf-list-item .lf-header .img img{width: 100%;height: 100%;display: block;}
+.lf-list-item .lf-header .name{float: left;color: #666666;font-size: 0.29rem;padding: 0 0.15rem;}
+.lf-list-item .lf-header .date{float: left;color: #aaaaaa;font-size: 0.28rem;}
+.lf-list-item .lf-con{display: -webkit-flex;display: flex;padding-left:0.83rem;color: #333333;font-size: 0.29rem;line-height: 0.38rem;min-height: 0.76rem; }
+.lf-list-item .lf-con p{ -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;}
+.lf-list-item .lf-con .img{width: 1.3rem;height: 1.3rem;border:1px solid #eee;}
+.lf-list-item .lf-con .img img{width: 100%;height: 100%;}
+.lf-list-item .lf-bottom{height: 0.68rem;margin-top: 0.25rem;padding-left:0.83rem;}
+.lf-list-item .lf-bottom .lf-icon{height: 0.68rem;width: 0.48rem;background: url("../images/lf-icon.png") no-repeat center;background-size: 100% auto;float: left;}
+.lf-list-item .lf-bottom .lf-power{float: left;width: 0;height: 0.68rem;border-radius: 5px;background: #333;margin-left: 0.17rem;overflow: hidden;}
+.lf-list-item .lf-bottom .lf-power ul{display: -webkit-flex;display: flex;}
+.lf-list-item .lf-bottom .lf-power ul li{ -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;float: left;position: relative;line-height: 0.68rem;text-align: center;color: #fff;font-size: 0.29rem;}
+.lf-list-item .lf-bottom .lf-power ul li:first-child:after{content: "";position: absolute;width: 2px;height: 0.4rem;top:0.14rem;right:0;background: #222;}
+.lf-list-item .lf-bottom .lf-power ul li a{color: #fff;}
+.lf-list-item .lf-bottom .lf-power.on{width: 2.5rem;}
+.lf-list-item .lf-bigImg{position: fixed;width: 100%;height: 100%;top:1rem;left:0;background:rgba(0,0,0,0.5) url("../images/loading.gif") no-repeat center;background-size:100% auto;z-index: 1000;display: none;}
+.postlf_main {padding: 0.35rem 0 1.04rem 0;}
+.postlf_main .postlf-header{padding-bottom: 0.25rem;border-bottom: 1px solid #dddddd;}
+.postlf_main .textarea{position: relative;padding: 0 0.25rem }
+.postlf_main .textarea .num{position: absolute;bottom: -0.2rem;right:0.25rem;font-size: 0.26rem;color: #999;letter-spacing: 1px;}
+.postlf_main .textarea .num span.on{color: #ef7272}
+.postlf_main textarea{width: 100%;height: 2rem;background: none;border:none; box-sizing:border-box; -moz-box-sizing:border-box; /* Firefox */ -webkit-box-sizing:border-box; /* Safari */;margin: 0.2rem;font-size: 0.3rem;color: #aaaaaa;line-height:0.5rem;}
+.postlf_main .postImg{text-align: left;margin:0.25rem 0;}
+.postlf_main .postImg li{float: left;width: 1.4rem;height:  1.4rem;position: relative;vertical-align: top;border:1px solid #ddd;box-sizing:border-box; -moz-box-sizing:border-box; /* Firefox */ -webkit-box-sizing:border-box; /* Safari */;margin:0 1.5% 0.2rem 1.5%;overflow: hidden;}
+.postlf_main .postImg li img{max-width: 100%;max-height: 100%;margin:0 auto;display: block;}
+.postlf_main .post_button{width:1.5rem;height: 1.5rem;background: url("../images/post.png") no-repeat;background-size: 100% 100%;position: relative;margin:0 0.25rem;}
+.liloading{background: url("../images/loading.gif") no-repeat center;background-size:auto 50% ;}
+
+.postlf-bottom {margin-top: 0.65rem;border-top: 1px solid #DDD;border-bottom: 1px solid #ddd;padding-bottom: 0.25rem }
+.postlf-bottom .tell{height: 1rem;line-height: 1rem;padding:0 0.25rem;border-bottom: 1px solid #ddd;overflow: hidden;}
+.postlf-bottom .tell label{color: #aaaaaa;font-size: 0.28rem;}
+.postlf-bottom .tell input{width: 5.5rem;height: 1rem;color: #333333;fo..0nt-size: 0.28rem;}
+.postlf-bottom .lfType{}
+.postlf-bottom .lfType ul{text-align: justify;}
+.postlf-bottom .lfType ul:after{content: "";display: block;width:100%;height: 0;clear:both;}
+.postlf-bottom .lfType ul li{float:left;width: 2rem;height: 0.56rem;background: #f5f5f5;border:1px solid #dddddd;margin:0.3rem 0.18rem 0 0.18rem;line-height: 0.56rem;color: #aaaaaa;font-size: 0.28rem;text-align: center;}
+.postlf-bottom .lfType ul li.on{background: #72beef;border:1px solid #72beef;color: #fff;}

@@ -29,6 +29,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { color: #
 .pt1{padding-top: 1rem !important}
 .pt2{padding-top: 1.8rem !important}
 .pt0{padding-top: 0rem !important}
+.pd0{padding-bottom: 0rem !important}
 .overflow{overflow: hidden;}
 .bgf{background: #fff;}
 .bge8{background: #f5f5f5;}
@@ -90,3 +91,4 @@ footer li:nth-of-type(5).on{background: url("../images/footer05h.png") no-repeat
 
 .animate{transition:all 0.2s;-webkit-transition:all 0.2s;-moz-transition:all 0.2s;-o-transition:all 0.2s;}
 .animate_time{transition-duration:0.5s;-webkit-transition-duration:0.5s;-moz-transition-duration:0.5s;-o-transition-duration:0.5s;}
+.fb-inlineBlock{display: inline-block;*display: inline;*zoom:1;vertical-align: top;}

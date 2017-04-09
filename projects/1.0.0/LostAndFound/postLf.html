@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta content="telephone=no" name="format-detection" />
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- UC应用模式 -->
+    <meta name="browsermode" content="application">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- QQ应用模式 -->
+    <meta name="x5-page-mode" content="app">
+    <!-- UC禁止放大字体 -->
+    <meta name="wap-font-scale" content="no">
+    <title>
+      校汇Plus | 校汇
+    </title>
+    <meta name="Keywords" content="校汇,广东农工商职业技术学院,AIB,农工商,能赚钱,大学生,大学生创业,大学生校园,大学生校园社团,大学生校园快递,大学生周边生活"
+    />
+    <meta name="Description" content="校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、社团文化、校园资讯、学生互动"
+    />
+    <link rel="apple-touch-icon-precomposed" href="./icon.png" />
+    <link rel="shortcut icon" href="./icon.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="../css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    <link rel="stylesheet" type="text/css" href="../css/lf.css">
+    <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="../js/common.js">
+    </script>
+    <script src="../js/director.js">
+    </script>
+   <script type="text/javascript" src="../js/upload.js"></script>
+  </head>
+  <body>
+	<section class='main '>
+			<div class="header_title">
+          <p>我丢失了</p>
+					<div class="return" onclick="returnUp()">
+					</div>
+					<div class="postSubmit">发布</div>
+			</div>
+			<div class="postlf_main pt1">
+        <div class="postlf-header bgf">
+            <div class="textarea">
+              <textarea placeholder="内容,不可超过140字符" class="topic_con" ></textarea>
+              <div class="num"><span data-name="num">0</span>/140</div>
+            </div>
+            <div class="post_button">
+              <div id="uploader-demo">
+                  <img data-name="pro-detail-img" src="" alt="">
+                  <input name="bookpic" type="file" id="bookpic" class="upload" onchange="change(this)">
+              </div>
+            </div>
+        </div>
+        <div class="postlf-bottom bgf">
+            <div class="tell">
+              <label >手机号码：</label>
+              <input type="text" data-name="tell"/> 
+            </div>
+            <div class="lfType">
+                <ul>
+                  <li>
+                    饭卡
+                  </li>
+                  <li>
+                    饭卡
+                  </li>
+                  <li>
+                    饭卡
+                  </li>
+                  <li>
+                    饭卡
+                  </li>
+                  <li>
+                    饭卡
+                  </li>
+              
+                </ul>
+            </div>
+        </div>
+
+			</div>
+	</section>
+	 
+</body>
+<script>
+   var proImg,proImg_thumb;
+	$(function(){
+    $(".addlabel ul li").click(function(){
+      $(this).addClass("on").siblings("li").removeClass("on");
+    })
+    // $(".postSubmit").one("click",Uptopic)
+    function Uptopic(){
+      var val = $(".topic_con").val();
+      var label = $(".addlabel .on").index(".addlabel li");
+      switch (label){
+        case 0 : 
+          label = "帮帮忙";
+          break;
+        case 1 : 
+          label = "吐吐槽";
+          break;
+        case 2 : 
+          label = "一起约";
+          break;
+        case 3 : 
+          label = "随心写";
+          break;
+        case 4 : 
+          label = "新鲜事";
+          break;
+        case 5 : 
+          label = "问一下";
+          break;
+        case 6 : 
+          label = "失物招领";
+          break;
+        default: 
+          label = "";
+          break;
+      }
+
+      if(getByteLen(val) == 0 ){
+        alert("内容不可为空");
+        $(".postSubmit").one("click",Uptopic)
+        return false;
+      }else if(getByteLen(val) > 140){
+        alert("内容不可超过140字符");
+        $(".postSubmit").one("click",Uptopic)
+        return false;
+      }else if(label.length == 0){
+        alert("请选择标签");
+        $(".postSubmit").one("click",Uptopic)
+        return false;
+      }
+      //发布话题
+      var img = proImg == undefined ? "" : proImg;
+      var img_thumb = proImg_thumb == undefined ? "" : proImg_thumb;
+      var token = window.localStorage.token;
+      var postObj = {
+        "token":token,
+        "topic_type":label,
+        "topic_content":val
+      }
+      if(img.length != 0){
+        postObj["img"] = img;
+      }
+      if(img_thumb.length != 0){
+        postObj["thumb"] = img_thumb;
+      }
+      is_alipay(true)
+       $.post(locahost+'/topic/createTopic/',postObj, function(data){
+        if(data.code == 2001){
+                fb_alert(fb_error["2001"])
+                window.location.href = "login.html";
+                return;
+             }
+          if(data.code == 200){
+            is_alipay(false)
+            fb_alert(fb_error["3"]);
+            history.go(-1);
+          }else{
+            fb_alert(data.detail)
+          }
+       })
+    }
+    $('.topic_con').on('input propertychange', function() { 
+      var con = $(this).val();
+      var len =getByteLen(con);
+      var num =$("[data-name='num']");
+      var postSubmit =$(".postSubmit");
+      if(len > 140 ){
+        if(!num.hasClass("on"))
+          num.addClass("on");
+      }else{
+        if(num.hasClass("on"))
+          num.removeClass("on");
+      }
+     
+      if(len > 0 ){
+        if(!postSubmit.hasClass("on"))
+            postSubmit.addClass("on"); 
+      }else{
+
+          postSubmit.removeClass("on"); 
+      }
+      $("[data-name='num']").text(len);
+    });
+    // getType();
+    function getType(){
+      $.getJSON(locahost+'/lostAndFind/getCats',function(data){
+        if(data.code == 200){
+          var html = '';
+          $.each(data.data,function(a,b){
+              html += '<li cat_id="'+b.cat_id+'">'+b.cat_name+'</li>';
+          });
+          $(".lfType ul").html(html);
+        }
+      })
+    };
+  })
+
+    var token = window.localStorage.token;
+    // 上传图片
+
+    function change(that){ 
+          var field=new upField($(that));
+          var maxSize=10240; //kb
+           var name=$(that).attr('name');
+          var pic = $(that).prop('files');
+          var fordata=new FormData();
+          fordata.append('uploadfile',pic[0]); //添加字段
+          if(pic.length == 0) return;
+          fb_alert("开始上传");
+         if(pic[0].size/1024>maxSize) { 
+              fb_alert('图片不能超过'+maxSize+'kb')
+              return false; 
+         }
+         var token = window.localStorage.token;
+          $.ajax({
+              url:locahost+'/topic/uploadImage/?token='+token,
+              type:'POST',
+              dataType:'json',
+              data:fordata,
+              processData: false,
+              contentType: false,
+        error: function(){
+          fb_alert('未知错误');
+        },  
+        success: function(data){
+          if(data.code == 200){
+            fb_alert("上传成功");
+             $('[data-name="pro-detail-img"]').attr("src",data.thumb_url);
+             proImg_thumb = data.thumb_url;
+             proImg = data.url;
+          }else{  
+            fb_alert(data.detail);
+          }
+        }
+          })
+      };
+      window.change = change;
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
