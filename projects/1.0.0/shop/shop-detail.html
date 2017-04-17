@@ -94,7 +94,7 @@
     $(".header_title").remove();
     $(".pt1").removeClass("pt1");
     $(".shop-detail-con").addClass("appheight");
-    app =1;
+    app =window.localStorage.app =1;
     window.localStorage.token = JSON.parse(window.feibu.getToken()).value;
   }
   $(function(){
