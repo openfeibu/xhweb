@@ -58,7 +58,7 @@
 	<footer>
 		<ul>
 			<li class="on animate"><a href="#/home">校园</a></li>
-      <li class="animate"><a href="#/work/all">校园任务</a></li>
+      <li class="animate"><a href="#/work/personal">校园任务</a></li>
 			<li class="animate"><a href="#/topic">校汇圈</a></li>
       <li class="animate"><a href="#/shop">小店铺</a></li>
 			<li class="animate"><a href="#/mine">我的</a></li>
@@ -126,7 +126,7 @@
           })
       	};
       var getSchoolWork = function(){
-        tab = "work";
+          tab = "personalWork";
           clearWindowScroll();
           $.get('schoolwork.html',function(data){
             routDom($("#ClassSW"));
@@ -170,11 +170,11 @@
       };
       function personalWork(a){
          if($(".work_list_personal").length == 0){
-            window.location.href="#/work/all";
+            window.location.href="#/work/personal";
             return false;
           }
         tab = "personalWork";
-        tabNav(1);
+        tabNav(0);
         clearWindowScroll();
         loading(true);
         var thislocaTime = locaTime;
@@ -199,10 +199,10 @@
         };
         function businessWork(a){
           if($(".work_list_business").length == 0){
-            window.location.href="#/work/all";
+            window.location.href="#/work/personal";
           }
           tab = "businessWork";
-          tabNav(2);
+          tabNav(1);
           clearWindowScroll();
           loading(true);
           var thislocaTime = locaTime;
@@ -229,7 +229,7 @@
       var routes = {
         '/home': getHome,
         '/topic': getTopic,
-        '/work/all': {before:function(){
+        '/work/personal': {before:function(){
                   $("footer li").removeClass("on").eq(1).addClass("on")
                   tab = window.location.hash.replace(/#\//,"");
               },

@@ -44,7 +44,12 @@
 					</div>
 					<div class="postSubmit">发布</div>
 			</div>
+     
 			<div class="postlf_main pt1">
+        <div class="postlf-tab ">
+          <div class="postlf-tab-item active">我丢失了</div>
+          <div class="postlf-tab-item">我捡到了</div>
+        </div>
         <div class="postlf-header bgf">
             <div class="textarea">
               <textarea placeholder="内容,不可超过140字符" class="topic_con" ></textarea>
@@ -64,21 +69,7 @@
             </div>
             <div class="lfType">
                 <ul>
-                  <li>
-                    饭卡
-                  </li>
-                  <li>
-                    饭卡
-                  </li>
-                  <li>
-                    饭卡
-                  </li>
-                  <li>
-                    饭卡
-                  </li>
-                  <li>
-                    饭卡
-                  </li>
+                 
               
                 </ul>
             </div>
@@ -89,42 +80,29 @@
 	 
 </body>
 <script>
-   var proImg,proImg_thumb;
+   var proImg,proImg_thumb,postType="lose";
 	$(function(){
-    $(".addlabel ul li").click(function(){
+    getType();
+    $('[data-name="tell"]').val(window.localStorage.phone)
+    $(".lfType ul ").on("click","li",function(){
       $(this).addClass("on").siblings("li").removeClass("on");
     })
-    // $(".postSubmit").one("click",Uptopic)
+    $(".postlf-tab .postlf-tab-item").on("click",function(){
+      $(this).addClass("active").siblings().removeClass("active");
+      if($(this).index() == 0){
+        postType = "lose";
+        $(".header_title p").text("我丢失了");
+      }else if($(this).index() == 1){
+        postType = "found";
+        $(".header_title p").text("我捡到了");
+
+      }
+    })
+    $(".postSubmit").one("click",Uptopic)
     function Uptopic(){
       var val = $(".topic_con").val();
-      var label = $(".addlabel .on").index(".addlabel li");
-      switch (label){
-        case 0 : 
-          label = "帮帮忙";
-          break;
-        case 1 : 
-          label = "吐吐槽";
-          break;
-        case 2 : 
-          label = "一起约";
-          break;
-        case 3 : 
-          label = "随心写";
-          break;
-        case 4 : 
-          label = "新鲜事";
-          break;
-        case 5 : 
-          label = "问一下";
-          break;
-        case 6 : 
-          label = "失物招领";
-          break;
-        default: 
-          label = "";
-          break;
-      }
-
+      var label = $(".lfType .on").attr("cat_id");
+      console.log(label)
       if(getByteLen(val) == 0 ){
         alert("内容不可为空");
         $(".postSubmit").one("click",Uptopic)
@@ -133,8 +111,12 @@
         alert("内容不可超过140字符");
         $(".postSubmit").one("click",Uptopic)
         return false;
-      }else if(label.length == 0){
+      }else if(label == undefined){
         alert("请选择标签");
+        $(".postSubmit").one("click",Uptopic)
+        return false;
+      }else if(!checkMobile($('[data-name="tell"]').val()) ){
+        alert("手机号码格式错误");
         $(".postSubmit").one("click",Uptopic)
         return false;
       }
@@ -143,9 +125,11 @@
       var img_thumb = proImg_thumb == undefined ? "" : proImg_thumb;
       var token = window.localStorage.token;
       var postObj = {
+        "type":postType,
+        "cat_id":label,
+        "mobile":$('[data-name="tell"]').val(),
         "token":token,
-        "topic_type":label,
-        "topic_content":val
+        "content":val
       }
       if(img.length != 0){
         postObj["img"] = img;
@@ -154,7 +138,7 @@
         postObj["thumb"] = img_thumb;
       }
       is_alipay(true)
-       $.post(locahost+'/topic/createTopic/',postObj, function(data){
+       $.post(locahost+'/lostAndFind/create',postObj, function(data){
         if(data.code == 2001){
                 fb_alert(fb_error["2001"])
                 window.location.href = "login.html";
@@ -163,7 +147,7 @@
           if(data.code == 200){
             is_alipay(false)
             fb_alert(fb_error["3"]);
-            history.go(-1);
+            locaGo("/LostAndFound/LF-list-lose.html");
           }else{
             fb_alert(data.detail)
           }
@@ -191,7 +175,6 @@
       }
       $("[data-name='num']").text(len);
     });
-    // getType();
     function getType(){
       $.getJSON(locahost+'/lostAndFind/getCats',function(data){
         if(data.code == 200){

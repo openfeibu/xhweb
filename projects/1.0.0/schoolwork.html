@@ -2,24 +2,20 @@
 	<div class="work_list_main">
 		<div class="header_title">
 			<p>校园任务</p>
-			<div class=""><a href="">任务包</a></div>
+			<div class="postTopic">
+			    <a href="#/postwork"> 
+			    </a>
+			</div>
 		</div>
 		<div class="work_tab">
-			<span class="on"><a href="#/work/all">全部</a></span>
-			<span><a href="#/work/persona">校友任务</a></span>
+			<span class="on"><a href="#/work/persona">校友任务</a></span>
 			<span><a href="#/work/business">店铺任务</a></span>
-		</div>
-		<div class="work_list work_list_all " >
-			
 		</div>
 		<div class="work_list work_list_personal " >
 			
 		</div>
 		<div class="work_list work_list_business " >
 			
-		</div>
-		<div class="postWork box-shadow">
-			<a href="#/postwork">发布</a>
 		</div>
 	</div>
 <script> 	 
@@ -33,23 +29,23 @@
 	function work(a) {
 		loading(true);
 		var thislocaTime = locaTime;
-	if(a) {
-	   thislocaTime = 0;
-	}
+		if(a) {
+		   thislocaTime = 0;
+		}
 		if(!getItemATime("schoolwork") && a != 1){
 	    var loca = getItem("schoolwork");
 	    var htmldom = loca[0]; 
-	    $(".work_list_all").html(htmldom);
+	    $(".work_list_personal").html(htmldom);
 	    loading(false); //移除动画
 	     $(window).on("scroll",function(){
 	        if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
 	          //到底  
-	          work_get(2);
+	          personalWork_get(2);
 	        }
 	     })
 	  }else{
 	    //没有缓存
-	    work_get();
+	    personalWork_get();
 	  }  
 	};
 

@@ -565,7 +565,7 @@ body{height: 100%;}
 .work_tab span{display: inline-block;width:32%;color: #666666;font-size: 0.32rem;}
 .work_tab span.on a{color: #72beef;}
 .work_list {display: none;padding: 0.23rem;padding-top: 2rem;}
-.work_list_all{display: block;}
+.work_list_personal{display: block;}
 .noWork{line-height: 2rem;text-align: center;font-size: 0.35rem;color: #999;}
 .postWork{width: 0.75rem;height:1.1rem;padding: 0.2rem;border-radius: 0.95rem 0.95rem 0 0;position: fixed;bottom:1rem;left:0;right:0;margin:0 auto;background:#fff url("../images/postTopic.png") no-repeat center 0.2rem ;background-size: 0.75rem 0.75rem;}
 .postWork a{padding-top: 0.85rem;text-align: center;display: block;font-size: 0.24rem;color: #666666;}

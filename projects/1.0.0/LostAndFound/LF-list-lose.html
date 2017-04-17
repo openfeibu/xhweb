@@ -86,9 +86,9 @@
                 img = ' <div class="img " onclick="$(this).parents(\'.lf-list-item\').find(\'.lf-bigImg\').fadeIn(200)"><img src="' + b.img + '" alt=""></div>';
               };
               if(uid == b.uid){
-                var deleteDom = '<li onclick="deleteHua(\'+b.loss_id+\')">删除</li>';
+                var deleteDom = '<li onclick="deleteHua('+b.loss_id+')">删除</li>';
               };
-              var list_dom = '<div class="lf-list-item">\
+              var list_dom = '<div class="lf-list-item" loss_id='+b.loss_id+'>\
                                     <div class="lf-header">\
                                       <div class="img"><img src="' + b.avatar_url + '" alt=""></div>\
                                       <div class="name">' + b.nickname + '</div>\
@@ -150,9 +150,9 @@
                 img = ' <div class="img " onclick="$(this).parents(\'.lf-list-item\').find(\'.lf-bigImg\').fadeIn(200)"><img src="' + b.img + '" alt=""></div>';
               };
               if(uid == b.uid){
-                var deleteDom = '<li onclick="deleteHua(\'+b.loss_id+\')">删除</li>';
+                var deleteDom = '<li onclick="deleteHua('+b.loss_id+')">删除</li>';
               };
-              var list_dom = '<div class="lf-list-item">\
+              var list_dom = '<div class="lf-list-item "  loss_id='+b.loss_id+'>\
                                     <div class="lf-header">\
                                       <div class="img"><img src="' + b.avatar_url + '" alt=""></div>\
                                       <div class="name">' + b.nickname + '</div>\
@@ -210,6 +210,7 @@
                 }
                 if(data.code == 200 ){
                   is_alipay(false);
+                  $("[loss_id="+id+"]").fadeOut(200);
                   fb_alert(fb_error["5"]);
                 }else{
                   fb_alert(data.detail);
