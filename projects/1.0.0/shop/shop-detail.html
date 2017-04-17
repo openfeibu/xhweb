@@ -167,8 +167,8 @@
           $.each(data.goodes,function(a,b){
               if(b.goods_number == 0){
                 //没库存
-                var pro_html = '<dd proid="'+b.goods_id+'">\
-                               <div class="shop-pro-img no-kuncun" style="background-image:url('+b.goods_thumb+')">\
+                var pro_html = '<dd  proid="'+b.goods_id+'">\
+                               <div onclick="callDialog(this)" class="shop-pro-img no-kuncun" style="background-image:url('+b.goods_thumb+')">\
                                 </div>\
                                 <div class="shop-pro-right">\
                                   <div class="shop-pro-name">'+b.goods_name+'</div>\
@@ -176,8 +176,8 @@
                                   <div class="shop-pro-ed">已售'+b.goods_sale_count+'件&nbsp&nbsp库存：'+b.goods_number+'</div>\
                                 </div>';
               }else{
-                var pro_html = '<dd proid="'+b.goods_id+'">\
-                               <div class="shop-pro-img" style="background-image:url('+b.goods_thumb+')">\
+                var pro_html = '<dd  proid="'+b.goods_id+'">\
+                               <div onclick="callDialog(this)"  class="shop-pro-img" style="background-image:url('+b.goods_thumb+')">\
                                 </div>\
                                 <div class="shop-pro-right">\
                                   <div class="shop-pro-name">'+b.goods_name+'</div>\
@@ -805,6 +805,15 @@
          $(".shop-pro-all dd[proid='"+b.goods_id+"']").find(".Cinput").text(b.goods_number).end().find(".addCar").removeClass("no");
       })
     }
+    //商品详情
+    function callDialog(that){
+     var names = $(that).parents("dd").find(".shop-pro-name").text();
+     var dec = $(that).parents("dd").find(".shop-pro-d").text();
+      if(app){
+        window.feibu.callDialog('{"title":"'+names+'" , "content":"'+dec+'"}')
+      }
+    }
+    window.callDialog = callDialog;
     window.collection = collection;
   })
 </script>
