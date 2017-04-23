@@ -24,14 +24,13 @@
     <link rel="stylesheet" type="text/css" href="../css/reset.css">
     <link rel="stylesheet" type="text/css" href="../css/index.css">
     <link href="../css/swiper.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="../css/webuploader.css">
     <link rel="stylesheet" type="text/css" href="../css/info.css">
     <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript" src="../js/common.js"></script>
     <script src="../js/director.js"></script>
     <script type="text/javascript" src="../js/updata.js"></script>
     <script src="../js/swiper.min.js"></script>
-    <script type="text/javascript" src="../js/webuploader.js"></script>
+    <script type="text/javascript" src="../js/upload.js"></script>
    
 
   </head>
@@ -46,6 +45,7 @@
 			<div id="beforeP">
 				<div class=""></div>
 			    <div id="post_img">选择图片</div>
+                <input name="bookpic" type="file" id="bookpic" class="upload" onchange="change(this,1)">
 			</div>
 			<div id="afterP">
 				<div class=""></div>
@@ -72,127 +72,47 @@
 </html>
 <script type="text/javascript"> 
 		var dom,pic1="",pic2=""	;
-		$("#post_img").on("click",function(){
-			dom = "pic1";
-		})
-		$("#btnContainer").on("click",function(){
-			dom = "pic2";
-		})
-		var token = window.localStorage.token;
-    	var $ = jQuery,
-        $list = $('#fileList'),
-        // 优化retina, 在retina下这个值是2
-        ratio = window.devicePixelRatio || 1,
- 
-        // 缩略图大小
-        thumbnailWidth = 100 * ratio,
-        thumbnailHeight = 100 * ratio,
- 
-        // Web Uploader实例
-        uploader;
- 
-	    // 初始化Web Uploader
-	    uploader = WebUploader.create({
- 
-        // 自动上传。
-        auto: true,
- 		crop: true,
-        // swf文件路径
-        swf:  '/js/webuploader/js/Uploader.swf',
- 
-        // 文件接收服务端。
-        server: locahost+'/user/realNameAuthUploadImg/?token='+token,
-         
-        // [默认值：'file']  设置文件上传域的name。
-        fileVal:'uploadfile',
- 
-        // 选择文件的按钮。可选。
-        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-        pick: '#post_img',
- 		fileNumLimit : 1,
-        // 只允许选择文件，可选。
-        accept: {
-            title: 'Images',
-            extensions: 'gif,jpg,jpeg,bmp,png',
-            mimeTypes: 'image/*'
-        }
-    });
-	    // console.log(uploader.options.fileVal)
- 
-    // 当有文件添加进来的时候
-    uploader.on( 'fileQueued', function( file ) {
-    	if($(".alipay_alert").length == 0){
-       	 is_alipay(true)
+        // locahost+'/user/realNameAuthUploadImg/?token='+token
+            // 上传图片
+  function change(that,num){
+        fb_alert("开始上传");
+        var field=new upField($(that));
+        var maxSize=10240; //kb
+         var name=$(that).attr('name');
+        var pic = $(that).prop('files');
+        var fordata=new FormData();
+        fordata.append('uploadfile',pic[0]); //添加字段
+       if(pic[0].size/1024>maxSize) { 
+            fb_alert('图片不能超过'+maxSize+'kb')
+            return false; 
        }
-        var $li = $(
-                '<div id="' + file.id + '" class="file-item thumbnail">' +
-                    '<img>' +
-                    '<div class="info">' + file.name + '</div>' +
-                '</div>'
-                ),
-            $img = $li.find('img');
- 
-        $list.append( $li );
- 
-        // 创建缩略图
-        uploader.makeThumb( file, function( error, src ) {
-            if ( error ) {
-                $img.replaceWith('<span>不能预览</span>');
-                return;
+       var token = window.localStorage.token;
+        $.ajax({
+            url:locahost+'/user/realNameAuthUploadImg/?token='+token,
+            type:'POST',
+            dataType:'json',
+            data:fordata,
+            processData: false,
+            contentType: false,
+      error: function(){
+        fb_alert('未知错误')
+      },  
+      success: function(data){
+        if(data.code == 200){
+            if(num == 1){
+                //正面
+                
             }
- 
-            $img.attr( 'src', src );
-        }, thumbnailWidth, thumbnailHeight );
-    });
- 
-    // 文件上传过程中创建进度条实时显示。
-    uploader.on( 'uploadProgress', function( file, percentage ) {
-
-    });
- 
-    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-    uploader.on( 'uploadSuccess', function( data ) {
- 			//photoarray 上传的图片数组
-    		//更新缓存
-    		is_alipay(false);
-    		if(dom == "pic1"){
-    			photoarray = photoarray.substr(0,photoarray.length-1)
-    			$("#post_img").css({"background":"url('"+photoarray+"') no-repeat center","background-size":"contain"})
-    			pic1 = photoarray;
-    		}else if(dom == "pic2"){
-    			photoarray = photoarray.substr(0,photoarray.length-1)
-    			$("#btnContainer").css({"background":"url('"+photoarray+"') no-repeat center","background-size":"contain"})
-    			pic2 = photoarray;
-
-    		}
-     		
-           	uploader.reset();
-            photoarray = '';
-    });
- 
-    // 文件上传失败，现实上传出错。
-    uploader.on( 'uploadError', function( file ) {
-    	is_alipay(false);
-
-        var $li = $( '#'+file.id ),
-            $error = $li.find('div.error');
- 
-        // 避免重复创建
-        if ( !$error.length ) {
-            $error = $('<div class="error"></div>').appendTo( $li );
+           $('[data-name="pro-detail-img"]').attr("src",data.thumb_url);
+           proImg_thumb = data.thumb_url;
+           proImg = data.url;
+        }else{  
+          fb_alert(data.detail);
         }
- 
-        $error.text('上传失败!!!');
-    });
- 
-    // 完成上传完了，成功或者失败，先删除进度条。
-    uploader.on( 'uploadComplete', function( file ) {
-        $( '#'+file.id ).find('.progress').remove();
-    });
-	   uploader.addButton({
-	    id: '#btnContainer',
-	    innerHTML: '选择图片'
-	});
+      }
+        })
+
+    };
 	$(".certification_submit").on('click',certification_submit)
 	function certification_submit(){
         var name = $('[name="name"]').val(),
