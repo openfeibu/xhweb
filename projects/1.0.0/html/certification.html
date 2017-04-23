@@ -43,13 +43,13 @@
 	</div>
 	<section id="write-list-input" class="pt1">
 			<div id="beforeP">
-				<div class=""></div>
 			    <div id="post_img">选择图片</div>
                 <input name="bookpic" type="file" id="bookpic" class="upload" onchange="change(this,1)">
 			</div>
 			<div id="afterP">
-				<div class=""></div>
 			    <div id="btnContainer">选择图片</div>
+                <input name="bookpic" type="file" id="bookpic" class="upload" onchange="change(this,2)">
+
 			</div>
             <div class="remark">
                 <aside>注意</aside>
@@ -101,11 +101,14 @@
         if(data.code == 200){
             if(num == 1){
                 //正面
+                pic1 = data.url
+            }else if(num == 2){
+                //反面
+                pic2 = data.url
                 
             }
-           $('[data-name="pro-detail-img"]').attr("src",data.thumb_url);
-           proImg_thumb = data.thumb_url;
-           proImg = data.url;
+            $(that).prev().css("background-image","url("+data.thumb_url+")");
+
         }else{  
           fb_alert(data.detail);
         }
