@@ -72,6 +72,7 @@
 </html>
 <script type="text/javascript"> 
 		var dom,pic1="",pic2=""	;
+    var token = window.localStorage.token;
         // locahost+'/user/realNameAuthUploadImg/?token='+token
             // 上传图片
   function change(that,num){
@@ -86,7 +87,6 @@
             fb_alert('图片不能超过'+maxSize+'kb')
             return false; 
        }
-       var token = window.localStorage.token;
         $.ajax({
             url:locahost+'/user/realNameAuthUploadImg/?token='+token,
             type:'POST',
