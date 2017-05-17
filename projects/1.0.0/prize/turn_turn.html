@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head> 
+  <meta charset="UTF-8" /> 
+  <title>校汇18元红包等你拿</title> 
+  <link rel="stylesheet" href="styles/css.css" /> 
+  <script src="scripts/jquery-1.7.2.min.js"></script> 
+  <script src="../js/common.js"></script> 
+  <!--<meta name="viewport"--> 
+  <!--content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">--> 
+  <meta name="apple-mobile-web-app-capable" content="yes" /> 
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" /> 
+  <meta content="telephone=no" name="format-detection" /> 
+  <meta name="screen-orientation" content="portrait" /> 
+  <meta name="x5-orientation" content="portrait" />  
+  <meta name="Keywords" content="" /> 
+  <meta name="Description" content="" /> 
+ </head> 
+ <body> 
+  <div class="main2 "> 
+   <!--登记号码--> 
+   <div class="wihte-660"> 
+   </div> 
+   <div class="turn_btn"> 
+    <a></a> 
+   </div> 
+   <!--登记号码 end--> 
+   <div class="wihte-40"></div> 
+   <!--次数--> 
+   <div class="times">
+     翻牌次数 :
+    <span data-name="num"> 1</span>
+    <span>次</span> 
+    <!--      <a href="" class="dis-blo"></a> --> 
+   </div> 
+   <!--次数 end--> 
+   <!--区域--> 
+   <div class="turn_area"> 
+    <div class="title"> 
+     <a class="tra1" href="#">重新登记</a> 
+     <a class="tra2">我的奖品</a> 
+    </div> 
+    <div class="big"> 
+     <!--==========1111=========--> 
+     <div class="turn_box dis-blo turn_box1"> 
+      <a class="dis-blo"></a> 
+     </div> 
+     <!-- <div class="turn_box dis-blo turn_box1">
+                <a class="dis-blo" href="#"></a>
+            </div> --> 
+     <!--===========2222========--> 
+     <div class="turn_box dis-blo turn_box2"> 
+      <a class="dis-blo"></a> 
+     </div> 
+     <!--==========3333=========--> 
+     <div class="turn_box dis-blo turn_box3"> 
+      <a class="dis-blo"></a> 
+     </div> 
+     <!--===========4444========--> 
+     <div class="turn_box dis-blo turn_box4"> 
+      <a class="dis-blo"></a> 
+     </div> 
+     <!--==========55555=========--> 
+     <div class="turn_box dis-blo turn_box5"> 
+      <a class="dis-blo"></a> 
+     </div> 
+     <!--======6666=============--> 
+     <div class="turn_box dis-blo turn_box6"> 
+      <a class="dis-blo"></a> 
+     </div> 
+     <div class="prize_bg"></div> 
+     <div class="prize "> 
+      <!--获奖页面--> 
+      <div class="prize_box prize_box1"> 
+       <h2>恭喜你获得</h2> 
+       <div class="advance"> 
+        <span data-name="price">5</span> 元 
+       </div> 
+       <p class="hint2">优惠券可在校汇小店铺中使用</p> 
+       <div class="wihte-60"></div> 
+       <p class="hint3">已放入校汇账户<span data-name="tell"></span>，下载校汇到 “我的”-“优惠券”查看</p> 
+       <div class="prize_btnDiv"> 
+        <a class="dis-blo prize_btn prize_btn2">收入囊中</a> 
+       </div> 
+      </div> 
+      <!--获奖页面--> 
+     </div> 
+     <!-- 其他奖品 --> 
+     <div class="no-prize"> 
+     </div> 
+    </div> 
+    <p class="hint">-点击上方卡片即可进行翻牌-</p> 
+   </div> 
+   <div class="turn_regular"> 
+    <a></a> 
+   </div> 
+   <p class="character"> 1.活动时间：5月22日 - 5月28日。 <br /> 2.新用户注册即可领取5元红包。 <br /> 3.校汇新老用户进入APP抽奖页面或者关注微信公众号 “校汇Plus”即可参与活动，最高可得18元红包。<br /> 4.&nbsp;此红包仅限在小店铺使用，不找零，不折现，限一次 性使用完。<br /> 5.&nbsp;红包有效期为自领用起7天内。<br /> 6.&nbsp;若使用红包的订单发生退款，&nbsp;在红包有效期内的则 红包仍然会退回用户的账户，红包退回后有效期不变。<br /> 7.用户获得的奖品请在“我的奖品”中查看，红包可在 校汇APP“我的”-“优惠券”中查看。<br /> 8.本活动最终解释权归校汇所有。<br /> </p> 
+   <div class="po-ab"> 
+   </div>
+   <div class="MyPrize-box">
+     <div class="MyPrize">
+        <div class="MyPrize-title">我的奖品</div>
+        <div class="MyPrize-con">
+          <div class="MyPrize-item">
+            <div class="MyPrize-time">2017-05-10 17:27</div>
+            <div class="MyPrize-value">5元优惠卷</div>
+          </div>
+          <div class="MyPrize-item">
+            <div class="MyPrize-time">2017-05-10 17:27</div>
+            <div class="MyPrize-value">5元优惠卷</div>
+          </div>
+        </div>
+        <div class="MyPrize-button">下载校汇可在<span>“我的”-“优惠券”</span>查看</div>
+     </div>
+     <div class="MyPrize-close"></div>
+   </div>
+
+  </div> 
+  <script>
+    function randArray(data){
+        //获取数组长度
+        var arrlen = data.length;
+        //创建数组 存放下标数
+        var try1 = new Array();
+        for(var i = 0;i < arrlen; i++){
+            try1[i] = i;
+        }
+        //创建数组 生成随机下标数
+        var try2 = new Array();
+        for(var i = 0;i < arrlen; i++){
+            try2[i] = try1.splice(Math.floor(Math.random() * try1.length),1);
+        }
+        //创建数组，生成对应随机下标数的数组
+        var try3 = new Array();
+        for(var i = 0; i < arrlen; i++){
+            try3[i] = data[try2[i]];
+        }
+        return try3;
+    }
+        $(function(){
+            is_alipay(true);
+            var token= window.localStorage.token;
+            var tell= window.localStorage.phone;
+            if(!token){
+              window.location.href = "register.html";
+            }
+            var prizeAraay = [];
+            $.getJSON(locahost+'/coupon/getCouponPrizes',{"token":token},function(data){
+              is_alipay(false);
+               if(data.code == 2001){
+                    window.location.href = "register.html";
+                    return;
+                 }
+                 if(data.code == "200"){    
+                    $('[data-name="num"]').text(data.num);
+                    prizeAraay = data.data;
+                 }
+            }).error(function(xhr,errorText,errorType){
+                    alert('网络超时，请稍后再试')
+            });
+            var prizes = $('.prize');
+            var boxs = $('.turn_box');
+            var font_boxs = $('.font_box');
+            var closes = $('.prize .close');
+            var prize_btn1 = $('.prize_btn1');
+            var prize_btn2 = $('.prize_btn2');
+            boxs.click(function(){
+              is_alipay(true);
+              var that = $(this);
+              var box_index = that.index();
+               $.post(locahost+'/coupon/couponLottery',{"token":token},function(data){
+                  is_alipay(false);
+                 if(data.code == 2001){
+                      window.location.href = "register.html";
+                      return;
+                   }
+                   if(data.code == "200"){    
+                        $('[data-name="price"]').text(data.data.price);
+                        $('[data-name="tell"]').text(tell);
+                        setTimeout(function(){
+                          $(".prize_bg").fadeIn(200);
+                        },2000)
+                        $("body").animate({
+                            "scrollTop":0
+                        });
+                        var this_boxL = that.position().left;
+                        var this_boxTop = that.position().top;
+
+                        that.css({
+                            "transform":'rotateY(150deg) scale(2)',
+                            "-webkit-transform":'rotateY(150deg) scale(2)',
+                            "-ms-transform":'rotateY(150deg) scale(2)',
+                            "-moz-transform":'rotateY(150deg) scale(2)',
+                            "-o-transform":'rotateY(150deg) scale(2)',
+                        },1000).animate({
+                            'top':'-500px',
+                            'left':'280px',
+                            'opacity':"0",
+                            'transition':'all 2s',
+                            '-webkit-transition':'all 2s',
+                        });
+                        var now = prizes;
+                        now.css({
+                          'transform': 'rotateY( 0deg)',
+                          "-webkit-transform":'rotateY( 0deg)',
+                          "-ms-transform":'rotateY( 0deg)',
+                          "-moz-transform":'rotateY( 0deg)',
+                          "-o-transform":'rotateY( 0deg)',
+                            'transition':'all 2s',
+                            '-webkit-transition':'all 2s',
+                            'z-index':'999'
+                        });
+                      
+                        var noprizeHtml = '';
+                        prizeAraay = randArray(prizeAraay)
+                        for(var i = 0 ,c = prizeAraay.length;i<c;i++){
+                            var prize_style = '';
+                           
+                          if(prizeAraay[i].coupon_id == data.data.coupon_id ){
+                            continue;
+                          }else{
+                              
+                             
+
+                            noprizeHtml +='<div class="no-prize-item">\
+                                            <div class="prize_box_item">\
+                                                <h2>奖品</h2>\
+                                                <div class="advance">\
+                                                    <span data-name="price">'+prizeAraay[i].price+'</span> 元\
+                                                </div>\
+                                                <p class="hint2">优惠券可在校汇小店铺中使用</p>\
+                                                <div class="wihte-60"></div>\
+                                                 <p class="hint3">很遗憾，没有抽到本宝宝</p>\
+                                            </div>\
+                                        </div>';
+                          }
+                        }
+                        $(".no-prize").html(noprizeHtml);
+                         for(var i = 0,j=-1 ,c = prizeAraay.length;i<c;i++){
+                            var prize_style ={};
+
+                            if(i != box_index ){
+                              j++;
+                             switch(i){
+                                case 0 :
+                                    prize_style.top = "-245px";
+                                    prize_style.left = "-160px";
+                                    break;
+                                case 1:
+                                    prize_style.top = "-245px";
+                                    prize_style.left = "110px";
+                                    break;
+                                case 2 :
+                                    prize_style.top = "-245px";
+                                    prize_style.left = "380px";
+                                    break;
+                                case 3 :
+                                     prize_style.top = "90px";
+                                    prize_style.left = "-160px";
+                                    break;
+
+                                case 4 :
+                                     prize_style.top = "90px";
+                                    prize_style.left = "110px";
+                                    break;
+
+                                case 5 :
+                                    prize_style.top = "90px";
+                                    prize_style.left = "380px";
+                                    break;
+                            }
+                            $(".no-prize-item").eq(j).css({"top":prize_style.top,"left":prize_style.left})
+
+                          }
+                          
+
+                         }
+                        
+
+
+
+                   }else{
+                    fb_alert(data.detail);
+                   }
+
+              }).error(function(xhr,errorText,errorType){
+                      alert('网络超时，请稍后再试')
+              });
+                
+
+                
+                    //收入囊中
+                prize_btn2.click(function(){
+                  var prize_box_now = $(this).parents('.prize');
+                  $(".turn_box").fadeOut(200);
+                  $(".no-prize").fadeIn(200);
+                  $(".prize_bg").css("position","relative");
+                   // var prize_box_now_l= prize_box_now.position().left = this_boxL;
+                   // var prize_box_now_t= prize_box_now.position().top = this_boxTop;
+                    prize_box_now.css({
+                        'transform':'scale(0.35)',
+                        "-webkit-transform":'scale(0.35)',
+                        "-ms-transform":'scale(0.35)',
+                        "-moz-transform":'scale(0.35)',
+                        "-o-transform":'scale(0.35)',
+                        'z-index':'999'
+                    });
+
+                
+                    switch(box_index){
+                          case 0 :prize_box_now.animate({
+                              left:'185px',
+                              top:'-245px',
+                          });
+                              break;
+                          case 1:prize_box_now.animate({
+                              left:'455px',
+                              top:'-245px',
+                          });
+                              break;
+
+                          case 2 :prize_box_now .animate({
+                              left:'725px',
+                              top:'-245px',
+                          });
+                              break;
+                          case 3 :prize_box_now .animate({
+                              left:'185px',
+                              top:'90px',
+                          });
+                              break;
+                          case 4 :prize_box_now .animate({
+                              left:'455px',
+                              top:'90px',
+                          });
+                              break;
+                          case 5 :prize_box_now .animate({
+                              left:'725px',
+                              top:'90px',
+                          });
+                              break;
+                      }
+
+               
+            })
+            });
+            // 关闭我的奖品
+            $(".MyPrize-close").on("click",function(){
+              $(".MyPrize-box").fadeOut(200);
+            })
+            // 打开我的奖品
+            $(".tra2").on("click",function(){
+              is_alipay(true);
+              $.getJSON(locahost+'coupon/getUserPrizes',{"token":token},function(data){
+                is_alipay(false);
+                if(data.code == 200){
+                  var html = '';
+                  $.each(data.data,function(a,b){
+                    html += '<div class="MyPrize-item">\
+                              <div class="MyPrize-time">'+b.updated_at+'</div>\
+                              <div class="MyPrize-value">'+b.prize_name+'</div>\
+                            </div>';
+                  });
+                  $(".MyPrize-box .MyPrize-con").html(html);
+                  $(".MyPrize-box").fadeIn(200);
+                }
+              })  
+             
+
+            })
+        })
+    </script>  
+ </body>
+</html>

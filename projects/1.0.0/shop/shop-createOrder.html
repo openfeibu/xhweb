@@ -62,6 +62,11 @@
               <label for="">配送费</label>
               <span data-name="shipping_fee"></span>
             </div>
+            <div class="coupon">
+              <label for="">优惠卷</label>
+              <div class="couponNum"><p data-name="shipping_coupon">0</p>张可用</div>
+              <span data-name="shipping_coupon_value">未使用</span>
+            </div>
             <div class="procount">
               <label for="">合计</label>
               <span  data-name="total_fee"></span>
@@ -80,8 +85,21 @@
             </div>
         </div>
 	</section>
+  <section id="coupon-box">
+    <div class="coupon-group">
+      <div class="coupon-title">选择优惠价</div>
+      <div class="coupon-con">
+        
+
+      </div>
+      <div class="coupon-submit opa_active">
+        确定
+      </div>
+    </div>
+  </section>
 </body>
 <script>
+  window.localStorage.removeItem('user_coupon_id');
   var app = 0;
   if(window.localStorage.app == 1){
     $(".header_title").remove();
@@ -95,14 +113,15 @@
     token = window.localStorage.token,
     nowIndex = 0,//当前分类索引
     address_id,//选中得地址ID
-    cat_id;//当前分类ID
+    cat_id,//当前分类ID
+    price=0,//优惠卷额度
+    user_coupon_id,//优惠卷ID
+    count;
     getShopInfo();
     //获取初始数据
     function getShopInfo(){
          loading(true);
         $.getJSON(locahost+'/orderInfo/create?shop_id='+shop_id+'&token='+token,function(data){
-            // fb_alert(locahost+'/goods/shopGoodses?shop_id='+shop_id+'&token='+token)
-
           if(data.carts.length == 0 ){
             //没有产品
             window.history.go(-1);
@@ -155,13 +174,61 @@
           $("[data-name='num']").text(data.goods_count);
           $("[data-name='shipping_fee']").text(data.shipping_fee);
           $("[data-name='count'],[data-name='total_fee']").text(data.total_fee+"元");
+          $("[data-name='shipping_coupon']").text(data.coupons.length);
+          count = data.total_fee;
           window.localStorage.total_fee = data.total_fee;
-
+          var couponsHtml = '';
+          $.each(data.coupons,function(a,b){
+            couponsHtml += '<div class="coupon-item" price="'+b.price+'" user_coupon_id="'+b.user_coupon_id+'">\
+                            <div class="coupon-name">优惠券</div>\
+                            <div class="coupon-value">\
+                              <div class="coupon-price">\
+                                <span>'+b.price+'</span>元(满'+b.min_price+'元使用)\
+                              </div>\
+                              <div class="coupon-time">\
+                                有效期：'+b.receive+'~'+b.overdue+'\
+                              </div>\
+                            </div>\
+                          </div>';
+          })
+          $(".coupon-con").html(couponsHtml);
           }).error(function(){
             fb_alert("服务器出小差")
           })
     }
     //获取初始数据
+    // 打开优惠卷
+    $(".coupon").on("click",function(){
+      $("#coupon-box").fadeIn(200);
+    })
+    // 选择优惠卷
+    $("#coupon-box").on("click",".coupon-item",function(){
+      if($(this).hasClass("active")){
+        price = 0 ;
+        user_coupon_id = null;
+        $(this).removeClass("active");
+      }else{
+        $(this).addClass("active").siblings().removeClass("active");
+        price = $(this).attr("price") ;
+        user_coupon_id = $(this).attr("user_coupon_id");
+      }
+    })
+    //关闭优惠卷
+    $(".coupon-submit").on("click",function(){
+      $("#coupon-box").fadeOut(200);
+      if(price == 0){
+        $("[data-name='shipping_coupon_value']").html('未使用');
+        window.localStorage.removeItem('user_coupon_id');
+      }else{
+        $("[data-name='shipping_coupon_value']").html('-'+price+'元');
+        $("[data-name='count'],[data-name='total_fee']").text(count-price+"元");
+        window.localStorage.total_fee = count-price;
+        window.localStorage.user_coupon_id = user_coupon_id;
+
+      }
+      
+    })
+
 
     //提交订单
     $(".submitButton").on("click",function(){

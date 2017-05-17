@@ -25,7 +25,7 @@
 //   window.feibu.closeWeb('{"action":"true"}');
 // var locahost ="http://xhplus.feibu.info";
 // var locahost ="http://xh.feibu.info";
-var locahost ="http://192.168.3.12/xhproject/2.0.0/public/";
+var locahost ="http://192.168.3.12/xhproject/2.1.0/public/";
 // var locahost ="http://192.168.0.99:8080/xh1.0.0/server.php";
 var tab =window.location.hash.replace(/#\//,"");
 var locaTime = 600000; //十分钟  全局缓存

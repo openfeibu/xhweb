@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>校汇18元红包等你拿</title>
+    <link rel="stylesheet" href="styles/css.css">
+    <script src="scripts/jquery-1.7.2.min.js"></script>
+    <script src="../js/common.js"></script> 
+    <!-- <meta name="viewport"
+          content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui"> -->
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="Keywords" content=""/>
+    <meta name="Description" content=""/>
+</head>
+<body>
+    <div class="main1">
+
+        <!--登记号码-->
+        <div class="wihte-660">
+
+        </div>
+        <div class="top_btn">
+            <a></a>
+        </div>
+        <!--登记号码 end-->
+        <div class="wihte-85"></div>
+        <!--输入-->
+        <div class="import">
+            <form action="">
+                <div class="item">
+                    <label class="dis-blo " for="input_tel" >手机号码</label>
+                    <input type="text" class="win-600" id="input_tel" name="input_tel" placeholder="请输入您的手机号码">
+                </div>
+                <div class="item">
+                    <label class="dis-blo" for="identifying_code">验证码</label>
+                    <input type="text" class="win-350" id="identifying_code" name="identifying_code"  placeholder="请输入验证码">
+                    <input type="button" class="win-250 code_btn" value="获取验证码">
+                </div>
+            </form>
+        </div>
+        <!--输入 end-->
+        <!--提交-->
+        <div class="submit">
+            <a class="blo register-submit" href="#"></a>
+        </div>
+        <!--提交 end-->
+    </div>
+</body>
+<script>
+    var token = window.localStorage.token;
+     //验证码获取 S
+     $('.code_btn').on('click',Getcode)
+    function Getcode(){
+    if(!checkMobile($("#input_tel").val())){
+        fb_alert("手机格式不正确");
+    }else{
+        $('.getcode').off('click',Getcode);
+        $.post(locahost+'user/sendRegisterVerifySMS',{'mobile_no':$("#input_tel").val()},function(data){
+                 if(data.code == "200"){        
+                    fb_alert("发送验证码成功")
+                }else{
+                    fb_alert(data.detail)
+                }
+            })
+            var _this = $(this);
+            _this.val('60s');
+            var i = 60;
+            var time = setInterval(function(){
+                i--;
+                _this.val(i+'s');
+                if(i == 0){
+                   _this.val('获取验证码');
+                   clearInterval(time);
+                   $('.getcode').off('click',Getcode);
+                }
+            },1000)
+           }
+    }
+    
+       //验证码获取 E
+    // 登记
+    $(".register-submit").on("click",function(){
+
+        is_alipay(true);
+        $.post(locahost+'/user/registerVerify/',{'mobile_no':$("#input_tel").val(),'sms_code':$("#identifying_code").val()},function(data){
+                is_alipay(false);
+                if(data.code == "200"){        
+                    window.localStorage.token = data.token;
+                    window.location.href="turn_turn.html";
+                }else{
+                    fb_alert(data.detail)
+                }
+            })
+    })
+
+</script>
+</html>
