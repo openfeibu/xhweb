@@ -51,10 +51,20 @@
     </div>
 </body>
 <script>
-    if(JSON.parse(window.feibu.getToken()).value != undefined){
-        window.localStorage.token = JSON.parse(window.feibu.getToken()).value;
-        window.location.href="turn_turn.html";
-    }
+    var android_token; 
+    try {
+    　　// 此处是可能产生例外的语句
+        android_token = JSON.parse(window.feibu.getToken()).value
+    　　} catch(error) {
+    　　// 此处是负责例外处理的语句
+            if(JSON.parse(window.feibu.getToken()).value != undefined){
+                window.localStorage.token = JSON.parse(window.feibu.getToken()).value;
+                window.location.href="turn_turn.html";
+            }
+    　　} finally {
+    　　// 此处是出口语句
+        　}
+    
     var token = window.localStorage.token;
     if(token){
         window.location.href="turn_turn.html";
