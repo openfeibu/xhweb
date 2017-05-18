@@ -117,6 +117,7 @@
 
   </div> 
   <script>
+    var flag=false;
     function randArray(data){
         //获取数组长度
         var arrlen = data.length;
@@ -166,6 +167,10 @@
             var prize_btn1 = $('.prize_btn1');
             var prize_btn2 = $('.prize_btn2');
             boxs.click(function(){
+              if(flag){
+                return false;
+              }
+              flag = true;
               is_alipay(true);
               var that = $(this);
               var box_index = that.index();
