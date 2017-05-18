@@ -51,7 +51,14 @@
     </div>
 </body>
 <script>
+    if(JSON.parse(window.feibu.getToken()).value != undefined){
+        window.localStorage.token = JSON.parse(window.feibu.getToken()).value;
+        window.location.href="turn_turn.html";
+    }
     var token = window.localStorage.token;
+    if(token){
+        window.location.href="turn_turn.html";
+    }
      //验证码获取 S
      $('.code_btn').on('click',Getcode)
     function Getcode(){

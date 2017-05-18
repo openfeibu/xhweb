@@ -148,6 +148,7 @@
             $.getJSON(locahost+'/coupon/getCouponPrizes',{"token":token},function(data){
               is_alipay(false);
                if(data.code == 2001){
+                    window.localStorage.removeItem("token");
                     window.location.href = "register.html";
                     return;
                  }
