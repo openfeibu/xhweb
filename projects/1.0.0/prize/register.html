@@ -54,21 +54,22 @@
     var android_token; 
     try {
     　　// 此处是可能产生例外的语句
-        android_token = JSON.parse(window.feibu.getToken()).value
+        android_token = JSON.parse(window.feibu.getToken()).value;
     　　} catch(error) {
     　　// 此处是负责例外处理的语句
-            if(android_token != undefined){
-                window.localStorage.token = android_token;
+         var token = window.localStorage.token;
+            if(token){
                 window.location.href="turn_turn.html";
             }
     　　} finally {
     　　// 此处是出口语句
-        　}
+            if(android_token != undefined){
+                window.localStorage.token = android_token;
+                window.location.href="turn_turn.html";
+            }
+        }
     
-    var token = window.localStorage.token;
-    if(token){
-        window.location.href="turn_turn.html";
-    }
+   
      //验证码获取 S
      $('.code_btn').on('click',Getcode)
     function Getcode(){
