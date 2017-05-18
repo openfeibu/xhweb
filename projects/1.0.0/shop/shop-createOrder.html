@@ -218,6 +218,7 @@
       $("#coupon-box").fadeOut(200);
       if(price == 0){
         $("[data-name='shipping_coupon_value']").html('未使用');
+        $("[data-name='count'],[data-name='total_fee']").text(count+"元");
         window.localStorage.removeItem('user_coupon_id');
       }else{
         $("[data-name='shipping_coupon_value']").html('-'+price+'元');
