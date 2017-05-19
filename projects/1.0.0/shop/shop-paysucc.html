@@ -36,7 +36,7 @@
          <div class="paysucc_icon animate animate_time"></div> 
          <div class="paysucc_text">支付成功</div> 
        </div>
-       <div class="goHome opa_active">查看订单</div>
+       <div class="goHome opa_active">返回首页</div>
        <div class="succ_text">
         注：你已支付成功，订单已生成。
         请耐心等待校汇包裹飞到门口，
@@ -58,7 +58,7 @@
    },0)
   var order_id = GetString("order_id");
    $(".goHome").on("click",function(){
-    locaGo("shop/shop-orderDetail.html?order_id="+order_id);
+    locaGo("index.html");
    })
 
 

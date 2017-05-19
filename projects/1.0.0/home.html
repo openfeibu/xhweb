@@ -29,8 +29,18 @@
 <div class='index_club_play'>
   
 </div>
-
+<div class="alertAction">
+  <div class="alertAction-img"><a href="prize/register.html"><img src="images/alertAction-img.png" alt=""></a></div>
+  <div class="alertAction-close" onclick="$('.alertAction').fadeOut(200)"></div>
+</div>
 <script type="text/javascript">
+  // 是否弹出活动框
+  if(window.localStorage.alertAction != 'alertAction'){
+    $(".alertAction").fadeIn(200);
+    window.localStorage.alertAction = 'alertAction';
+  }
+   
+  // 是否弹出活动框
   loading(true)
   home();
   //主页

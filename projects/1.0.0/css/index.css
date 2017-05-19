@@ -425,7 +425,7 @@ body{height: 100%;}
 .assList .ass_list .ass_box .img img{width: 1rem;height: 1rem;border-radius: 50%;margin:0 auto;display: block;}
 .assList .ass_list .ass_box .test{margin-left: 1.7rem;}
 .assList .ass_list .ass_box .test .aName{height: 0.52rem;line-height: 0.52rem;color: #333;font-size: 0.3rem;letter-spacing: 2px;}
- .assList .ass_list .ass_box .test .aIntroduce{height: 0.52rem;line-height: 0.52rem;color: #aaaaaa;font-size: 0.25rem;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;padding: 0 0.5rem 0 0 }
+.assList .ass_list .ass_box .test .aIntroduce{height: 0.52rem;line-height: 0.52rem;color: #aaaaaa;font-size: 0.25rem;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;padding: 0 0.5rem 0 0 }
 .assList .ass_list .ass_box .test .aName span{color: #aaaaaa;}
 .assList .ass_list .ass_box .test .label{height: 0.52rem;line-height: 0.52rem;color: #aaaaaa;font-size: 0.25rem;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
 .assList .ass_list .ass_box .test .label span{padding: 0 0.1rem}
@@ -453,6 +453,20 @@ body{height: 100%;}
 .item .ass_info{padding:0.15rem 0;}
 .noAct{margin: 1rem 0;text-align: center;display: none;}
 .noAct p{color: #999;font-size: 0.35rem;line-height: 0.5rem;}
+
+.item-list{position: relative;background:#fff;margin:0.2rem 0;}
+.item-list .place{padding: 0.1rem 0.3rem;font-size: 0.28rem;}
+.item-list .time{line-height: 0.5rem;font-size: 0.24rem;color: #aaaaaa;padding-left: 0.76rem;}
+.item-list .user-num{padding: 0 0.3rem;line-height: 0.5rem;font-size: 0.28rem;float: left;color: #aaaaaa;font-size: 0.24rem}
+.item-list .time .startTime{color: #5ac8fb;}
+.item-list .time .startTime.on{color: #ee7272;}
+.item-list .content-bottom{text-align: right;padding: 0 0.3rem;color: #aaaaaa;font-size: 0.24rem;}
+.item-list .social-name{padding:0 0.25rem;}
+.item-list .ass_info{padding:0.15rem 0;}
+.item-list .will{position: absolute;bottom:0.7rem;left:0.2rem;width: 0.35rem;height: 0.77rem;background: url("../images/ass_will.png") no-repeat center;background-size: 100% 100%;}
+.item-list .ing{position: absolute;bottom:0.7rem;left:0.2rem;width: 0.35rem;height: 0.77rem;background: url("../images/ass_ing.png") no-repeat center;background-size: 100% 100%;}
+.item-list .ed{position: absolute;bottom:0.7rem;left:0.2rem;width: 0.35rem;height: 0.77rem;background: url("../images/ass_ed.png") no-repeat center;background-size: 100% 100%;}
+.item-list .content{background:rgba(0,0,0,0.5);color: #fff;padding: 0.2rem;}
 /*社团活动*/
 /*社团活动详情*/
 .spot{position: absolute;right:0;top:0;height: 1rem;width: 1rem;}
@@ -721,3 +735,8 @@ display: -webkit-box;
 .SSDe .num{color: #aaa;font-size: 0.26rem;padding: 0.2rem 0}
 
 
+/*活动弹窗*/
+.alertAction{width: 100%;height: 100%;position:fixed;top:0;left:0;background: rgba(0,0,0,0.3);z-index:9999;display: none;}
+.alertAction .alertAction-img{width: 5.5rem;position: relative;top:20%;margin:0 auto;}
+.alertAction .alertAction-img img{width: 100%;}
+.alertAction-close{position: fixed;width: 0.8rem;height: 0.8rem;background: url("../prize/images/close.png") no-repeat center;background-size:100% 100%;bottom:15%;left:50%;margin-left:-0.4rem;}

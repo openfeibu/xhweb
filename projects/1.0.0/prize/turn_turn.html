@@ -37,7 +37,7 @@
    <!--区域--> 
    <div class="turn_area"> 
     <div class="title"> 
-     <a class="tra1" href="#">重新登记</a> 
+     <a class="tra1" >重新登记</a> 
      <a class="tra2">我的奖品</a> 
     </div> 
     <div class="big"> 
@@ -101,14 +101,7 @@
      <div class="MyPrize">
         <div class="MyPrize-title">我的奖品</div>
         <div class="MyPrize-con">
-          <div class="MyPrize-item">
-            <div class="MyPrize-time">2017-05-10 17:27</div>
-            <div class="MyPrize-value">5元优惠卷</div>
-          </div>
-          <div class="MyPrize-item">
-            <div class="MyPrize-time">2017-05-10 17:27</div>
-            <div class="MyPrize-value">5元优惠卷</div>
-          </div>
+         
         </div>
         <div class="MyPrize-button">下载校汇可在<span>“我的”-“优惠券”</span>查看</div>
      </div>
@@ -117,6 +110,10 @@
 
   </div> 
   <script>
+    if(window.localStorage.app == 1){
+      $(".tra1").hide();
+    }
+
     var flag=false;
     function randArray(data){
         //获取数组长度
@@ -142,6 +139,7 @@
             is_alipay(true);
             var token= window.localStorage.token;
             var tell= window.localStorage.phone;
+            var num ;//抽奖次数
             if(!token){
               window.location.href = "register.html";
             }
@@ -155,6 +153,7 @@
                  }
                  if(data.code == "200"){    
                     $('[data-name="num"]').text(data.num);
+                    num = data.num;
                     prizeAraay = data.data;
                  }
             }).error(function(xhr,errorText,errorType){
@@ -171,6 +170,7 @@
                 return false;
               }
               flag = true;
+              $('[data-name="num"]').text(--num);
               is_alipay(true);
               var that = $(this);
               var box_index = that.index();
@@ -371,9 +371,12 @@
                   $(".MyPrize-box").fadeIn(200);
                 }
               })  
-             
-
             })
+            //重新登记
+             $(".tra1").on("click",function(){
+                window.localStorage.removeItem("token");
+                window.location.href='register.html'
+             })
         })
     </script>  
  </body>

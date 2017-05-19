@@ -87,10 +87,11 @@
 	</section>
   <section id="coupon-box">
     <div class="coupon-group">
-      <div class="coupon-title">选择优惠价</div>
+      <div class="coupon-title">选择优惠卷</div>
       <div class="coupon-con">
-        
-
+        <div class="no-coupon">
+          优惠卷空空如也
+        </div>
       </div>
       <div class="coupon-submit opa_active">
         确定
@@ -177,6 +178,10 @@
           $("[data-name='shipping_coupon']").text(data.coupons.length);
           count = data.total_fee;
           window.localStorage.total_fee = data.total_fee;
+          if(data.coupons.length == 0){
+            $(".no-coupon").show();
+            return false;
+          }
           var couponsHtml = '';
           $.each(data.coupons,function(a,b){
             couponsHtml += '<div class="coupon-item" price="'+b.price+'" user_coupon_id="'+b.user_coupon_id+'">\
@@ -191,6 +196,7 @@
                             </div>\
                           </div>';
           })
+
           $(".coupon-con").html(couponsHtml);
           }).error(function(){
             fb_alert("服务器出小差")

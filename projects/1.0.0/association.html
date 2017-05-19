@@ -99,6 +99,7 @@
     </div>
     <script>
       var mySwiper;
+      var token = window.localStorage.token;
       tab = "assList";
       $(".content-select > div").click(function() {
         if ($(this).hasClass("select")) {
@@ -162,7 +163,7 @@
       function getListData(page) {
         page = page == undefined ? 1 : page;
         $(window).off('scroll');
-        $.getJSON(locahost + "/association/getAssociations/?page=" +page,
+        $.getJSON(locahost + "/association/getAssociations/?page=" +page+"&token="+token,
         function(data) {
           if (data.code == 200) {
               clearLoading();
@@ -240,8 +241,8 @@
                 var datadom = '<div class="will"></div>';
                 var classT='startTime';
               }
-              html += "<div class='item'>" + datadom + "<a href='#/associationActive/" + value.actid + "'>\
-                        <div class='item_img' style='background:url("+value.img_url.split(",")[0]+") no-repeat center;background-size:cover;'>\
+              html += "<div class='item-list'>" + datadom + "<a href='#/associationActive/" + value.actid + "'>\
+                        <div class='item_img' style='margin:0;height:auto;background:url("+value.img_url.split(",")[0]+") no-repeat center;background-size:cover;'>\
                           <div class='item_text_bg'>\
                             <div class='title'>" + value.title + "</div>\
                             <div class='content'>\
