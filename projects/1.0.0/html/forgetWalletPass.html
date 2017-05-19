@@ -27,7 +27,7 @@
       $('.getcode').off('click',getcode)
       $.get(locahost+'/user/sendResetPayPasswordSMS/?token='+token,  function(data){
            if(data.code == 2001){
-              fb_alert(fb_error["2001"])
+              fb_alert(fb_error["2001"]);
               window.location.href = "../login.html";
               return;
            }
@@ -36,8 +36,8 @@
            }
       })
         var _this = $(this);
-        _this.html('120s后可重新发生');
-        var i = 120;
+        _this.html('60s后可重新发生');
+        var i = 60;
         var time = setInterval(function(){
             i--;
             _this.html(i+'s后可重新发送');
@@ -56,7 +56,7 @@
     if(isNaN(pay_password)){
        fb_alert(fb_error["1005"]);
        return false;
-    }else if(sms_code.length != 6){
+    }else if(sms_code.length == 0){
        fb_alert(fb_error["1006"]);
         return false;
     }
