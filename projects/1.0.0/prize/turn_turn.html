@@ -357,7 +357,7 @@
             // 打开我的奖品
             $(".tra2").on("click",function(){
               is_alipay(true);
-              $.getJSON(locahost+'coupon/getUserPrizes',{"token":token},function(data){
+              $.getJSON(locahost+'/coupon/getUserPrizes',{"token":token},function(data){
                 is_alipay(false);
                 if(data.code == 200){
                   var html = '';
