@@ -194,7 +194,7 @@ height: 130px;
     text-align: center;
     border: 2px solid #000;
     border-radius: 30px;
-    height: 132px;
+    
 }
 .turn_area .tra1 {
     margin-right: 168px;
@@ -295,6 +295,9 @@ height: 130px;
     border-radius: 20px;
     background: #ffec9f;
 
+}
+.turn_area .title{
+    height: 132px;
 }
 .title {
     margin: 26px 5px;
