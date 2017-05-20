@@ -95,7 +95,7 @@
     }else{
         $('.getcode').off('click',Getcode);
         var _this = $(this);
-        $.post(locahost+'user/sendRegisterVerifySMS',{'mobile_no':$("#input_tel").val()},function(data){
+        $.post(locahost+'/user/sendRegisterVerifySMS',{'mobile_no':$("#input_tel").val()},function(data){
                  if(data.code == "200"){        
                     fb_alert("发送验证码成功");
                     _this.val('60s');
