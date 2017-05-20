@@ -53,22 +53,38 @@
 <script>
     var android_token; 
     try {
-    　　// 此处是可能产生例外的语句
-        android_token = JSON.parse(window.feibu.getToken()).value;
-    　　} catch(error) {
-    　　// 此处是负责例外处理的语句
-         var token = window.localStorage.token;
-            if(token){
-                window.location.href="turn_turn.html";
+            if (typeof(eval(window.feibu.getToken()))) {
+               android_token = JSON.parse(window.feibu.getToken()).value;
+                    if(android_token != 'undefined'){
+                    window.localStorage.token = android_token;
+                    window.localStorage.app = 1;
+                    window.location.href="turn_turn.html";
+                }
             }
-    　　} finally {
-    　　// 此处是出口语句
-            if(android_token != 'undefined'){
-                window.localStorage.token = android_token;
-                window.localStorage.app = 1;
+        } catch(e) {
+            var token = window.localStorage.token;
+            if(token != undefined){
                 window.location.href="turn_turn.html";
             }
         }
+
+    // try {
+    // 　　// 此处是可能产生例外的语句
+    //     android_token = JSON.parse(window.feibu.getToken()).value;
+    // 　　} catch(error) {
+    // 　　// 此处是负责例外处理的语句
+    //      var token = window.localStorage.token;
+    //         if(token != undefined){
+    //             window.location.href="turn_turn.html";
+    //         }
+    // 　　} finally {
+    // 　　// 此处是出口语句
+    //         if(android_token != 'undefined'){
+    //             window.localStorage.token = android_token;
+    //             window.localStorage.app = 1;
+    //             window.location.href="turn_turn.html";
+    //         }
+    //     }
     
    
      //验证码获取 S
