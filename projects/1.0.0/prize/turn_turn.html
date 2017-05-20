@@ -154,6 +154,7 @@
                  if(data.code == "200"){    
                     $('[data-name="num"]').text(data.num);
                     num = parseInt(data.num);
+                    console.log(num)
                     prizeAraay = data.data;
                  }
             }).error(function(xhr,errorText,errorType){
@@ -170,7 +171,6 @@
                 return false;
               }
               flag = true;
-              console.log(num)
               $('[data-name="num"]').text(--num);
               is_alipay(true);
               var that = $(this);
