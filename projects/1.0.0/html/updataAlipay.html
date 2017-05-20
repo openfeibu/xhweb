@@ -71,13 +71,14 @@
            if(data.code == "200"){    
               fb_alert("发送验证码成功")
           }else{
-              fb_alert(data.detail)
+              fb_alert(data.detail);
+               $('.getcode').on('click',alipayGetcode);
 
           }
       })
           var _this = $(this);
-          _this.html('120s后可重新发生');
-          var i = 120;
+          _this.html('60s后可重新发生');
+          var i = 60;
           var time = setInterval(function(){
               i--;
               _this.html(i+'s后可重新发送');

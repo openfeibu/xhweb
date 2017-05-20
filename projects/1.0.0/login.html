@@ -277,12 +277,13 @@
 		     if(data.code == "200"){		
       			fb_alert("发送验证码成功")
 		    }else{
+               $('.getcode').on('click',regGetcode)
 		    	fb_alert(data.detail)
 		    }
 		})
         var _this = $(this);
-        _this.html('120s后可重新发生');
-        var i = 120;
+        _this.html('60s后可重新发生');
+        var i = 60;
         var time = setInterval(function(){
             i--;
             _this.html(i+'s后可重新发送');
@@ -378,11 +379,14 @@
 	  $.post(locahost+'/user/sendResetPasswordSMS/?mobile_no='+$("#regist-content-number").val(),  function(data){
 		    if(data.code == "200"){		
       			fb_alert("发送验证码成功")
+		    }else{
+      			fb_alert(data.detail)
+		    	$('.for_getcode').on('click',getcode)
 		    }
 		})
         var _this = $(this);
-        _this.html('120s后可重新发生');
-        var i = 120;
+        _this.html('60s后可重新发生');
+        var i = 60;
         var time = setInterval(function(){
             i--;
             _this.html(i+'s后可重新发送');

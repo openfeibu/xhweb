@@ -29,7 +29,7 @@
    <!--次数--> 
    <div class="times">
      翻牌次数 :
-    <span data-name="num"> 1</span>
+    <span data-name="num">1</span>
     <span>次</span> 
     <!--      <a href="" class="dis-blo"></a> --> 
    </div> 
@@ -153,7 +153,7 @@
                  }
                  if(data.code == "200"){    
                     $('[data-name="num"]').text(data.num);
-                    num = data.num;
+                    num = parseInt(data.num);
                     prizeAraay = data.data;
                  }
             }).error(function(xhr,errorText,errorType){
@@ -177,6 +177,7 @@
                $.post(locahost+'/coupon/couponLottery',{"token":token},function(data){
                   is_alipay(false);
                  if(data.code == 2001){
+                      window.localStorage.removeItem("token");
                       window.location.href = "register.html";
                       return;
                    }
