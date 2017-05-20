@@ -197,11 +197,12 @@ height: 130px;
     
 }
 .turn_area .tra1 {
-    margin-right: 168px;
+    margin: 20px 50px;
     float: left;
 }
 .turn_area .tra2 {
-    margin-left: 168px;
+    margin: 20px 50px;
+    
     float: right;
 }
 .cont {
@@ -297,7 +298,7 @@ height: 130px;
 
 }
 .turn_area .title{
-    height: 132px;
+    height: 100px;
 }
 .title {
     margin: 26px 5px;
