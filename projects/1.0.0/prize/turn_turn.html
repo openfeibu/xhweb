@@ -140,7 +140,7 @@
             var token= window.localStorage.token;
             var tell= window.localStorage.phone;
             var num = 1;//抽奖次数
-            if(!token){
+            if(token == undefined){
               window.location.href = "register.html";
             }
             var prizeAraay = [];
