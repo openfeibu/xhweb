@@ -194,12 +194,15 @@ height: 130px;
     text-align: center;
     border: 2px solid #000;
     border-radius: 30px;
+    height: 132px;
 }
 .turn_area .tra1 {
     margin-right: 168px;
+    float: left;
 }
 .turn_area .tra2 {
     margin-left: 168px;
+    float: right;
 }
 .cont {
     width: 245px;

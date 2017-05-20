@@ -139,7 +139,7 @@
             is_alipay(true);
             var token= window.localStorage.token;
             var tell= window.localStorage.phone;
-            var num;//抽奖次数
+            var num = 1;//抽奖次数
             if(!token){
               window.location.href = "register.html";
             }
@@ -154,8 +154,11 @@
                  if(data.code == "200"){    
                     $('[data-name="num"]').text(data.num);
                     num = parseInt(data.num);
-                    console.log(num)
                     prizeAraay = data.data;
+                 }else if(data.code == "110"){
+
+                 }else{
+                    fb_alert(data.detail);
                  }
             }).error(function(xhr,errorText,errorType){
                     alert('网络超时，请稍后再试')
