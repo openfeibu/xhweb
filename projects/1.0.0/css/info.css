@@ -222,4 +222,9 @@
 .certification_submit{width: 100%;height:1rem;text-align: center;border-radius:0.05rem;background:#ef7272;font-size: 0.35rem;color: #fff;box-sizing:border-box; -moz-box-sizing:border-box; /* Firefox */ -webkit-box-sizing:border-box; /* Safari */ margin:0.5rem auto;display: block;}
 .c_info{}
 .c_info input{width: 100%;height: 0.8rem;background:#f5f5f5;margin-top: 0.25rem;text-indent: 1em;font-size: 0.28rem;color: #333;}
-#beforeP input,#afterP input{position: absolute;width:100%;height: 100%;z-index: 999;opacity: 0;}
+#beforeP input,#afterP input{position: absolute;width:100%;height: 100%;z-index: 990;opacity: 0;}
+.certification_info{padding:0.35rem 0.3rem;display: none;}
+.certification_info .certification_info_item{height: 1rem;line-height: 1rem;font-size: 0.35rem;color:#222;border-bottom: 1px solid #eee;}
+.certification_info .certification_info_item span{font-size: 0.35rem;}
+.certification_ing{padding:0.35rem 0.3rem;display: none;}
+.certification_ing p{height: 1rem;line-height: 1rem;font-size: 0.35rem;color:#222;border-bottom: 1px solid #eee;text-align: center;}

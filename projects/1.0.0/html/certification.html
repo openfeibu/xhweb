@@ -35,12 +35,12 @@
 
   </head>
   <body>
+  <div class="header_title">
+      <p>实名认证</p>
+      <div class="return" onclick="returnUp()"></div>
+  </div>
+<div class="certification pt1">
 
-<div class="certification">
-	<div class="header_title">
-			<p>实名认证</p>
-			<div class="return" onclick="returnUp()"></div>
-	</div>
 	<section id="write-list-input" class="pt1">
 			<div id="beforeP">
 			    <div id="post_img"></div>
@@ -68,12 +68,47 @@
 			<button class="certification_submit opa_active">提交</button>
 	</div>
 </div>    
+<div class="certification_info pt1">
+  <div class="certification_info_item">
+    <label for="">姓名：</label>
+    <span data-name="certification_info_name"></span>
+  </div>
+<!--  <div class="certification_info_item">
+    <label for="">手机号码：</label>
+    <span data-name="certification_info_phone"></span>
+  </div> -->
+</div>
+<div class="certification_ing pt1">
+  <p>正在审核中</p>
+</div>
 </body>
 </html>
 <script type="text/javascript"> 
+  $(function(){
+      var info = JSON.parse(window.localStorage.info);
+        if(info.is_auth == 1){
+          //已实名
+          $("[ data-name='certification_info_name']").text(info.realname);
+           $(".certification").hide();
+           $(".certification_info").fadeIn(200);
+
+        }else if(info.is_auth == 2){
+          //正在审核中
+          $("[ data-name='certification_info_name']").text(info.realname);
+          $(".certification").hide();
+           $(".certification_ing").fadeIn(200);
+        }else if(info.is_auth == 0){
+          //未实名
+          // $(".certification").show();
+        }
+       
+
+  })
+   
+
 		var dom,pic1="",pic2=""	;
     var token = window.localStorage.token;
-        // locahost+'/user/realNameAuthUploadImg/?token='+token
+ 
             // 上传图片
   function change(that,num){
         fb_alert("开始上传");
