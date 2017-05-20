@@ -63,6 +63,7 @@
               <div class="order_money">
                 <p><label for="">运费：￥</label><span data-name="shipping_fee">0.00</span></p>
                 <p><label for="">商品总价：￥</label><span data-name="goods_amount">13.5</span></p>
+                <p><label for="">红包：￥-</label><span data-name="coupon_price"></span></p>
                 <p class=""><label for="">总共支付：￥</label><span data-name="total_fee">13.5</span></p>
               </div>
               <div class="order_info">
@@ -118,7 +119,6 @@
                               </div>\
                             </li>';
           })
-
             $(".shopOrder_info ul").html(shop_html);
             $("[data-name='addressName']").text(data.order_info.consignee);
             $("[data-name='addressMap']").text(data.order_info.address);
@@ -130,6 +130,7 @@
             $("[data-name='created_at']").text(data.order_info.created_at);
             $("[data-name='shopName']").text(data.order_info.shop_name);
             $("[data-name='mobile_no']").attr("phone",data.order_info.shop.mobile_no);
+            $("[data-name='coupon_price']").text(data.order_info.coupon_price)
             window.localStorage.total_fee = data.order_info.total_fee;//缓存总价格
             if(data.order_info.pay_time == null){
               $("[data-name='pay_time']").parents("p").remove();
