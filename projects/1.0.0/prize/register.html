@@ -94,25 +94,28 @@
         fb_alert("手机格式不正确");
     }else{
         $('.getcode').off('click',Getcode);
+        var _this = $(this);
         $.post(locahost+'user/sendRegisterVerifySMS',{'mobile_no':$("#input_tel").val()},function(data){
                  if(data.code == "200"){        
-                    fb_alert("发送验证码成功")
+                    fb_alert("发送验证码成功");
+                    _this.val('60s');
+                    var i = 60;
+                    var time = setInterval(function(){
+                        i--;
+                        _this.val(i+'s');
+                        if(i == 0){
+                           _this.val('获取验证码');
+                           clearInterval(time);
+                           $('.getcode').off('click',Getcode);
+                        }
+                    },1000)
                 }else{
                     fb_alert(data.detail)
                 }
-            })
-            var _this = $(this);
-            _this.val('60s');
-            var i = 60;
-            var time = setInterval(function(){
-                i--;
-                _this.val(i+'s');
-                if(i == 0){
-                   _this.val('获取验证码');
-                   clearInterval(time);
-                   $('.getcode').off('click',Getcode);
-                }
-            },1000)
+            }).error(function(xhr,errorText,errorType){
+                    alert('网络超时，请稍后再试')
+            });
+            
            }
     }
     
