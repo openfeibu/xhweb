@@ -52,17 +52,18 @@
 </body>
 <script>
     var android_token;
+
     try {
-            if (JSON.parse(window.feibu.getToken()).value != 'undefined') {
+            if (JSON.parse(window.feibu.getToken()).value != 'undefined' && JSON.parse(window.feibu.getToken()).value != undefined ) {
                     android_token = JSON.parse(window.feibu.getToken()).value;
                     window.localStorage.token = android_token;
                     window.localStorage.app = 1;
-                    window.location.href="http://web.feibu.info/prize/turn_turn.html";
+                    window.location.href="turn_turn.html";
             }
         } catch(e){
             var token = window.localStorage.token;
             if(token != undefined){
-                window.location.href="http://web.feibu.info/prize/turn_turn.html";
+                window.location.href="turn_turn.html";
             }
         }
 
