@@ -5,7 +5,7 @@
     <title>校汇18元红包等你拿</title>
     <link rel="stylesheet" href="styles/css.css">
     <script src="scripts/jquery-1.7.2.min.js"></script>
-    <script src="../js/common.js"></script> 
+    <script src="../js/common.js"></script>
     <!-- <meta name="viewport"
           content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui"> -->
     <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -51,45 +51,22 @@
     </div>
 </body>
 <script>
-    var android_token; 
-    alert(typeof(eval(window.feibu.getToken())))
+    var android_token;
     try {
-            
-            if (typeof(eval(window.feibu.getToken()))) {
-               android_token = JSON.parse(window.feibu.getToken()).value;
-               alert(android_token)
-                    if(android_token != 'undefined'){
+            if (JSON.parse(window.feibu.getToken()).value != 'undefined') {
+                    android_token = JSON.parse(window.feibu.getToken()).value;
                     window.localStorage.token = android_token;
                     window.localStorage.app = 1;
-                    window.location.href="turn_turn.html";
-                }
+                    window.location.href="http://web.feibu.info/prize/turn_turn.html";
             }
-        } catch(e) {
+        } catch(e){
             var token = window.localStorage.token;
             if(token != undefined){
-                window.location.href="turn_turn.html";
+                window.location.href="http://web.feibu.info/prize/turn_turn.html";
             }
         }
 
-    // try {
-    // 　　// 此处是可能产生例外的语句
-    //     android_token = JSON.parse(window.feibu.getToken()).value;
-    // 　　} catch(error) {
-    // 　　// 此处是负责例外处理的语句
-    //      var token = window.localStorage.token;
-    //         if(token != undefined){
-    //             window.location.href="turn_turn.html";
-    //         }
-    // 　　} finally {
-    // 　　// 此处是出口语句
-    //         if(android_token != 'undefined'){
-    //             window.localStorage.token = android_token;
-    //             window.localStorage.app = 1;
-    //             window.location.href="turn_turn.html";
-    //         }
-    //     }
-    
-   
+
      //验证码获取 S
      $('.code_btn').on('click',Getcode)
     function Getcode(){
@@ -99,7 +76,7 @@
         $('.getcode').off('click',Getcode);
         var _this = $(this);
         $.post(locahost+'/user/sendRegisterVerifySMS',{'mobile_no':$("#input_tel").val()},function(data){
-                 if(data.code == "200"){        
+                 if(data.code == "200"){
                     fb_alert("发送验证码成功");
                     _this.val('60s');
                     var i = 60;
@@ -118,10 +95,9 @@
             }).error(function(xhr,errorText,errorType){
                     alert('网络超时，请稍后再试')
             });
-            
            }
     }
-    
+
        //验证码获取 E
     // 登记
     $(".register-submit").on("click",function(){
@@ -129,7 +105,7 @@
         is_alipay(true);
         $.post(locahost+'/user/registerVerify/',{'mobile_no':$("#input_tel").val(),'sms_code':$("#identifying_code").val()},function(data){
                 is_alipay(false);
-                if(data.code == "200"){        
+                if(data.code == "200"){
                     window.localStorage.token = data.token;
                     window.location.href="turn_turn.html";
                 }else{
