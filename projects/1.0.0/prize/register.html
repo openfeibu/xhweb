@@ -55,6 +55,7 @@
     try {
             if (typeof(eval(window.feibu.getToken()))) {
                android_token = JSON.parse(window.feibu.getToken()).value;
+               alert(android_token)
                     if(android_token != 'undefined'){
                     window.localStorage.token = android_token;
                     window.localStorage.app = 1;
