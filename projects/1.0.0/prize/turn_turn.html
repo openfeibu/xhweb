@@ -174,7 +174,7 @@
                 return false;
               }
               flag = true;
-              $('[data-name="num"]').text(--num);
+
               is_alipay(true);
               var that = $(this);
               var box_index = that.index();
@@ -186,6 +186,7 @@
                       return;
                    }
                    if(data.code == "200"){
+                        $('[data-name="num"]').text(--num);
                         $('[data-name="price"]').text(data.data.price);
                         $('[data-name="tell"]').text(tell);
                         setTimeout(function(){
