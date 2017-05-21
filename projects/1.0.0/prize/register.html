@@ -53,6 +53,7 @@
 <script>
     var android_token; 
     try {
+            alert(typeof(eval(window.feibu.getToken())))
             if (typeof(eval(window.feibu.getToken()))) {
                android_token = JSON.parse(window.feibu.getToken()).value;
                alert(android_token)
