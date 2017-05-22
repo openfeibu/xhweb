@@ -204,22 +204,22 @@ function replaceLocation(URL){
 }
 
 //判断是否登陆
-function online(){
-  var locaTime = 60000000; //1000分钟
-  var token =getItem("token");
-  var now = new Date().getTime();
-  if(now-token[1] >= locaTime){
-    window.localStorage.clear("token");
-    return false;
-  }
-  if(token){
-     if(now-token[1]< locaTime){
-        return true
-      }
-    return false;
-  }
-    return false;
-}
+// function online(){
+//   var locaTime = 60000000; //1000分钟
+//   var token =getItem("token");
+//   var now = new Date().getTime();
+//   if(now-token[1] >= locaTime){
+//     window.localStorage.clear("token");
+//     return false;
+//   }
+//   if(token){
+//      if(now-token[1]< locaTime){
+//         return true
+//       }
+//     return false;
+//   }
+//     return false;
+// }
 
 //分割个人信息数组{
 function splitInfo(){

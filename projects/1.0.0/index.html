@@ -245,9 +245,6 @@
           '/mine': {before:function(){
                $("footer li").removeClass("on").eq(4).addClass("on")
                 tab = window.location.hash.replace(/#\//,"");
-                 if(!online()){
-                  window.location.href = "login.html"
-                }
             },
             on:getMine
           },

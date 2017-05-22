@@ -43,6 +43,33 @@
   // 是否弹出活动框
   loading(true)
   home();
+  getInfo();
+   function getInfo(){
+      var info = window.localStorage.info;
+      if( info == "undefined" || info == undefined){
+          var token = window.localStorage["token"];
+          $.getJSON(locahost+'/user/getMyInfo/?token='+token,function(data){
+             loading(false) 
+            if(data.code == "403"){
+              window.location.href ="login.html#/login";
+              return false;
+            }else if(data.code == "2001"){
+              fb_alert("登陆超时")
+              window.location.href ="login.html#/login";
+              return false;
+            }
+            var data = data.data;
+            $('[data-name="mp_img"]').html('<img src="'+data.avatar_url+'" alt="" / >')
+            $('[data-name="name"]').text(data.nickname)
+            $('[data-name="schoolName"]').text(data.college)
+            $('[data-name="integral"]').text(data.integral)
+
+             setItem("info",JSON.stringify(data))
+         })
+      }
+    }
+
+
   //主页
   function home(a){
     var thislocaTime = locaTime;

@@ -68,7 +68,7 @@
 							<input type="text" id="reg_code" placeholder="请输入验证码" autocomplete="off">
 							<div class="getcode">获取验证码</div>	
 						</div>
-						<input type="submit" value="下一步" id="reg">
+						<input type="submit" value="注册" id="reg">
 					</form>
 						<div class="login_inner-container">
 							<a  href="statement/appAgreement.html" class="forgetPaw"><span>用户注册协议</span></a>
@@ -304,62 +304,74 @@
 			}else if($("#reg_code").val().length==0){
 				fb_alert("验证码不可为空")
 			}else{
-				 window.location.href="#/reg/regist"
+				 
+				 $.post(locahost+'/user/register/?mobile_no='+$("#reg_account").val()+'&password='+$.md5($("#reg_password").val())+'&sms_code='+$("#reg_code").val(),  function(data){
+				   		if(data.code == "200"){	
+				   			window.localStorage.token = data.token;	
+				    		fb_alert("注册成功")
+				    		setTimeout(function(){
+				    			window.location.href="/";
+				    		},1000)	
+				    	}else{
+				    		// $('.regist-submit').on('click',regist_submit);
+				    		fb_alert(data.detail)
+				    	}
+				  })
 			}
 			return false;
 		});
 	   //注册信息提交
-	 $('.regist-submit').on('click',regist_submit);
-	 function regist_submit(){
-			if(!checkMobile($("#reg_account").val())){
-				fb_alert("手机格式不正确");
-				window.location.href="#/reg";
-				return;
-			}else if($("#reg_password").val().length<6){
-				fb_alert("密码不可小于6位数")
-				window.location.href="#/reg";
-				return;
-			}else if($("#reg_code").val().length==0){
-				fb_alert("验证码不可为空")
-				window.location.href="#/reg";
-				return;
-			}else if($("#regist-content-name").val().length==0){
-				fb_alert("昵称不可为空")
-				return;
-			}else if($("#regist-content-sex").val().length==0){
-				fb_alert("请选择性别")
-				return;
-			}else if($("#regist-content-date").val().length==0){
-				fb_alert("请输入您的入学年份")
-				return;
-			}else{
-				 $('.regist-submit').off('click',regist_submit);
-				 switch ($("#regist-content-sex").val()) {
-				 	case "保密" :
-				 		var sex = 0;
-				 		break;
-				 	case "男" :
-				 		var sex = 1;
-				 		break;
-				 	case "女" :
-				 		var sex = 2;
-				 		break;
-				 	default :
-					 	var sex = 0;
-					 		break;
-				 }
-				 $.post(locahost+'/user/register/?mobile_no='+$("#reg_account").val()+'&password='+$.md5($("#reg_password").val())+'&sms_code='+$("#reg_code").val()+'&nickname='+$("#regist-content-name").val()+'&gender='+sex+'&enrollment_year='+$("#regist-content-date").val(),  function(data){
-				   		if(data.code == "200"){		
-		      			 	window.location.href="#/login"
-				    	}else{
-				    		$('.regist-submit').on('click',regist_submit);
-				    		fb_alert(data.detail)
-				    	}
-				  })
+	 // $('.regist-submit').on('click',regist_submit);
+	 // function regist_submit(){
+		// 	if(!checkMobile($("#reg_account").val())){
+		// 		fb_alert("手机格式不正确");
+		// 		window.location.href="#/reg";
+		// 		return;
+		// 	}else if($("#reg_password").val().length<6){
+		// 		fb_alert("密码不可小于6位数")
+		// 		window.location.href="#/reg";
+		// 		return;
+		// 	}else if($("#reg_code").val().length==0){
+		// 		fb_alert("验证码不可为空")
+		// 		window.location.href="#/reg";
+		// 		return;
+		// 	}else if($("#regist-content-name").val().length==0){
+		// 		fb_alert("昵称不可为空")
+		// 		return;
+		// 	}else if($("#regist-content-sex").val().length==0){
+		// 		fb_alert("请选择性别")
+		// 		return;
+		// 	}else if($("#regist-content-date").val().length==0){
+		// 		fb_alert("请输入您的入学年份")
+		// 		return;
+		// 	}else{
+		// 		 $('.regist-submit').off('click',regist_submit);
+		// 		 switch ($("#regist-content-sex").val()) {
+		// 		 	case "保密" :
+		// 		 		var sex = 0;
+		// 		 		break;
+		// 		 	case "男" :
+		// 		 		var sex = 1;
+		// 		 		break;
+		// 		 	case "女" :
+		// 		 		var sex = 2;
+		// 		 		break;
+		// 		 	default :
+		// 			 	var sex = 0;
+		// 			 		break;
+		// 		 }
+		// 		 $.post(locahost+'/user/register/?mobile_no='+$("#reg_account").val()+'&password='+$.md5($("#reg_password").val())+'&sms_code='+$("#reg_code").val()+'&nickname='+$("#regist-content-name").val()+'&gender='+sex+'&enrollment_year='+$("#regist-content-date").val(),  function(data){
+		// 		   		if(data.code == "200"){		
+		//       			 	window.location.href="#/login"
+		// 		    	}else{
+		// 		    		$('.regist-submit').on('click',regist_submit);
+		// 		    		fb_alert(data.detail)
+		// 		    	}
+		// 		  })
 				
-			}
-			return false;
-		}
+		// 	}
+		// 	return false;
+		// }
 
 	 //下拉框效果
 	 $("#regist .input_b select").on("change",function(){
