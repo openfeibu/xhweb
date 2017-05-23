@@ -10,8 +10,8 @@
     <style>#audio_btn{ width:45px;height:45px;position:fixed; top:0px; right:0px;background:rgb(201, 71, 206);border-radius: 50%; z-index:999999; } input { display: block; width: 100%; border: none; font-size: 1em; line-height: 1.5em; margin: 0; padding: 0.5em; resize: none; font-family: inherit; color: inherit; box-sizing: border-box; } .send-btn { float: left; } ul{padding:0px; margin:0px;} li{list-style:none; padding:0px; margin:0px; width:100%; } #conts p{ width:100%; word-break:break-all; padding:3px 0px 3px 0px; margin:0px; } .dm .d_screen .d_del{width:38px;height:38px;background:#600;display:block;text-align:center;line-height:38px; text-decoration:none;font-size:20px;color:#fff;border-radius:19px;border:1px solid #fff;position:absolute;top:10px;right:20px;z-index:3;display:none;} .dm .d_screen .d_del:hover{background:#f00;} .dm .d_screen .d_mask{width:100%;height:100%;position:absolute;top:0;left:0;opacity:0.5; filter:alpha(opacity=50) ;z-index:1;} .dm .d_screen .d_show{position: relative;z-index:2;} .dm .d_screen .d_show div{font-weight:500;color:#fff;position:absolute;left:0;top:0;} #showmeg p{ font-weight:bold; text-align:center; } .d_show div{ width:230px; heigth:50px; } .d_show p{ heigth:50px; text-overflow:ellipsis ; }</style></head>
   
   <body style="padding:0px;margin:0px;" onload="scrollBy(0, document.body.scrollHeight)">
-  	<a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzIxNTU1MTg0Nw==&scene=4#wechat_redirect" style="width:100%;height:80px;position:absolute;top:0;left:0;z-index:999"></a>
-  	<div ><img style="width:100%;" src="bg.jpg" alt=""></div>
+    <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzIxNTU1MTg0Nw==&scene=4#wechat_redirect" style="width:100%;height:80px;position:absolute;top:0;left:0;z-index:999"></a>
+    <div ><img style="width:100%;" src="bg.jpg" alt=""></div>
     <audio id="music" src="20120417132311.mp3" autoplay="autoplay" loop="loop"></audio>
     <a id="audio_btn">
       <img src="play.png" width="40" height="40" id="music_btn" border="0" style="margin:2.5px;"></a>
@@ -33,10 +33,10 @@
     </div>
     <div style="position:fixed;left:0%;bottom:0px;height:60px;width:100%;border-top:solid 1px #a58e78;background-color:rgba(0,0,0,0.5);z-index:99999; ">
       <form id="reply-form2"  method="post" style="padding-top:8px;padding-bottom:30px;">
-        <div class="input" style="width:65%;float:left;margin-left:10%;">
+        <div class="input" style="width:55%;float:left;margin-left:5%;">
           <input id="reply-write" name="content" type="text" value="" placeholder="输入文字"></div>
         <div class="send-btn">
-          <a style="background-color:rgb(201, 71, 206);color:#fff;width: 4em;height: 2.5em;display: inline-block;text-align: center;line-height: 2.5em;cursor:pointer" onclick="send_reply2()">发射</a></div>
+          <a style="background-color:rgb(201, 71, 206);color:#fff;width: 4em;height: 2.5em;display: inline-block;text-align: center;line-height: 2.5em;cursor:pointer" onclick="send_reply2()">发射</a><a style="margin:0 0 0 10px;text-decoration:none;background-color:rgb(201, 71, 206);color:#fff;width: 4em;height: 2.5em;display: inline-block;text-align: center;line-height: 2.5em;cursor:pointer" href="http://web.feibu.info/prize/register.html">去抽奖</a></div>
       </form>
     </div>
     <script>$(function() {
@@ -111,8 +111,8 @@
         text=["校汇，快到我的碗里来","让我翻一张最大的","真弹幕，表白校汇","厉害了我的校汇","生命不止，弹幕不停","真TM厉害","翻翻翻，真是溜","18元红包已准备好","能不能给点力","来摸来撩，最high校汇","良心公众号","发来贺电祝福，校汇666","有木有中奖","我的天，厉害了，我的校汇","不抽还是人么？","蜜汁的感动","窝草，666, 6到飞起来","到底有多溜","来，这个装逼我给10000+分","这弹幕还有谁","赶紧给我一个吻，我要弹一大幕","app风骚谁来领，2.0.3版本我只服校汇","Are you ok？","哇塞，八面威风呀！","我要炸了，炸开了，校汇来了一大波红包","校汇可以吃的吗？","校汇神器。","弹幕有没有告诉我在哪里领奖？","狗屁不通。。","校汇我想上你。","震撼了，这运动状态。","发骚吧，我的校汇少年。","弹幕？确定我不是在bilibili站。","我太需要校汇了。","要屎了，居然那么溜！","全宿舍用校汇APP。","专用校汇，我要校汇bbb。","满血的复活，好产品，好校汇。","只要你够资格。","满满的套路，期待校汇下一版的。","驾校，影视楼，培训楼下期上线。","(⊙o⊙)哦！","弹幕来不停。。。","太卡了，红红火火。"];
         html='';
         for(var i =0 ; i < 8 ; i++){
-        	var textCon = text[Math.floor(Math.random()*text.length)];
-        	html += "<div style='color:"+color[Math.floor(Math.random()*color.length)]+";font-size:24px;width:"+textCon.length*30+"'>"+textCon+"</div>";
+          var textCon = text[Math.floor(Math.random()*text.length)];
+          html += "<div style='color:"+color[Math.floor(Math.random()*color.length)]+";font-size:24px;width:"+textCon.length*30+"'>"+textCon+"</div>";
         }
      
         $(".d_show").append(html);
@@ -135,7 +135,7 @@
          // console.log($(this))
          var that = $('.d_show div').eq(j);
          if(that.attr("class") != undefined){
-         	continue;
+          continue;
          }
          that.addClass("fb"+c);
 
@@ -170,11 +170,11 @@
             time = 24000;
           }
 
-			$(".fb"+c).animate({
-	            left: "-" + _left2 + "px"
-	          },time,function() {
-	          	 $(this).remove()
-	          });
+      $(".fb"+c).animate({
+              left: "-" + _left2 + "px"
+            },time,function() {
+               $(this).remove()
+            });
 
         }
        
