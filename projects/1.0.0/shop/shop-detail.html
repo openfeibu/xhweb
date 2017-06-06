@@ -95,7 +95,16 @@
     $(".pt1").removeClass("pt1");
     $(".shop-detail-con").addClass("appheight");
     app =window.localStorage.app =1;
-    window.localStorage.token = JSON.parse(window.feibu.getToken()).value;
+      try {
+            if (JSON.parse(window.feibu.getToken()).value != 'undefined' && JSON.parse(window.feibu.getToken()).value != undefined ) {
+                    window.localStorage.token = JSON.parse(window.feibu.getToken()).value;
+            }
+        } catch(e){
+            window.localStorage.token = document.location="objc://"+getToken+":/"+value;
+            alert(window.localStorage.token )
+        }
+   
+
   }
   $(function(){
     //兼容低级浏览器设置高度
