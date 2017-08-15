@@ -1,0 +1,421 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script src="Tween.js"></script>
+  <style type="text/css">
+    body{background-color: #fff;position: absolute;left: 0;top: 0;right: 0;bottom: 0;}
+    canvas{margin:0 auto;}
+    </style>
+
+</head>
+<body>
+  <canvas id="myCanvas" width="100%" height="100%"></canvas>
+  <!-- <script type="text/javascript" src="particles.min.js"></script> -->
+  <script type="text/javascript">
+// (function(){
+//   var canvas = {},
+//     image = {};
+//   var particles = [];
+//   //获取canvas元素
+//   canvas.obj = document.getElementById('myCanvas');
+
+//   if(canvas.obj.getContext) {
+
+//     //获取渲染上下文
+//     canvas.ctx = canvas.obj.getContext('2d');
+
+//     //设置画布大小为屏幕宽高
+//     canvas.w = canvas.obj.width = document.body.clientWidth;
+//     canvas.h = canvas.obj.height = document.body.clientHeight;
+
+//     //新建一个image对象
+//     var img = new Image();
+
+//     //图像加载完后
+//     img.onload = function() {
+//       //把图像信息保存在image里面
+//       image.obj = img;
+//       image.w = img.width;
+//       image.h = img.height;
+//       image.x = parseInt(canvas.w/2 - image.w/2);
+//       image.y = 200;
+
+//       //把图像绘制到画布坐标为(100,100)的地方
+//       canvas.ctx.drawImage(image.obj,image.x,image.y,image.w,image.h);
+
+//       image.imageData = canvas.ctx.getImageData(image.x,image.y,image.w,image.h);
+
+//       //计算出符合要求的像素
+//       calculate();
+
+//       //计算后绘到画布上
+//       draw();
+//     };
+
+//     //设置image的source
+//     img.src = 'img/isux.png';
+//   }
+
+
+ 
+// //计算并保存坐标
+// function calculate() {
+//   var len = image.imageData.length;
+//   //只保存150行，100列的像素值
+//   var cols = 100,
+//     rows = 60;
+//   //设成150行，100列后每个单元的宽高
+//   var s_width = parseInt(image.w/cols),   
+//     s_height = parseInt(image.h/rows);
+//   var pos = 0; //数组中的位置
+//   var par_x, par_y;  //粒子的x,y坐标
+//   var data = image.imageData.data;  //像素值数组
+//   var now = new Date().getTime();  //获取当前时间毫秒值
+//   for(var i = 0; i < cols; i++) {
+//     for(var j = 0; j < rows; j++) {
+//       //计算(i,j)在数组中的R的坐标值
+//       pos = (j*s_height*image.w + i*s_width)*4;
+//       //判断像素透明度值是否符合要求
+//       if(data[pos+3] > 100){
+//         var particle = {
+//           //x,y值都随机一下
+//           x: image.x + i*s_width + (Math.random() - 0.5)*20,
+//           y: image.y + j*s_height + (Math.random() - 0.5)*20,
+//           flotage: false
+//         }
+//         // 根据图像不同的色值来设定粒子色值
+//         if(data[pos+1] < 175 && data[pos+2] < 10) {
+//           particle.fillStyle = '#ffa900';
+//         } else if(data[pos+1] < 75 && data[pos+1] > 50) {
+//           particle.fillStyle = '#ff4085';
+//         } else if(data[pos+1] < 220 && data[pos+1] > 190) {
+//           particle.fillStyle = '#00cfff';
+//         } else if(data[pos+1] < 195 && data[pos+1] > 175) {
+//           particle.fillStyle = '#9abc1c';
+//         }
+//         if(i%5 == 0 && j%5 == 0) {
+//           particle.flotage = true;
+//           //保存开始坐标
+//           particle.startX = particle.x;
+//           particle.startY = particle.y;
+//           //动画执行时间和结束时间
+//           particle.startTime = now + Math.random() * 20 * 1000;
+//           particle.killTime = now + Math.random() * 35*1000;
+//                     //x,y方向的移动速度
+//           particle.speedX = (Math.random() - 0.5)*0.9;
+//           particle.speedY = (Math.random() - 0.5)*0.9;
+//         }
+
+//         //符合要求的粒子保存到数组里
+//         particles.push(particle);
+//       }
+//     }
+//   }
+// }
+
+
+//   //绘图案
+//   function draw() {
+//     //清空画布          
+//     canvas.ctx.clearRect(0,0,canvas.w,canvas.h);
+
+//     var len = particles.length;
+//     var curr_particle = null;
+//     var time = new Date().getTime();
+
+
+//     for(var i = 0; i < len; i++) {
+
+//       curr_particle = particles[i];
+//         //开始漂浮
+//         console.log(curr_particle.flotage)
+//       if(curr_particle.flotage && curr_particle.startTime < time) {
+//         //改变粒子位置
+//         curr_particle.x += curr_particle.speedX;
+//         curr_particle.y += curr_particle.speedY;
+//       } 
+//       //结束时间到了
+//         if(curr_particle.killTime < time) {
+//           //粒子位置复原
+//             curr_particle.x = curr_particle.startX;
+//             curr_particle.y = curr_particle.startY;
+//             //重新计算开始时间和结束时间
+//             curr_particle.startTime = time + parseInt(Math.random()*20)*1000;
+//             curr_particle.killTime = time + parseInt(Math.random()*35)*1000;
+//         }
+
+//       //设置填充颜色
+//       canvas.ctx.fillStyle = curr_particle.fillStyle;
+// //       //绘粒子到画布上
+//       var n = Math.random()*5
+//       canvas.ctx.globalAlpha=0.5;
+//       canvas.ctx.strokeStyle = '#fff';
+//       canvas.ctx.beginPath();
+//       // canvas.ctx.arc(curr_particle.x, curr_particle.y, n, 0, Math.PI * 2, false);
+//       canvas.ctx.arc(curr_particle.x, curr_particle.y, n, 0, Math.PI * 2, false);
+//       canvas.ctx.stroke();
+//       canvas.ctx.fill();
+      // canvas.ctx.fillRect(curr_particle.x,curr_particle.y,5,);
+//     }
+//   }
+
+
+//   requestAnimationFrame(draw);
+
+// }())
+(function(){
+  var canvas = {},
+    image = {};
+  var particles = [];
+  var particlesAll = [];
+  //获取canvas元素
+  canvas.obj = document.getElementById('myCanvas');
+
+  if(canvas.obj.getContext) {
+
+    //获取渲染上下文
+    canvas.ctx = canvas.obj.getContext('2d');
+
+    //设置画布大小为屏幕宽高
+    canvas.w = canvas.obj.width = document.body.clientWidth;
+    canvas.h = canvas.obj.height = document.body.clientHeight;
+
+    //新建一个image对象
+    var img = new Image();
+
+    //图像加载完后
+    img.onload = function() {
+      //把图像信息保存在image里面
+      image.obj = img;
+      image.w = img.width;
+      image.h = img.height;
+      image.x = parseInt(canvas.w/2 - image.w/2);
+      image.y = 200;
+
+      //把图像绘制到画布坐标为(100,100)的地方
+      canvas.ctx.drawImage(image.obj,image.x,image.y,image.w,image.h);
+
+      image.imageData = canvas.ctx.getImageData(image.x,image.y,image.w,image.h);
+
+      //计算出符合要求的像素
+      calculate();
+      //计算后绘到画布上
+      requestAnimationFrame(init);
+    };
+
+    //设置image的source
+    img.src = 'img/1.png';
+  }
+
+
+//计算并保存坐标
+function calculate() {
+  var len = image.imageData.length;
+  //只保存150行，100列的像素值
+  var cols = 100,
+    rows = 70;
+  //设成150行，100列后每个单元的宽高
+  var s_width = parseInt(image.w/cols),   
+    s_height = parseInt(image.h/rows);
+  var pos = 0; //数组中的位置
+  var par_x, par_y;  //粒子的x,y坐标
+  var data = image.imageData.data;  //像素值数组
+  var now = new Date().getTime();  //获取当前时间毫秒值
+  for(var i = 0; i < cols; i++) {
+    for(var j = 0; j < rows; j++) {
+
+      //计算(i,j)在数组中的R的坐标值
+      pos = (j*s_height*image.w + i*s_width)*4;
+      //判断像素透明度值是否符合要求
+      if(data[pos+3] > 100){
+        var particle = {
+          //x,y值都随机一下
+          x: image.x + i*s_width + (Math.random() - 0.5)*5,
+          y: image.y + j*s_height + (Math.random() - 0.5)*5,
+          flotage: false
+        }
+        // 根据图像不同的色值来设定粒子色值
+        if(data[pos+1] < 175 && data[pos+2] < 10) {
+          particle.fillStyle = '#ffa900';
+        } else if(data[pos+1] < 75 && data[pos+1] > 50) {
+          particle.fillStyle = '#ff4085';
+        } else if(data[pos+1] < 220 && data[pos+1] > 190) {
+          particle.fillStyle = '#00cfff';
+        } else if(data[pos+1] < 195 && data[pos+1] > 175) {
+          particle.fillStyle = '#9abc1c';
+        }
+        particle.boolem = true;
+        //保存开始坐标
+        particle.startX = particle.x;
+        particle.startY = particle.y;
+        //动画执行时间和结束时间
+        particle.startTime = now + Math.random() * 20 * 1000;
+        particle.killTime = now + Math.random() * 35*1000;
+        //x,y方向的移动速度
+        particle.speedX = (Math.random() - 0.5)*0.9;
+        particle.speedY = (Math.random() - 0.5)*0.9;
+        particle.nextX = particle.x;
+        particle.nextY = particle.y;
+        particle.globalAlpha = 0;
+        particle.index = particles.length;
+        var n = Math.random()*4;
+        particle.n = n;
+        if(i%2 == 0 && j%2 == 0) {
+           particle.flotage = true;
+        }
+
+        //符合要求的粒子保存到数组里
+        particles.push(particle);
+      }
+    }
+  }
+  
+}
+
+//绘图案
+function draw() {
+  //清空画布          
+  canvas.ctx.clearRect(0,0,canvas.w,canvas.h);
+
+  var len = particles.length;
+
+  var curr_particle = null;
+  var index;
+  //当前时间毫秒值
+  var time = new Date().getTime();
+  for(var i = 0; i < len; i++) {
+      curr_particle = particles[i];
+    //开始漂浮
+    if(curr_particle.flotage && curr_particle.startTime < time) {
+      //改变粒子位置
+      if(curr_particle.boolem){
+        curr_particle.x += curr_particle.speedX;
+        curr_particle.y += curr_particle.speedY;
+      }else{
+
+         var speedX = (curr_particle.lastX - parseInt(curr_particle.startX))/50,speedY = (curr_particle.lastY - parseInt(curr_particle.startY))/50
+         curr_particle.x -= speedX;
+         curr_particle.y -= speedY;
+         if(parseInt(curr_particle.startX)==parseInt(curr_particle.x)){
+          curr_particle.boolem=true;
+          curr_particle.startTime = time + parseInt(Math.random()*20)*1000;
+          curr_particle.killTime = time + parseInt(Math.random()*25)*1000;
+         }
+      }
+      
+    } 
+    //结束时间到了
+      if(curr_particle.killTime < time) {
+        //粒子位置复原
+          // curr_particle.x = curr_particle.startX;
+          // curr_particle.y = curr_particle.startY;
+          curr_particle.boolem = false;
+          curr_particle.lastX = parseInt(curr_particle.x);
+          curr_particle.lastY = parseInt(curr_particle.y);
+          //重新计算开始时间和结束时间
+          
+      }
+
+        canvas.ctx.fillStyle = curr_particle.fillStyle;
+//       //绘粒子到画布上
+        canvas.ctx.globalAlpha=curr_particle.globalAlpha;
+        canvas.ctx.strokeStyle = '#fff';
+        canvas.ctx.beginPath();
+        // canvas.ctx.arc(curr_particle.x, curr_particle.y, n, 0, Math.PI * 2, false);
+        canvas.ctx.arc(curr_particle.x, curr_particle.y, curr_particle.n, 0, Math.PI * 2, false);
+        canvas.ctx.stroke();
+        canvas.ctx.fill();
+  }
+
+  //重复绘制
+
+   requestAnimationFrame(draw)
+
+}
+
+//初始化
+function init() {
+  cancelAnimationFrame(init);
+
+  //清空画布          
+  canvas.ctx.clearRect(0,0,canvas.w,canvas.h);
+
+  var len = particles.length;
+
+  var curr_particle = null;
+  for(var i = 0; i < len; i++) {
+        curr_particle = particles[i];
+        canvas.ctx.fillStyle = curr_particle.fillStyle;
+       //绘粒子到画布上
+        canvas.ctx.globalAlpha=curr_particle.globalAlpha;
+        canvas.ctx.strokeStyle = '#fff';
+        canvas.ctx.beginPath();
+        var randomX =  Math.random()*document.body.clientWidth;
+        var randomY =  Math.random()*document.body.clientHeight;
+        curr_particle.x=curr_particle.randomX = parseInt(randomX);
+        curr_particle.y=curr_particle.randomY = parseInt(randomY);
+        canvas.ctx.arc(parseInt(randomX), parseInt(randomY), curr_particle.n, 0, Math.PI * 2, false);
+        canvas.ctx.stroke();
+        canvas.ctx.fill();
+       
+  }
+
+  requestAnimationFrame(resetCode)
+}
+
+//绘图案
+var a = 10;//加速度
+var t = 40;
+var resetCodeIndex = 0;
+function resetCode() {
+      resetCodeIndex++;
+
+  //清空画布          
+  canvas.ctx.clearRect(0,0,canvas.w,canvas.h);
+  var len = particles.length;
+  var curr_particle1 = null;
+  //当前时间毫秒值
+  for(var i = 0; i < len; i++) {
+       curr_particle1 = particles[i];
+    //开始漂浮
+        var speedX = Tween.Elastic.easeInOut(resetCodeIndex, curr_particle1.randomX, curr_particle1.startX-curr_particle1.randomX, t);
+        var speedY = Tween.Elastic.easeInOut(resetCodeIndex, curr_particle1.randomY, curr_particle1.startY-curr_particle1.randomY, t);
+         // var speedX = (curr_particle1.randomX - parseInt(curr_particle1.startX))/100,speedY = (curr_particle1.randomY - parseInt(curr_particle1.startY))/100
+        curr_particle1.x = speedX;
+        curr_particle1.y = speedY;
+        canvas.ctx.fillStyle = curr_particle1.fillStyle;
+       //绘粒子到画布上
+        curr_particle1.globalAlpha = curr_particle1.globalAlpha+0.05 > 0.5 ? 0.5 : curr_particle1.globalAlpha+0.05;
+        canvas.ctx.globalAlpha=curr_particle1.globalAlpha;
+        canvas.ctx.strokeStyle = '#fff';
+        canvas.ctx.beginPath();
+        // canvas.ctx.arc(curr_particle1.x, curr_particle1.y, n, 0, Math.PI * 2, false);
+        canvas.ctx.arc(curr_particle1.x, curr_particle1.y, curr_particle1.n, 0, Math.PI * 2, false);
+        canvas.ctx.stroke();
+        canvas.ctx.fill();
+  }
+
+  if(resetCodeIndex >= t){
+     cancelAnimationFrame(resetCode);
+     requestAnimationFrame(draw)
+  }else{
+     requestAnimationFrame(resetCode)
+  }
+ 
+   
+      
+
+}
+
+}())
+
+
+
+
+  </script>
+
+</body>
+</html>
