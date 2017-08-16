@@ -192,7 +192,7 @@
 				if($("#login_code_input").val() != 0){
 					loginData.verify_code = $("#login_code_input").val();
 				}
-				if(!is_weixn()){
+				if(is_weixn()){
 					loginData.platform = 'wechat' ;
 				}else{
 					loginData.platform = 'web' ;
