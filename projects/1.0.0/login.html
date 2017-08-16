@@ -222,7 +222,11 @@
 				             window.localStorage.phone =$("#account").val();
 				         });
 				      	setTimeout(function(){
-				      		// window.location.href="index.html";
+				      		if(is_weixn()){
+				      			window.location.href=data.url;
+				      		}else{
+				      			window.location.href="index.html";
+				      		}
 				      	},1000);
        					
 				    }else{
