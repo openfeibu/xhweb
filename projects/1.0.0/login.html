@@ -185,16 +185,21 @@
 				fb_alert("密码不可小于6位数")
 			}else{
 	 			$('#login').off('click');
-
+	 			var loginData = {
+	 				'mobile_no' : $("#account").val(),
+	 				'password' : $.md5($("#password").val()),
+	 			}
 				if($("#login_code_input").val() != 0){
-					var login_code = "&verify_code="+$("#login_code_input").val();
+					loginData.verify_code = $("#login_code_input").val();
+				}
+				if(!is_weixn()){
+					loginData.platform = 'wechat' ;
 				}else{
-					var login_code = "";
+					loginData.platform = 'web' ;
 				}
 				is_alipay(true);
-				 $.post(locahost+'/user/login?mobile_no='+$("#account").val()+'&password='+$.md5($("#password").val())+"&platform=web"+login_code,  function(data){
+				 $.post(locahost+'user/login',loginData,  function(data){
 					is_alipay(false);
-
 				 	if(data.code == "2005"){
 				    	$(".login_code").show();
 				    	fb_alert(data.detail);
@@ -206,7 +211,7 @@
 				      	setItem("token",data.token) //保存token
 				      	$(".logo").css({"top":"30%",});
 				      	$(".outer-main").hide();
-				      	 $.getJSON(locahost+'/user/getMyInfo/?token='+data.token,function(data){
+				      	$.getJSON(locahost+'/user/getMyInfo/?token='+data.token,function(data){
 				             var data = data.data;
 				             setItem("info",JSON.stringify(data))
 				             window.localStorage.is_paypassword = data.is_paypassword;
@@ -215,11 +220,10 @@
 				             window.localStorage.alipayCard =data.alipay;
 				             window.localStorage.uid = data.uid;
 				             window.localStorage.phone =$("#account").val();
-				             
-				         })
+				         });
 				      	setTimeout(function(){
-				      		window.location.href="index.html";
-				      	},1000)
+				      		// window.location.href="index.html";
+				      	},1000);
        					
 				    }else{
 	 					$('#login').on('click',onsubmit);

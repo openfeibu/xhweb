@@ -36,10 +36,8 @@
           <div class="return" onclick="returnUp()">
           </div>
         </div>
-        <div class="shop-order pt1">
-            <div class="checkMap">
-                <div class="addMap" onclick="replaceLocation('shop-updateMap.html')">新增收货地址</div>
-            </div>
+        <div class="shop-order shop-map pt1">
+            <div class="addMap" onclick="replaceLocation('shop-updateMap.html')">添加新地址</div>
             <div class="shopMap">
               <div class="noAddresses">没有收货地址</div>
               <ul>
@@ -91,27 +89,37 @@
               mapArray.push(JSON.stringify(b));
               if(b.is_default){
                 shop_html += ' <li class="clearfix">\
-                                  <div class="li_header">\
-                                    <span>'+b.consignee+'</span>\
-                                    <span>'+b.mobile+'</span>\
+                                  <div class="li_click">\
+                                    <div class="li_header">\
+                                      <span class="fl">'+b.consignee+'</span>\
+                                      <span class="fr">'+b.mobile+'</span>\
+                                    </div>\
+                                    <div class="li_bottom">\
+                                      '+b.address+'\
+                                    </div>\
                                   </div>\
-                                  <div class="li_bottom">\
-                                    <span>[默认地址]</span>'+b.address+'\
+                                  <div class="li_state">\
+                                    <div class="li_checkbox"><input type="checkbox" checked/><span>设置为默认地址</span></div>\
+                                    <div class="dele" address_id="'+b.address_id+'">删除</div>\
+                                    <div class="updata"><a onclick=\"replaceLocation(\'shop-updateMap.html?address_id='+b.address_id+'\')\">编辑</a></div>\
                                   </div>\
-                                  <div class="updata"><a onclick=\"replaceLocation(\'shop-updateMap.html?address_id='+b.address_id+'\')\"></a></div>\
-                                  <div class="dele" address_id="'+b.address_id+'"></div>\
                               </li>';
               }else{
                 shop_html += ' <li class="clearfix">\
-                                  <div class="li_header">\
-                                    <span>'+b.consignee+'</span>\
-                                    <span>'+b.mobile+'</span>\
+                                  <div class="li_click">\
+                                    <div class="li_header">\
+                                      <span class="fl">'+b.consignee+'</span>\
+                                      <span class="fr">'+b.mobile+'</span>\
+                                    </div>\
+                                    <div class="li_bottom">\
+                                      '+b.address+'\
+                                    </div>\
                                   </div>\
-                                  <div class="li_bottom">\
-                                    '+b.address+'\
+                                 <div class="li_state">\
+                                    <div class="li_checkbox"><input type="checkbox" /><span>设置为默认地址</span></div>\
+                                   <div class="dele" address_id="'+b.address_id+'">删除</div>\
+                                    <div class="updata"><a onclick=\"replaceLocation(\'shop-updateMap.html?address_id='+b.address_id+'\')\">编辑</a></div>\
                                   </div>\
-                                  <div class="updata"><a onclick=\"replaceLocation(\'shop-updateMap.html?address_id='+b.address_id+'\')\"></a></div>\
-                                  <div class="dele" address_id="'+b.address_id+'"></div>\
                               </li>';
               }
 
@@ -125,9 +133,9 @@
     //获取初始数据
 
     //选择地址
-    $(".shopMap ul").on("click","li",function(){
-      var i  = $(this).index(".shopMap ul li");
-      $(this).addClass("on").siblings("li").removeClass("on");
+    $(".shopMap ul").on("click",".li_click",function(){
+      var i  = $(this).index(".shopMap ul li .li_click");
+      $(this).parents("li").addClass("on").siblings("li").removeClass("on");
       window.localStorage.user_address = mapArray[i];
       window.history.go(-1);
     })

@@ -253,9 +253,19 @@
          '/postwork': getPostwork,
          '/work/persona':personalWork,
          '/work/business':businessWork,
+         // '/work/business':businessWork,
 
       };
-      var router = Router(routes);
+      options={
+        "notfound":function(){
+
+          var locationName = window.location.hash.substr(window.location.hash.lastIndexOf('/')+1);
+          if(locationName =='getSellerList' || locationName =='getCampusList' || locationName =='getStudentList'){
+            window.location.href="#/shop"
+          }
+        }
+      }
+      var router = new Router(routes).configure(options);
       router.init("/home");
     </script>
 

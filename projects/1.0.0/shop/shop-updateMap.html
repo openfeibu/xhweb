@@ -32,10 +32,12 @@
 <body  style="height:100%">
   <section class='main' style="height:100%;padding:0">
         <div class="header_title">
-          <p data-name="shopName">编辑收货地址</p>
+          <p data-name="shopName" class="p01">新增地址</p>
+          <p data-name="shopName" class="p02">编辑地址</p>
           <div class="return" onclick="replaceLocation('shop-map.html')">
 
           </div>
+          <div class="submitButton header_right">保存</div>
         </div>
         <div class="shop-order pt1">
             <div class="shopMap">
@@ -48,15 +50,15 @@
                   <label for="">手机号码</label>
                   <input type="text" placeholder="请填写手机号码"  name="phone">
                 </div>
-                <div class="input_b">
+                <div class="input_b clearfix">
                   <label for="">收货地址</label>
-                  <input type="text" placeholder="请填写收货地址"  name="address">
+                  <!-- <input type="text" placeholder="请填写收货地址"  name="address"> -->
+                  <textarea type="text" placeholder="请填写收货地址"  name="address"></textarea>
                 </div>
-                <div class="input_b">
+                <div class="input_b m03" >
                   <label for="">设置为默认地址</label>
                   <input type="checkbox" name="is_default">
                 </div>
-                <div class="submitButton opa_active">保存地址并使用</div>
               </form>
             </div>
         </div>
@@ -74,12 +76,16 @@
     //是否为修改的
     var address_id = GetString("address_id");
     if(address_id){
+      $(".p02").show();
       var updateData = JSON.parse(window.localStorage.update_address);
        $('[name="name"]').val(updateData.consignee);
        $('[name="phone"]').val(updateData.mobile);
        $('[name="address"]').val(updateData.address);
        updateData.is_default ? $('[name="is_default"]').attr("checked", true) : "";
        address_id =updateData.address_id;
+    }else{
+      $(".p01").show();
+
     }
 
 

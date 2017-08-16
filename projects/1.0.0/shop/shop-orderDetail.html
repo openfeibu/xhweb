@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="bgf">
+<html lang="en" >
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
@@ -20,13 +20,13 @@
   <meta name="Keywords" content="校汇,广东农工商职业技术学院,AIB,农工商,能赚钱,大学生,大学生创业,大学生校园,大学生校园社团,大学生校园快递,大学生周边生活" />
   <meta name="Description" content="校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、社团文化、校园资讯、学生互动" />
   <link rel="apple-touch-icon-precomposed" href="./icon.png" />
-  <link rel="shortcut icon" href="../icon.png" type="image/x-icon">
-  <link rel="stylesheet" type="text/css" href="../css/reset.css">
-  <link rel="stylesheet" type="text/css" href="../css/index.css">
-  <link rel="stylesheet" type="text/css" href="../css/shop.css">
-  <script type="text/javascript"src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+  <link rel="shortcut icon" href="../icon.png" type="image/x-icon"/>
+  <link rel="stylesheet" type="text/css" href="../css/reset.css"/>
+  <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+  <link rel="stylesheet" type="text/css" href="../css/shop.css"/>
+  <script type="text/javascript" src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
   <script type="text/javascript" src="../js/common.js"></script>
-  <script type="text/javascript"src="../js/director.js"></script>
+  <script type="text/javascript" src="../js/director.js"></script>
   <script type="text/javascript" src="../js/updata.js"></script>
 </head>
 <body >
@@ -38,38 +38,36 @@
         </div>
         <div class="order-detail pt1">
             <div class="order-address">
-                <p><label for="">收货人：</label><span data-name="addressName"></span></p>
-                <p><label for="">收货地址：</label><span data-name="addressMap"></span></p>
-                <p><label for="">手机号码：</label><span  data-name="addressPhone" ></span></p>
-            </div>
-            <div class="mobile_no"><span data-name="mobile_no" phone="">联系卖家</span></div>
-            <div class="shopOrder_info" >
-              <div class="shopName" data-name="shopName">XXX店铺</div>
-              <ul>
-                <!-- <li>
-                  <div class="img"><img src="images/tx.jpg" alt=""></div>
-                  <div class="test">
-                    <div class="proName">香蕉汁</div>
-                    <div class="moneyNum">
-                      <span>￥16</span>
-                      <span>×2</span>
-                    </div>
+                <div class="usermap">
+                  <div class="li_header">
+                    <div class="fl">收货人: <span data-name="addressName"></span></div>
+                    <span class="fr" data-name="addressPhone">15920541739</span>
                   </div>
-                </li> -->
+                  <div class="li_bottom">收货地址：<label data-name="addressMap"></label></div>
+                </div>
+                <div class="buyerMessage">
+                  <label for="">买家留言：</label>
+                  <span  data-name="buyerMessage">无</span>
+                </div>
+            </div>
+            <div class="shopOrder_info" >
+              <div class="shopName">
+                <div class="shopImg"></div>
+                <p data-name="shopName">汇客坊-19栋</p>
+              </div>
+              <ul>
               </ul>
+              <div class="mobile_no"><span data-name="mobile_no" phone="">联系卖家</span></div>
              <!--  <div class="applyReturn clearfix">
                 <a href="">申请退款</a>
               </div> -->
-              <div class="order_money">
-                <p><label for="">运费：￥</label><span data-name="shipping_fee">0.00</span></p>
-                <p><label for="">商品总价：￥</label><span data-name="goods_amount">13.5</span></p>
-                <p><label for="">红包：￥-</label><span data-name="coupon_price"></span></p>
-                <p class=""><label for="">总共支付：￥</label><span data-name="total_fee">13.5</span></p>
-              </div>
-              <div class="order_info">
-                <p><label for="">订单号：</label><span data-name="order_sn">0.00</span></p>
-                <p class=""><label for="">创建时间：</label><span data-name="created_at">2016-11-21 1:45:20</span></p>
-                <p class=""><label for="">付款时间：</label><span data-name="pay_time">2016-11-21 1:46:05</span></p>
+              <div class="orderDetail_info">
+                <p><label for="">订单状态</label><span class="colorF" data-name="status_desc">0.00</span></p>
+                <p><label for="">订单金额</label><span class="colorF" data-name="goods_amount">13.5</span></p>
+                <p><label for="">订单号</label><span data-name="order_sn">0.00</span></p>
+                <p><label for="">红包：</label>￥-<span data-name="coupon_price"></span>元</p>
+                <p><label for="">创建时间</label><span data-name="created_at">13.5</span></p>
+                <p><label for="">付款时间</label><span data-name="pay_time">13.5</span></p>
               </div>
               <div class="submitButton">
                 <!-- <div class="delivery opa_active">确定收货</div> -->
@@ -110,14 +108,15 @@
               shop_html += '<li>\
                               <div class="img"><img src="'+b.goods_thumb+'" alt=""></div>\
                               <div class="test">\
-                                <div class="proName">'+b.goods_name+'</div>\
-                                <div class="goods_desc">'+b.goods_desc+'</div>\
-                                <div class="moneyNum">\
-                                  <span>￥'+b.goods_price+'</span>\
-                                  <span>×'+b.goods_number+'</span>\
+                                <div class="test-top">\
+                                  <div class="proName">'+b.goods_name+'</div>\
+                                  <div class="proMoney">￥'+b.goods_price+'</div>\
                                 </div>\
+                                <div class="goods_desc">'+b.goods_desc+'</div>\
+                                <div class="moneyNum"><span>×'+b.goods_number+'</span></div>\
                               </div>\
                             </li>';
+
           })
             $(".shopOrder_info ul").html(shop_html);
             $("[data-name='addressName']").text(data.order_info.consignee);
@@ -131,6 +130,8 @@
             $("[data-name='shopName']").text(data.order_info.shop_name);
             $("[data-name='mobile_no']").attr("phone",data.order_info.shop.mobile_no);
             $("[data-name='coupon_price']").text(data.order_info.coupon_price)
+            $("[data-name='buyerMessage']").text(data.order_info.consignee)
+            $("[data-name='status_desc']").text(data.order_info.status_desc)
             window.localStorage.total_fee = data.order_info.total_fee;//缓存总价格
             if(data.order_info.pay_time == null){
               $("[data-name='pay_time']").parents("p").remove();
@@ -139,7 +140,7 @@
             }
             switch(data.order_info.status_desc){
               case "待付款" :
-                $(".submitButton").html('<div class="gopay opa_active" style="width:50%" onclick="gopay()">去付款</div><div class="closeOrder opa_active" style="width:50%" onclick="closeOrder()">取消订单</div>');
+                $(".submitButton").html('<div class="closeOrder opa_active" style="width:50%" onclick="closeOrder()">取消订单</div><div class="gopay opa_active" style="width:50%" onclick="gopay()">立即付款</div>');
                 break;
               case "待发货" :
                 $(".submitButton").html('<div class="returnMoney opa_active" style="width:100%" onclick="returnMoney()">申请退款</div>');
@@ -230,7 +231,7 @@
                 "token":token,
                 "order_id":order_id
           }
-         $.post(locahost+'/orderInfo/pay',alipay_info, function(data){
+         $.post(locahost+'orderInfo/pay',alipay_info, function(data){
                     if(data.code == 2001){
                         fb_alert(fb_error["2001"])
                         window.location.href = "login.html";

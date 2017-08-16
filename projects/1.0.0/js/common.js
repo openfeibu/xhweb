@@ -380,6 +380,17 @@ function locaGo(str){
     window.location.href='http://192.168.3.33:33/'+str;
 
 }
+//判断是否在微信浏览器、
+function is_weixn(){  
+    var ua = navigator.userAgent.toLowerCase();  
+    if(ua.match(/MicroMessenger/i)=="micromessenger") {  
+        return true;  
+    } else {  
+        return false;  
+    }  
+} 
+
+
 //提示
 var fb_error ={
                 "0":"校汇等待你的到来",

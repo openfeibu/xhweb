@@ -160,6 +160,7 @@
     },3000)
   function bannerGet(){     
         $.getJSON(locahost+'/home/getADList/', function(data, status, xhr){
+          
             if(data.code == "200"){
               clearLoading()//移除顶部动画
 		        var dom='' ,htmldom='';

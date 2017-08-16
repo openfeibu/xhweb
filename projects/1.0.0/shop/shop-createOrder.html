@@ -20,16 +20,17 @@
   <meta name="Keywords" content="校汇,广东农工商职业技术学院,AIB,农工商,能赚钱,大学生,大学生创业,大学生校园,大学生校园社团,大学生校园快递,大学生周边生活" />
   <meta name="Description" content="校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、社团文化、校园资讯、学生互动" />
   <link rel="apple-touch-icon-precomposed" href="./icon.png" />
-  <link rel="shortcut icon" href="../icon.png" type="image/x-icon">
-  <link rel="stylesheet" type="text/css" href="../css/reset.css">
-  <link rel="stylesheet" type="text/css" href="../css/index.css">
-  <link rel="stylesheet" type="text/css" href="../css/shop.css">
-  <script type="text/javascript"src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+  <link rel="shortcut icon" href="../icon.png" type="image/x-icon"/>
+  <link rel="stylesheet" type="text/css" href="../css/reset.css"/>
+  <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+  <link rel="stylesheet" type="text/css" href="../css/shop.css"/>
+  <script type="text/javascript" src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
   <script type="text/javascript" src="../js/common.js"></script>
-  <script type="text/javascript"src="../js/director.js"></script>
+  <script type="text/javascript" src="../js/director.js"></script>
   <script type="text/javascript" src="../js/updata.js"></script>
+  <script src="../js/md5.js" type="text/javascript"></script>
 </head>
-<body  style="height:100%">
+<body  style="height:100%" >
 	<section class='main' style="height:100%;padding:0">
         <div class="header_title">
           <p >创建订单</p>
@@ -44,7 +45,10 @@
                 <div class="noMap">请选择收货地址</div>
             </div>
             <div class="shopOrder_info">
-              <div class="shopName" data-name="shopName">XXX店铺</div>
+              <div class="shopName">
+                <div class="shopImg"></div>
+                <p data-name="shopName"></p>
+              </div>
               <ul>
                 <!-- <li>
                   <div class="img"><img src="images/tx.jpg" alt=""></div>
@@ -60,28 +64,49 @@
             </div>
             <div class="dispatching">
               <label for="">配送费</label>
+              <span>元</span>
               <span data-name="shipping_fee"></span>
             </div>
             <div class="coupon">
               <label for="">优惠卷</label>
-              <div class="couponNum"><p data-name="shipping_coupon">0</p>张可用</div>
-              <span data-name="shipping_coupon_value">未使用</span>
-            </div>
-            <div class="procount">
-              <label for="">合计</label>
-              <span  data-name="total_fee"></span>
+              <span data-name="shipping_coupon_value"></span>
             </div>
             <div class="remark">
               <label for="">买家留言</label>
               <input type="text" placeholder="可选填">
             </div>
         </div>
+
         <div class="shopOrder-footer">
             <div class="fl">
               <p>共<span data-name="num">3</span>件商品 合计：￥<span data-name="count" class="count">3</span></p>
             </div>
             <div class="fr">
-              <div class="submitButton opa_active">提交订单</div>
+              <div class="submitButton opa_active">确认支付</div>
+            </div>
+        </div>
+        <div class="shop-pay-box  ">
+            <div class="shop-pay animate">
+                <div class='shop-pay-header'>
+                  <p class="fl">需要支付： <span data-name="count"></span></p>
+                  <div class="shop-pay-close fr">取消</div>
+                </div>
+                <dl>
+                  <dt>请选择支付方式：</dt>
+                  <dd class="wallet-icon">
+                      <p class="fl">钱包余额<span>（剩余￥56.2）</span></p>
+                      <input class="fr" type="radio" checked="checked" name="payType"/>
+                  </dd>
+                  <dd class="wechat-icon">
+                      <p class="fl">微信支付<span></span></p>
+                      <input class="fr" type="radio"  name="payType"/>
+                  </dd>
+                  <dd class="alipay-icon">
+                      <p class="fl">支付宝支付<span></span></p>
+                      <input class="fr" type="radio"  name="payType"/>
+                  </dd>
+                </dl>
+                <div class="paySubmit">确认支付</div>
             </div>
         </div>
 	</section>
@@ -99,6 +124,7 @@
     </div>
   </section>
 </body>
+<script type="text/javascript" src="../js/xhPay.js"></script>
 <script>
   window.localStorage.removeItem('user_coupon_id');
   var app = 0;
@@ -122,7 +148,7 @@
     //获取初始数据
     function getShopInfo(){
          loading(true);
-        $.getJSON(locahost+'/orderInfo/create?shop_id='+shop_id+'&token='+token,function(data){
+        $.getJSON(locahost+'orderInfo/create?shop_id='+shop_id+'&token='+token,function(data){
           if(data.carts.length == 0 ){
             //没有产品
             window.history.go(-1);
@@ -131,11 +157,11 @@
             //有选择的地址
             var map_user_address = JSON.parse(window.localStorage.user_address);
             var mapHtml = '<div class="li_header">\
-                              <span>'+map_user_address.consignee+'</span>\
-                              <span>'+map_user_address.mobile+'</span>\
+                              <span>收货人:'+map_user_address.consignee+'</span>\
+                              <span class="fr">'+map_user_address.mobile+'</span>\
                             </div>\
                             <div class="li_bottom">\
-                              '+map_user_address.address+'\
+                              收货地址：'+map_user_address.address+'\
                             </div>';
             address_id = map_user_address.address_id;
             $(".usermap").html(mapHtml);
@@ -143,11 +169,11 @@
           }else if(data.user_address != null ){
             //有默认地址
             var mapHtml = '<div class="li_header">\
-                              <span>'+data.user_address.consignee+'</span>\
-                              <span>'+data.user_address.mobile+'</span>\
+                              <span>收货人:'+data.user_address.consignee+'</span>\
+                              <span class="fr">'+data.user_address.mobile+'</span>\
                             </div>\
                             <div class="li_bottom">\
-                              <span>[默认地址]</span>'+data.user_address.address+'\
+                              <span></span>收货地址：'+data.user_address.address+'\
                             </div>';
              address_id = data.user_address.address_id;
             $(".usermap").html(mapHtml);
@@ -156,15 +182,51 @@
             $(".usermap").hide();
           }
           loading(false);
+          var pay_html = '<dt>请选择支付方式：</dt>';
+          $.each(data.pay,function(a,b){
+              if(b.pay_name== 'alipay'){
+                //支付宝支付
+                pay_html += '<dd class="alipay-icon">\
+                              <p class="fl">'+b.description+'</p>\
+                              <input class="fr" type="radio" value="'+a+'"  name="payType"/>\
+                            </dd>';
+              }else if(b.pay_name== 'wechat'){
+                //微信支付
+                pay_html += '<dd class="wechat-icon">\
+                              <p class="fl">'+b.description+'</span></p>\
+                              <input class="fr" type="radio" value="'+a+'"  name="payType"/>\
+                            </dd>';
+              }else if(b.pay_name== 'wallet'){
+                var wallet_number = window.localStorage.wallet_number;
+                var total_fee = window.localStorage.total_fee
+                //钱包支付
+                console.log(parseFloat(wallet_number),parseFloat(total_fee))
+                if(parseFloat(wallet_number) < parseFloat(total_fee)){
+                  //余额不够
+                  pay_html += '<dd class="wallet-icon">\
+                              <p class="fl">'+b.description+'<span>（剩余￥'+wallet_number+'元,余额不足）</span></p>\
+                              <input class="fr" type="radio" value="'+a+'" disabled="disabled" name="payType"/>\
+                          </dd>';
+                }else{
+                   pay_html += '<dd class="wallet-icon">\
+                              <p class="fl">'+b.description+'<span>（剩余￥'+wallet_number+'元）</span></p>\
+                              <input class="fr" type="radio" value="'+a+'" name="payType"/>\
+                          </dd>';
+                }
+              }
+             
+          })
           var shop_html = "";
           $.each(data.carts,function(a,b){
               shop_html += '<li>\
                               <div class="img"><img src="'+b.goods_thumb+'" alt=""></div>\
                               <div class="test">\
-                                <div class="proName">'+b.goods_name+'</div>\
+                                <div class="test-top">\
+                                  <div class="proName">'+b.goods_name+'</div>\
+                                  <div class="proMoney">￥'+b.goods_price+'</div>\
+                                </div>\
                                 <div class="goods_desc">'+b.goods_desc+'</div>\
                                 <div class="moneyNum">\
-                                  <span>￥'+b.goods_price+'</span>\
                                   <span>×'+b.goods_number+'</span>\
                                 </div>\
                               </div>\
@@ -175,7 +237,7 @@
           $("[data-name='num']").text(data.goods_count);
           $("[data-name='shipping_fee']").text(data.shipping_fee);
           $("[data-name='count'],[data-name='total_fee']").text(data.total_fee+"元");
-          $("[data-name='shipping_coupon']").text(data.coupons.length);
+          $(".shop-pay dl").html(pay_html)
           count = data.total_fee;
           window.localStorage.total_fee = data.total_fee;
           if(data.coupons.length == 0){
@@ -223,7 +285,7 @@
     $(".coupon-submit").on("click",function(){
       $("#coupon-box").fadeOut(200);
       if(price == 0){
-        $("[data-name='shipping_coupon_value']").html('未使用');
+        $("[data-name='shipping_coupon_value']").html('暂无可用优惠券');
         $("[data-name='count'],[data-name='total_fee']").text(count+"元");
         window.localStorage.removeItem('user_coupon_id');
       }else{
@@ -237,13 +299,39 @@
     })
 
 
-    //提交订单
+    //打开支付窗口
     $(".submitButton").on("click",function(){
       if(address_id == undefined){
           fb_alert(fb_error["s_002"]);
           return false;
       }
-      window.location.href="shop-pay.html?sid="+shop_id+"&address_id="+address_id;
+      $(".shop-pay-box").show();
+      setTimeout(function(){
+        $(".shop-pay").css("bottom",0);
+      },0)
+      // window.location.href="shop-pay.html?sid="+shop_id+"&address_id="+address_id;
+    })
+
+
+
+    //关闭支付窗口
+    $(".shop-pay-close").on("click",function(){
+      $(".shop-pay-box").fadeOut(500)
+      $(".shop-pay").css("bottom",-$(".shop-pay").outerHeight(true));
+    })
+
+    $(".paySubmit").on("click",function(){
+      var pay_id =$("[name='payType']:checked").val();
+      if(pay_id == undefined){
+        fb_alert(fb_error["s_003"])
+      }
+      if(pay_id == 3){
+        //余额支付
+        walletPay({'shop_id':shop_id,'address_id':address_id,'pay_id' : pay_id,'user_coupon_id':user_coupon_id});
+      }else if(pay_id == 1){
+        //支付宝支付
+        payPay({'shop_id':shop_id,'address_id':address_id,'pay_id' : pay_id,'user_coupon_id':user_coupon_id});
+      }
     })
 
   })
