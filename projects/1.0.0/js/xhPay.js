@@ -187,10 +187,10 @@
          "address_id": address_id
      }
      if (user_coupon_id) {
-         alipay_info.user_coupon_id = user_coupon_id;
+         wechat_info.user_coupon_id = user_coupon_id;
      }
      if(is_weixn()){
-         alipay_info.platform = 'wechat';
+         wechat_info.platform = 'wechat';
      }
      $.post(locahost + 'orderInfo/store', wechat_info, function(data) {
          if (data.code == 2001) {
