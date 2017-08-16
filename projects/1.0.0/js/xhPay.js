@@ -211,9 +211,8 @@
  }
 
  function jsApiCall(wechatJson) {
-    console.log(JSON.stringify(wechatJson).appId)
-    console.log(wechatJson.appId)
-     WeixinJSBridge.invoke('getBrandWCPayRequest', JSON.stringify(wechatJson), function(res) {
+    console.log(JSON.parse(wechatJson).appId)
+     WeixinJSBridge.invoke('getBrandWCPayRequest',JSON.parse(wechatJson), function(res) {
          WeixinJSBridge.log(res.err_msg);
          alert(res.err_code + res.err_desc + res.err_msg);
      });
