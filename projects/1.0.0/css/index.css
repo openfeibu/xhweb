@@ -100,7 +100,7 @@ body{height: 100%;}
 .header_title{height: 0.96rem;background: #ffe00f;line-height: 0.96rem;text-align: center;position: fixed;top:0;width: 100%;max-width: 750px;z-index: 999;left:0;right:0;margin:0 auto;}
 .header_title p{color: #262626;font-size: 0.36rem;line-height: 0.96rem}
 .header_title .search{position: absolute;width: 0.45rem;height: 0.45rem;background: url("../images/search.png") no-repeat center;background-size: 100% 100%;right:0.35rem;top:0.28rem;}
-.header_title .return{position: absolute;width: 0.96rem;height: 0.96rem;background: url("../images/return.png") no-repeat center;background-size: 0.24rem 0.43rem;left:0rem;top:0rem;}
+.header_title .return{position: absolute;width: 0.96rem;height: 0.96rem;background: url("../images/return.png") no-repeat center;background-size: auto 0.33rem;left:0rem;top:0rem;}
 .header_title .close{position: absolute;width: 0.96rem;height: 0.96rem;background: url("../images/shop/close.png") no-repeat center;background-size: 0.28rem 0.28rem;left:0rem;top:0rem;}
 .header_title .header_right{position: absolute;width: 0.96rem;height: 0.96rem;right:0rem;top:0rem;}
 .android_reurn{position: fixed;width: 0.8rem;height: 0.8rem;background:#5ac8fa url("../images/return.png") no-repeat center;background-size: 0.24rem 0.43rem;left:0.25rem;top:0.1rem;border-radius: 50%;display: none;}

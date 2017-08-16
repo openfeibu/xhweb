@@ -211,8 +211,10 @@
 
  function jsApiCall(wechatJson) {
      WeixinJSBridge.invoke('getBrandWCPayRequest',JSON.parse(wechatJson), function(res) {
+         WeixinJSBridge.log(res.err_msg);
+         alert(res.err_code + res.err_desc + res.err_msg);
          if(res.err_msg == "get_brand_wcpay_request:ok" ) {  
-            window.location.href='shop-pay.html';
+            window.location.href='shop-pay.html'
          }
      });
  }
