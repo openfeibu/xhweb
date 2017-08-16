@@ -1,8 +1,9 @@
  var wallet_pass = '';
  var token = window.localStorage.token;
- var payInfo ;
+ var payInfo;
+
  function walletPay(xhAraay) {
-     payInfo=xhAraay; 
+     payInfo = xhAraay;
      $(".payPassVal span").text("");
      wallet_pass = '';
      var payHtml = '<div class="payPass">\
@@ -36,38 +37,40 @@
          $(".payNum").addClass("top")
      }, 1)
  }
-  function payPay(xhAraay){
-        //支付宝支付
-        var shop_id = xhAraay.shop_id,pay_id = xhAraay.pay_id , address_id = xhAraay.address_id,user_coupon_id = xhAraay.user_coupon_id;
-            is_alipay(true)
-            var alipay_info = {
-                "token":token,
-                "shop_id":shop_id,
-                "pay_id":pay_id,
-                "address_id":address_id
-            }
-            if(user_coupon_id){
-              alipay_info.user_coupon_id=user_coupon_id;
-            }
-           $.post(locahost+'orderInfo/store',alipay_info, function(data){
-                      if(data.code == 2001){
-                          fb_alert(fb_error["2001"])
-                          window.location.href = "login.html";
-                          return;
-                      }else if(data.code == 200){
-                          is_alipay(false)
-                          $("body").append(data.data)
-                          $("#alipaysubmit").submit();
-                      }else{
-                        is_alipay(false)
-                         fb_alert(data.detail)
-                      }
-          })
 
-      
+ function payPay(xhAraay) {
+     //支付宝支付
+     var shop_id = xhAraay.shop_id,
+         pay_id = xhAraay.pay_id,
+         address_id = xhAraay.address_id,
+         user_coupon_id = xhAraay.user_coupon_id;
+     is_alipay(true)
+     var alipay_info = {
+         "token": token,
+         "shop_id": shop_id,
+         "pay_id": pay_id,
+         "address_id": address_id
+     }
+     if (user_coupon_id) {
+         alipay_info.user_coupon_id = user_coupon_id;
+     }
+     $.post(locahost + 'orderInfo/store', alipay_info, function(data) {
+         if (data.code == 2001) {
+             fb_alert(fb_error["2001"])
+             window.location.href = "login.html";
+             return;
+         } else if (data.code == 200) {
+             is_alipay(false)
+             $("body").append(data.data)
+             $("#alipaysubmit").submit();
+         } else {
+             is_alipay(false)
+             fb_alert(data.detail)
+         }
+     })
  }
  $('body').on("touchstart", ".payNum li", function() {
-     var i = $(this).index(".payNum li");   
+     var i = $(this).index(".payNum li");
      var key;
      switch (i) {
          case 0:
@@ -122,7 +125,10 @@
          $(".payPassVal span").text("*");
          is_alipay(true)
          console.log(payInfo)
-         var shop_id = payInfo.shop_id,pay_id = payInfo.pay_id , address_id = payInfo.address_id,user_coupon_id = payInfo.user_coupon_id;
+         var shop_id = payInfo.shop_id,
+             pay_id = payInfo.pay_id,
+             address_id = payInfo.address_id,
+             user_coupon_id = payInfo.user_coupon_id;
          var alipay_info = {
              "token": token,
              "shop_id": shop_id,
@@ -158,11 +164,68 @@
          }
      }
  })
- $('body').on("click", ".payPass_close",closeWallet)
-function closeWallet(){
-    $(".payPass").fadeOut(300);
-    $(".payNum").removeClass("top");
-    setTimeout(function(){
-        $(".payPass").remove();
-    },300)
-}
+ $('body').on("click", ".payPass_close", closeWallet)
+
+ function closeWallet() {
+     $(".payPass").fadeOut(300);
+     $(".payNum").removeClass("top");
+     setTimeout(function() {
+         $(".payPass").remove();
+     }, 300)
+ }
+ //微信支付
+ function wechatPay(xhAraay) {
+     var shop_id = xhAraay.shop_id,
+         pay_id = xhAraay.pay_id,
+         address_id = xhAraay.address_id,
+         user_coupon_id = xhAraay.user_coupon_id;
+     is_alipay(true)
+     var wechat_info = {
+         "token": token,
+         "shop_id": shop_id,
+         "pay_id": pay_id,
+         "address_id": address_id
+     }
+     if (user_coupon_id) {
+         alipay_info.user_coupon_id = user_coupon_id;
+     }
+     if(is_weixn()){
+         alipay_info.platform = 'wechat';
+     }
+     $.post(locahost + 'orderInfo/store', wechat_info, function(data) {
+         if (data.code == 2001) {
+             fb_alert(fb_error["2001"])
+             window.location.href = "login.html";
+             return;
+         } else if (data.code == 200) {
+             is_alipay(false)
+             $("body").append(data.data)
+             callpay(data.data)
+             // $("#alipaysubmit").submit();
+         } else {
+             is_alipay(false)
+             fb_alert(data.detail)
+         }
+     })
+
+ }
+
+ function jsApiCall(wechatJson) {
+     WeixinJSBridge.invoke('getBrandWCPayRequest', wechatJson, function(res) {
+         WeixinJSBridge.log(res.err_msg);
+         alert(res.err_code + res.err_desc + res.err_msg);
+     });
+ }
+
+ function callpay(wechatJson) {
+     if (typeof WeixinJSBridge == "undefined") {
+         if (document.addEventListener) {
+             document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+         } else if (document.attachEvent) {
+             document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+             document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+         }
+     } else {
+         jsApiCall(wechatJson);
+     }
+ }
