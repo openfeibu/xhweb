@@ -397,4 +397,5 @@ $(function(){
  window.walletPay = walletPay;
  window.payPay = payPay;
  window.wechatPay = wechatPay;
+ window.getPayInfo = getPayInfo;
 })
