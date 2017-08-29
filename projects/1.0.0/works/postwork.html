@@ -1,0 +1,93 @@
+<script type="text/javascript" src="js/md5.js"></script>
+<div class="pt1 postwork">
+	<div class="header_title">
+			<p>发布任务</p>
+			<div class="return" onclick="returnUp()">
+			</div>
+	</div>
+	<div class="post_textarea" >
+        <textarea name=""  maxlength='200' placeholder="请输入任务内容" class="post_textarea_input">21321</textarea>
+    </div>
+	<div class="inner-container">
+		<ul class="ul1">
+			<li>
+				<label for="">赏金</label>
+				<input value="212" type="text" class="money_input" placeholder="赏金金额(至少2元)"  onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
+			</li>
+            <li>
+                <label for="">手机号</label>
+                <input type="text" class="number_input" placeholder="手机号码" data-name="phone"/>
+            </li>
+			<li>
+				<label for="">目的地</label>
+				<input value="212" type="text" class="map_input" placeholder="所送到的地点" />
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="postwork_footer">
+	<input type="button" value="发布任务" class="postwork_submit animate">
+</div>
+    
+<script type="text/javascript">
+        var token = window.localStorage.token;
+        var phone = window.localStorage.phone;
+        $('[data-name="phone"]').val(phone);
+        $(".postwork_submit").on("click",showPayType);
+        function showPayType () {
+        	var post_textarea = $(".post_textarea textarea").val();
+        	var money_input = $(".money_input").val();
+        	var map_input = $(".map_input").val();
+        	var number_input = $(".number_input").val();
+        	if(post_textarea.length == 0){
+        		fb_alert(fb_error["100"])
+        		return false;
+        	}else if(money_input < 2){
+        		fb_alert(fb_error["500"])
+        		return false;
+        	}else if(map_input.length == 0){
+        		fb_alert(fb_error["300"])
+        		return false;
+        	}else if(!checkMobile(number_input)){
+        		fb_alert(fb_error["400"])
+        		return false;
+        	}
+          is_alipay(true);
+          getPayInfo();
+        }
+
+        $("body").off("click").on("click",".paySubmit",paySubmit)
+        function paySubmit(){
+          var pay_id =$("[name='payType']:checked").val();
+          var post_textarea = removeBr($(".post_textarea textarea").val());
+          var money_input = $(".money_input").val();
+          var map_input = $(".map_input").val();
+          var number_input = $(".number_input").val();
+          var infoData = {'phone':number_input,'destination':map_input,'description' : post_textarea,'fee':money_input,'wap':1,'payMap':'work'}
+          if(pay_id == undefined){
+            fb_alert(fb_error["s_003"])
+          }
+          if(pay_id == 3){
+            //余额支付
+            infoData.pay_id = 3;
+            walletPay(infoData);
+          }else if(pay_id == 1){
+            //支付宝支付
+            infoData.pay_id = 1;
+            payPay(infoData);
+          }else if(pay_id == 2){
+            //微信支付
+            infoData.pay_id = 2;
+            wechatPay(infoData);
+          }
+        }
+
+        $(".post_textarea_input,.money_input,.number_input,.map_input").on("input propertychange",function(){
+            if($(".post_textarea_input").val().length != 0 && $(".money_input").val().length != 0 && $(".number_input").val().length != 0 && $(".map_input").val().length != 0 ){
+              $(".postwork_submit").addClass("active");
+            }else{
+              $(".postwork_submit").removeClass("active");
+
+            }
+        })
+    </script>

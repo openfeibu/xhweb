@@ -85,30 +85,7 @@
               <div class="submitButton opa_active">确认支付</div>
             </div>
         </div>
-        <div class="shop-pay-box  ">
-            <div class="shop-pay animate">
-                <div class='shop-pay-header'>
-                  <p class="fl">需要支付： <span data-name="count"></span></p>
-                  <div class="shop-pay-close fr">取消</div>
-                </div>
-                <dl>
-                  <dt>请选择支付方式：</dt>
-                  <dd class="wallet-icon">
-                      <p class="fl">钱包余额<span>（剩余￥56.2）</span></p>
-                      <input class="fr" type="radio" checked="checked" name="payType"/>
-                  </dd>
-                  <dd class="wechat-icon">
-                      <p class="fl">微信支付<span></span></p>
-                      <input class="fr" type="radio"  name="payType"/>
-                  </dd>
-                  <dd class="alipay-icon">
-                      <p class="fl">支付宝支付<span></span></p>
-                      <input class="fr" type="radio"  name="payType"/>
-                  </dd>
-                </dl>
-                <div class="paySubmit">确认支付</div>
-            </div>
-        </div>
+
 	</section>
   <section id="coupon-box">
     <div class="coupon-group">
@@ -182,40 +159,6 @@
             $(".usermap").hide();
           }
           loading(false);
-          var pay_html = '<dt>请选择支付方式：</dt>';
-          $.each(data.pay,function(a,b){
-              if(b.pay_name== 'alipay'){
-                //支付宝支付
-                pay_html += '<dd class="alipay-icon">\
-                              <p class="fl">'+b.description+'</p>\
-                              <input class="fr" type="radio" value="'+a+'"  name="payType"/>\
-                            </dd>';
-              }else if(b.pay_name== 'wechat'){
-                //微信支付
-                pay_html += '<dd class="wechat-icon">\
-                              <p class="fl">'+b.description+'</span></p>\
-                              <input class="fr" type="radio" value="'+a+'"  name="payType"/>\
-                            </dd>';
-              }else if(b.pay_name== 'wallet'){
-                var wallet_number = window.localStorage.wallet_number;
-                var total_fee = window.localStorage.total_fee
-                //钱包支付
-                console.log(parseFloat(wallet_number),parseFloat(total_fee))
-                if(parseFloat(wallet_number) < parseFloat(total_fee)){
-                  //余额不够
-                  pay_html += '<dd class="wallet-icon">\
-                              <p class="fl">'+b.description+'<span>（剩余￥'+wallet_number+'元,余额不足）</span></p>\
-                              <input class="fr" type="radio" value="'+a+'" disabled="disabled" name="payType"/>\
-                          </dd>';
-                }else{
-                   pay_html += '<dd class="wallet-icon">\
-                              <p class="fl">'+b.description+'<span>（剩余￥'+wallet_number+'元）</span></p>\
-                              <input class="fr" type="radio" value="'+a+'" name="payType"/>\
-                          </dd>';
-                }
-              }
-             
-          })
           var shop_html = "";
           $.each(data.carts,function(a,b){
               shop_html += '<li>\
@@ -237,7 +180,6 @@
           $("[data-name='num']").text(data.goods_count);
           $("[data-name='shipping_fee']").text(data.shipping_fee);
           $("[data-name='count'],[data-name='total_fee']").text(data.total_fee+"元");
-          $(".shop-pay dl").html(pay_html)
           count = data.total_fee;
           window.localStorage.total_fee = data.total_fee;
           if(data.coupons.length == 0){
@@ -305,36 +247,31 @@
           fb_alert(fb_error["s_002"]);
           return false;
       }
-      $(".shop-pay-box").show();
-      setTimeout(function(){
-        $(".shop-pay").css("bottom",0);
-      },0)
-      // window.location.href="shop-pay.html?sid="+shop_id+"&address_id="+address_id;
+      getPayInfo();
     })
 
 
 
-    //关闭支付窗口
-    $(".shop-pay-close").on("click",function(){
-      $(".shop-pay-box").fadeOut(500)
-      $(".shop-pay").css("bottom",-$(".shop-pay").outerHeight(true));
-    })
-
-    $(".paySubmit").on("click",function(){
+ 
+    $('body').on("click",".paySubmit",function(){
       var pay_id =$("[name='payType']:checked").val();
-      if(pay_id == undefined){
-        fb_alert(fb_error["s_003"])
-      }
-      if(pay_id == 3){
-        //余额支付
-        walletPay({'shop_id':shop_id,'address_id':address_id,'pay_id' : pay_id,'user_coupon_id':user_coupon_id});
-      }else if(pay_id == 1){
-        //支付宝支付
-        payPay({'shop_id':shop_id,'address_id':address_id,'pay_id' : pay_id,'user_coupon_id':user_coupon_id});
-      }else if(pay_id == 2){
-        //微信支付
-        wechatPay({'shop_id':shop_id,'address_id':address_id,'pay_id' : pay_id,'user_coupon_id':user_coupon_id});
-      }
+      var infoData = {'shop_id':shop_id,'address_id':address_id,'pay_id' : pay_id,'user_coupon_id':user_coupon_id,'wap':1,'payMap':'shop'}
+        if(pay_id == undefined){
+          fb_alert(fb_error["s_003"])
+        }
+        if(pay_id == 3){
+          //余额支付
+          infoData.pay_id = 3;
+          walletPay(infoData);
+        }else if(pay_id == 1){
+          //支付宝支付
+          infoData.pay_id = 1;
+          payPay(infoData);
+        }else if(pay_id == 2){
+          //微信支付
+          infoData.pay_id = 2;
+          wechatPay(infoData);
+        }
     })
 
   })

@@ -36,9 +36,11 @@
     </script>
    <script type="text/javascript" src="../js/upload.js"></script>
   </head>
-  <body class="bgf">
+  <body >
 	<section class='main '>
 			<div class="header_title">
+          <div class="return" onclick="returnUp()">
+          </div>
           <p>失物招领</p>
 			</div>
      
@@ -46,15 +48,24 @@
           <div class="noLf">
             该失物招领已被销毁
           </div>
-          <div class="lf-de-header">
-            <div class="img" data-name="img"></div>
-            <div class="name" data-name="name"></div>
-            <div class="date" data-name="date"></div>
-          </div>
-          <div class="con" data-name="con">
-            
-          </div>
-          <div class="lf-img" data-name="lf-img"></div>
+          <div class="topic_list pt0" >
+      <div class="topic_box " >
+            <div class="topic_header">
+              <div class="img fl">
+                <img data-name="topic_img" src="" alt="">
+              </div>
+              <div class="name fl">
+                <p data-name="topic_nickname"></p><p  data-name="topic_date" class="date"></p>
+             </div>
+           </div>
+            <div class="topic_con">
+                <div class="test" data-name="topic_content" ></div>
+            </div>
+            <div class="imgBox" style="margin-bottom: 0" data-name="imgBox">
+                
+            </div>
+      </div>
+  </div>
 			</div>
 
       <div class="lf-tell">
@@ -74,15 +85,25 @@
           $(".noLf").fadeIn(200);
           return false;
         }
-        $('[data-name="img"]').html("<img src='"+data.data.avatar_url+"' />");
-        $('[data-name="name"]').text(data.data.nickname);
-        $('[data-name="date"]').text(data.data.created_at);
-        $('[data-name="con"]').text(data.data.content);
-        $('[data-name="tell"]').attr("href","tel:"+data.data.mobile);
-        if(data.data.thumb){
-        $('[data-name="lf-img"]').html("<img src='"+data.data.thumb+"' />");
-
+         /*图片 S*/
+       var img_url = '';
+        if(data.thumb != 'null' && data.thumb  != null && data.thumb  != "" ){
+          // var img_url = '<div class="img"><img src="'+b["img"].split(",")[0]+'" /></div>';
+          var img_array = data.thumb .split(",");
+          var big_img_array = data.img.split(",");
+          $.each(img_array,function(a,b){
+            img_url += '<span big="'+big_img_array[a]+'" style="background:url('+b+') no-repeat center;background-size:cover"></span>';
+          })
         }
+        /*图片 E*/
+        $('[data-name="topic_img"]').attr("src",data.data.avatar_url);
+        $('[data-name="topic_nickname"]').text(data.data.nickname);
+        $('[data-name="topic_date"]').text(data.data.created_at);
+        $('[data-name="topic_content"]').text(data.data.content);
+        $('[data-name="tell"]').attr("href","tel:"+data.data.mobile);
+        // if(data.data.thumb){
+        // $('[data-name="lf-img"]').html("<img src='"+data.data.thumb+"' />");
+        // }
 
       }else{
         fb_alert(data.detail)

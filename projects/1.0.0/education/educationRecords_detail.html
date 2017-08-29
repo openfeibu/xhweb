@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+	<meta content="telephone=no" name="format-detection" />
+  <!-- uc强制竖屏 -->
+  <meta name="screen-orientation" content="portrait">
+  <!-- UC应用模式 -->
+  <meta name="browsermode" content="application">
+  <!-- QQ强制竖屏 -->
+  <meta name="x5-orientation" content="portrait">
+  <!-- QQ应用模式 -->
+  <meta name="x5-page-mode" content="app">
+  <!-- UC禁止放大字体 -->
+  <meta name="wap-font-scale" content="no">
+	<title>校汇Plus | 校汇 </title>
+  <meta name="Keywords" content="校汇,广东农工商职业技术学院,AIB,农工商,能赚钱,大学生,大学生创业,大学生校园,大学生校园社团,大学生校园快递,大学生周边生活" />
+  <meta name="Description" content="校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、社团文化、校园资讯、学生互动" />
+  <link rel="apple-touch-icon-precomposed" href="./icon.png" />
+  <link rel="shortcut icon" href="./icon.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="../css/reset.css">
+  <link rel="stylesheet" type="text/css" href="../css/index.css">
+  <script type="text/javascript" src="../js/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/common.js"></script>
+</head>	
+	<div class="driver_list_main pd1">
+		<div class="header_title">
+			<div class="return" onclick="returnUp()">
+      </div>
+			<p>报名信息</p>
+		</div>
+    <div class="records_de pt1">
+        <div class="records_info">
+          <div class="records_info_item">
+            <label for="">驾校</label>
+            <span data-name="records_name"></span>
+          </div>
+          <div class="records_info_item">
+            <label for="">班型</label>
+            <span data-name="records_product_name"></span>
+          </div>
+          <div class="records_info_item">
+            <label for="">价格</label>
+            <span data-name="records_price" class="records_price"></span>
+          </div>
+          <div class="records_info_item">
+            <label for="">描述</label>
+            <span data-name="records_desc"></span>
+          </div>
+        </div>
+        <div class="records_info">
+          <div class="records_info_item">
+            <label for="">姓名</label>
+            <span data-name="records_enroll_name"></span>
+          </div>
+          <div class="records_info_item">
+            <label for="">电话</label>
+            <span data-name="records_mobile"></span>
+          </div>
+          <div class="records_info_item">
+            <label for="">留言</label>
+            <span data-name="records_content"></span>
+          </div>
+        </div>
+        <div class="records_close">
+          <button>取消报名</button>
+        </div>
+    </div>
+	</div>
+<script> 	 
+	loading(true);
+  var enroll_id = GetString("enroll_id");
+  var token = window.localStorage.token;
+  var postData = {
+    enroll_id :enroll_id,
+    token:token
+  }
+getEnroll();
+function getEnroll(){
+    $.getJSON(locahost + 'education/getEnrollRecord',postData, function(data) {
+          loading(false);
+          if(data.code == 200){
+            var data = data.data;
+            $('[data-name="records_name"]').text(data.name);
+            $('[data-name="records_product_name"]').text(data.product_name);
+            $('[data-name="records_price"]').text('￥'+data.price);
+            $('[data-name="records_desc"]').text(data.desc);
+            $('[data-name="records_enroll_name"]').text(data.enroll_name);
+            $('[data-name="records_mobile"]').text(data.mobile);
+            $('[data-name="records_content"]').text(data.content);
+
+          }else{
+            fb_alert(data.detail)
+          } 
+      
+      }).error(function(){
+            fb_alert('网络出错')
+      })
+}
+  //取消报名
+  $(".records_close button").on("click",function(){
+     alert_flag("是否要取消专插本报名？",function(){
+        is_alipay(true)
+       $.post(locahost + 'education/cancel',postData, function(data) {
+            is_alipay(false);
+            if(data.code == 200){
+              fb_alert(fb_error['dri_003'])
+              window.history.go(-1);
+
+            }else{
+              fb_alert(data.detail)
+            } 
+        
+        }).error(function(){
+              fb_alert('网络出错')
+        })
+     });
+
+
+  })
+</script>
+</body>
+</html>

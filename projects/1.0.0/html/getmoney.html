@@ -1,55 +1,34 @@
 <div class="header_title">
-		<p>提现</p>
+		<p>余额提现</p>
 		<div class="return" onclick="returnUp()"></div>
 </div>
-<div class="getmoney-container">
+<div class="getmoney-container pt1">
 	<div class="getmoeney-inner-container">
 		<div class="inner-container-top">
-			<span>支付宝</span>
-			<span data-name="alipay_name"></span>
-			<span data-name="alipay_card"></span>
+      <div class="inner-container-item">
+        <label >账户</label>
+        <span data-name="alipay_card"></span>
+      </div>
+      <div class="inner-container-item">
+        <label >姓名</label>
+        <span data-name="alipay_name"></span>
+      </div>
 		</div>
-		<p>提现金额(单位:元)：</p>
-		<div class="money-box">
-			<input type="text" class="input-money" placeholder="0" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
-		</div>
-		<div class="getall-container">
-			<div class="getall_container_w">当前零钱余额<span data-name="alipay_money">--.--</span>, <a>全部提现</a></div>
-		</div>
+    <div class="inner-container-bottom">
+  		<p>提现金额(单位:元)：</p>
+  		<div class="money-box">
+  			<input type="text" class="input-money" placeholder="0.00" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
+  		</div>
+  		<div class="getall-container">
+        <div class="getall_error">输入金额需大于或等于10</div>
+  			<div class="getall_container_w">钱包余额￥<span data-name="alipay_money">--.--</span><a>全部提现</a></div>
+  		</div>
+    </div>
 	</div>
-	<p class="time-declare">1-3个工作日到账</p>
-	<div class="btn-container button_active">
-		<button>提现</button>
+	<div class="btn-container">
+		<button>一个工作日内到账，确认提现</button>
 	</div>
 </div>
-	     <!-- 支付界面 -->
-      <div class="walletPass orderWalletPass" >
-
-          <div class="payPassVal">  
-              <div class="payPass_close">X</div>
-              <div class="payPassVal_title">请输入钱包支付密码</div>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-          </div>
-          <ul class="payNum">
-              <li>1</li>
-              <li>2</li>
-              <li>3</li>
-              <li>4</li>
-              <li>5</li>
-              <li>6</li>
-              <li>7</li>
-              <li>8</li>
-              <li>9</li>
-              <li></li>
-              <li>0</li>
-              <li>删除</li>
-          </ul>
-      </div>
 <script type="text/javascript">
 	var token = window.localStorage.token;
 	var money = window.localStorage.wallet_number;
@@ -63,26 +42,48 @@
 	$('[data-name="alipay_name"]').html(alipay_name)
 	$('[data-name="alipay_card"]').html(alipay_card)
 	//全部提现
-	$(".getall_container_w").on("click",function(){
-		$(".input-money").val(parseInt(money))
+	$(".getall_container_w a").on("click",function(){
+		$(".input-money").val(parseInt(money));
+    if($(".input-money").val() >= 10){
+      $(".btn-container button").addClass("active");
+      $(".getall_container_w").show();
+      $(".getall_error").hide();
+    }else{
+      $(".btn-container button").removeClass("active")
+      $(".getall_container_w").hide();
+      $(".getall_error").show().text("输入金额需大于或等于10");
+    }
 	})
 	$(".input-money").on("input propertychange",function(){
-		if($(this).val() >= 10){
-			$(".btn-container button").css("opacity",1)
+    var val = parseFloat($(this).val());
+		if(val >= 10 && val <= money){
+			$(".btn-container button").addClass("active");
+      $(".getall_container_w").show();
+      $(".getall_error").hide();
+		}else if(val > money){
+      $(".getall_container_w").hide();
+      $(".getall_error").show().text("输入金额超过钱包余额");
+    }else if(val < 10 ){
+			$(".btn-container button").removeClass("active");
+      $(".getall_container_w").hide();
+      $(".getall_error").show().text("输入金额需大于或等于10");
 		}else{
-			$(".btn-container button").css("opacity",0.5)
+      $(".getall_container_w").show();
+      $(".getall_error").hide();
+    }
 
-		}
 	})
 	$(".btn-container").on("click",showAilpay)
 
 	function showAilpay(){
-		wallet_pass='';
-		var input_money = $(".input-money").val();
-		if(input_money < 10){
+		var pay_money = parseFloat($(".input-money").val());
+		if(pay_money < 10){
 			fb_alert(fb_error["11"])
-		}else{
-			$(".walletPass").show();
+		}else if(pay_money > money){
+       fb_alert(fb_error["15"])
+    }else{
+      var infoData = {'money':pay_money,'payMap':'getmoney'}
+      walletPay(infoData);
 		}
 
 	}
@@ -106,70 +107,70 @@
       })
 
 	}
-	 var wallet_pass='';
-     $('.walletPass').on("click",".payNum li",function(){
-                var i = $(this).index(".payNum li");
-                var key;
-                switch (i) {
-                    case 0 : 
-                        key = 1;
-                        break;
-                    case 1 : 
-                        key = 2;
-                        break;
-                    case 2 : 
-                        key = 3;
-                        break;
-                    case 3 : 
-                        key = 4;
-                        break;
-                    case 4 : 
-                        key = 5;
-                        break;
-                    case 5 : 
-                        key = 6;
-                        break;
-                    case 6 : 
-                        key = 7;
-                        break;
-                    case 7 : 
-                        key = 8;
-                        break;
-                    case 8 : 
-                        key = 9;
-                        break;
-                    case 10 : 
-                        key = 0;
-                        break;
-                    case 11 : 
-                        key = 11;
-                        break;
-                }
-            if(key == 11){
-                //删除键
-                wallet_pass = wallet_pass.substr(0,wallet_pass.length-1);
-                $(".payPassVal span").text("")
-                for(var j = 0,c=wallet_pass.length ; j <c;j++ ){
-                    $(".payPassVal span").eq(j).text("*")
-                }
-                return;
-            }
-            wallet_pass += key;
-            if(wallet_pass.length == 6 ){
-                //满6位 
-                $(".payPassVal span").text("*");
-                getmoney() //支付
-				$(".walletPass").hide();
-				$(".payPassVal span").text("");
-              }else{
-                for(var j = 0,c=wallet_pass.length ; j <c;j++ ){
-                    $(".payPassVal span").eq(j).text("*")
-               }
-            }
+	 // var wallet_pass='';
+  //    $('.walletPass').on("click",".payNum li",function(){
+  //               var i = $(this).index(".payNum li");
+  //               var key;
+  //               switch (i) {
+  //                   case 0 : 
+  //                       key = 1;
+  //                       break;
+  //                   case 1 : 
+  //                       key = 2;
+  //                       break;
+  //                   case 2 : 
+  //                       key = 3;
+  //                       break;
+  //                   case 3 : 
+  //                       key = 4;
+  //                       break;
+  //                   case 4 : 
+  //                       key = 5;
+  //                       break;
+  //                   case 5 : 
+  //                       key = 6;
+  //                       break;
+  //                   case 6 : 
+  //                       key = 7;
+  //                       break;
+  //                   case 7 : 
+  //                       key = 8;
+  //                       break;
+  //                   case 8 : 
+  //                       key = 9;
+  //                       break;
+  //                   case 10 : 
+  //                       key = 0;
+  //                       break;
+  //                   case 11 : 
+  //                       key = 11;
+  //                       break;
+  //               }
+  //           if(key == 11){
+  //               //删除键
+  //               wallet_pass = wallet_pass.substr(0,wallet_pass.length-1);
+  //               $(".payPassVal span").text("")
+  //               for(var j = 0,c=wallet_pass.length ; j <c;j++ ){
+  //                   $(".payPassVal span").eq(j).text("*")
+  //               }
+  //               return;
+  //           }
+  //           wallet_pass += key;
+  //           if(wallet_pass.length == 6 ){
+  //               //满6位 
+  //               $(".payPassVal span").text("*");
+  //               getmoney() //支付
+		// 		$(".walletPass").hide();
+		// 		$(".payPassVal span").text("");
+  //             }else{
+  //               for(var j = 0,c=wallet_pass.length ; j <c;j++ ){
+  //                   $(".payPassVal span").eq(j).text("*")
+  //              }
+  //           }
 
-          })
-     $(".payPass_close").on("click",function(){
-        $('.walletPass').fadeOut(200);
-        $(".completedOrder").removeClass("on")
-     })
+  //         })
+  //    $(".payPass_close").on("click",function(){
+  //       $('.walletPass').fadeOut(200);
+  //       $(".completedOrder").removeClass("on")
+  //    })
 </script>

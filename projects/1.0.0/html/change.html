@@ -1,15 +1,17 @@
-<div id="nickname-bg">
+<div id="nickname-bg" class="pt1">
 	<section id="change-nickname">
 		<div class="scrollView" id="scrolling">
 			<div class="header_title">
 				<p></p>
 				<div class="return" onclick="returnUp()">
 				</div>
+				<div class="header_right change-submit">更换</div>
 			</div>
 		</div>
 		<div class="container">
-			<input type="text" class="change-input" placeholder="">
-			<button class="change-submit button_active">更换</button>
+			<div class="input_box">
+				<input type="text" class="change-input" placeholder="">
+			</div>
 		</div>
 	</section>
 	<script>
@@ -21,7 +23,7 @@
 		var token = window.localStorage.token;
       $.post(locahost+'/user/changeUserInfo/?token='+token+'&'+change_name+"="+val,  function(data){
       		if(data.code=="200"){
-      			fb_alert("修改成功");
+      			fb_alert(fb_error['mine_001']);
   				window.history.back();
       		}
       		var info = window.localStorage.info;

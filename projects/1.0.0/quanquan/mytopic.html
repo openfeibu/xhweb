@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta content="telephone=no" name="format-detection" />
+  <!-- uc强制竖屏 -->
+  <meta name="screen-orientation" content="portrait">
+  <!-- UC应用模式 --> 
+  <meta name="browsermode" content="application">
+  <!-- QQ强制竖屏 -->
+  <meta name="x5-orientation" content="portrait">
+  <!-- QQ应用模式 -->
+  <meta name="x5-page-mode" content="app">
+  <!-- UC禁止放大字体 -->
+  <meta name="wap-font-scale" content="no">
+  <title>校汇Plus | 校汇+ </title>
+  <meta name="Keywords" content="广东农工商职业技术学院,AIB,农工商,能赚钱,大学生,大学生创业,大学生校园,大学生校园社团,大学生校园快递,大学生周边生活," />
+  <meta name="Description" content="校汇+是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇+一直专注于大学生活、社团文化、校园资讯、学生互动" />
+  <link rel="apple-touch-icon-precomposed" href="./icon.png" />
+  <link rel="shortcut icon" href="../icon.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="../css/reset.css">
+  <link rel="stylesheet" type="text/css" href="../css/index.css">
+  <link rel="stylesheet" type="text/css" href="../css/info.css">
+  <script type="text/javascript" src="../js/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/common.js"></script>
+  <script type="text/javascript" src="../js/director.js"></script>
+  <script type="text/javascript" src="../js/updata.js"></script>
+  <script src="../js/swiper.min.js"></script>
+</head>
+<body class='bge8'>
+	<section class='main' style="padding-bottom:0">
+      <div id="ClassA" class= "routes">
+        <div class="header_title">
+          <p>我的圈圈</p>
+          <div class="return" onclick="returnUp()">
+          </div>
+        </div>
+        <div class="myOrder">
+          <div class="myOrderBox m_topic">
+              <div class="topic_list pt1"></div>
+          </div>
+        </div>
+
+        <div class="big_img">
+              <div class="swiper-container2">
+                <div class="swiper-wrapper">
+                 
+                </div>
+              </div>
+              <div class="swiper-pagination2"></div>
+        </div>
+      </div>
+	</section>
+</body>
+<script>
+  var token = window.localStorage.token;
+  loading(true); //动画
+  topicGet();
+
+function topicGet(obj) {
+      var defaults = {
+          page: 1,
+      };
+      var fb = $.extend(defaults, obj || {});
+      var page = fb.page;
+      var topic_list = $(".topic_list");
+      $(window).off("scroll"); //清除滚动事件
+      if ($("#loading").length == 0 && page != 1) {
+          $(".topic_list_box").append("<div id='loading'>正在玩命的加载中...</div>");
+      }
+      var postData = {
+          page: page,
+      }
+      if(token){
+        postData.token = token;
+      }
+      $.getJSON(locahost +'topic/getTopicList', postData, function(data) {
+          loading(false);
+          if(data.code == 2001){
+            fb_alert(fb_error["2001"])
+            window.location.href = "login.html";
+            return;
+         }
+         if(data.code == 200){
+          var htmldom='';var img_url='';var comment='';
+          $.each(data.data,function(a,b){
+              img_url='',comment='';
+              /*图片 S*/
+              if(b["thumb"] != 'null' && b["thumb"] != null && b["thumb"] != "" ){
+                // var img_url = '<div class="img"><img src="'+b["img"].split(",")[0]+'" /></div>';
+                var img_array = b["thumb"].split(",");
+                var big_img_array = b["img"].split(",");
+                $.each(img_array,function(a,b){
+                  img_url += '<span big="'+big_img_array[a]+'" style="background:url('+b+') no-repeat center;background-size:cover"></span>';
+                })
+                img_url = '<div class="imgBox">'+img_url+'</div>';
+              }
+              /*图片 E*/
+              /*是否点赞过 S*/      
+              if(b["favorited"]){
+                 var zanEd = 'zanEd';
+                }else{
+                  var zanEd = ''
+                }
+              /*是否点赞过 E*/      
+
+             var time = afterTime(b["created_at"]); //获取时间
+              htmldom += '<div class="topic_box clearfix " tid='+b["tid"]+'>\
+                          <a href="topic_detail.html?topic_id='+b["tid"]+'">\
+                            <div class="topic_header">\
+                              <div class="img fl">\
+                               <img src="'+b["avatar_url"]+'" alt="">\
+                              </div>\
+                              <div class="name fl">\
+                                <p>'+b["nickname"]+'</p><p class="date">'+time+'</p>\
+                             </div>\
+                            </div>\
+                            <div class="topic_con">\
+                                <div class="test">'+ClearBr(b["content"])+'</div>\
+                             </div>\
+                            </a>\
+                           '+img_url+'\
+                          <div class="topic_bottom">\
+                            <div class="zanping">\
+                              <div class="ping">'+b["comment_num"]+'</div>\
+                              <div class="zan '+zanEd+'"  onclick=thumbUp(this,'+b["tid"]+')>'+b["favourites_count"]+'</div>\
+                            </div>\
+                          </div>\
+                        </div>';
+          })
+
+          
+          if (data.data == '') {
+              //没数据
+              if (page == 1) {
+                  topic_list.html("<div class='noWork'>暂无任务</div>");
+                  $("#loading").remove();
+              } else {
+                  $("#loading,#loaded").remove();
+                  $(".topic_list_box").append("<div id='loaded'>我是有底线的</div>")
+              }
+          } else {
+              //是否为第一页 是替换数据 否追加数据 S
+              if (page == 1) {
+                  topic_list.html(htmldom);
+                  $("#loading").remove();
+              } else {
+                  topic_list.append(htmldom);
+              }
+              //是否为第一页 是替换数据 否追加数据 E
+              //是否为最后一页  否追加滑动事件 S
+              if (data.data.length < quanPageNum) {
+                  //已经没数据
+                  $("#loading,#loaded").remove();
+                  $(".topic_list_box").append("<div id='loaded'>我是有底线的</div>");
+              } else {
+                  $(window).on("scroll", function() {
+                      if ($(window).scrollTop() + 50 >= $(document).height() - $(window).height()) {
+                          //到底
+                          page++;
+                          topicGet({
+                              'page': page,
+                          });
+                      }
+                  })
+              }
+              //是否为最后一页  否追加滑动事件 E
+          }
+         }
+         
+      })
+  }
+
+
+
+/*调起大图 S*/
+   var mySwiper = new Swiper('.swiper-container2', {
+          loop: false,
+          pagination: '.swiper-pagination2',
+          })
+    $(".topic_list").on("click", ".imgBox span", 
+    function() {
+
+        var imgBox = $(this).parents(".imgBox").find("span");
+        var i = $(imgBox).index(this);
+        $(".big_img .swiper-wrapper").html("")
+        for(var j = 0 ,c = imgBox.length; j < c ;j++){
+         $(".big_img .swiper-wrapper").append('<div class="swiper-slide"><div class="cell"><img src="' + imgBox.eq(j).attr("big") + '" / ></div></div>');
+        }
+        mySwiper.updateSlidesSize();
+        mySwiper.updatePagination();
+        $(".big_img").css({
+            "z-index": 1001,
+            "opacity": "1"
+        });
+        console.log(i)
+        mySwiper.slideTo(i, 0, false);
+        
+    });
+    $(".big_img").on("click", 
+    function() {
+        $(this).css({
+            "z-index": "-1",
+            "opacity": "0"
+        });
+
+    });
+  /*调起大图 E*/   
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

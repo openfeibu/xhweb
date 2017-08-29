@@ -175,9 +175,21 @@
       }
         createMap();
     })
+    monitorInput();
+    function monitorInput(){
+        if($('[name="name"]').val().length != 0 && $('[name="phone"]').val().length != 0 && $('[name="address"]').val().length != 0  ){
+              $(".submitButton ").addClass("active");
+            }else{
+              $(".submitButton ").removeClass("active");
+            }
+    }
 
+    $('[name="name"],[name="phone"],[name="address"]').on("input propertychange",function(){
+          monitorInput();
+      })
 
   })
+
 </script>
 </html>
 

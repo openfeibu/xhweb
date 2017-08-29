@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="bgf">  
+<html lang="en" >  
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
@@ -41,37 +41,31 @@
   </div>
 <div class="certification pt1">
 
-	<section id="write-list-input" class="pt1">
-			<div id="beforeP">
-			    <div id="post_img"></div>
-                <input name="bookpic" type="file" id="bookpic" class="upload" onchange="change(this,1)">
-			</div>
-			<div id="afterP">
-			    <div id="btnContainer"></div>
-                <input name="bookpic" type="file" id="bookpic" class="upload" onchange="change(this,2)">
-
-			</div>
-            <div class="remark">
-                <aside>注意</aside>
-                <aside>照片中提供的身份证信息必须是真实有效且清晰可见<span>（以上示
-例照片为保护模特隐私，不便显示相关信息）</span></aside>
-                <p>1.手持证件人的五官和身份证正反面照片需清晰可见</p>
-                <p>2.证件人手持身份证正反面的照片各一张</p>
-                <p>3.点击上方照片框即可添加照片</p>
-            </div>
-            <div class="c_info">
-                <input type="text" name="name" placeholder="姓名*" />
-                <input type="text" name="card" placeholder="身份证号码*" />
-            </div>
+	<section id="write-list-input">
+    <div class="certification_mark">*请您如实填写个人信息，否则影响认证</div>
+    <div class="c_info">
+        <div class="c_info_item">
+          <label for="">真实姓名</label>
+          <input type="text" name="name" placeholder="请输入你的姓名" />
+        </div>
+         <div class="c_info_item">
+          <label for="">身份证号</label>
+          <input type="text" name="card" placeholder="请输入对应的身份证号" />
+        </div>
+    </div>
+    <div class="submit_container">
+        <button class="certification_submit opa_active animate">提交认证</button>
+    </div>
 	</section>
-	<div class="container">
-			<button class="certification_submit opa_active">提交</button>
-	</div>
 </div>    
 <div class="certification_info pt1">
   <div class="certification_info_item">
     <label for="">姓名：</label>
     <span data-name="certification_info_name"></span>
+  </div>
+  <div class="certification_info_item">
+    <label for="">身份证号：</label>
+    <span data-name="certification_info_card">441224********1234</span>
   </div>
 <!--  <div class="certification_info_item">
     <label for="">手机号码：</label>
@@ -89,6 +83,7 @@
         if(info.is_auth == 1){
           //已实名
           $("[ data-name='certification_info_name']").text(info.realname);
+          $("[ data-name='certification_info_card']").text(info.realname);
            $(".certification").hide();
            $(".certification_info").fadeIn(200);
 
@@ -98,8 +93,7 @@
           $(".certification").hide();
            $(".certification_ing").fadeIn(200);
         }else if(info.is_auth == 0){
-          //未实名
-          // $(".certification").show();
+
         }
        
 
@@ -110,55 +104,52 @@
     var token = window.localStorage.token;
  
             // 上传图片
-  function change(that,num){
-        fb_alert("开始上传");
-        var field=new upField($(that));
-        var maxSize=10240; //kb
-         var name=$(that).attr('name');
-        var pic = $(that).prop('files');
-        var fordata=new FormData();
-        fordata.append('uploadfile',pic[0]); //添加字段
-       if(pic[0].size/1024>maxSize) { 
-            fb_alert('图片不能超过'+maxSize+'kb')
-            return false; 
-       }
-        $.ajax({
-            url:locahost+'/user/realNameAuthUploadImg/?token='+token,
-            type:'POST',
-            dataType:'json',
-            data:fordata,
-            processData: false,
-            contentType: false,
-      error: function(){
-        fb_alert('未知错误')
-      },  
-      success: function(data){
-        if(data.code == 200){
-            if(num == 1){
-                //正面
-                pic1 = data.url
-            }else if(num == 2){
-                //反面
-                pic2 = data.url
+  // function change(that,num){
+  //       fb_alert("开始上传");
+  //       var field=new upField($(that));
+  //       var maxSize=10240; //kb
+  //        var name=$(that).attr('name');
+  //       var pic = $(that).prop('files');
+  //       var fordata=new FormData();
+  //       fordata.append('uploadfile',pic[0]); //添加字段
+  //      if(pic[0].size/1024>maxSize) { 
+  //           fb_alert('图片不能超过'+maxSize+'kb')
+  //           return false; 
+  //      }
+  //       $.ajax({
+  //           url:locahost+'/user/realNameAuthUploadImg/?token='+token,
+  //           type:'POST',
+  //           dataType:'json',
+  //           data:fordata,
+  //           processData: false,
+  //           contentType: false,
+  //     error: function(){
+  //       fb_alert('未知错误')
+  //     },  
+  //     success: function(data){
+  //       if(data.code == 200){
+  //           if(num == 1){
+  //               //正面
+  //               pic1 = data.url
+  //           }else if(num == 2){
+  //               //反面
+  //               pic2 = data.url
                 
-            }
-            $(that).prev().css("background-image","url("+data.url+")");
+  //           }
+  //           $(that).prev().css("background-image","url("+data.url+")");
 
-        }else{  
-          fb_alert(data.detail);
-        }
-      }
-        })
+  //       }else{  
+  //         fb_alert(data.detail);
+  //       }
+  //     }
+  //       })
 
-    };
+  //   };
 	$(".certification_submit").on('click',certification_submit)
 	function certification_submit(){
         var name = $('[name="name"]').val(),
         card = $('[name="card"]').val();
-		if(pic1.length == 0 || pic2.length==0 ){
-			fb_alert("请先上传身份证");
-			return;
-		}else if(name.length == 0){
+      if(name.length == 0){
             fb_alert("请填写你的姓名");
             return;
         }else if(card.length == 0){
@@ -166,7 +157,7 @@
             return;
         }
         is_alipay(true);
-	$.post(locahost+'/user/h5RealNameAuth/',{"token":token,"pic1":pic1,"pic2":pic2,"name":name,"id_number":card},  function(data){
+	$.post(locahost+'user/zhimaReal/',{"token":token,"name":name,"id_number":card},  function(data){
            is_alipay(false);
            if(data.code == 2001){
                 fb_alert(fb_error["2001"])
@@ -178,7 +169,8 @@
                  var info = JSON.parse(window.localStorage.info);   
                  info.is_auth = 2; 
                  setItem("info",JSON.stringify(info));
-                 history.go(-1)
+                 replaceLocation(data.data)
+                 // history.go(-1)
              }else{
                  fb_alert(data.detail);    
               }
@@ -187,4 +179,16 @@
     });
 
 	}
+
+    function monitorInput(){
+        if($('[name="name"]').val().length != 0 && $('[name="card"]').val().length != 0  ){
+              $(".certification_submit  ").addClass("active");
+            }else{
+              $(".certification_submit  ").removeClass("active");
+            }
+    }
+
+    $('[name="name"],[name="card"]').on("input propertychange",function(){
+          monitorInput();
+      })
  </script>

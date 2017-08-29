@@ -37,298 +37,154 @@
           <div class="return" onclick="returnUp()">
           </div>
         </div>
-        <div class="content-select">
-            <div class="left select"><span>我的接单</span></div>
-            <div class="right"><span>我的发单</span></div>
+        <div class="work_tab">
+          <span class="on"><a href="#/meet">我的接单</a></span>
+          <span><a href="#/hair">我的发单</a></span>
         </div>
         <div class="myOrder pt2">
-          <div class="myOrderBox jie">
+          <div class="myOrderBox meet">
 
           </div>
-           <div class="myOrderBox fa">
+           <div class="myOrderBox hair">
 
           </div>
         </div>
-	     <!-- 支付界面 -->
-      <div class="walletPass orderWalletPass" >
-
-          <div class="payPassVal">  
-              <div class="payPass_close">X</div>
-              <div class="payPassVal_title">请输入钱包支付密码</div>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-          </div>
-          <ul class="payNum">
-              <li>1</li>
-              <li>2</li>
-              <li>3</li>
-              <li>4</li>
-              <li>5</li>
-              <li>6</li>
-              <li>7</li>
-              <li>8</li>
-              <li>9</li>
-              <li></li>
-              <li>0</li>
-              <li>删除</li>
-          </ul>
-      </div>
 	</section>
 </body>
 <script>
-    tab = "jieOrder";
-
-    /*头部切换事件 S*/
-
-    $(".content-select > div").click(function(){
-      if($(this).hasClass("select")){
-        return false;
-      }
-      var i = $(this).index(".content-select > div");
-      $(this).addClass("select").siblings().removeClass("select");
-      $(".myOrderBox").eq(i).show().html("").siblings().hide();
-      clearWindowScroll();
-      loading(true)
-      if(i == 0){
-        tab = "jieOrder";
-        getJieloca()
-      }else if(i == 1){
-        tab = "faOrder"
-        getFaloca()
-      }
+       /*头部切换事件 S*/
+    $(".work_tab a").on("click",function(){
+      var url = $(this).attr("href");
+      replaceLocation(url);
+      return false;
     })
-
-      
-
     /*头部切换事件 E*/
-
     var token = window.localStorage.token;
-    var orderId ;//订单详情id
-    var pageNum = 10;
-    order();
-    //我的订单
-    function order(){
-      clearWindowScroll();
-      loading(true);
-      getJieloca();
-      var i = $(".content-select .select").index(".content-select div");
-      if( i ==1){
-        clearWindowScroll();
-        getFaloca();
-      }
-    } 
-    //我的接单缓存
-    function getJieloca(a){
-      if(!getItemATime("jieloca") && a != 1){
-         loading(false);
-        var loca = getItem("jieloca");
-        var htmldom = loca[0]; 
-        $(".jie").html(htmldom);
-        $(window).on("scroll",function(){
-              if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
-                //到底
-                
-                getJieOrder(2);
-              }
-        })
-      }else{
-        //没有缓存
-        getJieOrder(1)
-      }
-  
-    }
-  //我的发单缓存
-    function getFaloca(a){
-      if(!getItemATime("faloca") && a != 1){
-         loading(false);
-        var loca = getItem("faloca");
-        var htmldom = loca[0]; 
-        $(".fa").html(htmldom);
-        $(window).on("scroll",function(){
-              if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
-                //到底
-                getFaOrder(2);
-              }
-        })
-      }else{
-        //没有缓存
-        getFaOrder(1)
-      }
-  
-    }
-      //我的接单
-      function getJieOrder(page){
-        $(window).off("scroll");   //清除滚动事件
-        if($("#loading").length == 0 && page!=1){
-          $(".jie").append("<div id='loading'>正在玩命的加载中...</div>");
-        }
-        $.getJSON(locahost+'/order/getMyWork/?token='+token+'&page='+page,function(data){
-          clearLoading();
-          if(data.code == 2001){
-            fb_alert(fb_error["2001"]);
-            window.location.href="../login.html";
+      // 我的任务
+      function getWork(obj) {
+          var defaults = {
+              page: 1,
+              index: 0,
+          };
+          var fb = $.extend(defaults, obj || {});
+          var type = getRouter();
+          var work_locahost = type == "meet" ? 'order/getMyWork/' : type == "hair" ? 'order/getMyOrder/' : 'order/getMyWork/';
+          var page = fb.page;
+          var myOrderBox = type == 'meet' ? $(".meet") : type == 'hair' ? $(".hair") : '';
+          //tab切换
+          $(".work_tab span").eq(fb.index).addClass("on").siblings("span").removeClass("on");
+          $(".myOrderBox").eq(fb.index).show().siblings(".myOrderBox").hide();
+          //tab切换
+          $(window).off("scroll"); //清除滚动事件
+          if ($("#loading").length == 0 && page != 1) {
+              $(".myOrder").append("<div id='loading'>正在玩命的加载中...</div>");
           }
-          loading(false);
-          var order_html = "";
-          $.each(data.data,function(a,b){
-            var bg = b["order_status"] == "已接单" ? "#80b995" :  b["order_status"] == "待结算" ? "#80b995" : "#bbbbbb";
-              order_html += '<div class="work_content box-shadow">\
-                      <a href="../works/schoolwork_de.html?oid='+b.oid+'">\
-                      <div class="content-inner-container">\
-                        <div class="fl">\
-                          <div class="user-pic">\
-                            <img src="'+b.avatar_url+'" alt="" />\
-                          </div>\
-                          <span class="user-name">'+b.nickname+'</span>\
-                          <span class="user-time">'+afterTime(b.created_at)+'</span>\
-                          <div class="user-content">\
-                            <p class="user-content-p">'+b.description+'</p>\
-                          </div>\
-                          <div class="destination">送达地点：'+b.destination+'</div>\
-                        </div>\
-                        <div class="time-only" style="background:'+bg+'">\
-                           <div class="order_status" >'+b.order_status+'</div>\
-                          <span class="money"><b>'+parseInt(b.fee)+'</b>元</span>\
-                        </div>\
-                      </div>\
-                      </a>\
-                    </div>';
-            })
-            if(data.data == '' ){
-                  //没数据
-                  $("#loading").remove()
-                  if(page == 1){
-                    $(".jie").append("<div id='loaded'>暂无数据</div>")
-
-                  }else{
-                    $(".jie").append("<div id='loaded'>我是有底线的</div>")
+          var workData = {
+              page: page,
+              token: token
+          }
+          $.getJSON(locahost + work_locahost, workData, function(data) {
+              loading(false);
+              clearLoading()
+              var work_html = "";
+              var mine_id = window.localStorage.uid;
+              $.each(data.data, function(a, b) {
+                  var href = "";
+                  var work_status_class = 'will';
+                  var href = 'href="../works/schoolwork_de.html?oid=' + b.oid + '"';
+                  if (b.status == "new") {
+                      work_status_class = 'will';
+                  } else if (b.status == "completed") {
+                      //已完成
+                      work_status_class = 'ed';
+                  } else {
+                      //送货中
+                      work_status_class = 'ing';
                   }
-                }else{
+                  work_html += '<div class="work_content ">\
+                  <a ' + href + '>\
+                  <div class="content-inner-container">\
+                    <div class="work_description">' + b.description + '</div>\
+                    <div class="work_group">\
+                      <div class="work_status ' + work_status_class + '">' + b.order_status + '</div>\
+                      <div class="work_money">' + parseFloat(b.fee) + '元</div>\
+                      <div class="work_date">' + afterTime(b.created_at) + '</div>\
+                    </div>\
+                    <div class="work_destination">' + b.destination + '</div>\
+                  </div>\
+                  </a>\
+                </div>';
+              })
+              if (data.data == '') {
+                  //没数据
+                  if (page == 1) {
+                      myOrderBox.html("<div class='noWork'>暂无任务</div>");
+                      $("#loading").remove();
+                  } else {
+                      $("#loading,#loaded").remove();
+
+                      $(".myOrder").append("<div id='loaded'>我是有底线的</div>")
+                  }
+              } else {
                   //是否为第一页 是替换数据 否追加数据 S
-                  if(page == 1){
-                   $(".jie").html(order_html);
-                   n=1;
-                   $("#loading").remove();
-                   setItem("jieloca",order_html)
-                  }else{
-                   $(".jie").append(order_html);
+                  if (page == 1) {
+                      myOrderBox.html(work_html);
+                      $("#loading").remove();
+                  } else {
+                      myOrderBox.append(work_html);
                   }
                   //是否为第一页 是替换数据 否追加数据 E
                   //是否为最后一页  否追加滑动事件 S
-                  if(data.data.length < pageNum ){
-
-                    //已经没数据
-                    $("#loading").remove()
-                    $(".jie").append("<div id='loaded'>我是有底线的</div>");
-                    }else{
-
-                     $(window).on("scroll",function(){   
-                          if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
-                            //到底
-                           n = page;
-                            n++;
-                            getJieOrder(n);
+                  if (data.data.length < workPageNum) {
+                      //已经没数据
+                      $("#loading,#loaded").remove();
+                      $(".myOrder").append("<div id='loaded'>我是有底线的</div>");
+                  } else {
+                      $(window).on("scroll", function() {
+                          if ($(window).scrollTop() + 50 >= $(document).height() - $(window).height()) {
+                              //到底
+                              var workPage = page;
+                              workPage++;
+                              getWork({
+                                  'page': workPage,
+                                  'index': fb.index
+                              });
                           }
-                       
                       })
                   }
-                //是否为最后一页  否追加滑动事件 E
-
-                }
-
-        })
+                  //是否为最后一页  否追加滑动事件 E
+              }
+          })
       }
-      //我的发单
-      function getFaOrder(page){
+      // 我的任务
+      
+             // 店铺
+      var routes = {
+        '/meet':  {on:function(){
+                        loading(true);
+                        getWork({"index":0});
+                    }},
+        '/hair': {on:function(){
+                        loading(true);
+                        getWork({"index":1});
+                    }},
+      };
+      // options={
+      //   "notfound":function(){
+      //     var locationName = getRouter();
+      //     if(locationName =='getSellerList' || locationName =='getCampusList' || locationName =='getStudentList'){
+      //       window.location.href="#/shop"
+      //     }else if(locationName =='personal' || locationName =='personal' || locationName =='business'){
+      //       window.location.replace("#/work/personal");
 
-        $(window).off("scroll");   //清除滚动事件
-        if($("#loading").length == 0 && page!=1){
-          $(".fa").append("<div id='loading'>正在玩命的加载中...</div>");
-        }
-        $.getJSON(locahost+'/order/getMyOrder/?token='+token+'&page='+page,function(data){
-          clearLoading();
-          $("#loading").remove();
-           loading(false);
-          if(data.code == 2001){
-            fb_alert(fb_error["2001"]);
-            window.location.href="../login.html";
-          }
-          var order_html = "";
-          $.each(data.data,function(a,b){
-            var bg = b["order_status"] == "可接单" ? "#87cbf6" : b["order_status"] == "已接单" ? "#80b995" :  b["order_status"] == "待结算" ? "#80b995" : "#bbbbbb";
-            b.avatar_url = b.avatar_url == '' ? "../images/footer05h.png" :  b.avatar_url;
-            order_html += '<div class="work_content box-shadow">\
-                      <a href="../works/schoolwork_de.html?oid='+b.oid+'">\
-                      <div class="content-inner-container">\
-                        <div class="fl">\
-                          <div class="user-pic">\
-                            <img src="'+b.avatar_url+'" alt="" />\
-                          </div>\
-                          <span class="user-name">'+b.nickname+'</span>\
-                          <span class="user-time">'+afterTime(b.created_at)+'</span>\
-                          <div class="user-content">\
-                            <p class="user-content-p">'+b.description+'</p>\
-                          </div>\
-                          <div class="destination">送达地点：'+b.destination+'</div>\
-                        </div>\
-                        <div class="time-only" style="background:'+bg+'">\
-                           <div class="order_status" >'+b.order_status+'</div>\
-                          <span class="money"><b>'+parseInt(b.fee)+'</b>元</span>\
-                        </div>\
-                      </div>\
-                      </a>\
-                    </div>';
-            })
-            if(data.data == '' ){
-                  //没数据
-                  $("#loading").remove()
-                  if(page == 1){
-                    $(".fa").append("<div id='loaded'>暂无数据</div>")
-
-                  }else{
-                    $(".fa").append("<div id='loaded'>我是有底线的</div>")
-                  }
-                }else{
-                  //是否为第一页 是替换数据 否追加数据 S
-                  if(page == 1){
-                   $(".fa").html(order_html);
-                   n=1;
-                   $("#loading").remove();
-                   setItem("faloca",order_html)
-                  }else{
-                   $(".fa").append(order_html);
-                  }
-                  //是否为第一页 是替换数据 否追加数据 E
-                  //是否为最后一页  否追加滑动事件 S
-                  if(data.data.length < pageNum ){
-
-                    //已经没数据
-                    $("#loading").remove()
-                    $(".fa").append("<div id='loaded'>我是有底线的</div>");
-                    }else{
-
-                     $(window).on("scroll",function(){   
-                          if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
-                            //到底
-                           n = page;
-                            n++;
-                            getFaOrder(n);
-                          }
-                       
-                      })
-                  }
-                //是否为最后一页  否追加滑动事件 E
-
-                }
-
-        })
-      }
-     refresh["jieOrder"] = getJieloca;
-     refresh["faOrder"] = getFaloca;
+      //     }else{
+      //       window.location.replace("#/home");
+      //     }
+      //   }
+      // }
+      var router = new Router(routes);
+      // var router = new Router(routes).configure(options);
+      router.init("/meet");
 </script>
 </html>
 

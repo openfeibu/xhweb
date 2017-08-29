@@ -7,7 +7,54 @@
 	</div>
 	</div>
 	<section class="myprofile_main pt1">
-	
+            <div class="myprofile_bg">
+	             <div class="pic myprofile_item">
+                  <div id="uploader-demo">
+                      <input name="bookpic" type="file" id="bookpic" class="upload" onchange="change(this)">
+                  </div>
+                  <span>头像</span>
+                  <div class="pic-right-container">
+                    <img data-name="pro-detail-img"  class="user-pic" alt="">
+                  </div>
+                </div>
+                <div class="nickname myprofile_item" >
+                  <a href="#/mine/myprofile/nickname">
+                  <span>昵称</span>
+                  <span data-name="user-nickname" class="user-nickname fr myprofile_item_right"></span>
+                  </a>
+                </div>
+                <div class="sex myprofile_item">
+                  <select name="sex" id="">
+                    <option value="1">男</option>
+                    <option value="2">女</option>
+                  </select>
+                  <a >
+                    <span>性别</span>
+                    <span data-name="sex-name" class="sex-name fr myprofile_item_right"></span>
+                  </a>
+                </div>
+                <div class="leyu myprofile_item">
+                  <a href="#/mine/myprofile/introduction">
+                    <span class="leyu-name">个性签名</span>
+                  </a>
+                </div>
+              </div>
+              <div class="myprofile_bg">
+                <div class="address myprofile_item">
+                  <a >
+                    <span>学校</span>
+                    <span data-name="scholl-name" class=" fr myprofile_item_right"></span>
+                  </a>
+                </div>
+              </div>
+              <div class="myprofile_bg">
+                <div class="smrz myprofile_item">
+                  <a href="html/certification.html">
+                    <span>实名认证</span>
+                    <span data-name="auth-name" class=" fr myprofile_item_right"></span>
+                  </a>
+                </div>
+              </div>
 	</section>
 	<!--dom结构部分-->
 	<script>
@@ -17,51 +64,14 @@
 	  var  data = JSON.parse(info);
       var avatar_url = data.avatar_url == "" ? "images/icon_myinfo.png" : data.avatar_url;
       var gender = data.gender == 1 ? "男" : data.gender == 2 ? "女" : "保密";
-	  var html = '<div class="pic">\
-	  				<div id="uploader-demo">\
-					    <input name="bookpic" type="file" id="bookpic" class="upload" onchange="change(this)">\
-					</div>\
-					<span>头像</span>\
-					<div class="pic-right-container">\
-						<img data-name="pro-detail-img" src="'+avatar_url+'" class="user-pic" alt="">\
-					</div>\
-					<div class="pic-go"></div>\
-				</div>\
-				<div class="nickname" >\
-					<a href="#/mine/myprofile/nickname">\
-					<span>昵称</span>\
-					<span class="user-nickname">'+data.nickname+'</span>\
-					<div class="pic-go"></div>\
-					</a>\
-				</div>\
-				<div class="leyu">\
-					<a href="#/mine/myprofile/introduction">\
-						<span class="leyu-name">介绍</span>\
-						<span class="user-leyu">'+data.introduction+'</span>\
-						<div class="pic-go"></div>\
-					</a>\
-				</div>\
-				<div class="sex">\
-					<a >\
-						<span>性别</span>\
-						<span class="sex-name">'+gender+'</span>\
-					</a>\
-				</div>\
-				<div class="address">\
-					<a href="#/mine/myprofile/address">\
-						<span>常用地址</span>\
-						<span class="address-name">'+data.address+'</span>\
-						<div class="pic-go"></div>\
-					</a>\
-				</div>\
-				<div class="ggmm ">\
-					<a href="#/mine/myprofile/ggmm">\
-						<span>更改密码</span>\
-						<div class="pic-go"></div>\
-					</a>\
-				</div>';
-		$(".myprofile_main").html(html);
-
+      var is_auth = data.is_auth == 1 ? "已实名" : data.is_auth == 0  ? "未实名" :"实名审核中";
+		// $(".myprofile_main").html(html);
+    $('[data-name="pro-detail-img"]').attr("src",avatar_url) 
+    $('[data-name="user-nickname"]').text(data.nickname) 
+    $('[data-name="sex-name"]').text(gender) 
+    $('[data-name="scholl-name"]').text(data.college) 
+    $('[data-name="auth-name"]').text(is_auth) 
+    loading(false)
 		
 		//即时注册路由
 		
@@ -140,120 +150,38 @@
       };
       window.change = change;
 
-	//var touXiangPhoto = 1;   //判断头像是否继续1张1张上传
-	// $(function() {
-	// 	var token = window.localStorage.token;
- //    	var $ = jQuery,
- //        $list = $('#fileList'),
- //        // 优化retina, 在retina下这个值是2
- //        ratio = window.devicePixelRatio || 1,
- 
- //        // 缩略图大小
- //        thumbnailWidth = 100 * ratio,
- //        thumbnailHeight = 100 * ratio,
- 
- //        // Web Uploader实例
- //        uploader;
- 
-	//     // 初始化Web Uploader
-	//     uploader = WebUploader.create({
- 
- //        // 自动上传。
- //        auto: true,
- // 		crop: true,
- //        // swf文件路径
- //        swf:  '/js/webuploader/js/Uploader.swf',
- 
- //        // 文件接收服务端。
- //        server: locahost+'/user/uploadAvatarFile/?token='+token,
-         
- //        // [默认值：'file']  设置文件上传域的name。
- //        fileVal:'uploadfile',
- 
- //        // 选择文件的按钮。可选。
- //        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
- //        pick: '#filePicker',
- // 		fileNumLimit : 1,
- //        // 只允许选择文件，可选。
- //        accept: {
- //            title: 'Images',
- //            extensions: 'gif,jpg,jpeg,bmp,png',
- //            mimeTypes: 'image/*'
- //        }
- //    });
- 
-    // // 当有文件添加进来的时候
-    // uploader.on( 'fileQueued', function( file ) {
-    //     var $li = $(
-    //             '<div id="' + file.id + '" class="file-item thumbnail">' +
-    //                 '<img>' +
-    //                 '<div class="info">' + file.name + '</div>' +
-    //             '</div>'
-    //             ),
-    //         $img = $li.find('img');
- 
-    //     $list.append( $li );
- 
-    //     // 创建缩略图
-    //     uploader.makeThumb( file, function( error, src ) {
-    //         if ( error ) {
-    //             $img.replaceWith('<span>不能预览</span>');
-    //             return;
-    //         }
- 
-    //         $img.attr( 'src', src );
-    //     }, thumbnailWidth, thumbnailHeight );
-    // });
- 
-    // // 文件上传过程中创建进度条实时显示。
-    // uploader.on( 'uploadProgress', function( file, percentage ) {
-    //     var $li = $( '#'+file.id ),
-    //         $percent = $li.find('.progress span');
- 
-    //     // 避免重复创建
-    //     if ( !$percent.length ) {
-    //         $percent = $('<p class="progress"><span></span></p>')
-    //                 .appendTo( $li )
-    //                 .find('span');
-    //     }
- 
-    //     $percent.css( 'width', percentage * 100 + '%' );
-    // });
- 
-    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-    // uploader.on( 'uploadSuccess', function( data ) {
- 			// //photoarray 上传的图片数组
-    // 		//更新缓存
-    // 		var info = window.localStorage.info;
-    //  		var data = JSON.parse(info);
-    //  		console.log(photoarray)
-    //  		var img = photoarray.substr(0,photoarray.length-1)
-    //  		data["avatar_url"] = img;
-    //        	setItem("info",JSON.stringify(data))
-    //        	fb_alert(fb_error["1"]);
-    //        	$(".pic-right-container img").attr("src", img)
-    //        	uploader.reset();
-    //        	photoarray = '';
-    // });
- 
-    // 文件上传失败，现实上传出错。
-    // uploader.on( 'uploadError', function( file ) {
-    //     var $li = $( '#'+file.id ),
-    //         $error = $li.find('div.error');
- 
-    //     // 避免重复创建
-    //     if ( !$error.length ) {
-    //         $error = $('<div class="error"></div>').appendTo( $li );
-    //     }
- 
-    //     $error.text('上传失败!!!');
-    // });
- 
-    // // 完成上传完了，成功或者失败，先删除进度条。
-    // uploader.on( 'uploadComplete', function( file ) {
-    //     $( '#'+file.id ).find('.progress').remove();
-    // });
-// }
-  
-// );
+    $(".sex select").on("change",function(){
+      var val = $(this).val();
+      var postData = {
+        token:token,
+        gender:val
+      }
+      is_alipay(true);
+      $.post(locahost+"user/changeUserInfo/",postData,function(data){
+        is_alipay(false);
+         if(data.code == 2001){
+              fb_alert(fb_error["2001"])
+              window.location.href = "../login.html";
+              return;
+           }
+           if(data.code == "200"){    
+              fb_alert(fb_error['mine_001']);
+              var info = window.localStorage.info;
+              var data = JSON.parse(info);
+              data['gender'] = val;
+              setItem("info",JSON.stringify(data))
+               if(val == 1){
+                $('[data-name="sex-name"]').text('男') 
+               }else if(val == 2){
+                $('[data-name="sex-name"]').text('女') 
+               }
+
+           }else{
+               fb_alert(data.detail);    
+            }
+
+      }).error(function(xhr,errorText,errorType){
+              alert('网络超时，请稍后再试')
+      });
+    })
 	</script>

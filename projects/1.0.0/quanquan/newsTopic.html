@@ -25,7 +25,7 @@
     <link rel="stylesheet" type="text/css" href="../css/reset.css">
     <link rel="stylesheet" type="text/css" href="../css/index.css">
     <link href="../css/swiper.min.css" rel="stylesheet" type="text/css">
-    <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
     <script type="text/javascript" src="../js/common.js"></script>
     <script src="../js/director.js"></script>
     <script type="text/javascript" src="../js/updata.js"></script>
@@ -39,29 +39,8 @@
           <p>消息列表</p>
           <div class="return" onclick="returnUp()"></div>
         </div>
-        <div class="news_list pt1">
-            <div class="news-item">
-                <div class="news-up">
-                  <div class="img">
-                    <img src="images/tx.png" alt="" />
-                  </div>
-                  <div class="test">
-                    <div class="name">Mar</div>
-                    <div class="time">30分钟前</div>
-                  </div>
-                </div>
-                <div class="news-bottom">
-                  <div class="con">
-                    dasdasdsad
-                  </div>
-                  <div class="report">回复</div>
-                </div>
-                <div class="original">dsadd</div>
-            </div>
-        </div>
-        <div class="commen_input">
-            <input type="text" class="commen_input_text" placeholder="评论一下。。。">
-            <input type="button" value="发送" class="commen_input_submit">
+        <div class="newsTopic_list pt1">
+        
         </div>
       </section>
     </div>
@@ -76,62 +55,33 @@
           loading(false);
           if (data.code == 200) {
               window.localStorage.hasTopic = 0;
-              var html = '';
+              var comment = '';
               $.each(data.data,function(a, b) {
-                  var time = afterTime(b.created_at)
-                  html += '<div class="news-item">\
-                            <div class="news-up">\
-                              <div class="img">\
-                                <img src="'+b.avatar_url+'" alt="" />\
-                              </div>\
-                              <div class="test">\
-                                <div class="name">'+b.nickname+'</div>\
-                                <div class="time">'+time+'</div>\
-                              </div>\
-                            </div>\
-                            <div class="news-bottom">\
-                              <div class="con">'+b.content+'</div>\
-                              <div class="report" tid="'+b.tid+'"  tcid="'+b.tcid+'">回复</div>\
-                            </div>\
-                            <div class="original">'+b.object_content+'</div>\
-                        </div>';
+
+                  comment += '<div class="comment_item">\
+                                  <div class="topic_header">\
+                                      <div class="img fl">\
+                                        <img src="'+b.avatar_url+'" alt="">\
+                                      </div>\
+                                      <div class="name fl">\
+                                        <p >'+b.nickname+'</p><p class="date">'+afterTime(b.created_at)+'</p>\
+                                     </div>\
+                                   </div>\
+                                    <div class="topic_con">\
+                                        <div class="test" >'+b.content+'</div>\
+                                    </div>\
+                                    <div class="object_con">\
+                                      <a href="../quanquan/topic_detail.html?topic_id='+b.tid+'">\
+                                        原文：'+b.object_content+'\
+                                      </a>\
+                                    </div>\
+                                  </div>';
               });
-              $(".news_list").html(html);         
+              $(".newsTopic_list").html(comment);         
           }
         });
       }
 
-        /*唤起评论 S*/
-      var tid,tcid;
-      $(".news_list").on("click", ".report", 
-        function() {
-            tid = $(this).attr("tid");
-            tcid = $(this).attr("tcid");
-            commen_input_focus("");
-        })
-
-      /*唤起评论 E*/
-      /*评论框获取焦点 S*/
-      function commen_input_focus(text){
-          clearTimeout(comment_input_time);
-          $(".commen_input_text").val(text).focus();
-          $(".commen_input").addClass("on");
-      }
-      /*评论框获取焦点 E*/
-      /*评论框失去焦点 S*/
-      var comment_input_time;
-      $(".commen_input_text").on("blur", 
-        function() {
-            var val = $(this).val();
-            var tcid = $(this).attr("comment_id");
-            if (tcid == 0) {
-                $(this).attr("text", val);
-            }else {
-                $(".comment_b[tcid='" + tcid + "']").attr("text", val);
-            }
-          comment_input_time =  setTimeout(function(){$(".commen_input").removeClass("on");},100);
-        })
-      /*评论框失去焦点 E*/
       /*评论框监听 S*/
       $(".commen_input_text").on("input propertychange", 
         function() {
@@ -177,7 +127,6 @@
                 if (data.code == "200") {
                     fb_alert("评论成功")
                     $(".commen_input_submit").on("click", commen_submit);
-                    
                 }
 
 

@@ -4,30 +4,63 @@
 <div class='index_nav'>
   <ul>
   	<li>
-  		<a href="association.html">校园社团</a>  
+  		<a href="quanquan/topic.html">校园圈圈</a>  
   	</li>
   	<li>
-      <a href="LostAndFound/LF-list-lose.html">失物招领</a>  
+      <a href="LostAndFound/LF-list.html">失物招领</a>  
     </li>
     <li>
-      <a href="fault/faultLogin.html" onclick="">报故障</a>  
+      <a href="education/education_list.html" >专插本</a>  
+    </li>
+    <li>
+      <a href="driver/driver_list.html">精选驾校</a>  
     </li>
   </ul>
 </div>
-<!-- 推荐任务 -->
-<div class="recommendOrders">
-  <div class="title"><i></i><p>推荐任务</p></div>
-  <div class="orderList">
+<!-- 热销商品 -->
+<div class="hotGoods">
+  <div class="title"><i></i><p>热销商品</p><span>HOT</span></div>
+  <div class="hotGoodsList">
     <div class="swiper-container Orders">
         <div class="swiper-wrapper">
-           
+           <div class="swiper-slide"> 
+              <a href="">
+                <div class="img"></div> 
+              </a>
+            </div>
+            <div class="swiper-slide"> 
+              <a href="">
+                <div class="img"></div> 
+              </a>
+            </div>
+            <div class="swiper-slide"> 
+              <a href="">
+                <div class="img"></div> 
+              </a>
+            </div>
+            <div class="swiper-slide"> 
+              <a href="">
+                <div class="img"></div> 
+              </a>
+            </div>
+            <div class="swiper-slide"> 
+              <a href="">
+                <div class="img"></div> 
+              </a>
+            </div>
         </div>
+
     </div>
    
   </div>
 </div>
-<div class='index_club_play'>
-  
+<div class='featured'>
+    <div class="title"><i></i><p>精选推荐</p><span>FEATURED</span></div>
+    <div class="featured_con clearfix">
+      <div class="featured_item01 fl"><a href=""></a></div>
+      <div class="featured_item02 fr"><a href=""></a></div>
+      <div class="featured_item03 fr"><a href=""></a></div>
+    </div>
 </div>
 <div class="alertAction">
   <div class="alertAction-img"><a href="prize/register.html"><img src="images/alertAction-img.png" alt=""></a></div>
@@ -106,21 +139,21 @@
 
     
     //获取活动资讯 S
-    if(!!getItem("club_play")){
-      var loca = getItem("club_play");
-      var now = new Date().getTime();
-      /*先展示旧内容 S*/
-      var htmldom = loca[0]; 
-      $(".index_club_play").html(htmldom);
-      /*先展示旧内容 E*/
-      if(now-loca[1] >= thislocaTime){
-        //已过期
-          club_playGet()
-      }
-    }else{
-      //没有缓存
-      club_playGet()
-    }
+    // if(!!getItem("club_play")){
+    //   var loca = getItem("club_play");
+    //   var now = new Date().getTime();
+    //   /*先展示旧内容 S*/
+    //   var htmldom = loca[0]; 
+    //   $(".index_club_play").html(htmldom);
+    //   /*先展示旧内容 E*/
+    //   if(now-loca[1] >= thislocaTime){
+    //     //已过期
+    //       club_playGet()
+    //   }
+    // }else{
+    //   //没有缓存
+    //   club_playGet()
+    // }
     //获取活动资讯 E
      //获取推荐任务 S
     if(!!getItem("recommendOrders")){
@@ -128,7 +161,7 @@
       var now = new Date().getTime();
       /*先展示旧内容 S*/
       var htmldom = loca[0]; 
-      $(".orderList .swiper-wrapper").html(htmldom);
+      // $(".orderList .swiper-wrapper").html(htmldom);
       /*先展示旧内容 E*/
       if(now-loca[1] >= thislocaTime){
         //已过期

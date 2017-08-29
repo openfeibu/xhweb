@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+	<meta content="telephone=no" name="format-detection" />
+  <!-- uc强制竖屏 -->
+  <meta name="screen-orientation" content="portrait">
+  <!-- UC应用模式 -->
+  <meta name="browsermode" content="application">
+  <!-- QQ强制竖屏 -->
+  <meta name="x5-orientation" content="portrait">
+  <!-- QQ应用模式 -->
+  <meta name="x5-page-mode" content="app">
+  <!-- UC禁止放大字体 -->
+  <meta name="wap-font-scale" content="no">
+	<title>校汇Plus | 校汇 </title>
+  <meta name="Keywords" content="校汇,广东农工商职业技术学院,AIB,农工商,能赚钱,大学生,大学生创业,大学生校园,大学生校园社团,大学生校园快递,大学生周边生活" />
+  <meta name="Description" content="校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、社团文化、校园资讯、学生互动" />
+  <link rel="apple-touch-icon-precomposed" href="./icon.png" />
+  <link rel="shortcut icon" href="./icon.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="../css/reset.css">
+  <link rel="stylesheet" type="text/css" href="../css/index.css">
+  <script type="text/javascript" src="../js/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/common.js"></script>
+</head>	
+	<div class="driver_list_main pd1">
+	   <div class="header_title">
+      <div class="return" onclick="returnUp()">
+      </div>
+      <p>驾校报名</p>
+    </div>
+    <div class="enroll_de pt1">
+        <div class="enroll_mark">*本平台仅提供报名入口和价格参考，不支持线上交易</div>
+        <div class="enroll_select">
+            <div class="enroll_select_val">
+              <p>广州普通班<span>￥5800</span></p>
+            </div>
+            <div class="enroll_select_val">
+              <p>广州普通班<span>￥5800</span></p>
+            </div>
+            <div class="enroll_select_val">
+              <p>广州普通班<span>￥5800</span></p>
+            </div>
+        </div>
+        <div class="enroll_info">
+          <div class="enroll_info_item">
+            <label for="">您的姓名</label>
+            <input type="text" name="name" placeholder="请输入你的姓名" />
+          </div>
+          <div class="enroll_info_item">
+            <label for="">手机号码</label>
+            <input type="text" name="mobile" placeholder="请输入手机号码" />
+          </div>
+          <div class="enroll_info_item">
+            <label for="">留言</label>
+            <input type="text" name="content" placeholder="您的学车意向" />
+          </div>
+        </div>
+        <div class="enroll_submit">
+          <button>提交</button>
+        </div>
+        <div class="enroll_mark2">提交后，驾校或教练会联系您，<span>请保持电话畅通</span></div>
+    </div>
+    <div class="enroll_select_bg ">
+      <div class="enroll_select_box animate">
+            <div class="enroll_select_title">
+              请选择班型
+            </div>
+           <div class="enroll_select_con">
+              <div class="enroll_select_val">
+                <p>广州普通班<span>￥5800</span></p>
+              </div>
+              <div class="enroll_select_val">
+                <p>广州普通班<span>￥5800</span></p>
+              </div>
+              <div class="enroll_select_val">
+                <p>广州普通班<span>￥5800</span></p>
+              </div>
+           </div>
+            <div class="enroll_select_close">关闭</div>
+      </div>
+    </div>
+<script> 	 
+
+  var ds_id =window.localStorage.ds_id;
+  var token =window.localStorage.token;
+  var prodoucts =JSON.parse(window.localStorage.prodoucts);
+  var product_id;
+  var prodouct_html= '';
+  $.each(prodoucts,function(a,b){
+    if(a == 0){
+      product_id = b.product_id;
+    }
+    prodouct_html += '<div class="enroll_select_val" data-proid="'+b.product_id+'">\
+                        <p>'+b.product_name+'<span>￥'+b.price+'</span></p>\
+                      </div>'
+  })
+  $(".enroll_select_con").html(prodouct_html);
+  $(".enroll_select").html(prodouct_html);
+
+
+
+function monitorInput(){
+    if($('[name="name"]').val().length != 0 && checkMobile($('[name="mobile"]').val())&& $('[name="content"]').val().length != 0  ){
+          $(".enroll_submit button ").addClass("active");
+        }else{
+          $(".enroll_submit button ").removeClass("active");
+        }
+}
+
+$('[name="name"],[name="mobile"],[name="content"]').on("input propertychange",function(){
+      monitorInput();
+  })
+
+// 选择框
+  $(".enroll_select").on("click",function(){
+    $(".enroll_select_bg").show();
+    setTimeout(function(){
+      $(".enroll_select_box").addClass("top")
+    },1)
+  })
+
+  $("body").on("click",".enroll_select_box .enroll_select_val",function(){
+    var pro_id = $(this).data('proid');
+    var pro_index = $(this).index('.enroll_select_box .enroll_select_val');
+    product_id = pro_id;
+    $(".enroll_select .enroll_select_val").eq(pro_index).show().siblings(".enroll_select_val").hide();
+    $(".enroll_select_box").removeClass("top");
+    $(".enroll_select_bg").fadeOut("200");
+    })
+  $("body").on("click",".enroll_select_close",function(){
+    $(".enroll_select_box").removeClass("top");
+    $(".enroll_select_bg").fadeOut("200");
+  })
+// 选择框
+
+$(".enroll_submit button").on("click",function(){
+  var name = $('[name="name"]').val();
+  var mobile = $('[name="mobile"]').val();
+  var content = $('[name="content"]').val();
+  if(name.length == 0 || !checkMobile(mobile) || content.length == 0  ){
+        fb_alert(fb_error['dri_001']);
+        return false;
+  }
+   var postData = {
+    product_id :product_id,
+    name :name,
+    mobile :mobile,
+    content :content,
+    token:token
+  }
+  is_alipay(true);
+  $.post(locahost +'drivingSchool/enroll',postData, function(data) {
+          is_alipay(false);
+          if(data.code == 200){
+              fb_alert(fb_error['dri_002']);
+              replaceLocation("driver_records.html")
+          }else{
+              fb_alert(data.detail);
+
+          }
+      
+      }).error(function(){
+        fb_alert("网络出错")
+      })
+})
+
+
+
+</script>
+</body>
+</html>

@@ -3,7 +3,14 @@
 .lf-select a{color: #666;}
 .lf-select .select{border-bottom: 1px solid #72beef;}
 .lf-select .select a{color: #72beef;}
-.lf-list{background: #fff;}
+.lf-list{}
+.lf-list .lose{width: 0.96rem;height: 0.48rem;border-radius: 0.04rem;background: #d6c593;font-size: 0.24rem;color: #fff;text-align: center;line-height: 0.48rem;margin-top: 0.16rem;}
+.lf-list .found{width: 0.96rem;height: 0.48rem;border-radius: 0.04rem;background: #93b2d6;font-size: 0.24rem;color: #fff;text-align: center;line-height: 0.48rem;margin-top: 0.16rem;}
+.lf-list .topic_bottom .tell{float: left;width:1.44rem;height: 0.32rem;text-indent: 0.5rem;background: url("../images/home/ic_sw_phone.png") no-repeat 0 center;background-size: auto 0.32rem;}
+.lf-list .topic_bottom .tell a{color: #999;}
+.lf-list .topic_bottom .delete{color: #999;float: left;width:1.44rem;height: 0.32rem;text-indent: 0.5rem;background: url("../images/home/ic_sw_delete.png") no-repeat 0 center;background-size: auto 0.32rem;}
+
+
 .lf-list-item{padding: 0.25rem;border-bottom: 1px solid #dddddd;}
 .lf-list-item .lf-header{height: 0.7rem;line-height: 0.7rem;overflow: hidden;}
 .lf-list-item .lf-header .img{width: 0.68rem;height: 0.68rem;float: left;border-radius: 50%;overflow: hidden;border:1px solid #eee;}
@@ -64,3 +71,4 @@
 .lf-tell{width: 100%;height:1rem;position: fixed;bottom:0;left:0;background: #72beef;text-align: center;line-height: 1rem;color: #fff;}
 .lf-tell a{display: block;color: #fff;}
 .noLf{height: 3rem;line-height: 3rem;color: #222;font-size: 0.45rem;text-align: center;display: none;}
+

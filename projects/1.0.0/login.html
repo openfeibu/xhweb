@@ -195,7 +195,7 @@
 				if(is_weixn()){
 					loginData.platform = 'wechat' ;
 				}else{
-					loginData.platform = 'web' ;
+					loginData.platform = 'wap' ;
 				}
 				is_alipay(true);
 				 $.post(locahost+'user/login',loginData,  function(data){

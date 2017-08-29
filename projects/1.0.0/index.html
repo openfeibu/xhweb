@@ -30,6 +30,7 @@
 	<script type="text/javascript" src="js/director.js"></script>
   <script type="text/javascript" src="js/updata.js"></script>
 	<script src="js/swiper.min.js"></script>
+
 </head>
 <style>
   #ClassB:after, #ClassF:after{content: "";position: fixed;width: 100%;height: 1rem;background: #f5f5f5;bottom: 0;max-width: 750px;z-index: 1001}
@@ -58,26 +59,27 @@
 	<footer>
 		<ul>
 			<li class="on animate"><a href="#/home">校园</a></li>
-      <li class="animate"><a href="#/work/personal">校园任务</a></li>
-			<li class="animate"><a href="#/topic">校汇圈</a></li>
-      <li class="animate"><a href="#/shop">小店铺</a></li>
+      <li class="animate"><a href="#/work/canteer">任务</a></li>
+      <li class="animate"><a href="#/shop/getCampusList">店铺</a></li>
 			<li class="animate"><a href="#/mine">我的</a></li>
 		</ul>
 	</footer>
 </body>
+  <script type="text/javascript" src="js/xhPay.js"></script>
 	<script>
+    loading(true)
      /*检查校汇圈通知 S*/
      function checkTopic(){
         var token = window.localStorage.token;
         $.getJSON(locahost+'/hasNewTopicNotification/?token='+token,function(data){
           if(data.code == 200){
             if(data.data != 0 ){
-              $("footer li").eq(2).addClass("redSpot");
+              // $("footer li").eq(2).addClass("redSpot");
                $(".news").show();
               window.localStorage.hasTopic = 1;
               clearInterval(Ttime);
             }else{
-              $("footer li").eq(2).removeClass("redSpot");
+              // $("footer li").eq(2).removeClass("redSpot");
               $(".news").hide();
             }
 
@@ -107,6 +109,10 @@
              window.localStorage.phone =$("#account").val();
          })
       }
+      //缓存HTML
+      
+
+
       var getHome = function () {
           clearWindowScroll();
           tab = window.location.hash.replace(/#\//,"")
@@ -119,25 +125,31 @@
       var getTopic = function () {
           clearWindowScroll();
           tab = window.location.hash.replace(/#\//,"")
-          $("footer li").removeClass("on").eq(2).addClass("on")
+          // $("footer li").removeClass("on").eq(2).addClass("on")
           $.get('topic.html',function(data){
             routDom($("#ClassTopic"));
             $("#ClassTopic").html(data);
           })
       	};
-      var getSchoolWork = function(){
-          tab = "personalWork";
+      var getSchoolWork = function(succFun){
           clearWindowScroll();
-          $.get('schoolwork.html',function(data){
-            routDom($("#ClassSW"));
-            $("#ClassSW").html(data);
-          })
+          routDom($("#ClassSW"));
+          loading(true);
+          if($("#ClassSW").hasClass("loca")){
+            succFun();
+          }else{
+            $.get('schoolwork.html',function(data){
+              $("#ClassSW").html(data).addClass("loca");
+              succFun();
+            })
+          }
       };
-      var getShop = function(){
+      var getShop = function(succFun){
           clearWindowScroll();
           $.get('shop.html',function(data){
             routDom($("#ClassShop"));
             $("#ClassShop").html(data);
+            succFun();
           })
       };
       var getMine = function(){
@@ -161,117 +173,320 @@
               })
             };
       var getPostwork = function(){
+          loading(true);
           tab = "";
-          $.get("html/postwork.html",function(data){
+          $.get("works/postwork.html",function(data){
+                loading(false);
                 routDom($("#ClassB"));
                 $("#ClassB").css({"minHeight":$(window).height()-$("footer").height()} )
-                $("#ClassB").html(data)
+                $("#ClassB").html(data);
               })
       };
-      function personalWork(a){
-         if($(".work_list_personal").length == 0){
-            window.location.href="#/work/personal";
-            return false;
-          }
-        tab = "personalWork";
-        tabNav(0);
-        clearWindowScroll();
-        loading(true);
-        var thislocaTime = locaTime;
-        if(a) {
-           thislocaTime = 0;
-        }
-        if(!getItemATime("personalWork") && a != 1){
-          var loca = getItem("personalWork");
-          var htmldom = loca[0];
-          $(".work_list_personal").html(htmldom);
-          loading(false); //移除动画
-           $(window).on("scroll",function(){
-              if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
-                //到底
-                personalWork_get(2);
-              }
-           })
-          }else{
-            //没有缓存
-            personalWork_get();
-          }
-        };
-        function businessWork(a){
-          if($(".work_list_business").length == 0){
-            window.location.href="#/work/personal";
-          }
-          tab = "businessWork";
-          tabNav(1);
-          clearWindowScroll();
-          loading(true);
-          var thislocaTime = locaTime;
-          if(a) {
-             thislocaTime = 0;
-          }
-          if(!getItemATime("businessWork") && a != 1){
-            var loca = getItem("businessWork");
-            var htmldom = loca[0];
-            $(".work_list_business").html(htmldom);
-            loading(false); //移除动画
-             $(window).on("scroll",function(){
-                if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
-                  //到底
-                  businessWork_get(2);
-                }
-             })
-            }else{
-              //没有缓存
-              businessWork_get();
-            }
-          };
 
+      // 任务
+      function getWork(obj) {
+          var defaults = {
+              page: 1,
+              index: 0,
+          };
+          var fb = $.extend(defaults, obj || {});
+          if (fb.type) {
+              var type = fb.type;
+          } else {
+              var type = getRouter();
+          }
+          var page = fb.page;
+          var work_list =  type == 'canteer' ? $(".work_list_canteer") : type == 'personal' ? $(".work_list_personal") : type == 'business' ? $(".work_list_business") : '';
+          //tab切换
+          $(".work_tab span").eq(fb.index).addClass("on").siblings("span").removeClass("on");
+          $(".work_list").eq(fb.index).show().siblings(".work_list").hide();
+          //tab切换
+          $(window).off("scroll"); //清除滚动事件
+          if ($("#loading").length == 0 && page != 1) {
+              $(".work_list_main").append("<div id='loading'>正在玩命的加载中...</div>");
+          }
+          var workData = {
+              page: page,
+              type: type
+          }
+          $.getJSON(locahost + 'order/getOrderList/', workData, function(data) {
+              loading(false);
+              clearLoading()
+              var work_html = "";
+              var mine_id = window.localStorage.uid;
+              $.each(data.data, function(a, b) {
+                  var href = "";
+                  var work_status_class = 'will';
+                  var owner_id = b.owner_id; //发单人ID
+                  var courier_id = b.courier_id; //接单人ID
+                  if (b.status == "new" || mine_id == owner_id || mine_id == courier_id) {
+                      var href = 'href="works/schoolwork_de.html?oid=' + b.oid + '"';
+                  }
+                  if (b.status == "new") {
+                      work_status_class = 'will';
+                  } else if (b.status == "completed") {
+                      //已完成
+                      work_status_class = 'ed';
+                  } else {
+                      //送货中
+                      work_status_class = 'ing';
+                  }
+                  work_html += '<div class="work_content ">\
+                  <a ' + href + '>\
+                  <div class="content-inner-container">\
+                    <div class="work_description">' + b.description + '</div>\
+                    <div class="work_group">\
+                      <div class="work_status ' + work_status_class + '">' + b.order_status + '</div>\
+                      <div class="work_money">' + parseFloat(b.fee) + '元</div>\
+                      <div class="work_date">' + afterTime(b.created_at) + '</div>\
+                    </div>\
+                    <div class="work_destination">' + b.destination + '</div>\
+                  </div>\
+                  </a>\
+                </div>';
+              })
+              if (data.data == '') {
+                  //没数据
+                  if (page == 1) {
+                      work_list.html("<div class='noWork'>暂无任务</div>");
+                      $("#loading").remove();
+                  } else {
+                      $("#loading").remove();
+                      $(".work_list_main").append("<div id='loaded'>我是有底线的</div>")
+                  }
+              } else {
+                  //是否为第一页 是替换数据 否追加数据 S
+                  if (page == 1) {
+                      work_list.html(work_html);
+                      $("#loading").remove();
+                  } else {
+                      work_list.append(work_html);
+                  }
+                  //是否为第一页 是替换数据 否追加数据 E
+                  //是否为最后一页  否追加滑动事件 S
+                  if (data.data.length < workPageNum) {
+                      //已经没数据
+                      $("#loading").remove()
+                      $(".work_list_main").append("<div id='loaded'>我是有底线的</div>");
+                  } else {
+                      $(window).on("scroll", function() {
+                          if ($(window).scrollTop() + 50 >= $(document).height() - $(window).height()) {
+                              //到底
+                              var workPage = page;
+                              workPage++;
+                              getWork({
+                                  'page': workPage,
+                                  'index': fb.index
+                              });
+                          }
+                      })
+                  }
+                  //是否为最后一页  否追加滑动事件 E
+              }
+          })
+      }
+      // 任务
+      // 店铺
+      function getShopList(obj) {
+          var defaults = {
+                page: 1,
+                index: 0,
+            };
+            var fb = $.extend(defaults, obj || {});
+            if (fb.type) {
+                var type = fb.type;
+            } else {
+                var type = getRouter();
+            }
+            var page = fb.page;
+            var shop_list = type == 'getCampusList' ? $(".shop-Campus-list") : type == 'getSellerList' ? $(".shop-Seller-list") : type == 'getStudentList' ? $(".shop-Student-list") : '';
+            var shop_type = type == 'getCampusList' ? 3 : type == 'getSellerList' ? 2 : type == 'getStudentList' ? 1 : 3 ;
+            //tab切换
+            $(".shop_tab span").eq(fb.index).addClass("on").siblings("span").removeClass("on");
+            $(".shop-list").eq(fb.index).show().siblings(".shop-list").hide();
+            //tab切换
+          $('.shop-list').off("scroll");
+          $("#loaded").remove();
+          if($("#loading").length == 0 && page!=1){
+            shop_list.append("<div id='loading'>正在玩命的加载中...</div>");
+          }
+          var getData = {
+            "page" : page,
+            "type" : shop_type
+          }
+          if(app){
+            var token = window.localStorage.token;
+            if(token != undefined){
+              getData["token"] = token;
+            }
+          }else{
+            if( window.localStorage.token != undefined){
+              var token = window.localStorage.token;
+              getData["token"] = token;
+            }
+          }
+          $.getJSON(locahost + "shop/shops/",getData,
+          function(data) {
+            loading(false);
+            if (data.code == 200) {
+                clearLoading();
+                var htmldom='';
+                $.each(data.data,function(a,b){
+                  if(b.shop_status == 1){
+                    var shop_status = ""
+                  }else if(b.shop_status == 3){
+                    var shop_status = "<span class='rest'>(打烊中)</span>"
+                  }
+
+                  var cart_countHtml =""
+                  if(b.cart_count != undefined && b.cart_count !=  0 && b.shop_status != 3){
+                    //没有购物车
+                    cart_countHtml = "<span class='cart_count'>"+b.cart_count+"</span>"
+                  }
+
+                  htmldom += '<div class="shop-item opa_active">\
+                  <a onclick="winGo(\'shop/shop-detail.html?sid='+b.shop_id+'\')">\
+                    <div class="shop-img" style="background:url('+b.shop_img+') no-repeat center;background-size:cover;">\
+                      '+cart_countHtml+'\
+                    </div>\
+                    <div class="shop-right">\
+                      <div class="shop-name">'+b.shop_name+shop_status+'</div>\
+                      <div class="shop-map">'+b.address+'</div>\
+                    </div>\
+                  </a>\
+                </div>';
+                })
+                if (data.data == '') {
+                  //没数据
+                  if (page == 1) {
+                      shop_list.html("<div class='noWork'>暂无任务</div>");
+                  } else {
+                      shop_list.append("<div id='loaded'>我是有底线的</div>")
+                      $("#loading").remove();
+                  }
+                } else {
+                    //是否为第一页 是替换数据 否追加数据 S
+                    if (page == 1) {
+                        shop_list.html(htmldom);
+                    } else {
+                        shop_list.append(htmldom);
+                    }
+                    //是否为第一页 是替换数据 否追加数据 E
+                    //是否为最后一页  否追加滑动事件 S
+                    if (data.data.length < shopPageNum) {
+                        //已经没数据
+                        $("#loading").remove()
+                        shop_list.append("<div id='loaded'>我是有底线的</div>");
+                    } else {
+                        shop_list.on("scroll", function() {
+                            if (shop_list.scrollTop() + 50 >= shop_list[0].scrollHeight - shop_list.height()) {
+
+                                //到底
+                                var shopPage = page;
+                                shopPage++;
+                                getShopList({
+                                    'page': shopPage,
+                                    'index': fb.index
+                                });
+                            }
+                        })
+                    }
+                    //是否为最后一页  否追加滑动事件 E
+                  }
+              }
+          });
+        }
+      // 店铺
       var routes = {
         '/home': getHome,
         '/topic': getTopic,
-        '/work/personal': {before:function(){
-                  $("footer li").removeClass("on").eq(1).addClass("on")
-                  tab = window.location.hash.replace(/#\//,"");
-              },
-              on:getSchoolWork
-            },
-
-        '/shop': {before:function(){
+        '/mine': {before:function(){
                $("footer li").removeClass("on").eq(3).addClass("on")
-                tab = window.location.hash.replace(/#\//,"");
-            },
-            on:getShop
-          },
-          '/mine': {before:function(){
-               $("footer li").removeClass("on").eq(4).addClass("on")
                 tab = window.location.hash.replace(/#\//,"");
             },
             on:getMine
           },
-         '/mine/myprofile': myprofile,
-         '/tape': getTape,
-         '/postwork': getPostwork,
-         '/work/persona':personalWork,
-         '/work/business':businessWork,
-         // '/work/business':businessWork,
+        '/mine/myprofile': myprofile,
+        '/tape': getTape,
+        '/postwork': getPostwork,
+        '/work/personal': {before:function(){
+                                 $("footer li").removeClass("on").eq(1).addClass("on")
+                                  tab = window.location.hash.replace(/#\//,"");
+                              },
+                              on:function(){
+                                getSchoolWork(function(){
+                                  getWork({"index":1});
+                                })
+                              }
+                            },
+         '/work/canteer':{before:function(){
+                                 $("footer li").removeClass("on").eq(1).addClass("on")
+                                  tab = window.location.hash.replace(/#\//,"");
+                              },
+                              on:function(){
+                                getSchoolWork(function(){
+                                  getWork({"index":0});
+                                })
+
+                              }
+                            },
+         '/work/business':{before:function(){
+                                 $("footer li").removeClass("on").eq(1).addClass("on")
+                                  tab = window.location.hash.replace(/#\//,"");
+                              },
+                              on:function(){
+                                getSchoolWork(function(){
+                                  getWork({"index":2});
+                                })
+                              }
+                            },
+         '/shop/getCampusList': {before:function(){
+                                 $("footer li").removeClass("on").eq(2).addClass("on")
+                                  tab = window.location.hash.replace(/#\//,"");
+                              },
+                              on:function(){
+                                getShop(function(){
+                                  getShopList({"index":0});
+                                })
+                              }
+                            },
+         '/shop/getSellerList':{before:function(){
+                                 $("footer li").removeClass("on").eq(2).addClass("on")
+                                  tab = window.location.hash.replace(/#\//,"");
+                              },
+                              on:function(){
+                                getShop(function(){
+                                  getShopList({"index":1});
+                                })
+
+                              }
+                            },
+         '/shop/getStudentList':{before:function(){
+                                 $("footer li").removeClass("on").eq(2).addClass("on")
+                                  tab = window.location.hash.replace(/#\//,"");
+                              },
+                              on:function(){
+                                getShop(function(){
+                                  getShopList({"index":2});
+                                })
+                              }
+                            },
 
       };
       options={
         "notfound":function(){
-
-          var locationName = window.location.hash.substr(window.location.hash.lastIndexOf('/')+1);
+          var locationName = getRouter();
           if(locationName =='getSellerList' || locationName =='getCampusList' || locationName =='getStudentList'){
             window.location.href="#/shop"
+          }else if(locationName =='personal' || locationName =='canteer' || locationName =='business'){
+            window.location.replace("#/work/canteer");
+
+          }else{
+            window.location.replace("#/home");
           }
         }
       }
       var router = new Router(routes).configure(options);
       router.init("/home");
     </script>
-
-
 </html>
-
-
-
-

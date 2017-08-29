@@ -34,7 +34,7 @@
     <body>
     <div id="tape">
   		<div class="header_title">
-  			<p>纸条</p>
+  			<p>通知消息</p>
         <div class="return" onclick="returnUp()"></div>
 
   		</div>
@@ -93,10 +93,10 @@
           $.each(data.data,function(a,b){
             var time = afterTime(b["created_at"]); 
              tape_html +='<div class="tape-item ">\
-              <p class="name">'+b["name"]+'</p>\
-                <div class="tape-content">'+b["content"]+'</div>\
-                <p class="lastest-time">'+time+'</p>\
-              </div>'
+                    <p class="name">'+b["type"]+'</p>\
+                   <p class="lastest-time">'+time+'</p>\
+                    <div class="tape-content">'+b["content"]+'</div>\
+                  </div>'
             })
             if(data.data == '' ){
                   //没数据

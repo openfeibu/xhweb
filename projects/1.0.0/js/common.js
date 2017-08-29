@@ -25,11 +25,13 @@
 //   window.feibu.closeWeb('{"action":"true"}');
 // var locahost ="http://xhplus.feibu.info";
 // var locahost ="http://xh.feibu.info";
-var locahost ="http://192.168.3.12/xhproject/2.1.0/public/";
-var webLoca = 'http://192.168.3.33:33/';
+// var locahost ="http://192.168.3.12/xhproject/3.0.0/public/";
+var locahost ="http://txhapi.feibu.info/";
+var webLoca = 'http://192.168.2.3:33/';
 // var locahost ="http://192.168.0.99:8080/xh1.0.0/server.php";
 var tab =window.location.hash.replace(/#\//,"");
 var locaTime = 600000; //十分钟  全局缓存
+var workPageNum = 20,shopPageNum=20,quanPageNum=20;
 $.ajaxSetup({
           xhrFields: {
                        withCredentials: true
@@ -103,6 +105,13 @@ function GetString(name)
      var r = window.location.search.substr(1).match(reg); 
      if(r!=null)return  unescape(r[2]); return null;
 }
+
+//获取路由
+function getRouter()
+{
+    var hash =window.location.hash;
+    return hash.substr(window.location.hash.lastIndexOf('/')+1)
+}
 //时间转时间戳
 function toUnix(date){
   if(date == undefined){
@@ -128,12 +137,10 @@ function thumbUp(obj,topic_id){
     }
     if(data.code == 200){
       if(data.isthumb == 1){
-         $(obj).parents(".topic_bottom").find(".zan").text("取消").addClass("zanEd");
+         $(obj).parents(".topic_bottom").find(".zan").text(data.data).addClass("zanEd");
       }else if(data.isthumb == '-1'){
-         $(obj).parents(".topic_bottom").find(".zan").text("点赞").removeClass("zanEd");
+         $(obj).parents(".topic_bottom").find(".zan").text(data.data).removeClass("zanEd");
       }
-      $(obj).parents(".topic_bottom").find(".zanN span").text(data.data);
-      setItem("topic",$(".topic_list ").html());
     }
   })
 }
@@ -279,14 +286,21 @@ function fb_alert(msg){
 }
 
 //是否弹窗
-function alert_flag(str){
+function alert_flag(str,succFun){
   var html = '<div class="flag_A"><div class="flag_B">\
                 <div class="flag_box_con">'+str+'</div>\
-                <div class="flag_close">取消</div>\
                 <div class="flag_true">确定</div>\
+                <div class="flag_close">取消</div>\
               </div></div>';
   $("body").append(html);
   $(".flag_close").on("click",function(){
+    $(".flag_A").remove();
+  })
+  $(".flag_true").on("click",function(){
+    if(succFun){
+          succFun();
+    }
+
     $(".flag_A").remove();
   })
 }
@@ -390,7 +404,24 @@ function is_weixn(){
         return false;  
     }  
 } 
+//数字动画
+    function animateNum(option){
+      var obj = option.obj;
+      var lastNum = option.lastNum;
+      var is_toFixed = option.is_toFixed || false;
+      var firstNum = option.firstNum || 0;
+      var Num = parseInt((lastNum-firstNum)/100);
+      var time;
+      time = setInterval(function(){
+        firstNum = parseFloat(firstNum)+Num > parseFloat(lastNum) ? parseFloat(lastNum) : parseFloat(firstNum)+Num;
+        firstNum = is_toFixed ? firstNum.toFixed(2) : firstNum;
+        obj.text(firstNum);
+        if(firstNum == parseFloat(lastNum)){
+          clearInterval(time)
+        }
+      },1)
 
+    }
 
 //提示
 var fb_error ={
@@ -404,11 +435,12 @@ var fb_error ={
                 "7":"下次登录请使用新密码",
                 "8":"请完善支付宝资料",
                 "9":"绑定支付宝账号成功",
-                "10":"提现成功,1-3个工作日到账",
+                "10":"提现成功,1个工作日内到账",
                 "11":"提现金额不可少于10元",
                 "12":"请先到我的资料里实名认证",
                 "13":"该话题已被删除",
                 "14":"请先绑定支付宝",
+                "15":"提现金额不可大于钱包余额",
                 "100":"留言不可为空",
                 "110":"任务已被接",
                 "200":"时间已成过去",
@@ -465,7 +497,15 @@ var fb_error ={
                 "ms_008":"商品描述不可为空",
                 "ms_009":"商品分类不可小于2个字符并且不可大于10个字符",
                 "ms_010":"修改成功",
-                "ms_011":"增加成功"
+                "ms_011":"增加成功",
+                "report_001":"请填写你要举报的原因",
+                "report_002":"请填写你的联系方式",
+                "report_003":"成功提交，等待客服处理",
+                "mine_001":"修改成功",
+                'dri_001':"请完善资料",
+                'dri_002':"报名成功，请保持电话畅通",
+                'dri_003':"取消报名成功",
+                'topic_001':"评论不可为空",
               }
 
 
