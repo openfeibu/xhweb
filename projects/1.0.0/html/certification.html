@@ -166,9 +166,10 @@
              }
              if(data.code == "200"){    
                  fb_alert(data.detail); 
-                 var info = JSON.parse(window.localStorage.info);   
-                 info.is_auth = 2; 
-                 setItem("info",JSON.stringify(info));
+                 // var info = JSON.parse(window.localStorage.info);   
+                 // info.is_auth = 2; 
+                 // setItem("info",JSON.stringify(info));
+                 // console.log(data)
                  replaceLocation(data.data)
                  // history.go(-1)
              }else{

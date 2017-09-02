@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta content="telephone=no" name="format-detection" />
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- UC应用模式 -->
+    <meta name="browsermode" content="application">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- QQ应用模式 -->
+    <meta name="x5-page-mode" content="app">
+    <!-- UC禁止放大字体 -->
+    <meta name="wap-font-scale" content="no">
+    <title>校汇Plus | 校汇</title>
+    <meta name="Keywords" content="校汇,广东农工商职业技术学院,AIB,农工商,能赚钱,大学生,大学生创业,大学生校园,大学生校园社团,大学生校园快递,大学生周边生活" />
+    <meta name="Description" content="校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、社团文化、校园资讯、学生互动" />
+    <link rel="apple-touch-icon-precomposed" href="./icon.png" />
+    <link rel="shortcut icon" href="./icon.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="../css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    <link href="../css/swiper.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script src="../js/director.js"></script>
+    <script type="text/javascript" src="../js/updata.js"></script>
+    <script src="../js/swiper.min.js"></script>
+  </head>
+  
+  <body>
+      <section id="">
+        <div class="header_title">
+          <p>我的评论</p>
+          <div class="return" onclick="returnUp()"></div>
+        </div>
+        <div class="newsTopic_list pt1">
+        
+        </div>
+      </section>
+
+    <script>
+      loading(true);
+      var token = window.localStorage.token;
+      getMyComment();   
+      function getMyComment(obj) {
+      var defaults = {
+          page: 1,
+      };
+      var fb = $.extend(defaults, obj || {});
+      var page = fb.page;
+      var topic_list = $(".newsTopic_list");
+      $(window).off("scroll"); //清除滚动事件
+      if ($("#loading").length == 0 && page != 1) {
+          $("body").append("<div id='loading'>正在玩命的加载中...</div>");
+      }
+      var postData = {
+          page: page,
+          token:token
+      }
+      $.getJSON(locahost +'topic/getMyComment', postData, function(data) {
+          loading(false);
+          if(data.code == 2001){
+            fb_alert(fb_error["2001"])
+            window.location.href = "login.html";
+            return;
+         }
+         if(data.code == 200){
+          var info = JSON.parse(window.localStorage.info)
+          var htmldom='';
+          $.each(data.data,function(a,b){
+               htmldom += '<div class="comment_item">\
+                                  <div class="topic_header">\
+                                      <div class="img fl">\
+                                        <img src="'+info.avatar_url+'" alt="">\
+                                      </div>\
+                                      <div class="name fl">\
+                                        <p >'+info.nickname+'</p><p class="date">'+afterTime(b.created_at)+'</p>\
+                                     </div>\
+                                   </div>\
+                                    <div class="topic_con">\
+                                        <div class="test" >'+b.content+'</div>\
+                                    </div>\
+                                    <div class="object_con">\
+                                      <a href="../quanquan/topic_detail.html?topic_id='+b.tid+'">\
+                                        原文：'+b.object_content+'\
+                                      </a>\
+                                    </div>\
+                                  </div>';
+          })
+
+          
+          if (data.data == '') {
+              //没数据
+              if (page == 1) {
+                  topic_list.html("<div class='noWork'>暂无任务</div>");
+                  $("#loading").remove();
+              } else {
+                  $("#loading,#loaded").remove();
+                  $("body").append("<div id='loaded'>我是有底线的</div>")
+              }
+          } else {
+              //是否为第一页 是替换数据 否追加数据 S
+              if (page == 1) {
+                  topic_list.html(htmldom);
+                  $("#loading").remove();
+              } else {
+                  topic_list.append(htmldom);
+              }
+              //是否为第一页 是替换数据 否追加数据 E
+              //是否为最后一页  否追加滑动事件 S
+              if (data.data.length < quanPageNum) {
+                  //已经没数据
+                  $("#loading,#loaded").remove();
+                  $("body").append("<div id='loaded'>我是有底线的</div>");
+              } else {
+                  $(window).on("scroll", function() {
+                      if ($(window).scrollTop() + 50 >= $(document).height() - $(window).height()) {
+                          //到底
+                          page++;
+                          getMyComment({
+                              'page': page,
+                          });
+                      }
+                  })
+              }
+              //是否为最后一页  否追加滑动事件 E
+          }
+         }
+         
+      })
+  }
+
+
+ 
+      </script>
+  </body>
+
+</html>

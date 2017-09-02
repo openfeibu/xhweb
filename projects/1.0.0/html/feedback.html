@@ -4,10 +4,10 @@
 		<div class="return"  onclick="returnUp()">
 		</div>
 	</div>
-	<div class="feedback-container">
-		<textarea class="feedback-input" rows="5" placeholder="让我们听到你的心声...(大于15个字符)"></textarea>
+	<div class="feedback-container pt1">
+		<textarea class="feedback-input" rows="5" placeholder="请填写您的建议或问题"></textarea>
 		<div class="contact">
-			<p>请留下联系方式，以便我们和您取得联系</p>
+			<label for="">联系方式：</label>
 			<input type="text" placeholder="QQ/邮箱/手机号码" class="contact-type"/>
 		</div>
 		<div class="sub">
@@ -21,7 +21,7 @@
 	function postFeed(){
 		var content = $(".feedback-input").val();
 		var contact_way = $(".contact-type").val();
-		if(content.length < 15 || contact_way.length <= 0){
+		if(content.length == 0 || contact_way.length == 0){
 			fb_alert(fb_error["1100"]);
 			return;
 		}
@@ -46,4 +46,12 @@
       });
 	}
     
+    		     //可下一步点击
+   $(".feedback-input,.contact-type").on("input propertychange",function(){
+   	 	if($(".feedback-input").val().length > 0&& $(".contact-type").val().length > 0){
+   	 		$(".verify").addClass("active");
+   	 	}else{
+   	 		$(".verify").removeClass("active");
+   	 	}
+   })
 </script>

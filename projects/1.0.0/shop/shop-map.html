@@ -60,10 +60,18 @@
 <script>
 
   var app = 0;
-  if(window.localStorage.app == 1){
+  if(GetString("device") == "android" || window.localStorage.app == 1 ){
     $(".header_title").remove();
     $(".pt1").removeClass("pt1");
-    app =1;
+     app = window.localStorage.app = 1;
+      try {
+          if (JSON.parse(window.feibu.getToken()).value != 'undefined' && JSON.parse(window.feibu.getToken()).value != undefined) {
+              window.localStorage.token = JSON.parse(window.feibu.getToken()).value;
+          }
+      } catch (e) {
+          window.localStorage.token = document.location = "objc://" + getToken + ":/" + value;
+          // $("body").html(window.localStorage.token)
+      }
   }
   // $("html").html(window.localStorage.token)
   $(function(){

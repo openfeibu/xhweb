@@ -4,18 +4,18 @@
       </div>
 </div>
 <div class="alipayList pt1">
-    <div class="alipay_info box-shadow">
-      
+    <div class="alipay_info ">
+        <div class="alipay_info_card"><label >账号</label><span data-name="alipay_card"></span></div>
+        <div class="alipay_info_name"><label >姓名</label><span data-name="alipay_name"></span></div>
     </div>
-    <div class="button_active alipay_updata">
-      <a href="#alipay/updata">更改提现支付宝</a>
+    <div class="alipay_updata">
+      <a href="#alipay/updata">更改支付宝账号</a>
     </div>
 </div>
 <script type="text/javascript">
    var alipay_card = window.localStorage.alipayCard;
    var alipay_name =window.localStorage.alipayName;
-   var html = '<div class="alipay_info_card"><span>支付宝账号：</span>'+alipay_card+'</div>\
-                <div class="alipay_info_name"><span>姓名：</span>'+alipay_name+'</div>\
-                <div class="alipay_info_label">支付宝</div>';
-  $(".alipay_info").html(html);
+
+   $('[data-name="alipay_name"]').text(alipay_name);
+   $('[data-name="alipay_card"]').text(alipay_card);
 </script>

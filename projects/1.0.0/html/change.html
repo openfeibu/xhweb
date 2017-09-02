@@ -25,11 +25,13 @@
       		if(data.code=="200"){
       			fb_alert(fb_error['mine_001']);
   				window.history.back();
+  				var info = window.localStorage.info;
+	     		var data = JSON.parse(info);
+	     		data[change_name] = val;
+	           	setItem("info",JSON.stringify(data))
+      		}else{
+      			fb_alert(data.detail);
       		}
-      		var info = window.localStorage.info;
-     		var data = JSON.parse(info);
-     		data[change_name] = val;
-           	setItem("info",JSON.stringify(data))
 			$(".change-submit").on("click",changeinfo);
     	 })
 	}

@@ -10,7 +10,7 @@
       <a href="LostAndFound/LF-list.html">失物招领</a>  
     </li>
     <li>
-      <a href="education/education_list.html" >专插本</a>  
+      <a href="education/education_list.html" >升学教育</a>  
     </li>
     <li>
       <a href="driver/driver_list.html">精选驾校</a>  
@@ -23,7 +23,7 @@
   <div class="hotGoodsList">
     <div class="swiper-container Orders">
         <div class="swiper-wrapper">
-           <div class="swiper-slide"> 
+           <!-- <div class="swiper-slide"> 
               <a href="">
                 <div class="img"></div> 
               </a>
@@ -47,7 +47,7 @@
               <a href="">
                 <div class="img"></div> 
               </a>
-            </div>
+            </div> -->
         </div>
 
     </div>
@@ -57,50 +57,52 @@
 <div class='featured'>
     <div class="title"><i></i><p>精选推荐</p><span>FEATURED</span></div>
     <div class="featured_con clearfix">
-      <div class="featured_item01 fl"><a href=""></a></div>
+      <!-- <div class="featured_item01 fl"><a href=""></a></div>
       <div class="featured_item02 fr"><a href=""></a></div>
-      <div class="featured_item03 fr"><a href=""></a></div>
+      <div class="featured_item03 fr"><a href=""></a></div> -->
     </div>
 </div>
-<div class="alertAction">
+<!-- <div class="alertAction">
   <div class="alertAction-img"><a href="prize/register.html"><img src="images/alertAction-img.png" alt=""></a></div>
   <div class="alertAction-close" onclick="$('.alertAction').fadeOut(200)"></div>
-</div>
+</div> -->
 <script type="text/javascript">
   // 是否弹出活动框
-  if(window.localStorage.alertAction != 'alertAction'){
-    $(".alertAction").fadeIn(200);
-    window.localStorage.alertAction = 'alertAction';
-  }
+  // if(window.localStorage.alertAction != 'alertAction'){
+  //   $(".alertAction").fadeIn(200);
+  //   window.localStorage.alertAction = 'alertAction';
+  // }
    
   // 是否弹出活动框
   loading(true)
   home();
-  getInfo();
-   function getInfo(){
-      var info = window.localStorage.info;
-      if( info == "undefined" || info == undefined){
-          var token = window.localStorage["token"];
-          $.getJSON(locahost+'/user/getMyInfo/?token='+token,function(data){
-             loading(false) 
-            if(data.code == "403"){
-              window.location.href ="login.html#/login";
-              return false;
-            }else if(data.code == "2001"){
-              fb_alert("登陆超时")
-              window.location.href ="login.html#/login";
-              return false;
-            }
-            var data = data.data;
-            $('[data-name="mp_img"]').html('<img src="'+data.avatar_url+'" alt="" / >')
-            $('[data-name="name"]').text(data.nickname)
-            $('[data-name="schoolName"]').text(data.college)
-            $('[data-name="integral"]').text(data.integral)
-
-             setItem("info",JSON.stringify(data))
-         })
-      }
+  if(window.localStorage.token){
+      getInfo();
+  }
+ function getInfo(){
+    var info = window.localStorage.info;
+    if( info == "undefined" || info == undefined){
+        var token = window.localStorage["token"];
+        $.getJSON(locahost+'/user/getMyInfo/?token='+token,function(data){
+           loading(false) 
+          if(data.code == "403"){
+            window.location.href ="login.html#/login";
+            return false;
+          }else if(data.code == "2001"){
+            fb_alert("登陆超时")
+            window.location.href ="login.html#/login";
+            return false;
+          }
+          var data = data.data;
+          $('[data-name="mp_img"]').html('<img src="'+data.avatar_url+'" alt="" / >')
+          $('[data-name="name"]').text(data.nickname)
+          $('[data-name="schoolName"]').text(data.college)
+          $('[data-name="integral"]').text(data.integral)
+           window.localStorage.wallet_number = data.wallet;
+           setItem("info",JSON.stringify(data))
+       })
     }
+  }
 
 
   //主页
@@ -138,44 +140,44 @@
     //获取轮播图 E
 
     
-    //获取活动资讯 S
-    // if(!!getItem("club_play")){
-    //   var loca = getItem("club_play");
-    //   var now = new Date().getTime();
-    //   /*先展示旧内容 S*/
-    //   var htmldom = loca[0]; 
-    //   $(".index_club_play").html(htmldom);
-    //   /*先展示旧内容 E*/
-    //   if(now-loca[1] >= thislocaTime){
-    //     //已过期
-    //       club_playGet()
-    //   }
-    // }else{
-    //   //没有缓存
-    //   club_playGet()
-    // }
-    //获取活动资讯 E
-     //获取推荐任务 S
-    if(!!getItem("recommendOrders")){
-      var loca = getItem("recommendOrders");
+
+    if(!!getItem("recommend")){
+      var loca = getItem("recommend");
       var now = new Date().getTime();
       /*先展示旧内容 S*/
       var htmldom = loca[0]; 
-      // $(".orderList .swiper-wrapper").html(htmldom);
+      $(".featured_con").html(htmldom);
       /*先展示旧内容 E*/
       if(now-loca[1] >= thislocaTime){
         //已过期
-          getRecommendOrders()
+          getRecommend()
       }
-     var Orders = new Swiper('.Orders', {
-                    slidesPerView: 2.8,
-                    spaceBetween:25,
+    }else{
+      //没有缓存
+      getRecommend()
+    }
+
+   
+    if(!!getItem("hotGoods")){
+      var loca = getItem("hotGoods");
+      var now = new Date().getTime();
+      /*先展示旧内容 S*/
+      var htmldom = loca[0]; 
+      $(".hotGoodsList .swiper-wrapper").html(htmldom);
+      /*先展示旧内容 E*/
+      if(now-loca[1] >= thislocaTime){
+        //已过期
+          getHotGoods();
+      }
+      var Orders = new Swiper('.Orders', {
+                    slidesPerView: 3.2,
+                    spaceBetween:8,
         });
     }else{
       //没有缓存
-      getRecommendOrders()
+      getHotGoods()
     }
-    //获取推荐任务 E
+
   }
    /*号外*/
   var time_no=0;//校园号外滚动索引
@@ -224,42 +226,14 @@
 
   }
 
-  function club_playGet(){
-        $.getJSON(locahost+'/association/getHotActivities/',function(data, status, xhr){
+  function getRecommend(){
+        $.getJSON(locahost+'home/getRecommend ',function(data, status, xhr){
         	if(data.code == "200"){
-		        var dom='' ,htmldom='',img_url="";
-		          $.each(data.data,function(a,value){
-		            now = new Date().getTime();
-              if (now > toUnix(value["start_time"])) {
-                var datadom = '<div class="ing"></div>';
-                var classT='startTime on';
-              } else {
-                var datadom = '<div class="will"></div>';
-                var classT='startTime';
-              }
-              dom += "<div class='item clearfix'>" + datadom + "<a href='#/associationActive/" + value.actid + "'>\
-                        <div class='item_text'>\
-                          <div class='item_text_bg'>\
-                              <div class='item_ass_info'>\
-                                <div class='item_ass_img'><img src='"+value.avatar_url+"' /></div>\
-                                <div class='item_ass_name'>"+value.aname+"</div>\
-                              </div>\
-                              <div class='title'>" + value.title + "</div>\
-                              <div class='time'>"+value.created_at.substr(5,11)+"</div>\
-                              <div class='user-num'>阅读 " + value.view_num + "</div>\
-                          </div>\
-                        </div>\
-                        <div class='item_img' style='background:url("+value.img_url.split(",")[0]+") no-repeat center;background-size:auto 100%;'>\
-                        </div>\
-                          </a>\
-                        </div>";
-		          })
-		        htmldom='<div class="club_play_title"><i></i><p>社团活动</p></div>'+
-		                '<ul class="club_play_con">'+
-		                    dom+
-		                '</div>';
-		        $(".index_club_play").html(htmldom);
-		         setItem("club_play",htmldom)//增加缓存
+		        var dom='<div class="featured_item01 fl"><a href="'+data.data[0].url+'" ><img alt="'+data.data[0].name+'" src="'+data.data[0].img+'" /></a></div>\
+                      <div class="featured_item02 fr"><a href="'+data.data[1].url+'"><img alt="'+data.data[1].name+'" src="'+data.data[1].img+'" /></a></div>\
+                      <div class="featured_item03 fr"><a href="'+data.data[2].url+'"><img alt="'+data.data[2].name+'" src="'+data.data[2].img+'" /></a></div>';		        
+		        $(".featured_con").html(dom);
+		         setItem("recommend",dom)//增加缓存
          }
         })
   
@@ -276,33 +250,28 @@
 	         setItem("indexNo",htmldom)//增加缓存
 	         }
         })
-  
   }
-  //获取推荐任务方法
-  function getRecommendOrders(){
-     $.getJSON(locahost+'/order/getRecommendOrders/',function(data, status, xhr){
+  //获取热销商品
+  function getHotGoods(){
+     $.getJSON(locahost+'home/getHotGoods/',function(data, status, xhr){
         if(data.code == "200"){
            var htmldom='';
             $.each(data.data,function(a,b){
               htmldom += '<div class="swiper-slide">\
-                            <a href="works/schoolwork_de.html?oid='+b.oid+'">\
-                              <div class="ord-img" style="background:url('+b.avatar_url+') no-repeat center/100%;"></div>\
-                              <div class="ord-con">'+b.description+'</div>\
-                              <div class="ord-time">'+afterTime(b.created_at)+'</div>\
-                              <div class="ord-address">'+b.destination+'</div>\
-                              <div class="ord-price">'+b.fee+'元</div>\
+                            <a href="'+b.url+'">\
+                              <div class="img" style="background:url('+b.goods_thumb+') no-repeat center/cover"></div> \
                             </a>\
                           </div>';
             })
             if(data.data.length == 0){
-               $(".orderList").html("<aside>暂无推荐任务</aside>");
+               $(".hotGoodsList").html("<aside></aside>");
 
             }else{
-               $(".orderList .swiper-wrapper").html(htmldom);
-                setItem("recommendOrders",htmldom)//增加缓存
+               $(".hotGoodsList .swiper-wrapper").html(htmldom);
+                setItem("hotGoods",htmldom)//增加缓存
                  var Orders = new Swiper('.Orders', {
-                      slidesPerView: 2.8,
-                      spaceBetween:25,
+                      slidesPerView: 3.2,
+                      spaceBetween:8,
                   });
             }
           
@@ -310,50 +279,5 @@
         })
   }
   //
-        //活动详情
-   function associationActive(id){
-        tab = "";
-      	loading(true)
-      	clearWindowScroll();
-      	routDom($("#ClassC"));
-        $("#ClassC").html('<div id="consult"><div class="header_title"><p>活动内容</p><div class="return" onclick="returnUp()"></div></div><div class="container "></div></div>').css({"background":"#fff","minHeight":$(window).height()-$(".header_title").height()})
-      	$.getJSON(locahost+"/association/getActivity/?activity_id="+id,function(data){
-      		if(data.code == 200){
-      			loading(false)
-      			var b = data.data;
-      			var time=afterTime(b.created_at);
-            var now = new Date().getTime();
-              if (now > toUnix(b["start_time"])) {
-                var datadom = '<div class="ing"></div>';
-                var classT='startTime on';
-              } else {
-                var datadom = '<div class="will"></div>';
-                var classT='startTime';
-              }
-		      	var html =datadom+'<div class="title">\
-      									<p>'+b.title+'</p>\
-      								</div>\
-      								<div class="content">'+b.content+'</div>\
-      								<div class="img-container"><img src="'+b["img_url"].split(",")[0]+'" /></div>\
-                      <div class="ass_bottom">\
-                          <div class="map">活动地点：'+b.place+'</div>\
-                          <div class="time">\
-                            <div class='+classT+' ">开始时间：'+b.start_time+'</div>\
-                            <div class="endTime ">结束时间：'+b.end_time+'</div>\
-                          </div>\
-                          <div class="content-bottom">\
-                            <span class="user-num">浏览 '+b.view_num+'</span>\
-                            <span class="social-name">'+b.aname+'</span>\
-                          </div>\
-                      </div>'
-							
-						;
-					$("#ClassC .container").html(html).css({"paddingBottom":$(".ass_bottom").height()})
-				}else{
-					fb_alert(data.detail)
-				}
-	})
-  }
-  router.on("associationActive/:id",associationActive)
   refresh["home"]= home;
 </script>

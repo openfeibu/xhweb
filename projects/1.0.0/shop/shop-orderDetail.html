@@ -52,7 +52,7 @@
             </div>
             <div class="shopOrder_info" >
               <div class="shopName">
-                <div class="shopImg"></div>
+                <div class="shopImg" data-name="shopImg"></div>
                 <p data-name="shopName">汇客坊-19栋</p>
               </div>
               <ul>
@@ -128,6 +128,7 @@
             $("[data-name='order_sn']").text(data.order_info.order_sn);
             $("[data-name='created_at']").text(data.order_info.created_at);
             $("[data-name='shopName']").text(data.order_info.shop_name);
+            $("[data-name='shopImg']").css('background','url('+data.order_info.shop_img+') no-repeat center/0.6rem 0.6rem');
             $("[data-name='mobile_no']").attr("phone",data.order_info.shop.mobile_no);
             $("[data-name='coupon_price']").text(data.order_info.coupon_price)
             $("[data-name='buyerMessage']").text(data.order_info.consignee)

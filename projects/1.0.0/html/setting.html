@@ -39,7 +39,7 @@
 				</div>
 				<div class="setting-container">
 						<div class="social-introduction">
-							<a href="../statement/problem.html">
+							<a href="updatapass.html">
 								<span>更改密码</span>
 							</a>
 						</div>
@@ -64,9 +64,11 @@
 						</a>
 					</div>
 				</div>
-<!-- 				<div class="bottom">
-					<button class="exit">点我注销</button>
-				</div> -->
+				<div class="setting-container">
+					<div class="social-introduction-no">
+						<button class="exit">点我注销</button>
+					</div>
+				</div>
 		</section>
 	</section>
 	<section class="routes" id="ClassB">
@@ -98,7 +100,7 @@
      	 })
     }
 
-	$("#setting .bottom .exit").on("click",function(){
+	$("#setting .exit").on("click",function(){
 		window.localStorage.clear();
 		fb_alert(fb_error["0"]);
 		setTimeout(function(){

@@ -3,6 +3,7 @@ $(function(){
  var token = window.localStorage.token;
  var payInfo;
  var payMap;
+ var oldPass = '';
  function walletPay(xhAraay) {
      payInfo = xhAraay;
      payMap = payInfo.payMap;
@@ -115,6 +116,7 @@ $(function(){
                      fb_alert(fb_error["s_004"]);
                      closePayPass();
                      locaGo("#/work/personal");
+
                  } else {
                      fb_alert(data.detail)
                  }
@@ -136,6 +138,7 @@ $(function(){
                  }
                  if (data.code == 200) {
                      fb_alert(fb_error["s_004"]);
+                     
                      locaGo("shop/shop-paysucc.html?order_id=" + data.order_id);
                  } else {
                      fb_alert(data.detail)
@@ -188,6 +191,54 @@ $(function(){
 
                  fb_alert("服务器出小差啦")
              })
+         }else if(payMap == 'oldPass'){
+            if(oldPass.length != 0 ){
+                //有旧密码
+                alipay_info.old_paypassword = oldPass;
+                alipay_info.new_paypassword = $.md5(wallet_pass);
+                $.post(locahost + 'user/changePayPassword', alipay_info, function(data) {
+                         $('.payPassVal_title').text("请输入钱包支付密码");
+                         is_alipay(false);
+                        if (data.code == 2001) {
+                        fb_alert(fb_error["2001"]);
+                            window.location.href = "login.html";
+                        }
+                        if (data.code == 200) {
+                            oldPass = '';
+                            fb_alert(fb_error["1007"]);
+                            closePayPass();
+                            setTimeout(function(){
+                                 window.history.go(-1);
+                            },1000)
+
+                        } else {
+                            $(".payPassVal span").text("");
+                            wallet_pass = ''; 
+                            oldPass = '';
+                            fb_alert(data.detail);
+
+                        }
+                }).error(function() {
+
+                     oldPass = '';
+                    $(".payPassVal span").text("");
+                    wallet_pass = '';
+                     fb_alert("服务器出小差啦")
+                    })
+            }else{
+                is_alipay(false);
+                oldPass = $.md5(wallet_pass);
+                closePayPass();
+                 setTimeout(function(){
+                    walletPay({payMap:"oldPass"});
+                     $('.payPassVal_title').text("请输入新的钱包支付密码");
+                 },500)
+               
+                
+            }
+            return wallet_pass;
+           
+            
          }else{
                 is_alipay(false);
                 fb_alert("未找到支付类型")
@@ -229,7 +280,7 @@ $(function(){
                 return;
             }else if(data.code == 200){
                      is_alipay(false)
-                    $("body").append(data.data)
+                    $("body").append(data.data);
                     $("#alipaysubmit").submit();
             }else{
                 is_alipay(false)
@@ -244,7 +295,8 @@ $(function(){
                  return;
              } else if (data.code == 200) {
                  is_alipay(false)
-                 $("body").append(data.data)
+                 $("body").append(data.data);
+                 
                  $("#alipaysubmit").submit();
              } else {
                  is_alipay(false)
@@ -291,6 +343,7 @@ $(function(){
                  return;
              } else if (data.code == 200) {
                  is_alipay(false)
+                 
                  callpay(data.data)
                  // $("#alipaysubmit").submit();
              } else {
@@ -331,12 +384,12 @@ $(function(){
 
 
  //打开支付框
- function getPayInfo(){
+ function getPayInfo(count){
      if($(".shop-pay-box").length == 0){
                 var pay_html_box = '<div class="shop-pay-box  ">\
                                         <div class="shop-pay animate">\
                                             <div class="shop-pay-header">\
-                                              <p class="fl">需要支付： <span data-name="count"></span></p>\
+                                              <p class="fl">需要支付： <span data-name="count">'+count+'元</span></p>\
                                               <div class="shop-pay-close fr">取消</div>\
                                             </div>\
                                             <dl>\
@@ -346,53 +399,62 @@ $(function(){
                                     </div>';
                 $("body").append(pay_html_box)
             }
-             $.getJSON(locahost+'pay',function(data){
-               if(data.code == 200){
-                    is_alipay(false)
-                    var pay_html = '<dt>请选择支付方式：</dt>';
-                      $.each(data.data,function(a,b){
-                          if(b.pay_name== 'alipay' && !is_weixn()){
-                            //支付宝支付
-                            pay_html += '<dd class="alipay-icon">\
-                                          <p class="fl">'+b.description+'</p>\
-                                          <input class="fr" type="radio" value="'+a+'"  name="payType"/>\
-                                        </dd>';
-                          }else if(b.pay_name== 'wechat' && is_weixn()){
-                            //微信支付
-                            pay_html += '<dd class="wechat-icon">\
-                                          <p class="fl">'+b.description+'</span></p>\
-                                          <input class="fr" type="radio" value="'+a+'"  name="payType"/>\
-                                        </dd>';
-                          }else if(b.pay_name== 'wallet'){
-                            var wallet_number = window.localStorage.wallet_number;
-                            var total_fee = window.localStorage.total_fee
-                            //钱包支付
-                            if(parseFloat(wallet_number) < parseFloat(total_fee)){
-                              //余额不够
-                              pay_html += '<dd class="wallet-icon">\
-                                          <p class="fl">'+b.description+'<span>（剩余￥'+wallet_number+'元,余额不足）</span></p>\
-                                          <input class="fr" type="radio" value="'+a+'" disabled="disabled" name="payType"/>\
-                                      </dd>';
-                            }else{
-                               pay_html += '<dd class="wallet-icon">\
-                                          <p class="fl">'+b.description+'<span>（剩余￥'+wallet_number+'元）</span></p>\
-                                          <input class="fr" type="radio" value="'+a+'" name="payType"/>\
-                                      </dd>';
-                            }
-                          }
-                         
-                      })
-                    $(".shop-pay dl").html(pay_html)
-                    $(".shop-pay-box").show();
-                    setTimeout(function(){
-                        $(".shop-pay").css("bottom",0);
-                    },50)
-                }else{
-                   fb_alert(data.detail)
-                } 
-             })
- }
+     $.getJSON(locahost+'user/getWallet',{token:token},function(data){
+           if(data.code == 200){
+             window.localStorage.wallet_number = data.data.wallet;
+                  $.getJSON(locahost+'pay',function(data){
+                   if(data.code == 200){
+                        is_alipay(false)
+                        var pay_html = '<dt>请选择支付方式：</dt>';
+                          $.each(data.data,function(a,b){
+                              if(b.pay_name== 'alipay' && !is_weixn()){
+                                //支付宝支付
+                                pay_html += '<dd class="alipay-icon">\
+                                              <p class="fl">'+b.description+'</p>\
+                                              <input class="fr" type="radio" value="'+a+'"  name="payType"/>\
+                                            </dd>';
+                              }else if(b.pay_name== 'wechat' && is_weixn()){
+                                //微信支付
+                                pay_html += '<dd class="wechat-icon">\
+                                              <p class="fl">'+b.description+'</span></p>\
+                                              <input class="fr" type="radio" value="'+a+'"  name="payType"/>\
+                                            </dd>';
+                              }else if(b.pay_name== 'wallet'){
+                                var wallet_number = window.localStorage.wallet_number;
+                                var total_fee = window.localStorage.total_fee
+                                //钱包支付
+                                if(parseFloat(wallet_number) < parseFloat(total_fee)){
+                                  //余额不够
+                                  pay_html += '<dd class="wallet-icon">\
+                                              <p class="fl">'+b.description+'<span>（剩余￥'+wallet_number+'元,余额不足）</span></p>\
+                                              <input class="fr" type="radio" value="'+a+'" disabled="disabled" name="payType"/>\
+                                          </dd>';
+                                }else{
+                                   pay_html += '<dd class="wallet-icon">\
+                                              <p class="fl">'+b.description+'<span>（剩余￥'+wallet_number+'元）</span></p>\
+                                              <input class="fr" type="radio" value="'+a+'" name="payType"/>\
+                                          </dd>';
+                                }
+                              }
+                             
+                          })
+                        $(".shop-pay dl").html(pay_html)
+                        $(".shop-pay-box").show();
+                        setTimeout(function(){
+                            $(".shop-pay").css("bottom",0);
+                        },50)
+                    }else{
+                       fb_alert(data.detail)
+                    } 
+                 })
+           }else{
+            fb_alert(data.detail)
+           }
 
+     })
+
+
+ }
 
  window.walletPay = walletPay;
  window.payPay = payPay;

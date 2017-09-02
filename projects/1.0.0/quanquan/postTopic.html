@@ -59,18 +59,15 @@
    var proImg = [] ,proImg_thumb = [];
    var token = window.localStorage.token;
 	$(function(){
-    $(".addlabel ul li").click(function(){
-      $(this).addClass("on").siblings("li").removeClass("on");
-    })
     $(".postSubmit").one("click",Uptopic)
     function Uptopic(){
       var val = $(".topic_con").val();
       if(getByteLen(val) == 0 ){
-        alert("内容不可为空");
+        fb_alert("内容不可为空");
         $(".postSubmit").one("click",Uptopic)
         return false;
       }else if(getByteLen(val) > 140){
-        alert("内容不可超过140字符");
+        fb_alert("内容不可超过140字符");
         $(".postSubmit").one("click",Uptopic)
         return false;
       }
@@ -82,20 +79,20 @@
         "topic_content":val
       }
       if(img.length != 0){
-        postObj["img"] = img;
+        postObj["img"] = img; 
       }
       if(img_thumb.length != 0){
         postObj["thumb"] = img_thumb;
       }
       is_alipay(true)
        $.post(locahost+'/topic/createTopic/',postObj, function(data){
-        if(data.code == 2001){
+          is_alipay(false)
+          if(data.code == 2001){
                 fb_alert(fb_error["2001"])
                 window.location.href = "login.html";
                 return;
              }
           if(data.code == 200){
-            is_alipay(false)
             fb_alert(fb_error["3"]);
             history.go(-1);
           }else{
@@ -117,7 +114,7 @@
           num.removeClass("on");
       }
      
-      if(len >= 0 ){
+      if(len > 0 ){
         if(!postSubmit.hasClass("on"))
             postSubmit.addClass("on"); 
       }else{
@@ -194,51 +191,7 @@
           })
 
       };
-    // function change(that){ 
-
-    //       var field=new upField($(that));
-    //       var maxSize=10240; //kb
-    //        var name=$(that).attr('name');
-    //       var pic = $(that).prop('files');
-    //       var fordata=new FormData();
-    //       fordata.append('uploadfile',pic[0]); //添加字段
-    //       if(pic.length == 0) return;
-    //       fb_alert("开始上传");
-    //      if(pic[0].size/1024>maxSize) { 
-    //           fb_alert('图片不能超过'+maxSize+'kb')
-    //           return false; 
-    //      }
-    //      var token = window.localStorage.token;
-    //      fordata.token = token;
-    //      $.post(locahost+'topic/uploadImage?token='+token,fordata,function(data){
-
-    //      }),error(function(){})
-          // $.ajax({
-          //     url:locahost+'/topic/uploadImage/?token='+token,
-          //     type:'POST',
-          //     dataType:'json',
-          //     data:fordata,
-          //     processData: false,
-          //     contentType: false,
-          //     error: function(){
-          //       fb_alert('未知错误');
-          //     },  
-          //     success: function(data){
-          //       if(data.code == 200){
-          //         fb_alert("上传成功");
-          //          $('[data-name="pro-detail-img"]').attr("src",data.thumb_url);
-          //          proImg_thumb = data.thumb_url;
-          //          proImg = data.url;
-          //       }else{  
-          //         fb_alert(data.detail);
-          //       }
-          //     }
-          // })
-
-    //   };
-      // window.change = change;
-
-
+  
 
 </script>
 

@@ -31,7 +31,7 @@ var webLoca = 'http://192.168.2.3:33/';
 // var locahost ="http://192.168.0.99:8080/xh1.0.0/server.php";
 var tab =window.location.hash.replace(/#\//,"");
 var locaTime = 600000; //十分钟  全局缓存
-var workPageNum = 20,shopPageNum=20,quanPageNum=20;
+var workPageNum = 20,shopPageNum=20,quanPageNum=20,pageNum=20;
 $.ajaxSetup({
           xhrFields: {
                        withCredentials: true
@@ -410,11 +410,11 @@ function is_weixn(){
       var lastNum = option.lastNum;
       var is_toFixed = option.is_toFixed || false;
       var firstNum = option.firstNum || 0;
-      var Num = parseInt((lastNum-firstNum)/100);
+      var Num = parseFloat((lastNum-firstNum)/100);
       var time;
       time = setInterval(function(){
         firstNum = parseFloat(firstNum)+Num > parseFloat(lastNum) ? parseFloat(lastNum) : parseFloat(firstNum)+Num;
-        firstNum = is_toFixed ? firstNum.toFixed(2) : firstNum;
+        firstNum = is_toFixed ? firstNum.toFixed(2) : firstNum.toFixed(0);
         obj.text(firstNum);
         if(firstNum == parseFloat(lastNum)){
           clearInterval(time)

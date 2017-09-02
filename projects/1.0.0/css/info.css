@@ -36,7 +36,7 @@
 
 
 /*我的任务*/
-.myOrder{background:#f5f5f5;padding: 0 0.25rem;}
+.myOrder{}
 .myOrderBox{display: none;}
 .myOrderBox:first-child{display: block;}
 .myOrderCon{min-height: 2rem;background: #fff;margin:0.25rem;padding: 0.15rem 0.25rem;border-radius: 0.1rem;box-sizing:border-box; -moz-box-sizing:border-box; /* Firefox */ -webkit-box-sizing:border-box; /* Safari */}
@@ -92,18 +92,23 @@
 /*设置*/
  .setting-container {width: 100%;position: relative;margin:0.32rem 0;background: #fff;}
  .setting-container  .social-introduction {height: 0.96rem;margin: 0 0.32rem;background: #fff url(../images/mine/ic_mine_more.png) no-repeat 98% center;background-size: 0.38rem auto;line-height: 0.96rem;border-bottom: 1px solid #eee;}
+ .setting-container  .social-introduction-no {height: 0.96rem;margin: 0 0.32rem;line-height: 0.96rem;border-bottom: 1px solid #eee;}
  .setting-container  .social-introduction:last-child{border-bottom: none;}
+ .setting-container  .social-introduction-no:last-child{border-bottom: none;}
  .setting-container  .social-introduction:after{content: '';clear: both;display: block;height: 0;visibility: hidden;}
  .setting-container  .social-introduction span{color: #262626;font-size: 0.28rem;}
+ .setting-container  .exit{font-size: 0.28rem;height: 0.96rem;width: 100%;text-align: center;background:none;}	
 #setting .bottom{width: 100%;box-sizing:border-box;padding: 0rem 0.3rem;position: fixed;bottom: 0.5rem;}
-#setting .bottom .exit{font-size: 0.4rem;color: #fff;background: red;opacity: 0.6;border:1px solid #555555;height: 1rem;width: 100%;text-align: center;box-sizing:border-box;}	
-#feedback .feedback-container{width: 100%;margin-top: 1rem;}
-#feedback .feedback-container .feedback-input{width: 100%;height: 3rem;text-indent: 0.03rem;box-sizing:border-box;padding:0.2rem;overflow-y:hidden;font-size: 0.3rem;line-height: .4rem;}
-#feedback .contact{text-align: center;padding:0.3rem 0.3rem 0rem 0.3rem;box-sizing:border-box; }
-#feedback .contact p{font-size: 0.3rem;margin-bottom: 0.2rem;}
-#feedback .contact .contact-type{width: 100%;border-radius: 0.1rem;box-sizing:border-box;box-sizing:-webkit-border-box;box-sizing:-moz-border-boxtext-align: center;height: 0.8rem;padding: 0.07rem;}
-#feedback .sub{width: 100%;box-sizing:border-box;padding: 0.5rem 0.3rem 0rem 0.3rem;}
-#feedback .sub .verify{width: 100%;height: 1rem;border-radius: 0.1rem;text-align: center;font-size: 0.4rem;color: #fff;background: #5ac8fa;opacity:;}
+#feedback .feedback-container{width: 100%;}
+#feedback .feedback-container .feedback-input{margin-top: 0.32rem;width: 100%;height: 3rem;text-indent: 0.03rem;box-sizing:border-box;padding:0.32rem;overflow-y:hidden;font-size: 0.28rem;line-height: .42rem;}
+#feedback .contact{padding:0 0.32rem;background:#fff; height: 0.96rem;margin-top: 0.32rem;}
+#feedback .contact label{width:1.85rem;float: left;color: #262626;height: 0.96rem;font-size: 0.28rem;line-height: 0.96rem;text-align: left;}
+#feedback .contact input{width: 4rem;border:none;float: left;height: 0.96rem;color: #262626;font-size: 0.28rem;}
+
+
+#feedback .sub{padding: 0 0.32rem;margin-top: 0.64rem;}
+#feedback .sub .verify{width: 100%;height: 0.96rem;border-radius: 0.04rem;text-align: center;font-size: 0.4rem;color: #fff;background: #ccc;}
+#feedback .sub .verify.active{background: #ffe00f;color: #262626;}
 .social-introduction-item{height: 0.96rem;line-height: 0.96rem;padding: 0 0.32rem;}
 .social-introduction-item label{color: #262626;font-size: 0.28rem;float: left;}
 .social-introduction-item span{color: #999999;font-size: 0.28rem;float: right;}
@@ -170,21 +175,30 @@
 
 .setAlipay{}
 .setAlipay .setAlipay_title{font-size: 0.28rem;color: #999;line-height: 0.45rem;padding:0.5rem 0.25rem 0.1rem 0.25rem;}
-#setAlipay_form{padding: 0.15rem 0.25rem;background: #fff;}
-#setAlipay_form .input_b{width: 100%;height: 0.8rem;line-height: 0.8rem;border-bottom: 1px solid #f5f5f5;position: relative;}
+#setAlipay_form{padding: 0 0.32rem;background: #fff;margin-top: 0.32rem}
+#setAlipay_form .input_b{width: 100%;height: 0.96rem;line-height: 0.96rem;border-bottom: 1px solid #f5f5f5;position: relative;}
 #setAlipay_form .input_b label{float: left;font-size: 0.26rem;color: #666;width: 25%;}
-#setAlipay_form .input_b input{display: block;margin-left: 28%;width: 70%;border:none;height: 0.8rem;line-height: 0.8rem;color: #999;font-size: 0.28rem;letter-spacing: 1px}
+#setAlipay_form .input_b input{display: block;margin-left: 28%;width: 70%;border:none;height: 0.96rem;line-height: 0.96rem;color: #999;font-size: 0.28rem;letter-spacing: 1px}
+#setAlipay_form .input_b input:focus{color: #262626;}
 #setAlipay_form aside{font-size: 0.26rem;color: #999;height: 0.6rem;line-height: 0.6rem;}
-.setAlipay_submit{width: 90%;height: 1rem;background: #5ac8fa;margin:0.5rem auto;border-radius: 0.1rem;line-height: 1rem;text-align: center;font-size: 0.3rem;color: #fff;}
-.alipayList{padding: 0.25rem;}
-.alipayList .alipay_info{padding: 0.25rem;height: auto;background: #fff;overflow: hidden;margin-top: 0.25rem;border-radius: 0.1rem}
-.alipayList .alipay_info span{color: #999;font-size: 0.28rem}
-.alipayList .alipay_info .alipay_info_card{font-size: 0.32rem;line-height: 0.6rem;color: #333;}
-.alipayList .alipay_info .alipay_info_name{font-size: 0.32rem;line-height: 0.6rem;color: #333;}
+.setAlipay_submit_box{padding:0 0.32rem;}
+.setAlipay_submit{border: none;width: 100%;height: 0.96rem;background: #ccc;border-radius: 0.04rem;color: #fff;font-size: 0.32rem;text-align: center;margin-top: 0.64rem;line-height: 0.96rem;}
+.setAlipay_submit.active{background:#ffe00f ;color: #262626;}
+
+
+
+.alipayList{}
+.alipayList .alipay_info{padding:0 0.32rem;height: auto;background: #fff;overflow: hidden;margin-top: 0.32rem;}
+.alipayList .alipay_info span{color: #262626;font-size: 0.28rem}
+.alipayList .alipay_info .alipay_info_card{font-size: 0.28rem;line-height: 0.96rem;color: #262626;height: 0.96rem;border-bottom: 1px solid #eee;}
+.alipayList .alipay_info .alipay_info_name{font-size: 0.28rem;line-height: 0.96rem;color: #262626;height: 0.96rem;}
 .alipayList .alipay_info .alipay_info_label{font-size: 0.32rem;color: #999;text-align: right}
-.alipay_updata{width: 90%;height: 1rem;background: #5ac8fa;margin:0.5rem auto;border-radius: 0.1rem;line-height: 1rem;text-align: center;font-size: 0.3rem;color: #fff;}
-.alipay_updata a{display: block;color: #fff;}
+.alipayList .alipay_info label{margin-right:0.66rem;}
+
+.alipay_updata{padding:0 0.32rem;height: 0.96rem;margin-top: 0.64rem;}
+.alipay_updata a{display: block;color: #fff;width: 100%;height: 0.96rem;line-height: 0.96rem;background:#ffe00f;font-size: 0.32rem;color: #262626;text-align: center;border-radius: 0.04rem;}
 #setAlipay_form .getcode{position: absolute;right:0;line-height: 0.6rem;font-size: 0.3rem;color: #5ac8fa;top:0;}
+#setAlipay_form .alipay_getcode{position: absolute;right:0;line-height: 0.64rem;top:0.16rem;height: 0.64rem;color: #262626;font-size: 0.24rem;background:#ffe00f;border-radius: 0.04rem;padding:0 0.1rem;}
 
 /*提现*/
 .getmoney-container{}
@@ -209,7 +223,8 @@
 .getall_error{font-size: 0.28rem;color: #ff5736;display: none;}
 .walletInfo{}
 .walletInfo ul{}
-.walletInfo ul li{padding: 0 0.32rem;height: 0.96rem;line-height: 0.96rem;background: #fff;margin:0.32rem 0;background: #fff url(../images/mine/ic_mine_more.png) no-repeat 98% center;background-size: 0.38rem auto;}
+.walletInfo ul li{border-bottom: 1px solid #eee;padding:0 0.32rem;height: 0.96rem;line-height: 0.96rem;background: #fff;background: #fff url(../images/mine/ic_mine_more.png) no-repeat 98% center;background-size: 0.38rem auto;}
+.walletInfo ul li:first-child{margin:0.32rem 0;}
 
 
 /*实名认证*/

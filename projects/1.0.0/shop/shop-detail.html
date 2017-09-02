@@ -43,13 +43,10 @@
                 <div class="shop-img"><img data-name="shopImg" src="" alt=""></div>
                 <div class="shop-test">
                     <div class="shopName" data-name="shopName"></div>
-                    <!-- <div class="shopDescription" data-name="shopDescription"></div> -->
                     <div class="shop-bottom">
-                        <!-- <div class="shop-pei">满<span data-name="min_goods_amount"></span>元起送</div> -->
                         <div class="shop-map">农工商北区(北校区)</div>
                     </div>
-                </div>
-                <div class="nocollection" onclick="collection(event,this)"></div>
+                    </div>
             </div>
             <div class="shop-detail-con">
                 <div class="shop-pro-class">
@@ -76,7 +73,7 @@
             </div>
         </div>
         <!-- 购物车 E -->
-        <div class="shop_info_fixed">
+   <!--      <div class="shop_info_fixed">
             <div class="shopName" data-name="shopName">121</div>
             <div class="shopDescription">
                 <div class="title">商家简介:</div>
@@ -84,7 +81,7 @@
             </div>
             <div class="close">X</div>
         </div>
-
+ -->
         <!-- 商品详情 -->
         <div class="pro_detail_bg">
             <div class="pro_detail">
@@ -97,22 +94,22 @@
 </body>
 <script>
 // 这段代码是固定的，必须要放到js中   ios
-function setupWebViewJavascriptBridge(callback) {
-    if (window.WebViewJavascriptBridge) {
-        return callback(WebViewJavascriptBridge);
-    }
-    if (window.WVJBCallbacks) {
-        return window.WVJBCallbacks.push(callback);
-    }
-    window.WVJBCallbacks = [callback];
-    var WVJBIframe = document.createElement('iframe');
-    WVJBIframe.style.display = 'none';
-    WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
-    document.documentElement.appendChild(WVJBIframe);
-    setTimeout(function() {
-        document.documentElement.removeChild(WVJBIframe)
-    }, 0)
-}
+// function setupWebViewJavascriptBridge(callback) {
+//     if (window.WebViewJavascriptBridge) {
+//         return callback(WebViewJavascriptBridge);
+//     }
+//     if (window.WVJBCallbacks) {
+//         return window.WVJBCallbacks.push(callback);
+//     }
+//     window.WVJBCallbacks = [callback];
+//     var WVJBIframe = document.createElement('iframe');
+//     WVJBIframe.style.display = 'none';
+//     WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+//     document.documentElement.appendChild(WVJBIframe);
+//     setTimeout(function() {
+//         document.documentElement.removeChild(WVJBIframe)
+//     }, 0)
+// }
 // setupWebViewJavascriptBridge();
 // 与OC交互的所有JS方法都要在这里注册,才能让OC和JS之间相互调用
 // setupWebViewJavascriptBridge(function(bridge) {
@@ -190,7 +187,6 @@ if (GetString("device") == "android" || window.localStorage.app == 1) {
 }
 $(function() {
         //兼容低级浏览器设置高度
-
         var fontS = parseFloat($(window).width() / 7.5) > 100 ? 100 : parseFloat($(window).width() / 7.5);
         if (app) {
             $(".shop-detail-con").css("height", $(window).height() - 3 * fontS)
@@ -224,6 +220,7 @@ $(function() {
             Getdata['token'] = token;
         }
         $.getJSON(locahost + '/goods/shopGoodses', Getdata, function(data) {
+            loading(false);
             if (data.code == 2001) {
                 //token 失效
                 if (!app) {
@@ -244,7 +241,6 @@ $(function() {
                 $(".noGoods").show();
                 $(".shop-pro-class, .shop-pro-all").hide();
             }
-            loading(false);
             var shop_html = "",
                 categories_html = "";
 
@@ -277,11 +273,12 @@ $(function() {
                                   <div class="shop-pro-d">' + b.goods_desc + '</div>\
                                 </div>';
                     }
-//<div class="shop-pro-ed">已售' + b.goods_sale_count + '件&nbsp&nbsp库存：' + b.goods_number + '</div>\
                     if (data.shop.shop_status == 3) {
                         //店家休息 不显示加号
                         pro_html += '<div class="shop-pro-bottom">\
-                                    <div class="shop-pro-money">￥<span>' + b.goods_price + '</span></div>\
+                                    <div class="shop-pro-ed">库存：' + b.goods_number + '</div>\
+                                    <div class="addCar no" maxNum="' + b.goods_number + '">\
+                                    </div>\
                               </div>\
                             </dd>';
                     } else {
@@ -319,7 +316,7 @@ $(function() {
             if (data.goodes == '') {
                 //没商品数据
                 $("#loading").remove();
-                $(".shop-pro-all").eq(0).append("<div id='loaded'>暂没数据</div>")
+                $(".shop-pro-all").eq(0).append("<div id='noPro'>没有商品哟</div>")
             }
             if (data.shop.is_collect == 1) {
                 //已收藏
@@ -335,7 +332,7 @@ $(function() {
         if (!cat_id) {
             cat_id = $(".shop-pro-class ul li").eq(0).attr("cat_id");
         }
-        $(".shop-pro-all").eq(nowIndex).html("<div class='ing'>正在加载中...</div>");
+        $(".shop-pro-all").eq(nowIndex).html("<div class='ing'>正在翻找中...</div>");
         $.getJSON(locahost + '/goods/shopGoodses?shop_id=' + shop_id + '&cat_id=' + cat_id + '&token=' + token, function(data) {
             loading(false);
             var shop_html = "";
@@ -380,12 +377,14 @@ $(function() {
                     }
                 shop_html += pro_html;
             })
-            $(".shop-pro-all").eq(nowIndex).html('<dl>' + shop_html + '</dl>').append("<div id='loaded'>我是有底线的</div>").attr("loca", true);
+            var pro_index = $(".shop-pro-class li[cat_id='"+data.cat_id+"']").index(".shop-pro-class li");
             updateProNum(); //更新列表商品已选数量
             if (data.goodes == '') {
                 //没商品数据
-                $("#loading").remove();
-                $(".shop-pro-all").eq(nowIndex).append("<div id='loaded'>暂没数据</div>")
+                $(".ing").remove();
+                $(".shop-pro-all").eq(pro_index).append("<div id='noPro'>没有商品哟</div>").attr("loca", true)
+            }else{
+                 $(".shop-pro-all").eq(pro_index).html('<dl>' + shop_html + '</dl>').append("<div id='loaded'>我是有底线的</div>").attr("loca", true);
 
             }
 
@@ -792,6 +791,7 @@ $(function() {
     function createOrder() {
         is_alipay(true);
         setTimeout(function(){
+                 is_alipay(false);
                 if (window.localStorage.app == 1) {
                     window.localStorage.token = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
                 } else if (window.localStorage.token == undefined) {
@@ -803,20 +803,19 @@ $(function() {
                 } else if ($(".shop-buy").hasClass("active")) {
                     window.location.href = "shop-createOrder.html?sid=" + shop_id;
                 } else {
-                    alert(1)
                     fb_alert(fb_error["s_001"]);
                 }
         },500)
 
     }
     //打开简介
-    $(".shop-header").on("click", function() {
-            $(".shop_info_fixed").fadeIn(200);
-        })
-        //关闭简介
-    $(".shop_info_fixed .close").on("click", function() {
-        $(".shop_info_fixed").fadeOut(200);
-    })
+    // $(".shop-header").on("click", function() {
+    //         $(".shop_info_fixed").fadeIn(200);
+    //     })
+    //     //关闭简介
+    // $(".shop_info_fixed .close").on("click", function() {
+    //     $(".shop_info_fixed").fadeOut(200);
+    // })
 
     //清空购物车
     $(".clearCar").on("click", function() {

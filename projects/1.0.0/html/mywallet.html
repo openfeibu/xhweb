@@ -30,7 +30,7 @@
   <script type="text/javascript" src="../js/updata.js"></script>
   <script type="text/javascript" src="../js/md5.js"></script>
 </head>
-<body class='bge8'>
+<body >
 	<section class='main' style="padding-bottom:0">
 		<div class="wallet routes">
   			<div class="header_title">
@@ -71,6 +71,8 @@
         '/alipay/updata':updataAlipay,
         '/getmoney':getmoney,
         '/walletInfo':walletInfo,
+        '/passWord/updataWalletPass':updataWalletPass,
+        '/passWord/forgetWalletPass':forgetWalletPass,
       };
       var router = Router(routes);
       router.init("/wallet");
@@ -108,7 +110,6 @@
     //支付密码管理
     function passWord(){
       var is_paypassword = window.localStorage.is_paypassword;
-
       if(is_paypassword == 1){
         //已设置支付密码
           $(".walletInline").html("");
@@ -148,7 +149,7 @@
     function updataAlipay(){
       $(".walletInline").html("");
           routDom($(".walletInline"))
-          $.get('updataAlipay.html',function(data){
+          $.get('setAlipay.html',function(data){
             $(".walletInline").html(data)
         })
     }
@@ -166,6 +167,20 @@
           routDom($(".walletInline"))
           $.get('walletInfo.html',function(data){
             $(".walletInline").html(data)
+        })
+    }
+    function updataWalletPass(){
+               $(".walletInline").html("");
+                routDom($(".walletInline"))  
+                $.get('updataWalletPass.html',function(data){
+                  $(".walletInline").html(data)
+                })
+            }
+    function forgetWalletPass(){
+       $(".walletInline").html("");
+        routDom($(".walletInline"))  
+        $.get('forgetWalletPass.html',function(data){
+          $(".walletInline").html(data)
         })
     }
 </script>

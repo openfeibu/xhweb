@@ -7,12 +7,16 @@
  <div class="walletInfo pt1">
   <ul>
      <li><a href="#/alipay"><label for="">支付宝账号</label></a></li> 
-     <li><a href="#/passWord"><label for="">设置支付密码</label></a></li>
-     <li><a href="#/passWord"><label for="">更改支付密码</label></a></li>
-     <li><a href="#/passWord"><label for="">忘记支付密码</label></a></li>
+     <li class="alipay_01"><a href="#/passWord"><label for="">设置支付密码</label></a></li>
+     <li class="alipay_02"><a href="#/passWord/updataWalletPass"><label for="">更改支付密码</label></a></li>
+     <li class="alipay_02"><a href="#/passWord/forgetWalletPass"><label for="">忘记支付密码</label></a></li>
   </ul>
 </div>
 <script type="text/javascript">
   var token = window.localStorage.token;
-  console.log(JSON.parse(window.localStorage.info))
+  var info = JSON.parse(window.localStorage.info);
+  if(info.is_paypassword){
+    $(".alipay_01").hide();
+    $(".alipay_02").show();
+  }
 </script>

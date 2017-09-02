@@ -32,12 +32,16 @@
 <body class='bgf' style="height:100%;">
 	<section class='main' style="height:100%;padding:0">
 		<!--登陆 S-->
-		<div class="login routes " style="height:100%;">
-			<div class=""></div>
-			<h1 class="logo" ><img src="images/loginReg/icon_login_headpor.png" alt="校汇"></h1>
+		<div class="login routes pt1" >
+			<div class="header_title">
+				<div class="return" onclick="returnUp()">
+	     		</div>
+				<p>登录</p>
+			</div>
+			<h1 class="logo" ><img src="images/logo.png" alt="校汇"></h1>
 			<div class="outer-main">
 				<form method="POST" class="login_form">
-					<input type="text" id="account" placeholder="手机号" ><br>
+					<input type="text" id="account"  placeholder="手机号码" >
 					<input type="password" id="password" placeholder="密码" >
 					<div class="login_code">
 						<input type="text" id = "login_code_input" />
@@ -60,7 +64,6 @@
 					</div>
 			</div>
 			<div class="outer-main pt1">
-				<div class="main">
 					<form method="POST" class="reg_form">
 						<input type="text" id="reg_account" placeholder="+86 请输入手机号" autocomplete="off"><br>
 						<input type="password" id="reg_password" placeholder="设置登录密码，不少于6位" autocomplete="off">
@@ -68,12 +71,10 @@
 							<input type="text" id="reg_code" placeholder="请输入验证码" autocomplete="off">
 							<div class="getcode">获取验证码</div>	
 						</div>
-						<input type="submit" value="注册" id="reg">
+						<input type="submit" value="下一步"  id="reg">
 					</form>
-						<div class="login_inner-container">
-							<a  href="statement/appAgreement.html" class="forgetPaw"><span>用户注册协议</span></a>
-						</div>
-				</div>
+					<div class="login_inner-container">注册即表示你同意<a  href="statement/appAgreement.html">《校汇服务协议》</a>
+					</div>
 			</div>
 		</div>
 		<!--注册 E-->
@@ -124,7 +125,7 @@
 				<div class="return" onclick="returnUp()"></div>
 			</div>
 			<div class="regist-content pt1 " >
-				<form action="" method="post" id="form" class="outer-main">
+				<form action="" method="post" id="form" class="outer-main forget_form">
 					<input type="text" id="regist-content-number" name="regist-user-number" placeholder="+86 请输入手机号码">
 					<input type="text" id="regist-content-password" name="regist-user-password" placeholder="设置新的密码,不少于6位">
 					<div class="regist-inner-container">
@@ -199,18 +200,19 @@
 				}
 				is_alipay(true);
 				 $.post(locahost+'user/login',loginData,  function(data){
-					is_alipay(false);
+					
 				 	if(data.code == "2005"){
+				 		is_alipay(false);
 				    	$(".login_code").show();
 				    	fb_alert(data.detail);
-				    	getLoginCode()
+				    	getLoginCode();
 				    	return;
 				    }
 				    if(data.code == "200"){
 				    	window.localStorage.clear();
 				      	setItem("token",data.token) //保存token
-				      	$(".logo").css({"top":"30%",});
-				      	$(".outer-main").hide();
+				      	// $(".logo").css({"top":"30%",});
+				      	// $(".outer-main").hide();
 				      	$.getJSON(locahost+'/user/getMyInfo/?token='+data.token,function(data){
 				             var data = data.data;
 				             setItem("info",JSON.stringify(data))
@@ -219,6 +221,7 @@
 				             window.localStorage.alipayName =data.alipay_name;
 				             window.localStorage.alipayCard =data.alipay;
 				             window.localStorage.uid = data.uid;
+				             window.localStorage.wallet_number = data.wallet;
 				             window.localStorage.phone =$("#account").val();
 				         });
 				      	setTimeout(function(){
@@ -230,6 +233,7 @@
 				      	},1000);
        					
 				    }else{
+				    	is_alipay(false);
 	 					$('#login').on('click',onsubmit);
 				    	fb_alert(data.detail)
 				    }
@@ -256,7 +260,7 @@
 	 	if(!checkMobile($("#reg_account").val())){
 			fb_alert("手机格式不正确");
 		}else{
-		$.post(locahost+'/user/isMobileExist/?mobile_no='+$("#reg_account").val(),  function(data){
+		$.post(locahost+'user/isMobileExist/?mobile_no='+$("#reg_account").val(),  function(data){
 			    if(data.code == "110"){	
 			    //手机号已存在
 			    	isMobileExist = false;	
@@ -281,7 +285,7 @@
 	 	return false;
 	}
 	  $('.getcode').off('click',regGetcode)
-	  $.post(locahost+'/user/sendRegisterSMS/?mobile_no='+$("#reg_account").val(),  function(data){
+	  $.post(locahost+'user/sendRegisterSMS/?mobile_no='+$("#reg_account").val(),  function(data){
 		     if(data.code == "200"){		
       			fb_alert("发送验证码成功")
 		    }else{
@@ -313,7 +317,7 @@
 				fb_alert("验证码不可为空")
 			}else{
 				 
-				 $.post(locahost+'/user/register/?mobile_no='+$("#reg_account").val()+'&password='+$.md5($("#reg_password").val())+'&sms_code='+$("#reg_code").val(),  function(data){
+				 $.post(locahost+'user/register/?mobile_no='+$("#reg_account").val()+'&password='+$.md5($("#reg_password").val())+'&sms_code='+$("#reg_code").val(),  function(data){
 				   		if(data.code == "200"){	
 				   			window.localStorage.token = data.token;	
 				    		fb_alert("注册成功")
@@ -456,6 +460,14 @@
        	 		$("#login").addClass("active");
        	 	}else{
        	 		$("#login").removeClass("active");
+       	 	}
+       })
+       //可下一步点击
+       $("#reg_account,#reg_password").on("input propertychange",function(){
+       	 	if(checkMobile($("#reg_account").val()) && $("#reg_password").val().length > 0){
+       	 		$("#reg").addClass("active");
+       	 	}else{
+       	 		$("#reg").removeClass("active");
        	 	}
        })
  </script>

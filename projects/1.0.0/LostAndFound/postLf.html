@@ -39,119 +39,102 @@
   <body>
 	<section class='main '>
 			<div class="header_title">
-          <p>我丢失了</p>
-					<div class="return" onclick="returnUp()">
-					</div>
-					<div class="postSubmit">发布</div>
-			</div>
-     
-			<div class="postlf_main pt1">
-        <div class="postlf-tab ">
-          <div class="postlf-tab-item active">我丢失了</div>
-          <div class="postlf-tab-item">我捡到了</div>
+          <p>发布信息</p>
+          <div class="return" onclick="returnUp()">
+          </div>
+          <div class="postSubmit header_right">发布</div>
+      </div>
+      <div class="postTopic_main pt1">
+        <div class="lf_tabType">
+          <span class="fl animate on">寻物</span>
+          <span class="fl animate">招领</span>
         </div>
-        <div class="postlf-header bgf">
-            <div class="textarea">
-              <textarea placeholder="内容,不可超过140字符" class="topic_con" ></textarea>
-              <div class="num"><span data-name="num">0</span>/140</div>
-            </div>
-            <div class="post_button">
-              <div id="uploader-demo">
-                  <img data-name="pro-detail-img" src="" alt="">
-                  <input name="bookpic" type="file" id="bookpic" class="upload" onchange="change(this)">
-              </div>
-            </div>
+        <div class="textarea">
+          <textarea placeholder="你丢失什么东西了吗？" class="topic_con" ></textarea>
+          <div class="num"><span data-name="num">0</span>/140</div>
         </div>
-        <div class="postlf-bottom bgf">
-            <div class="tell">
-              <label >手机号码：</label>
-              <input type="text" data-name="tell"/> 
+        <ul class="postImg clearfix">
+            <div id="uploader-demo">
+              <form id="postForm" action="">
+                <input name="bookpic" type="file" id="bookpic" class="upload" onchange="change(this)">
+              </form>
             </div>
-            <div class="lfType">
-                <ul>
-                 
-              
-                </ul>
-            </div>
+        </ul>
+        <div class="lf_tell">
+          <label >手机号码：</label>
+          <input type="text" data-name="tell" placeholder="请输入手机号码"/> 
         </div>
-
-			</div>
+      </div>
+      
 	</section>
 	 
 </body>
 <script>
-   var proImg,proImg_thumb,postType="lose";
-	$(function(){
-    getType();
-    $('[data-name="tell"]').val(window.localStorage.phone)
-    $(".lfType ul ").on("click","li",function(){
-      $(this).addClass("on").siblings("li").removeClass("on");
-    })
-    $(".postlf-tab .postlf-tab-item").on("click",function(){
-      $(this).addClass("active").siblings().removeClass("active");
-      if($(this).index() == 0){
-        postType = "lose";
-        $(".header_title p").text("我丢失了");
-      }else if($(this).index() == 1){
-        postType = "found";
-        $(".header_title p").text("我捡到了");
-
+    var proImg = [] ,proImg_thumb = [];
+   var token = window.localStorage.token;
+   var phone = window.localStorage.phone || '';
+   var type = 'lose';
+  $(function(){
+    $(".lf_tabType span").on("click",function(){
+      var i = $(this).index("span");
+      if(i == 0){
+        type = 'lose';
+        $(".topic_con").attr("placeholder","你丢失什么东西了吗？");
+      }else if(i == 1){
+        type = 'found';
+        $(".topic_con").attr("placeholder","是不是天上掉下了馅饼？");
       }
+      $(this).addClass("on").siblings("span").removeClass("on");
     })
+
+
+    $('[ data-name="tell"]').val(phone);
     $(".postSubmit").one("click",Uptopic)
     function Uptopic(){
       var val = $(".topic_con").val();
-      var label = $(".lfType .on").attr("cat_id");
-      console.log(label)
+      var mobile = $('[ data-name="tell"]').val();
       if(getByteLen(val) == 0 ){
-        alert("内容不可为空");
+        fb_alert("内容不可为空");
         $(".postSubmit").one("click",Uptopic)
         return false;
       }else if(getByteLen(val) > 140){
-        alert("内容不可超过140字符");
+        fb_alert("内容不可超过140字符");
         $(".postSubmit").one("click",Uptopic)
         return false;
-      }else if(label == undefined){
-        alert("请选择标签");
-        $(".postSubmit").one("click",Uptopic)
-        return false;
-      }else if(!checkMobile($('[data-name="tell"]').val()) ){
-        alert("手机号码格式错误");
-        $(".postSubmit").one("click",Uptopic)
-        return false;
+      }else if(!checkMobile(mobile)){
+        fb_alert(fb_error["m_002"]);
       }
       //发布话题
-      var img = proImg == undefined ? "" : proImg;
-      var img_thumb = proImg_thumb == undefined ? "" : proImg_thumb;
-      var token = window.localStorage.token;
+      var img = proImg.join(",").length == '' ? "" : proImg.join(",");
+      var img_thumb = proImg_thumb.join(",").length == '' ? "" : proImg_thumb.join(",");
       var postObj = {
-        "type":postType,
-        "cat_id":label,
-        "mobile":$('[data-name="tell"]').val(),
         "token":token,
-        "content":val
+        "content":val,
+        "mobile" : mobile,
+        "type" : type
       }
       if(img.length != 0){
-        postObj["img"] = img;
+        postObj["img"] = img; 
       }
       if(img_thumb.length != 0){
         postObj["thumb"] = img_thumb;
       }
       is_alipay(true)
-       $.post(locahost+'/lostAndFind/create',postObj, function(data){
-        if(data.code == 2001){
+       $.post(locahost+'lostAndFind/create',postObj, function(data){
+          is_alipay(false)
+          if(data.code == 2001){
                 fb_alert(fb_error["2001"])
                 window.location.href = "login.html";
                 return;
              }
           if(data.code == 200){
-            is_alipay(false)
             fb_alert(fb_error["3"]);
-            locaGo("/LostAndFound/LF-list-lose.html");
+            history.go(-1);
           }else{
             fb_alert(data.detail)
           }
        })
+
     }
     $('.topic_con').on('input propertychange', function() { 
       var con = $(this).val();
@@ -170,64 +153,56 @@
         if(!postSubmit.hasClass("on"))
             postSubmit.addClass("on"); 
       }else{
-
           postSubmit.removeClass("on"); 
       }
       $("[data-name='num']").text(len);
     });
-    function getType(){
-      $.getJSON(locahost+'/lostAndFind/getCats',function(data){
-        if(data.code == 200){
-          var html = '';
-          $.each(data.data,function(a,b){
-              html += '<li cat_id="'+b.cat_id+'">'+b.cat_name+'</li>';
-          });
-          $(".lfType ul").html(html);
-        }
-      })
-    };
+
   })
-
-    var token = window.localStorage.token;
     // 上传图片
-
-    function change(that){ 
+ function change(that){ 
           var field=new upField($(that));
           var maxSize=10240; //kb
            var name=$(that).attr('name');
           var pic = $(that).prop('files');
           var fordata=new FormData();
           fordata.append('uploadfile',pic[0]); //添加字段
+          fordata.append('token',token); //添加字段
           if(pic.length == 0) return;
           fb_alert("开始上传");
-         if(pic[0].size/1024>maxSize) { 
-              fb_alert('图片不能超过'+maxSize+'kb')
-              return false; 
-         }
-         var token = window.localStorage.token;
-          $.ajax({
-              url:locahost+'/topic/uploadImage/?token='+token,
+           if(pic[0].size/1024>maxSize) { 
+                fb_alert('图片不能超过'+maxSize+'kb')
+                return false; 
+           }
+           if(proImg.length >= 3){
+                fb_alert('图片不能超过3张')
+                return false; 
+           }
+           $.ajax({
+              url:locahost+'topic/uploadImage',
               type:'POST',
               dataType:'json',
               data:fordata,
               processData: false,
               contentType: false,
-        error: function(){
-          fb_alert('未知错误');
-        },  
-        success: function(data){
-          if(data.code == 200){
-            fb_alert("上传成功");
-             $('[data-name="pro-detail-img"]').attr("src",data.thumb_url);
-             proImg_thumb = data.thumb_url;
-             proImg = data.url;
-          }else{  
-            fb_alert(data.detail);
-          }
-        }
+              error: function(){
+                fb_alert('网络错误');
+              },  
+              success: function(data){
+                if(data.code == 200){
+                  fb_alert("上传成功");
+                  var li_html = '<li style="background:url('+data.thumb_url+') no-repeat center/cover"></li>'
+                   $('.postImg').prepend(li_html);
+                   proImg.push(data.url)
+                   proImg_thumb.push(data.thumb_url);
+                    $("#postForm")[0].reset(); //重置表单 解决不能上传连续同一张图片两次
+                }else{  
+                  fb_alert(data.detail);
+                }
+              }
           })
+
       };
-      window.change = change;
 </script>
 
 </html>

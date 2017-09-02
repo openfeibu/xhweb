@@ -56,6 +56,7 @@
     <div id="ClassF" class="routes">
     </div>
 	</section>
+  <div class="splash"></div>
 	<footer>
 		<ul>
 			<li class="on animate"><a href="#/home">校园</a></li>
@@ -67,7 +68,14 @@
 </body>
   <script type="text/javascript" src="js/xhPay.js"></script>
 	<script>
-    loading(true)
+     if(!window.localStorage.splash){
+      $(".splash").show();
+      setTimeout(function(){
+        window.localStorage.splash = 1;
+        $(".splash").fadeOut(400);
+      },1500)
+     }
+    // loading(true)
      /*检查校汇圈通知 S*/
      function checkTopic(){
         var token = window.localStorage.token;
@@ -96,7 +104,7 @@
      /*检查校汇圈通知 E*/
 	   var time=null; //校园号外滚动
      //保存info资料
-     if(window.localStorage.info == undefined || window.localStorage.token == "undefined" ){
+     if(window.localStorage.info == undefined && window.localStorage.token != "undefined" ){
        var token = window.localStorage.token;
         $.getJSON(locahost+'/user/getMyInfo/?token='+token,function(data){
              var data = data.data;
@@ -106,7 +114,7 @@
              window.localStorage.alipayName =data.alipay_name;
              window.localStorage.alipayCard =data.alipay;
              window.localStorage.uid = data.uid;
-             window.localStorage.phone =$("#account").val();
+             window.localStorage.phone = $("#account").val();
          })
       }
       //缓存HTML

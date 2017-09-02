@@ -30,12 +30,7 @@
 		<div class="header_title">
 			<div class="return" onclick="returnUp()">
             </div>
-			<p>升学教育</p>
-			<div class="header_right">
-			    <a href="education_records.html"> 
-			    	记录
-			    </a>
-			</div>
+			<p>教育管理</p>
 		</div>
 		<div class="driver_list pt1">
 			<div class="driver_item clearfix">
@@ -53,8 +48,9 @@
 		</div>
 	</div>
 <script> 	 
+  var token = window.localStorage.token;
 	getDriver();
-	loading(true)
+	loading(true);
 	 // 获取驾校列表
       function getDriver(obj) {
           var defaults = {
@@ -69,20 +65,21 @@
           }
           var postData = {
               page: page,
+              token:token,
           }
-          $.getJSON(locahost + 'education/getEducations',postData, function(data) {
+          $.getJSON(locahost + 'education/getAdminEnrollRecords',postData, function(data) {
               loading(false);
               var driver_html = "";
               $.each(data.data, function(a, b) {
                   driver_html += '<div class="driver_item clearfix">\
-									<a href="education_detail.html?edu_id='+b.edu_id+'">\
-										<div class="img fl"><img src="'+b.logo_url+'" alt=""></div>\
+									<a href="educationRecords_detail_admin.html?enroll_id='+b.enroll_id+'">\
+										<div class="img fl"  style="background:url('+b.avatar_url+') no-repeat center/cover"></div>\
 										<div class="test">\
 											<div class="test_top">\
 												<div class="name fl">'+b.name+'</div>\
-												<div class="money fr">￥'+b.min_price+'</div>\
+												<div class="money fr">￥'+b.price+'</div>\
 											</div>\
-											<div class="test_des">'+b.desc+'</div>\
+											<div class="test_des">'+b.product_name+'</div>\
 										</div>\
 									</a>\
 								</div>';

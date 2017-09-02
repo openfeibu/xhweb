@@ -46,7 +46,7 @@
             </div>
             <div class="shopOrder_info">
               <div class="shopName">
-                <div class="shopImg"></div>
+                <div class="shopImg" data-name='shopImg'></div>
                 <p data-name="shopName"></p>
               </div>
               <ul>
@@ -177,9 +177,10 @@
           })
           $(".shopOrder_info ul").html(shop_html);
           $("[data-name='shopName']").text(data.shop_name);
+          $("[data-name='shopImg']").css("background","url("+data.shop_img+")no-repeat center/0.6rem 0.6rem");
           $("[data-name='num']").text(data.goods_count);
           $("[data-name='shipping_fee']").text(data.shipping_fee);
-          $("[data-name='count'],[data-name='total_fee']").text(data.total_fee+"元");
+          $("[data-name='count']").text(data.total_fee+"元");
           count = data.total_fee;
           window.localStorage.total_fee = data.total_fee;
           if(data.coupons.length == 0){
@@ -188,7 +189,12 @@
           }
           var couponsHtml = '';
           $.each(data.coupons,function(a,b){
-            couponsHtml += '<div class="coupon-item" price="'+b.price+'" user_coupon_id="'+b.user_coupon_id+'">\
+            if(a == 0){
+              user_coupon_id = b.user_coupon_id;
+              price = b.price;
+              $("[data-name='shipping_coupon_value']").html('-'+b.price+'元');
+              $("[data-name='count']").text(count-price+"元");
+               couponsHtml += '<div class="coupon-item active" price="'+b.price+'" user_coupon_id="'+b.user_coupon_id+'">\
                             <div class="coupon-name">优惠券</div>\
                             <div class="coupon-value">\
                               <div class="coupon-price">\
@@ -199,8 +205,20 @@
                               </div>\
                             </div>\
                           </div>';
+            }else{
+              couponsHtml += '<div class="coupon-item" price="'+b.price+'" user_coupon_id="'+b.user_coupon_id+'">\
+                              <div class="coupon-name">优惠券</div>\
+                              <div class="coupon-value">\
+                                <div class="coupon-price">\
+                                  <span>'+b.price+'</span>元(满'+b.min_price+'元使用)\
+                                </div>\
+                                <div class="coupon-time">\
+                                  有效期：'+b.receive+'~'+b.overdue+'\
+                                </div>\
+                              </div>\
+                            </div>';
+              }
           })
-
           $(".coupon-con").html(couponsHtml);
           }).error(function(){
             fb_alert("服务器出小差")
@@ -228,11 +246,11 @@
       $("#coupon-box").fadeOut(200);
       if(price == 0){
         $("[data-name='shipping_coupon_value']").html('暂无可用优惠券');
-        $("[data-name='count'],[data-name='total_fee']").text(count+"元");
+        $("[data-name='count']").text(count+"元");
         window.localStorage.removeItem('user_coupon_id');
       }else{
         $("[data-name='shipping_coupon_value']").html('-'+price+'元');
-        $("[data-name='count'],[data-name='total_fee']").text(count-price+"元");
+        $("[data-name='count']").text(count-price+"元");
         window.localStorage.total_fee = count-price;
         window.localStorage.user_coupon_id = user_coupon_id;
 
@@ -247,7 +265,7 @@
           fb_alert(fb_error["s_002"]);
           return false;
       }
-      getPayInfo();
+      getPayInfo(count-price);
     })
 
 
@@ -255,7 +273,7 @@
  
     $('body').on("click",".paySubmit",function(){
       var pay_id =$("[name='payType']:checked").val();
-      var infoData = {'shop_id':shop_id,'address_id':address_id,'pay_id' : pay_id,'user_coupon_id':user_coupon_id,'wap':1,'payMap':'shop'}
+      var infoData = {'shop_id':shop_id,'address_id':address_id,'pay_id' : pay_id,'user_coupon_id':user_coupon_id,'wap':1,'payMap':'shop','platform':'wap'}
         if(pay_id == undefined){
           fb_alert(fb_error["s_003"])
         }

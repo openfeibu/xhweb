@@ -1,7 +1,7 @@
 .addIcon{width: 0.5rem;height: 0.5rem;border-radius:50%;background: #000;position: fixed;top:0;left:0;z-index: 999}
 .nopaddingBottom{padding-bottom: 0 !important}
 .shopSearch{width: 5rem;height: 0.6rem;border:1px solid #404040;border-radius: 0.6rem;position: absolute;top:0.2rem;left:0.5rem;background: url("../images/search-icon.png") no-repeat 0.15rem center;background-size:auto 0.4rem;text-indent: 0.8rem;}
-.myOrder-enter{position: absolute;width: 1rem;height: 1rem;background: url("../images/order-enter-icon.png") no-repeat center;background-size:auto 0.5rem;right:0.25rem;top:0;}
+.myOrder-enter{position: absolute;width: 0.96rem;height: 0.96rem;background: url("../images/order-enter-icon.png") no-repeat center;background-size:auto 0.5rem;right:0;top:0;}
 .myOrder-enter a{display: block;width: 1rem;height: 1rem;}
 .shop-list{height:-webkit-calc(100% -2.88rem);height: calc(100% - 2.88rem);overflow-y: scroll;}
 .shop-item{background: #fff;padding:0.33rem 0.32rem;height: 1.2rem;border-bottom: 1px solid #eeeeee;}
@@ -48,21 +48,20 @@
 .shop-detail-con .shop-pro-bottom{height: 0.28rem;margin-left: 2.1rem;position: relative;}
 .shop-detail-con .shop-pro-money{font-size: 0.32rem;color: #fabe1a  ;line-height: 0.6rem;}
 .shop-detail-con  .shop-pro-ed{font-size: 0.28rem;color: #aaaaaa;margin-right: 0.25rem;float: left;line-height: 0.28rem;}
-.shop-pro-all{overflow-y: auto;height:100%;display: none; -webkit-box-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    height: 100%;box-sizing:border-box; -moz-box-sizing:border-box; /* Firefox */ -webkit-box-sizing:border-box; /* Safari */}  /*width: -webkit-calc(100% - 1.6rem);width: calc(100% - 1.6rem);width:-moz-calc(100%-1.6rem);*/
-.shop-pro-all .ing{color: #999;font-size: 0.3rem;line-height: 2rem;text-align: center;}
-.addCar{float: right;line-height: 0.4rem;margin-right: 0.3rem;margin-top:0.1rem;position: absolute;right:0;} 
-.addCar .prevC{display: inline-block;vertical-align: top;width: 0.4rem;height: 0.4rem;background: url("../images/shop/reduceIcon.png") no-repeat center;background-size: 0.4rem 0.4rem;text-align: center;font-size: 0.4rem;}
-.addCar .addC{display: inline-block;vertical-align: top;width: 0.4rem;height: 0.4rem;;background: url("../images/shop/addIcon.png") no-repeat center;background-size: 0.4rem 0.4rem;text-align: center;font-size: 0.4rem;}
-.addCar .Cinput{display: inline-block;vertical-align: top;width: 0.7rem;height: 0.4rem;text-align: center;color: #262626;font-size: 0.3rem;line-height: 0.4rem;}
+.shop-pro-all{overflow-y: auto;height:100%;display: none; padding-bottom:0.96rem;-webkit-box-flex: 1;-ms-flex: 1;flex: 1;height: 100%;box-sizing:border-box; -moz-box-sizing:border-box; /* Firefox */ -webkit-box-sizing:border-box; /* Safari */}  /*width: -webkit-calc(100% - 1.6rem);width: calc(100% - 1.6rem);width:-moz-calc(100%-1.6rem);*/
+
+.addCar{line-height: 0.4rem;margin-right: 0.3rem;position: absolute;right:0;top:-0.3rem;} 
+.addCar .prevC{display: inline-block;vertical-align: top;width: 0.7rem;height: 0.8rem;background: url("../images/shop/reduceIcon.png") no-repeat center;background-size: 0.45rem 0.45rem;text-align: center;font-size: 0.4rem;}
+.addCar .addC{display: inline-block;vertical-align: top;width: 0.7rem;height: 0.8rem;background: url("../images/shop/addIcon.png") no-repeat center;background-size: 0.45rem 0.45rem;text-align: center;font-size: 0.4rem;}
+.addCar .Cinput{display: inline-block;vertical-align: top;width: 0.6rem;height: 0.8rem;text-align: center;color: #262626;font-size: 0.3rem;line-height: 0.8rem;}
 .addCar.no .prevC,.addCar.no .Cinput{display: none;}
 
+#noPro{padding-top: 4rem;color: #999;font-size: 0.26rem;color: #999;text-align: center;line-height: 0.41rem;background: url("../images/shop/noPro.png") no-repeat center 1.8rem;background-size: 2rem 2rem;}
+.ing{padding-top: 4rem;color: #999;font-size: 0.26rem;color: #999;text-align: center;line-height: 0.41rem;background: url("../images/shop/noPro.png") no-repeat center 1.8rem;background-size: 2rem 2rem;}
 
 
 .shop-car{width: 100%;height: 1rem;background: #fff;position: fixed;bottom:0;left:0;max-width: 750px;right:0;margin:0 auto;z-index: 99;}
-.shop-car .restText{font-size: 0.35rem;color: #fff;text-align: center;line-height: 1rem;letter-spacing: 0.2rem;}
+.shop-car .restText{font-size: 0.35rem;color: #262626;text-align: center;line-height: 0.96rem;height:0.96rem;letter-spacing: 0.2rem;}
 .shop-car .shop-car-icon{width: 0.64rem;height: 0.64rem;background: #ccc url("../images/shop/car.png") no-repeat center;background-size: 50% auto;border-radius: 50%;top:0.15rem;left:0.2rem;position: absolute;}
 .shop-car .shop-car-icon.on{transition:all 0.1s;width: 0.64rem;height: 0.64rem;background-color: #262626;}
 .shop-car .shop-car-icon span{position: absolute;top:0;right:-0.15rem;width: 0.35rem;height: 0.35rem;text-align: center;line-height: 0.35rem;background: #ffe00f;color: #262626;border-radius: 50%;font-size: 0.24rem;}
@@ -86,7 +85,7 @@
 .CaddCar.no .CprevC,.CaddCar.no .CCinput{display: none;}
 
 .car-bg{position: fixed;background: rgba(0,0,0,0.5);width: 100%;height: -webkit-calc(100% - 1rem);height: calc(100% - 1rem);top:0;left:0;z-index:98;}
-.noGoods{display: none;text-align: center;line-height: 2rem;color: #999;font-size: 0.4rem ;}
+.noGoods{display: none;padding-top: 4rem;color: #999;font-size: 0.26rem;color: #999;text-align: center;line-height: 0.41rem;background: url("../images/shop/noPro.png") no-repeat center 1.8rem;background-size: 2rem 2rem;}
 
 /*创建订单*/
 .checkMap{padding: 0 0.3rem ;min-height: 1rem;background: #fff url("../images/shop/icon01.png") no-repeat 95% center;background-size: auto 0.3rem;;}

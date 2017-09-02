@@ -12,9 +12,9 @@
         </a>
       </div>
       <ul class="power">
-        <li><a href="html/mywallet.html"><p data-name="wallet">12</p>钱包余额</a></li>
-        <li ><a href="quanquan/mytopic.html" ><p data-name="myPoint">32</p>我的话题</a></li>
-        <li><a href="coupon/coupon-list-unused.html"><p data-name="coupon">32</p>优惠券</a></li>
+        <li><a href="html/mywallet.html"><p data-name="wallet">0</p>钱包余额</a></li>
+        <li ><a href="quanquan/mytopic.html" ><p data-name="topic_count">0</p>我的圈圈</a></li>
+        <li><a href="coupon/couponlList.html#/unused"><p data-name="coupon">0</p>优惠券</a></li>
       </ul>
     </div>
     <div class="my-outer-container">
@@ -25,39 +25,58 @@
         <li><a href="shop/shop-map.html">收货地址</a></li>
       </ul>
       <ul class="power-con">
-        <li><a href="shop/shop-Collection.html">我的评论</a></li>
+        <li><a href="quanquan/myComment.html">我的评论</a></li>
         <li><a href="shop/shop-Collection.html">邀请好友</a></li>
+      </ul>
+      <ul class="admin-con">
+        <li data-name='is_driving_school' style="display: none;"><a href="driver/driver_list_admin.html">驾校管理</a></li>
+        <li data-name='is_education' style="display: none;"><a href="education/education_list_admin.html">教育管理</a></li>
       </ul>
     </div>
 </div>
 <script type="text/javascript">
-    loading(true);
+    // loading(true);
     mine();
     inspect();
+    var token = window.localStorage["token"];
     if(window.localStorage.inspect){
       $('[data-name="myWork"]').addClass("on");
     }
     function mine(){
       var info = window.localStorage.info;
+      var wallet_number = window.localStorage.wallet_number;
       if( info != "undefined"){
         //有缓存
         loading(false) 
         var data = JSON.parse(info);
         $('[data-name="mp_img"]').css("background","url("+data.avatar_url+") no-repeat center/cover");
-        $('[data-name="name"]').text(data.nickname)
-        $('[data-name="schoolName"]').text(data.college)
-        $('[data-name="integral"]').text(data.integral)
+        $('[data-name="name"]').text(data.nickname);
+        $('[data-name="schoolName"]').text(data.college);
+        $('[data-name="integral"]').text(data.integral);
+        console.log(data.topic_count)
+        animateNum({obj:$('[data-name="wallet"]'),lastNum:wallet_number,is_toFixed:true});
+        animateNum({obj:$('[data-name="topic_count"]'),lastNum:data.topic_count,is_toFixed:true});
+        animateNum({obj:$('[data-name="coupon"]'),lastNum:data.coupon_count,is_toFixed:false});
+        if(data.is_driving_school){
+          $("[data-name='is_driving_school']").show();
+        }
+        if(data.is_education){
+          $("[data-name='is_education']").show();
+        }
       }else{
+        if(!token){
+           replaceLocation("login.html#/login");
+          return false;
+        }
         //ajax 
-        var token = window.localStorage["token"];
       $.getJSON(locahost+'/user/getMyInfo/?token='+token,function(data){
              loading(false) 
             if(data.code == "403"){
-              window.location.href ="login.html#/login";
+               replaceLocation("login.html#/login");
               return false;
             }else if(data.code == "2001"){
               fb_alert("登陆超时")
-              window.location.href ="login.html#/login";
+               replaceLocation("login.html#/login");
               return false;
             }
             var data = data.data;
@@ -65,17 +84,24 @@
             $('[data-name="name"]').text(data.nickname)
             $('[data-name="schoolName"]').text(data.college)
             $('[data-name="integral"]').text(data.integral)
-
-             setItem("info",JSON.stringify(data))
+            if(data.is_driving_school){
+              $("[data-name='is_driving_school']").show();
+            }
+            if(data.is_education){
+              $("[data-name='is_education']").show();
+            }
+            setItem("info",JSON.stringify(data))
          })
       }
     }
     // 检查任务
     function inspect(){
-      var token = window.localStorage.token;
-      $.get(locahost+'/order/remindOrder/?token='+token,function(data){
+        if(!token){
+          return false;
+        }
+        $.get(locahost+'/order/remindOrder/?token='+token,function(data){
         if(data.code == "403"){
-          window.location.href ="login.html#/login";
+          replaceLocation("login.html#/login");
           return false;
         }else if(data.code == "200"){
           /*有待完成任务*/

@@ -45,18 +45,18 @@ footer{position: fixed;height:0.96rem;background: #fff;width: 100%;bottom:0;z-in
 footer ul{text-align: center;}
 footer li{display: inline-block;width: 23%;text-align: center;position: relative;}
 footer li.redSpot:after{width: 0.2rem;height: 0.2rem;content: "";border-radius: 50%;background: #ef7272;position: absolute;top:10%;right:20%;}
-footer li:nth-of-type(1){background: url("../images/home/ic_home_nor.png") no-repeat center 0.2rem;background-size: 0.48rem auto}
-footer li:nth-of-type(2){background: url("../images/home/ic_task_nor.png") no-repeat center 0.2rem;background-size: 0.48rem auto}
-footer li:nth-of-type(3){background: url("../images/home/ic_shop_nor.png") no-repeat center 0.2rem;background-size: 0.48rem auto}
-footer li:nth-of-type(4){background: url("../images/home/ic_mine_nor.png") no-repeat center 0.2rem;background-size: 0.48rem auto}
+footer li:nth-of-type(1){background: url("../images/home/ic_home_nor.png") no-repeat center 0.16rem;background-size: 0.48rem auto}
+footer li:nth-of-type(2){background: url("../images/home/ic_task_nor.png") no-repeat center 0.16rem;background-size: 0.48rem auto}
+footer li:nth-of-type(3){background: url("../images/home/ic_shop_nor.png") no-repeat center 0.16rem;background-size: 0.48rem auto}
+footer li:nth-of-type(4){background: url("../images/home/ic_mine_nor.png") no-repeat center 0.16rem;background-size: 0.48rem auto}
 
-footer li a{color: #999;font-size: 0.2rem;padding-top: 0.7rem;line-height: 0.2rem;}
+footer li a{color: #999;font-size: 0.2rem;padding-top: 0.66rem;line-height: 0.2rem;}
 footer li.on a{color: #262626;}
-footer li:nth-of-type(1).on{background: url("../images/home/ic_home_sel.png") no-repeat center 0.2rem ;background-size: 0.48rem auto}
-footer li:nth-of-type(2).on{background: url("../images/home/ic_task_sel.png") no-repeat center 0.2rem ;background-size: 0.48rem auto}
-footer li:nth-of-type(3).on{background: url("../images/home/ic_shop_sel.png") no-repeat center 0.2rem ;background-size: 0.48rem auto}
-footer li:nth-of-type(4).on{background: url("../images/home/ic_mine_sel.png") no-repeat center 0.2rem ;background-size: 0.48rem auto}
-.bottom_aside{position: fixed;width: 50%;z-index: 9999;bottom: 0.5rem;left:25%;right: 0;background: rgba(0,0,0,0.8);border-radius: 0.2rem;min-height: 0.8rem;line-height: 0.8rem;color: #fff;text-align: center;font-size: 0.28rem}
+footer li:nth-of-type(1).on{background: url("../images/home/ic_home_sel.png") no-repeat center 0.16rem ;background-size: 0.48rem auto}
+footer li:nth-of-type(2).on{background: url("../images/home/ic_task_sel.png") no-repeat center 0.16rem ;background-size: 0.48rem auto}
+footer li:nth-of-type(3).on{background: url("../images/home/ic_shop_sel.png") no-repeat center 0.16rem ;background-size: 0.48rem auto}
+footer li:nth-of-type(4).on{background: url("../images/home/ic_mine_sel.png") no-repeat center 0.16rem ;background-size: 0.48rem auto}
+.bottom_aside{position: fixed;width: 50%;z-index: 9999;bottom: 0.5rem;left:25%;right: 0;background: rgba(0,0,0,0.8);min-height: 0.64rem;line-height: 0.64rem;border-radius: 0.04rem;color: #fff;text-align: center;font-size: 0.28rem}
 
 ::-webkit-scrollbar {
     width:0px;
@@ -78,7 +78,7 @@ footer li:nth-of-type(4).on{background: url("../images/home/ic_mine_sel.png") no
 .work_content:active,.myOrderCon:active,.mywallet ul li:active,#setting .setting-container div:active,.about-item-container div:active,.comment_b:active,#social-news  .assList .ass_list .ass_box:active{background: #f9f9f9 !important}
 .schoolwork_de .postwork_footer .work_submit:active,.schoolwork_de .postwork_footer .postwork_button input:active,.ass_buttom:active,.add_button:active{opacity: 0.8}
 #setting .bottom .exit:active{background: #000}
-.header_title .return:active{background: rgba(255,255,255,0.2) url("../images/return.png") no-repeat center;background-size:0.20rem auto;}
+.header_title .return:active{background-color: rgba(255,255,255,0.2);border-radius: 50%;}
 .button_active:active{background: #49b1e0;-webkit-box-shadow: 5px 10px 20px #666;  -moz-box-shadow: 5px 10px 20px #666;  box-shadow: 5px 10px 20px #666; }
 .opa_active:active{opacity: 0.8 }
 
