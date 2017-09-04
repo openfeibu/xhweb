@@ -6,13 +6,13 @@
 			</div>
 	</div>
 	<div class="post_textarea" >
-        <textarea name=""  maxlength='200' placeholder="请输入任务内容" class="post_textarea_input">21321</textarea>
+        <textarea name=""  maxlength='200' placeholder="请输入任务内容" class="post_textarea_input"></textarea>
     </div>
 	<div class="inner-container">
 		<ul class="ul1">
 			<li>
 				<label for="">赏金</label>
-				<input value="212" type="text" class="money_input" placeholder="赏金金额(至少2元)"  onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
+				<input value="" type="text" class="money_input" placeholder="赏金金额(至少2元)"  onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
 			</li>
             <li>
                 <label for="">手机号</label>
@@ -20,7 +20,7 @@
             </li>
 			<li>
 				<label for="">目的地</label>
-				<input value="212" type="text" class="map_input" placeholder="所送到的地点" />
+				<input value="" type="text" class="map_input" placeholder="所送到的地点" />
 			</li>
 		</ul>
 	</div>
@@ -28,7 +28,6 @@
 <div class="postwork_footer">
 	<input type="button" value="发布任务" class="postwork_submit animate">
 </div>
-    
 <script type="text/javascript">
         var token = window.localStorage.token;
         var phone = window.localStorage.phone;

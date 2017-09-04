@@ -385,6 +385,7 @@ $(function(){
 
  //打开支付框
  function getPayInfo(count){
+    var app = window.localStorage.app;
      if($(".shop-pay-box").length == 0){
                 var pay_html_box = '<div class="shop-pay-box  ">\
                                         <div class="shop-pay animate">\
@@ -413,12 +414,13 @@ $(function(){
                                               <p class="fl">'+b.description+'</p>\
                                               <input class="fr" type="radio" value="'+a+'"  name="payType"/>\
                                             </dd>';
-                              }else if(b.pay_name== 'wechat' && is_weixn()){
+                              }else if(b.pay_name == 'wechat' && (is_weixn() || app ) ){
                                 //微信支付
                                 pay_html += '<dd class="wechat-icon">\
                                               <p class="fl">'+b.description+'</span></p>\
                                               <input class="fr" type="radio" value="'+a+'"  name="payType"/>\
                                             </dd>';
+                                             console.log(pay_html)
                               }else if(b.pay_name== 'wallet'){
                                 var wallet_number = window.localStorage.wallet_number;
                                 var total_fee = window.localStorage.total_fee
@@ -438,6 +440,7 @@ $(function(){
                               }
                              
                           })
+
                         $(".shop-pay dl").html(pay_html)
                         $(".shop-pay-box").show();
                         setTimeout(function(){

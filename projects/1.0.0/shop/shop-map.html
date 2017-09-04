@@ -87,52 +87,56 @@
          loading(true);
         $.getJSON(locahost+'/userAddress/index?token='+token,function(data){
 
-          if(data.user_addresses.length == 0 ){
-            //没有地址
-            $(".noAddresses").show();
-          }  
-          loading(false);
-          var shop_html = "";
-          $.each(data.user_addresses,function(a,b){
-              mapArray.push(JSON.stringify(b));
-              if(b.is_default){
-                shop_html += ' <li class="clearfix">\
-                                  <div class="li_click">\
-                                    <div class="li_header">\
-                                      <span class="fl">'+b.consignee+'</span>\
-                                      <span class="fr">'+b.mobile+'</span>\
-                                    </div>\
-                                    <div class="li_bottom">\
-                                      '+b.address+'\
-                                    </div>\
-                                  </div>\
-                                  <div class="li_state">\
-                                    <div class="li_checkbox"><input type="checkbox" checked/><span>设置为默认地址</span></div>\
-                                    <div class="dele" address_id="'+b.address_id+'">删除</div>\
-                                    <div class="updata"><a onclick=\"replaceLocation(\'shop-updateMap.html?address_id='+b.address_id+'\')\">编辑</a></div>\
-                                  </div>\
-                              </li>';
-              }else{
-                shop_html += ' <li class="clearfix">\
-                                  <div class="li_click">\
-                                    <div class="li_header">\
-                                      <span class="fl">'+b.consignee+'</span>\
-                                      <span class="fr">'+b.mobile+'</span>\
-                                    </div>\
-                                    <div class="li_bottom">\
-                                      '+b.address+'\
-                                    </div>\
-                                  </div>\
-                                 <div class="li_state">\
-                                    <div class="li_checkbox"><input type="checkbox" /><span>设置为默认地址</span></div>\
-                                   <div class="dele" address_id="'+b.address_id+'">删除</div>\
-                                    <div class="updata"><a onclick=\"replaceLocation(\'shop-updateMap.html?address_id='+b.address_id+'\')\">编辑</a></div>\
-                                  </div>\
-                              </li>';
-              }
+            if(data.code == 200){
+                if(data.user_addresses.length == 0 ){
+                  //没有地址
+                  $(".noAddresses").show();
+                }  
+                loading(false);
+                var shop_html = "";
+                $.each(data.user_addresses,function(a,b){
+                    mapArray.push(JSON.stringify(b));
+                    if(b.is_default){
+                      shop_html += ' <li class="clearfix">\
+                                        <div class="li_click">\
+                                          <div class="li_header">\
+                                            <span class="fl">'+b.consignee+'</span>\
+                                            <span class="fr">'+b.mobile+'</span>\
+                                          </div>\
+                                          <div class="li_bottom">\
+                                            '+b.address+'\
+                                          </div>\
+                                        </div>\
+                                        <div class="li_state">\
+                                          <div class="li_checkbox"><input type="checkbox" checked/><span>设置为默认地址</span></div>\
+                                          <div class="dele" address_id="'+b.address_id+'">删除</div>\
+                                          <div class="updata"><a onclick=\"replaceLocation(\'shop-updateMap.html?address_id='+b.address_id+'\')\">编辑</a></div>\
+                                        </div>\
+                                    </li>';
+                    }else{
+                      shop_html += ' <li class="clearfix">\
+                                        <div class="li_click">\
+                                          <div class="li_header">\
+                                            <span class="fl">'+b.consignee+'</span>\
+                                            <span class="fr">'+b.mobile+'</span>\
+                                          </div>\
+                                          <div class="li_bottom">\
+                                            '+b.address+'\
+                                          </div>\
+                                        </div>\
+                                       <div class="li_state">\
+                                          <div class="li_checkbox"><input type="checkbox" /><span>设置为默认地址</span></div>\
+                                         <div class="dele" address_id="'+b.address_id+'">删除</div>\
+                                          <div class="updata"><a onclick=\"replaceLocation(\'shop-updateMap.html?address_id='+b.address_id+'\')\">编辑</a></div>\
+                                        </div>\
+                                    </li>';
+                    }
 
-          })
-          $(".shopMap ul").html(shop_html);
+                })
+                $(".shopMap ul").html(shop_html);
+            }else{
+              fb_alert(data.detail)
+            }
 
           }).error(function(){
             fb_alert("服务器出小差")

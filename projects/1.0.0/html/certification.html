@@ -79,22 +79,28 @@
 </html>
 <script type="text/javascript"> 
   $(function(){
+      var token = window.localStorage.token;
       var info = JSON.parse(window.localStorage.info);
-        if(info.is_auth == 1){
-          //已实名
-          $("[ data-name='certification_info_name']").text(info.realname);
-          $("[ data-name='certification_info_card']").text(info.realname);
-           $(".certification").hide();
-           $(".certification_info").fadeIn(200);
+        is_alipay(true);
+          $.getJSON(locahost+'user/realInfo',{"token":token},  function(data){
+             is_alipay(false);
+             if(data.code == 2001){
+                  fb_alert(fb_error["2001"])
+                  window.location.href = "../login.html";
+                  return;
+               }
+               if(data.code == "200"){  
+                      $(".certification").hide();
+                      $(".certification_info").fadeIn(200);
+                   $("[ data-name='certification_info_name']").text(data.data.realname);
+                   $("[ data-name='certification_info_card']").text(data.data.id_number);
+               }else{
+                   fb_alert(data.detail);    
+              }
+        }).error(function(xhr,errorText,errorType){
+                alert('网络超时，请稍后再试')
+      });
 
-        }else if(info.is_auth == 2){
-          //正在审核中
-          $("[ data-name='certification_info_name']").text(info.realname);
-          $(".certification").hide();
-           $(".certification_ing").fadeIn(200);
-        }else if(info.is_auth == 0){
-
-        }
        
 
   })

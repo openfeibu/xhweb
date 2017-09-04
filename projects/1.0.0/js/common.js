@@ -412,9 +412,13 @@ function is_weixn(){
       var firstNum = option.firstNum || 0;
       var Num = parseFloat((lastNum-firstNum)/100);
       var time;
+      if(!is_toFixed){
+        Num = Num < 1 ? 1 : Num;
+      } 
       time = setInterval(function(){
         firstNum = parseFloat(firstNum)+Num > parseFloat(lastNum) ? parseFloat(lastNum) : parseFloat(firstNum)+Num;
         firstNum = is_toFixed ? firstNum.toFixed(2) : firstNum.toFixed(0);
+
         obj.text(firstNum);
         if(firstNum == parseFloat(lastNum)){
           clearInterval(time)
