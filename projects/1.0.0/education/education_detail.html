@@ -92,7 +92,7 @@
             $('[data-name="driver_tellUrl"]').attr('href','tel:'+data.tell);
             var prodouct_html = '';
             $.each(data.prodoucts,function(a,b){
-              prodouct_html += ' <div class="driver_prodoucts_item">\
+              prodouct_html += ' <div class="driver_prodoucts_item clearfix">\
                                   <div class="driver_prodoucts_item_t">\
                                     <div class="pro_name fl">'+b.product_name+'</div>\
                                     <div class="pro_money fr">￥'+b.price+'</div>\
