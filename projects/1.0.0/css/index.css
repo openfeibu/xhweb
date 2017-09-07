@@ -845,7 +845,7 @@ display: -webkit-box;
 .shop-pay dl dd input[type="radio"]{position: absolute;top:0;left:0;width: 100%;height: 0.48rem;background: url("../images/shop/pay-check.png") no-repeat right center;background-size: 0.4rem auto;vertical-align: top;margin-right: 0.25rem;}
 .shop-pay dl dd input[type="radio"]:checked{background: url("../images/shop/pay-checked.png") no-repeat right center;background-size: 0.4rem auto;}
 .shop-pay dl dd input[type="radio"]:disabled{background: url("../images/shop/pay-disabled.png") no-repeat right center;background-size: 0.4rem auto;}
-.shop-pay .paySubmit{width: 100%;height: 0.96rem;text-align:center;line-height: 0.96rem;background: #ffdd0f;font-size: 0.32rem;color: #262626;margin:0.32rem 0;}
+.shop-pay .paySubmit{width: 100%;height: 0.96rem;text-align:center;line-height: 0.96rem;background: #ffdd0f;font-size: 0.32rem;color: #262626;margin:0.32rem 0;cursor: pointer;}
 .shop-pay dl dd.alipay-icon{background: url("../images/shop/alipay-icon.png") no-repeat center left;background-size: auto 0.48rem;}
 .shop-pay dl dd.wechat-icon{background: url("../images/shop/wechat-icon.png") no-repeat center left;background-size: auto 0.48rem;}
 .shop-pay dl dd.wallet-icon{background: url("../images/shop/wallet-icon.png") no-repeat center left;background-size: auto 0.48rem;}
