@@ -127,7 +127,6 @@ function topicGet(obj) {
                             <div class="topic_con">\
                                 <div class="test">'+ClearBr(b["content"])+'</div>\
                              </div>\
-                            </a>\
                            '+img_url+'\
                           <div class="topic_bottom">\
                             <div class="zanping">\
@@ -135,6 +134,7 @@ function topicGet(obj) {
                               <div class="zan '+zanEd+'"  onclick=thumbUp(this,'+b["tid"]+')>'+b["favourites_count"]+'</div>\
                             </div>\
                           </div>\
+                        </a>\
                         </div>';
           })
 
@@ -202,7 +202,7 @@ function topicGet(obj) {
             "opacity": "1"
         });
         mySwiper.slideTo(i, 0, false);
-        
+        return false;
     });
     $(".big_img").on("click", 
     function() {
