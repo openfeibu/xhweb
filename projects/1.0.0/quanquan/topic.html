@@ -87,7 +87,7 @@ function topicGet(obj) {
           clearLoading();
           if(data.code == 2001){
             fb_alert(fb_error["2001"])
-            window.location.href = "login.html";
+            window.location.href = webLoca+"login.html";
             return;
          }
          if(data.code == 200){

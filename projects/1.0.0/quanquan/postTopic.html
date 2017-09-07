@@ -62,11 +62,7 @@
     $(".postSubmit").one("click",Uptopic)
     function Uptopic(){
       var val = $(".topic_con").val();
-      if(getByteLen(val) == 0 ){
-        fb_alert("内容不可为空");
-        $(".postSubmit").one("click",Uptopic)
-        return false;
-      }else if(getByteLen(val) > 140){
+      if(getByteLen(val) > 140){
         fb_alert("内容不可超过140字符");
         $(".postSubmit").one("click",Uptopic)
         return false;

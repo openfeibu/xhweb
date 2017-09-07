@@ -131,7 +131,7 @@ function thumbUp(obj,topic_id){
     is_alipay(false);
     if(data.code == 2001){
       fb_alert(fb_error["2001"]);
-      window.location.href="login.html";
+      window.location.href= webLoca+"login.html";
     }else if(data.code == 110){
       fb_alert(data.detail);
     }
