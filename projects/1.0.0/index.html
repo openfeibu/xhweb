@@ -310,7 +310,7 @@
             var shop_type = type == 'getCampusList' ? 3 : type == 'getSellerList' ? 2 : type == 'getStudentList' ? 1 : 3 ;
             //tab切换
             $(".shop_tab span").eq(fb.index).addClass("on").siblings("span").removeClass("on");
-            $(".shop-list").eq(fb.index).show().siblings(".shop-list").hide();
+            shop_list.show().siblings(".shop-list").hide();
             //tab切换
           $('.shop-list').off("scroll");
           $("#loaded").remove();
