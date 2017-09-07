@@ -32,18 +32,21 @@
   <script src="../js/swiper.min.js"></script>
 </head>
 <body class='bge8'>
-	<section class='main' style="padding-bottom:0">
-      <div id="ClassA" class= "routes">
+	<section class='main pt1' >
         <div class="header_title">
-          <p></p>
           <div class="return" onclick="returnUp()">
           </div>
         </div>
-        <div class="myOrder">
-          <div class="myOrderBox m_topic">
-              <div class="topic_list pt1"></div>
-          </div>
+        <div class="others_header">
+           <div class="myprofile">
+                  <div class="img " data-name="mp_img"></div>
+                  <div class="nameschoolname ">
+                    <div class="name" data-name="name">Marin</div>
+                    <div class="schoolName" data-name="introduction"></div>
+                  </div>
+            </div>
         </div>
+        <div class="topic_list"></div>
 
       <div class="big_img">
             <div class="swiper-container2">
@@ -53,13 +56,33 @@
             </div>
             <div class="swiper-pagination2"></div>
       </div>
-      </div>
 	</section>
 </body>
 <script>
   var token = window.localStorage.token;
-  // loading(true); //动画
+  var openid = GetString("openid");
+  loading(true); //动画
   // topicGet();
+  var getData={
+    openid : openid
+  }
+   $.getJSON(locahost+'/user/getOthersInfo',getData,function(data){
+       loading(false) 
+      if(data.code == "403"){
+         replaceLocation("login.html#/login");
+        return false;
+      }else if(data.code == "2001"){
+        fb_alert("登陆超时")
+         replaceLocation("login.html#/login");
+        return false;
+      }
+      var data = data.data;
+      $('[data-name="mp_img"]').css("background","url("+data.avatar_url+") no-repeat center/cover");
+      $('[data-name="name"]').text(data.nickname)
+      $('[data-name="introduction"]').text(data.introduction)
+      topicGet({uid:data.uid}); 
+   })
+
 
 function topicGet(obj) {
       var defaults = {
@@ -67,6 +90,7 @@ function topicGet(obj) {
       };
       var fb = $.extend(defaults, obj || {});
       var page = fb.page;
+      var uid = fb.uid;
       var topic_list = $(".topic_list");
       $(window).off("scroll"); //清除滚动事件
       if ($("#loading").length == 0 && page != 1) {
@@ -74,15 +98,18 @@ function topicGet(obj) {
       }
       var postData = {
           page: page,
+          uid : uid,
       }
       if(token){
         postData.token = token;
       }
-      $.getJSON(locahost +'topic/getMyTopic', postData, function(data) {
-          loading(false);
+      is_alipay(true)
+      $.getJSON(locahost +'topic/getTopics', postData, function(data) {
+          is_alipay(false)
+          clearLoading();
           if(data.code == 2001){
             fb_alert(fb_error["2001"])
-            window.location.href = "login.html";
+            window.location.href = webLoca+"login.html";
             return;
          }
          if(data.code == 200){
@@ -108,29 +135,28 @@ function topicGet(obj) {
                 }
               /*是否点赞过 E*/      
 
-              var time = afterTime(b["created_at"]); //获取时间
-              htmldom += '<div class="topic_box clearfix " tid='+b.tid+'>\
-                          <a href="topic_detail.html?topic_id='+b.tid+'">\
+
+              htmldom += '<div class="topic_box clearfix  " tid='+b["tid"]+'>\
+                          <a href="../quanquan/topic_detail.html?topic_id='+b["tid"]+'">\
                             <div class="topic_header">\
-                              <div class="img fl">\
-                               <img src="'+b.avatar_url+'" alt="">\
+                              <div class="img go_others fl"  openid="'+b.openid+'">\
+                               <img src="'+b["avatar_url"]+'" alt="">\
                               </div>\
                               <div class="name fl">\
-                                <p>'+b["nickname"]+'</p><p class="date">'+time+'</p>\
+                                <p>'+b["nickname"]+'</p><p class="date">'+b.created_at_desc+'</p>\
                              </div>\
                             </div>\
                             <div class="topic_con">\
-                                <div class="test">'+ClearBr(b.content)+'</div>\
+                                <div class="test">'+ClearBr(b["content"])+'</div>\
                              </div>\
-                            </a>\
                            '+img_url+'\
                           <div class="topic_bottom">\
                             <div class="zanping">\
                               <div class="ping">'+b["comment_num"]+'</div>\
-                              <div class="zan '+zanEd+'"  onclick=thumbUp(this,'+b.tid+')>'+b.favourites_count+'</div>\
-                              <div class="dele fr" onclick="deletopic(this,'+b.tid+')">删除</div>\
+                              <div class="zan '+zanEd+'"  onclick="thumbUp(this,'+b["tid"]+');return false;">'+b["favourites_count"]+'</div>\
                             </div>\
                           </div>\
+                        </a>\
                         </div>';
           })
 
@@ -175,10 +201,6 @@ function topicGet(obj) {
          
       })
   }
-
-
-
-
 /*调起大图 S*/
    var mySwiper = new Swiper('.swiper-container2', {
           loop: false,

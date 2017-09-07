@@ -1,5 +1,6 @@
 $(function(){
  var wallet_pass = '';
+ var app = window.localStorage.app;
  var token = window.localStorage.token;
  var payInfo;
  var payMap;
@@ -367,6 +368,10 @@ $(function(){
     if(is_weixn()){
          wechat_info.platform = 'wechat';
      }
+     if(app){
+         wechat_info.platform = 'and';
+
+     }
      if(payMap == 'work'){
         $.post(locahost + 'order/createOrder', wechat_info, function(data) {
              if (data.code == 2001) {
@@ -407,7 +412,7 @@ $(function(){
      WeixinJSBridge.invoke('getBrandWCPayRequest',JSON.parse(wechatJson), function(res) {
          if(res.err_msg == "get_brand_wcpay_request:ok" ) {  
             //支付成功
-            window.location.href='shop-pay.html'
+            window.location.href=webLoca+'shop-paysucc.html'
          }else if(res.err_msg== "get_brand_wcpay_request:cancel"){
              fb_alert("你已取消微信支付");
          }else if(res.err_msg== "get_brand_wcpay_request:fail"){

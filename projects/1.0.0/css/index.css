@@ -301,7 +301,7 @@ body{height: 100%;}
 .outer_header .myprofile a{display: block;height: 100%;}
 .outer_header .myprofile .img{width: 1.2rem;height: 1.2rem;border-radius: 50%;overflow: hidden;border:2px solid #fff;box-sizing:border-box;box-sizing:-webkit-border-box; box-sizing:-ms-border-box;box-sizing:-moz-border-box;margin:0 auto;}
 .outer_header .myprofile .img img{width: 100%;height: 100%;}
-.outer_header .nameschoolname{height: 1rem;margin-left: 0.15rem;}
+.outer_header .nameschoolname{height: 1rem;}
 .outer_header .name{font-size: 0.32rem;color: #262626;margin:0.16rem 0;text-align: center;}
 .outer_header .schoolName{font-size: 0.24rem;color: #a69001;text-align: center;}
 .outer_header .power{width: 100%;text-align: center;}
@@ -950,3 +950,13 @@ display: -webkit-box;
 .records_de .records_info span.records_price{color: #519bff ;font-weight: bold;}
 .records_close{position: fixed;bottom: 0;left:0;width: 100%;height: 0.96rem;color: #262626;font-size: 0.32rem;line-height: 0.96rem;text-align: center;}
 .records_close button{color: #262626;width: 100%;height: 0.96rem;background: #fff;font-size: 0.28rem;}
+
+/*他人界面*/
+.others_header{height: 2.7rem;background: #FFE00F;}
+.others_header .myprofile{}
+.others_header .myprofile a{display: block;height: 100%;}
+.others_header .myprofile .img{width: 1.2rem;height: 1.2rem;border-radius: 50%;overflow: hidden;border:2px solid #fff;box-sizing:border-box;box-sizing:-webkit-border-box; box-sizing:-ms-border-box;box-sizing:-moz-border-box;margin:0 auto;}
+.others_header .myprofile .img img{width: 100%;height: 100%;}
+.others_header .nameschoolname{height: 1rem;}
+.others_header .name{font-size: 0.32rem;color: #262626;margin:0.16rem 0;text-align: center;}
+.others_header .schoolName{font-size: 0.24rem;color: #a69001;text-align: center;}
