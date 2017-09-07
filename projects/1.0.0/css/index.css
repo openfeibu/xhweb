@@ -314,7 +314,8 @@ body{height: 100%;}
 .outer_header .power li:last-child:after{display: none}
 .my-outer-container{}
 .my-outer-container ul{margin: 0.32rem 0;padding:0 0.32rem;background:#fff;}
-.my-outer-container ul li{height: 0.96rem;line-height: 0.96rem;text-indent: 0.64rem;font-size: 0.28rem;border-bottom: 1px solid #eee;}
+.my-outer-container ul li{height: 0.96rem;line-height: 1rem;text-indent: 0.64rem;font-size: 0.28rem;border-bottom: 1px solid #eee;position: relative;}
+.my-outer-container ul li.on:after{content: "";position: absolute;width:0.2rem;height: 0.2rem;background: #ef7272;border-radius: 50%;top:0.2rem;left:0.4rem;}
 .my-outer-container ul li:last-child{border-bottom: none;}
 .my-outer-container ul li a{color: #555;background: url("../images/mine/ic_mine_more.png") no-repeat right center;background-size: 0.48rem auto;}
 .my-outer-container .my-con li:nth-of-type(1){background:url("../images/mine/ic_mine_task.png") no-repeat left center;background-size: 0.48rem auto;}
@@ -357,7 +358,7 @@ body{height: 100%;}
  .webuploader-pick{padding: 0 !important;}
 .myprofile_item{margin:0 0.32rem;background:#fff url("../images/mine/ic_mine_more.png") no-repeat 98% center;background-size: 0.38rem auto;color: #555555;font-size: 0.32rem;border-bottom: 1px solid #eeeeee;}
 .myprofile_item span{font-size: 0.28rem;vertical-align: middle;color: #262626;}
-.myprofile_item .myprofile_item_right{color: #999999;font-size: 0.28rem;margin-right: 0.5rem;}
+.myprofile_item .myprofile_item_right{color: #999999;font-size: 0.28rem;margin-right: 0.5rem;width: 70%;overflow: hidden;text-align: right;}
 .pic .pic-right-container{position:absolute;right: 0.31rem;top: 0;}
 .pic span{font-size: 0.28rem;vertical-align: middle;color: #262626;}
 .pic .pic-right-container .user-pic{width: 1.2rem;height: 1.2rem;border-radius: 50%;margin-right: 0.31rem;}
@@ -654,16 +655,18 @@ body{height: 100%;}
 .work_content{width:100%;padding:0 0 0 0;background: #fff; margin:0.3rem auto ;position: relative;font-size: 0.28rem;color: #555555;height: auto;overflow: hidden;overflow: hidden;}
 .work_content .content-inner-container{position: relative;background-size: auto 0.05rem;padding:0.3rem;}
 
-.work_content .work_description{font-size: 0.28rem;line-height: 0.42rem;height: 0.84rem;padding-left: 0.65rem;background: url("../images/works/ic_task_content.png") no-repeat left 0.05rem;background-size: 0.48rem auto;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;color: #262626;}
-.work_group{height: 0.32rem;text-align: justify;margin-top: 0.3rem;}
+.work_content .work_description{font-size: 0.28rem;line-height: 0.42rem;height: 0.84rem;padding-left: 0.65rem;background: url("../images/works/ic_task_content_2.png") no-repeat left 0.05rem;background-size: 0.48rem auto;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;color: #999;}
+.work_content .work_description.will{background: url("../images/works/ic_task_content.png") no-repeat left 0.05rem;background-size: 0.48rem auto;color: #262626;}
+.work_group{height: 0.5rem;text-align: justify;margin-top: 0.15rem;}
 .work_group:after{content: "";display: inline-block;*display: inline;*zoom:1;width: 100%;height: 0;overflow: hidden;margin-top: 0.25rem;}
-.work_group .work_status{display: inline-block;*display: inline;*zoom:1;vertical-align: top;padding-left:0.44rem;font-size: 0.28rem;line-height: 0.33rem;}
+.work_group .work_status{display: inline-block;*display: inline;*zoom:1;vertical-align: top;padding-left:0.44rem;font-size: 0.28rem;line-height:0.38rem;height:0.35rem;}
 .work_group .work_status.will{color: #519bff;background: url("../images/works/ic_task_status1.png") no-repeat left center;background-size: auto 0.33rem;}
  .work_group .work_status.ing{color: #45b758;background: url("../images/works/ic_task_status2.png") no-repeat left center;background-size: auto 0.33rem;}
  .work_group .work_status.ed{color: #999999;background: url("../images/works/ic_task_status3.png") no-repeat left center;background-size: auto 0.33rem;}
- .work_group .work_money{display: inline-block;*display: inline;*zoom:1;vertical-align: top;padding-left:0.44rem;color: #fabe1a  ;font-size: 0.28rem;line-height: 0.33rem;background: url("../images/works/ic_task_money.png") no-repeat left center;background-size: auto 0.33rem;}
- .work_group .work_date{display: inline-block;*display: inline;*zoom:1;vertical-align: top;padding-left:0.44rem;color: #999999;font-size: 0.28rem;line-height: 0.33rem;background: url("../images/works/ic_task_time.png") no-repeat left center;background-size: auto 0.33rem;}
- .work_destination{font-size: 0.28rem;color: #999999;line-height: 0.33rem;height: 0.33rem;padding-left: 0.43rem;background: url("../images/works/ic_task_address.png") no-repeat left center;background-size:auto 0.33rem;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;margin-top: 0.33rem;}
+ .work_group .work_money{display: inline-block;*display: inline;*zoom:1;vertical-align: top;padding-left:0.44rem;color: #fabe1a  ;font-size: 0.28rem;line-height:0.38rem;background: url("../images/works/ic_task_money.png") no-repeat left center;background-size: auto 0.33rem;height:0.35rem;}
+ .work_group .work_money.ed{color: #999;background: url("../images/works/ic_task_money_2.png") no-repeat left center;background-size: auto 0.33rem;}
+ .work_group .work_date{display: inline-block;*display: inline;*zoom:1;vertical-align: top;padding-left:0.44rem;color: #999999;font-size: 0.28rem;line-height:0.38rem;background: url("../images/works/ic_task_time.png") no-repeat left center;background-size: auto 0.33rem;height:0.35rem;}
+ .work_destination{font-size: 0.28rem;color: #999999;line-height:0.4rem;height: 0.33rem;padding-left: 0.43rem;background: url("../images/works/ic_task_address.png") no-repeat left center;background-size:auto 0.33rem;;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;margin-top: 0.33rem;}
 
 
 
@@ -742,7 +745,7 @@ display: -webkit-box;
 .inner-container .ul1 li:nth-of-type(2) label{background:url("../images/works/ic_task_phone.png") no-repeat 0.04rem center;background-size:auto 0.35rem}
 .inner-container .ul1 li:nth-of-type(3) label{background:url("../images/works/ic_task_address.png") no-repeat left center;background-size:auto 0.35rem}
 .inner-container .ul1 li input{width: 4rem;border:none;float: left;height: 0.96rem;color: #262626;font-size: 0.28rem;}
-.postwork_footer{width: 100%;max-width: 750px;position: absolute;bottom: 1rem;left:5%;}
+.postwork_footer{width: 100%;position: absolute;bottom: 1rem;left:5%;}
 .postwork_footer .postwork_submit{width: 100%;height: 0.96rem;text-align: center;color: #ffffff;background: #cccccc;font-size:0.32rem;position: fixed;bottom: 0;left:0;right:0;z-index: 9997; }
 .postwork_footer .postwork_submit.active{color: #262626;background: #ffe00f;}
 .postwork_footer .declare{font-size: 0.28rem;color: #F29F5B;float: right;margin-bottom: 0.5rem;}
@@ -765,7 +768,7 @@ display: -webkit-box;
 .payPassVal  span{width: 1.05rem;height: 0.96rem;border:1px solid #ccc;border-right: none;display: block;float: left;margin-top: 0.2rem;text-align: center;line-height: 0.8rem;color: #666;font-size: 0.5rem;}
 .payPassVal  span:nth-of-type(1){margin-left: 0.5rem;border-radius: 5px 0 0 5px; }
 .payPassVal  span:nth-of-type(6){border-right:1px solid #ccc;border-radius: 0 5px 5px 0; }
-
+.payPassVal a{color: #0E7FFF;font-size: 0.32rem;position: absolute;top:2.5rem;right: 0.32rem;}
 .payNum{position: absolute;width: 100%;max-width: 750px;bottom:-4.8rem;background: #fff;transition:bottom 0.3s ;-webkit-transition:bottom 0.3s;-moz-transition:bottom 0.3s;-o-transition:bottom 0.3s;}
 .payNum.top{bottom:0;}
 .payNum li{font-size: 0.48rem;width: 33.33%;height: 1.2rem;color:#262626;float: left;line-height: 1rem;border:1px solid #ccc;border-right: none;border-bottom: none;text-align: center;box-sizing:border-box; -moz-box-sizing:border-box; /* Firefox */ -webkit-box-sizing:border-box; /* Safari */}
@@ -833,7 +836,7 @@ display: -webkit-box;
 .shop-pay .shop-pay-header{height: 0.5rem;line-height: 0.5rem;overflow: hidden;}
 .shop-pay .shop-pay-header p{font-size: 0.32rem;color: #262626}
 .shop-pay .shop-pay-header p span{font-size: 0.48rem;color: #f58705;}
-.shop-pay .shop-pay-header .shop-pay-close{font-size: 0.32rem;color: #999;}
+.shop-pay .shop-pay-header .shop-pay-close{font-size: 0.32rem;color: #999;cursor:pointer;}
 .shop-pay dl{}
 .shop-pay dl dt{height: 1.4rem;line-height: 1.4rem;font-size: 0.28rem;color: #999999;}
 .shop-pay dl dd{height: 0.48rem;line-height: 0.48rem;margin-bottom: 0.48rem;position: relative;padding-left:0.65rem;}

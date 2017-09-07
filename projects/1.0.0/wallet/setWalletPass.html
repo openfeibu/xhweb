@@ -1,0 +1,17 @@
+
+<div class="header_title">
+      <p>设置钱包支付密码</p>
+      <div class="return" onclick="returnUp()">
+      </div>
+</div>
+<script type="text/javascript">
+  var app = window.localStorage.app;
+  if(app){
+    $(".header_title").hide();
+    $("title").text("设置钱包支付密码");
+  }
+  var token = window.localStorage.token;
+  walletPay({payMap:"setPass"})
+
+
+</script>

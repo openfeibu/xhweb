@@ -1,6 +1,6 @@
 
 // var refresh= new Array("home","topic","tape","work","shop","personalWork","businessWork","mytopic","mycomment","assList","asActives","jieOrder","faOrder","myAss","Member","SS");
-var refresh= ["topic","home"];
+var refresh= ["topic","home","tape"];
   $(function(){
       //下拉刷新
       htmlUpdata();

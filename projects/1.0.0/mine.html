@@ -7,19 +7,19 @@
           <div class="img " data-name="mp_img"></div>
           <div class="nameschoolname ">
             <div class="name" data-name="name">Marin</div>
-            <div class="schoolName" data-name="schoolName">广东农工商</div>
+            <div class="schoolName" data-name="introduction"></div>
           </div>
         </a>
       </div>
       <ul class="power">
-        <li><a href="html/mywallet.html"><p data-name="wallet">0</p>钱包余额</a></li>
+        <li><a href="wallet/mywallet.html"><p data-name="wallet">0</p>钱包余额</a></li>
         <li ><a href="quanquan/mytopic.html" ><p data-name="topic_count">0</p>我的圈圈</a></li>
         <li><a href="coupon/couponlList.html#/unused"><p data-name="coupon">0</p>优惠券</a></li>
       </ul>
     </div>
     <div class="my-outer-container">
       <ul class="my-con">
-        <li data-name="myWork"><a href="html/order.html">我的任务</a></li>
+        <li data-name="myWork"><a href="works/mywork.html">我的任务</a></li>
         <!-- <li><a href="html/mypoint.html">我的积分(<span data-name="integral" class="integral_num"></span>)</a></li> -->
         <li><a  href="shop/shop-order.html" >我的订单</a></li>
         <li><a href="shop/shop-map.html">收货地址</a></li>
@@ -51,11 +51,10 @@
         var data = JSON.parse(info);
         $('[data-name="mp_img"]').css("background","url("+data.avatar_url+") no-repeat center/cover");
         $('[data-name="name"]').text(data.nickname);
-        $('[data-name="schoolName"]').text(data.college);
+        $('[data-name="introduction"]').text(data.introduction);
         $('[data-name="integral"]').text(data.integral);
-        console.log(data.topic_count)
         animateNum({obj:$('[data-name="wallet"]'),lastNum:wallet_number,is_toFixed:true});
-        animateNum({obj:$('[data-name="topic_count"]'),lastNum:data.topic_count,is_toFixed:true});
+        animateNum({obj:$('[data-name="topic_count"]'),lastNum:data.topic_count,is_toFixed:false});
         animateNum({obj:$('[data-name="coupon"]'),lastNum:data.coupon_count,is_toFixed:false});
         if(data.is_driving_school){
           $("[data-name='is_driving_school']").show();

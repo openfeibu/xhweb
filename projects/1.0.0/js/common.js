@@ -203,7 +203,7 @@ function delecommentFun(obj,comment_id){
 }
 //返回上一页
 function returnUp(){  
-  window.history.go(-1);
+  window.history.back(-1);
 }
 
 function replaceLocation(URL){
@@ -405,27 +405,27 @@ function is_weixn(){
     }  
 } 
 //数字动画
-    function animateNum(option){
-      var obj = option.obj;
-      var lastNum = option.lastNum;
-      var is_toFixed = option.is_toFixed || false;
-      var firstNum = option.firstNum || 0;
-      var Num = parseFloat((lastNum-firstNum)/100);
-      var time;
-      if(!is_toFixed){
-        Num = Num < 1 ? 1 : Num;
-      } 
-      time = setInterval(function(){
-        firstNum = parseFloat(firstNum)+Num > parseFloat(lastNum) ? parseFloat(lastNum) : parseFloat(firstNum)+Num;
-        firstNum = is_toFixed ? firstNum.toFixed(2) : firstNum.toFixed(0);
+  function animateNum(option){
+    var obj = option.obj;
+    var lastNum = option.lastNum;
+    var is_toFixed = option.is_toFixed || false;
+    var firstNum = option.firstNum || 0;
+    var Num = parseFloat((lastNum-firstNum)/100);
+    var time;
+    if(!is_toFixed){
+      Num = Num < 1 ? 1 : Num;
+    } 
+    time = setInterval(function(){
+      firstNum = parseFloat(firstNum)+Num > parseFloat(lastNum) ? parseFloat(lastNum) : parseFloat(firstNum)+Num;
+      firstNum = is_toFixed ? firstNum.toFixed(2) : firstNum.toFixed(0);
 
-        obj.text(firstNum);
-        if(firstNum == parseFloat(lastNum)){
-          clearInterval(time)
-        }
-      },1)
+      obj.text(firstNum);
+      if(firstNum == parseFloat(lastNum)){
+        clearInterval(time)
+      }
+    },1)
 
-    }
+  }
 
 //提示
 var fb_error ={
@@ -527,3 +527,11 @@ var fb_error ={
       // }).error(function(xhr,errorText,errorType){
       //         alert('网络超时，请稍后再试')
       //     });
+$(function(){
+    //跳转他人页面
+  $('body').on("click",".go_others",function(){
+    var openid = $(this).attr("openid");
+    locaGo('html/others.html?openid='+openid);
+    return false;
+  })
+})

@@ -24,7 +24,7 @@
   <link rel="stylesheet" type="text/css" href="../css/reset.css"/>
   <link rel="stylesheet" type="text/css" href="../css/index.css"/>
   <link rel="stylesheet" type="text/css" href="../css/shop.css"/>
-  <script type="text/javascript" src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
   <script type="text/javascript" src="../js/common.js"></script>
   <script type="text/javascript" src="../js/director.js"></script>
   <script type="text/javascript" src="../js/updata.js"></script>
@@ -37,7 +37,7 @@
           <div class="return" onclick="returnUp()">
           </div>
         </div>
-        <div class="shop-order pt1">
+        <div class="shop-order pt1 animate">
             <div class="checkMap" onclick="locaGo('shop/shop-map.html')">
                 <div class="usermap">
 
@@ -130,7 +130,7 @@
             //没有产品
             window.history.go(-1);
           }
-          if(window.localStorage.user_address){
+          if(window.localStorage.user_address && window.localStorage.user_address != "undefined"){
             //有选择的地址
             var map_user_address = JSON.parse(window.localStorage.user_address);
             var mapHtml = '<div class="li_header">\
@@ -265,6 +265,7 @@
           fb_alert(fb_error["s_002"]);
           return false;
       }
+      is_alipay(true);
       getPayInfo(count-price);
     })
 
@@ -273,7 +274,8 @@
  
     $('body').on("click",".paySubmit",function(){
       var pay_id =$("[name='payType']:checked").val();
-      var infoData = {'shop_id':shop_id,'address_id':address_id,'pay_id' : pay_id,'user_coupon_id':user_coupon_id,'wap':1,'payMap':'shop','platform':'wap'}
+      var infoData = {'shop_id':shop_id,'address_id':address_id,'pay_id' : pay_id,'user_coupon_id':user_coupon_id,'postscript':$(".remark input").val(),'wap':1,'payMap':'shop','platform':'wap'}
+      console.log(infoData)
         if(pay_id == undefined){
           fb_alert(fb_error["s_003"])
         }
@@ -292,6 +294,19 @@
         }
     })
 
+    if(app == 1){
+    $(".remark input").focus(function(){
+      $(".shop-order").addClass("top");
+      setTimeout(function(){
+          $("body").animate({
+            'scrollTop':$(".shop-order").height()
+          })
+      },100)
+    })
+     $(".remark input").blur(function(){
+      $(".shop-order").removeClass("top");
+    })
+   }
   })
 
 

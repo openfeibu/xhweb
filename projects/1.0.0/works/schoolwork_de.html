@@ -16,7 +16,7 @@
   <meta name="x5-page-mode" content="app">
   <!-- UC禁止放大字体 -->
   <meta name="wap-font-scale" content="no">
-  <title>校汇Plus | 校汇 </title>
+  <title>校汇 </title>
   <meta name="Keywords" content="校汇,广东农工商职业技术学院,AIB,农工商,能赚钱,大学生,大学生创业,大学生校园,大学生校园社团,大学生校园快递,大学生周边生活" />
   <meta name="Description" content="校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、社团文化、校园资讯、学生互动" />
   <link rel="apple-touch-icon-precomposed" href="./icon.png" />
@@ -25,7 +25,7 @@
   <link rel="stylesheet" type="text/css" href="../css/index.css">
   <link rel="stylesheet" type="text/css" href="../css/info.css">
   <link href="../css/swiper.min.css" rel="stylesheet" type="text/css">
-  <script type="text/javascript" src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
   <script type="text/javascript" src="../js/common.js"></script>
   <script type="text/javascript" src="../js/director.js"></script>
   <script type="text/javascript" src="../js/updata.js"></script>
@@ -116,7 +116,7 @@ function(data) {
           workType = "(接单人)";
           state_index = 1;
           work_status_class = 'ing';
-          input_submit = '<input style="width:100%" type="button" value="送货中" class="finishOrder"/>';
+          input_submit = '<input style="width:100%" type="button" value="结算任务" class="finishOrder"/>';
         }else if(b.status == "finish"){
           //待结算
           tell = '<div class="tell totell"><a href="tel:' + b.courier_mobile_no + '">联系</a></div>';
@@ -168,7 +168,6 @@ function(data) {
         }
         /*时间进程 E*/
     }
-
     var workHtml = '<div class="schoolwork_info">\
                           <div class="name">\
                             <div class="img" style="background:#fafafa url(' + b.avatar_url + ') no-repeat left center/0.65rem 0.65rem;width:0.65rem;height:0.65rem"></div>\
@@ -176,12 +175,12 @@ function(data) {
                          '</div>\
                           <div class="work_group">\
                             <div class="work_status '+work_status_class+'">'+b.order_status+'</div>\
-                            <div class="work_money">'+parseFloat(b.fee)+'元</div>\
-                            <div class="work_date">'+afterTime(b.created_at)+'</div>\
+                            <div class="work_money">'+parseFloat(b.total_fee)+'元</div>\
+                            <div class="work_date">'+b.created_at_desc+'</div>\
                           </div>\
                           <div class="work_destination">'+b.destination+'</div>\
                         </div>\
-                        <div class="work_description"><p>'+b.description+'</p></div>\
+                        <div class="work_description"><p>'+b.description.replace(/\n/g,'</br>')+'</p></div>\
                         <div class="schedule">\
                           <ul class=" clearfix">\
                             <li class="animate"><label>等待接单</label></li>\
@@ -192,6 +191,7 @@ function(data) {
                         </div>';
     // var input_submit = '<input type="button" value="接受任务" class="work_submit"/>';
     $(".schoolwork_info_box").html(workHtml);
+    // $(".work_description").html(b.description)
     $(".postwork_button").html(input_submit);
     //加载任务状态
             
@@ -271,7 +271,7 @@ $("body").on("click", ".DoneOrder",function() {
 })
 //取消任务
 $("body").on("click", ".closeOrder",function() {
-    alert_flag("是否取消该任务?",function(){
+    alert_flag("单日内取消任务次数超过三次，则本日内不可再接受任务?",function(){
         is_alipay(true);
         $.post(locahost + '/order/askCancel/?token=' + token + '&order_id=' + oid,
         function(data) {

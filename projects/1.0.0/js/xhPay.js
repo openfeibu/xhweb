@@ -19,6 +19,7 @@ $(function(){
                                 <span></span>\
                                 <span></span>\
                                 <span></span>\
+                                <a href="'+webLoca+'wallet/mywallet.html#/passWord/forgetWalletPass" class="clearfix">忘记密码？</a>\
                             </div>\
                             <ul class="payNum">\
                                 <li>1</li>\
@@ -136,6 +137,12 @@ $(function(){
                      wallet_pass = '';   
                      fb_alert(data.detail);
                  }
+                 if (data.code == 3001) {
+                     $(".payPassVal span").text("");
+                     wallet_pass = '';   
+                     fb_alert(data.detail);
+                     locaGo("wallet/mywallet.html#/passWord");
+                 }
                  if (data.code == 200) {
                      fb_alert(fb_error["s_004"]);
                      
@@ -239,6 +246,60 @@ $(function(){
             return wallet_pass;
            
             
+         }else if(payMap == 'setPass'){
+            if(oldPass.length != 0 ){
+                //有旧密码
+                alipay_info.old_paypassword = oldPass;
+                alipay_info.new_paypassword = $.md5(wallet_pass);
+                if(oldPass != $.md5(wallet_pass)){
+                    is_alipay(false);
+                    fb_alert(fb_error["1000"]);
+                    oldPass = '';
+                    $(".payPassVal span").text("");
+                    wallet_pass = '';
+                    return false;
+                }
+                $.post(locahost + 'user/setPayPassword', alipay_info, function(data) {
+                         $('.payPassVal_title').text("请设置钱包支付密码");
+                         is_alipay(false);
+                        if (data.code == 2001) {
+                        fb_alert(fb_error["2001"]);
+                            window.location.href = "login.html";
+                        }
+                        if (data.code == 200) {
+                            oldPass = '';
+                            fb_alert(fb_error["1001"]);
+                            closePayPass();
+                            window.localStorage.is_paypassword = 1
+                            setTimeout(function(){
+                                 window.history.go(-1);
+                            },1000)
+
+                        } else {
+                            $(".payPassVal span").text("");
+                            wallet_pass = ''; 
+                            oldPass = '';
+                            fb_alert(data.detail);
+
+                        }
+                }).error(function() {
+                     oldPass = '';
+                    $(".payPassVal span").text("");
+                    wallet_pass = '';
+                     fb_alert("服务器出小差啦")
+                    })
+            }else{
+                is_alipay(false);
+                oldPass = $.md5(wallet_pass);
+                closePayPass();
+                 setTimeout(function(){
+                    walletPay({payMap:"setPass"});
+                     $('.payPassVal_title').text("请再输入钱包支付密码");
+                 },500)
+               
+                
+            }
+            return wallet_pass;
          }else{
                 is_alipay(false);
                 fb_alert("未找到支付类型")
@@ -251,19 +312,6 @@ $(function(){
          }
      }
  })
- $('body').on("click", ".shop-pay-close", closeWallet)
- function closeWallet() {
-    $(".shop-pay-box").fadeOut(500)
-    $(".shop-pay").css("bottom",-$(".shop-pay").outerHeight(true));
- }
- $('body').on("click", ".payPass_close", closePayPass)
- function closePayPass() {
-     $(".payPass").fadeOut(300);
-     $(".payNum").removeClass("top");
-     setTimeout(function() {
-         $(".payPass").remove();
-     }, 300)
- }
 
 
      //支付宝支付
@@ -304,7 +352,6 @@ $(function(){
              }
         })
     }
-
  }
 
 
@@ -373,7 +420,7 @@ $(function(){
      if (typeof WeixinJSBridge == "undefined") {
          if (document.addEventListener) {
              document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
-         } else if (document.attachEvent) {
+         } else if (document.attachEvent) { 
              document.attachEvent('WeixinJSBridgeReady', jsApiCall);
              document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
          }
@@ -401,6 +448,7 @@ $(function(){
                 $("body").append(pay_html_box)
             }
      $.getJSON(locahost+'user/getWallet',{token:token},function(data){
+            is_alipay(false);
            if(data.code == 200){
              window.localStorage.wallet_number = data.data.wallet;
                   $.getJSON(locahost+'pay',function(data){
@@ -447,7 +495,7 @@ $(function(){
                             $(".shop-pay").css("bottom",0);
                         },50)
                     }else{
-                       fb_alert(data.detail)
+                       fb_alert(data.detail);
                     } 
                  })
            }else{
@@ -455,12 +503,25 @@ $(function(){
            }
 
      })
+ }
 
-
+ $('body').on("click", ".shop-pay-close", closeWallet)
+ function closeWallet() {
+    $(".shop-pay-box").fadeOut(500)
+    $(".shop-pay").css("bottom",-$(".shop-pay").outerHeight(true));
+ }
+ $('body').on("click", ".payPass_close", closePayPass)
+ function closePayPass() {
+     $(".payPass").fadeOut(300);
+     $(".payNum").removeClass("top");
+     setTimeout(function() {
+         $(".payPass").remove();
+     }, 300)
  }
 
  window.walletPay = walletPay;
  window.payPay = payPay;
  window.wechatPay = wechatPay;
  window.getPayInfo = getPayInfo;
+ window.closePayPass = closePayPass;
 })

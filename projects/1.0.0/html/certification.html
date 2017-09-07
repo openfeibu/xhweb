@@ -16,7 +16,7 @@
     <meta name="x5-page-mode" content="app">
     <!-- UC禁止放大字体 -->
     <meta name="wap-font-scale" content="no">
-    <title>校汇Plus | 校汇</title>
+    <title>校汇</title>
     <meta name="Keywords" content="校汇,广东农工商职业技术学院,AIB,农工商,能赚钱,大学生,大学生创业,大学生校园,大学生校园社团,大学生校园快递,大学生周边生活" />
     <meta name="Description" content="校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、社团文化、校园资讯、学生互动" />
     <link rel="apple-touch-icon-precomposed" href="./icon.png" />
@@ -25,14 +25,12 @@
     <link rel="stylesheet" type="text/css" href="../css/index.css">
     <link href="../css/swiper.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="../css/info.css">
-    <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
     <script type="text/javascript" src="../js/common.js"></script>
-    <script src="../js/director.js"></script>
+    <script type="text/javascript" src="../js/director.js"></script>
     <script type="text/javascript" src="../js/updata.js"></script>
-    <script src="../js/swiper.min.js"></script>
+    <script type="text/javascript" src="../js/swiper.min.js"></script>
     <script type="text/javascript" src="../js/upload.js"></script>
-   
-
   </head>
   <body>
   <div class="header_title">
@@ -78,6 +76,8 @@
 </body>
 </html>
 <script type="text/javascript"> 
+
+
   $(function(){
       var token = window.localStorage.token;
       var info = JSON.parse(window.localStorage.info);
@@ -86,71 +86,36 @@
              is_alipay(false);
              if(data.code == 2001){
                   fb_alert(fb_error["2001"])
-                  window.location.href = "../login.html";
+                  window.location.href = webLoca+"login.html";
                   return;
                }
-               if(data.code == "200"){  
-                      $(".certification").hide();
-                      $(".certification_info").fadeIn(200);
+               if(data.code == "200"){ 
+                  info.is_auth = 1;
+                  window.localStorage.info = JSON.stringify(info);
+                    $(".certification").hide();
+                    $(".certification_info").fadeIn(200);
+
                    $("[ data-name='certification_info_name']").text(data.data.realname);
                    $("[ data-name='certification_info_card']").text(data.data.id_number);
+               }else if(data.code == "110"){
+                   // fb_alert();
+                   if(is_weixn()){
+                      alert_flag("请在下一步后，在芝麻认证界面,点击微信右上角,在自带浏览器打开进行认证",function(){
+                          
+                      });
+                   }
                }else{
                    fb_alert(data.detail);    
               }
         }).error(function(xhr,errorText,errorType){
                 alert('网络超时，请稍后再试')
       });
-
-       
-
   })
    
 
 		var dom,pic1="",pic2=""	;
     var token = window.localStorage.token;
  
-            // 上传图片
-  // function change(that,num){
-  //       fb_alert("开始上传");
-  //       var field=new upField($(that));
-  //       var maxSize=10240; //kb
-  //        var name=$(that).attr('name');
-  //       var pic = $(that).prop('files');
-  //       var fordata=new FormData();
-  //       fordata.append('uploadfile',pic[0]); //添加字段
-  //      if(pic[0].size/1024>maxSize) { 
-  //           fb_alert('图片不能超过'+maxSize+'kb')
-  //           return false; 
-  //      }
-  //       $.ajax({
-  //           url:locahost+'/user/realNameAuthUploadImg/?token='+token,
-  //           type:'POST',
-  //           dataType:'json',
-  //           data:fordata,
-  //           processData: false,
-  //           contentType: false,
-  //     error: function(){
-  //       fb_alert('未知错误')
-  //     },  
-  //     success: function(data){
-  //       if(data.code == 200){
-  //           if(num == 1){
-  //               //正面
-  //               pic1 = data.url
-  //           }else if(num == 2){
-  //               //反面
-  //               pic2 = data.url
-                
-  //           }
-  //           $(that).prev().css("background-image","url("+data.url+")");
-
-  //       }else{  
-  //         fb_alert(data.detail);
-  //       }
-  //     }
-  //       })
-
-  //   };
 	$(".certification_submit").on('click',certification_submit)
 	function certification_submit(){
         var name = $('[name="name"]').val(),
@@ -162,28 +127,47 @@
             fb_alert("请填写你的身份证号码");
             return;
         }
-        is_alipay(true);
-	$.post(locahost+'user/zhimaReal/',{"token":token,"name":name,"id_number":card},  function(data){
-           is_alipay(false);
-           if(data.code == 2001){
-                fb_alert(fb_error["2001"])
-                window.location.href = "../login.html";
-                return;
-             }
-             if(data.code == "200"){    
-                 fb_alert(data.detail); 
-                 // var info = JSON.parse(window.localStorage.info);   
-                 // info.is_auth = 2; 
-                 // setItem("info",JSON.stringify(info));
-                 // console.log(data)
-                 replaceLocation(data.data)
-                 // history.go(-1)
-             }else{
-                 fb_alert(data.detail);    
-              }
-      }).error(function(xhr,errorText,errorType){
-              alert('网络超时，请稍后再试')
-    });
+        
+        if(is_weixn()){
+            alert_flag("请在芝麻认证界面,点击微信右上角,在自带浏览器打开进行认证",function(){
+              is_alipay(true);
+                $.post(locahost+'user/zhimaReal/',{"token":token,"name":name,"id_number":card},  function(data){
+                       is_alipay(false);
+                       if(data.code == 2001){
+                            fb_alert(fb_error["2001"])
+                            window.location.href = "../login.html";
+                            return;
+                         }
+                         if(data.code == "200"){    
+                             fb_alert(data.detail); 
+                             replaceLocation(data.data)
+                         }else{
+                             fb_alert(data.detail);    
+                          }
+                  }).error(function(xhr,errorText,errorType){
+                          alert('网络超时，请稍后再试')
+                });
+          });
+          }else{
+            is_alipay(true);
+             $.post(locahost+'user/zhimaReal/',{"token":token,"name":name,"id_number":card},  function(data){
+                       is_alipay(false);
+                       if(data.code == 2001){
+                            fb_alert(fb_error["2001"])
+                            window.location.href = "../login.html";
+                            return;
+                         }
+                         if(data.code == "200"){    
+                             fb_alert(data.detail); 
+                             replaceLocation(data.data)
+                         }else{
+                             fb_alert(data.detail);    
+                          }
+                  }).error(function(xhr,errorText,errorType){
+                          alert('网络超时，请稍后再试')
+                });
+          }
+
 
 	}
 

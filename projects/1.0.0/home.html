@@ -179,20 +179,7 @@
     }
 
   }
-   /*号外*/
-  var time_no=0;//校园号外滚动索引
-  var time ;
-  clearInterval(time);
 
-  time = setInterval(function(){
-
-     time_no = ++time_no > $(".index_no ul li").length-1 ? 0 : time_no; 
-     $(".index_no ul li").hide();
-     $(".index_no ul li").eq(time_no).css({"transition":"all 0.2s","-webkit-transition":"all 0.2s"}).show();
-      time01 = setTimeout(function(){
-       $(".index_no ul li").eq(time_no).css("opacity",1);
-     },1)
-    },3000)
   function bannerGet(){     
         $.getJSON(locahost+'/home/getADList/', function(data, status, xhr){
           

@@ -36,6 +36,8 @@
                 <div class="leyu myprofile_item">
                   <a href="#/mine/myprofile/introduction">
                     <span class="leyu-name">个性签名</span>
+                    <span data-name="leyu-name" class="user-leyu fr myprofile_item_right"></span>
+
                   </a>
                 </div>
               </div>
@@ -44,6 +46,12 @@
                   <a >
                     <span>学校</span>
                     <span data-name="scholl-name" class=" fr myprofile_item_right"></span>
+                  </a>
+                </div>
+                <div class="address myprofile_item">
+                  <a >
+                    <span>注册时间</span>
+                    <span data-name="created-name" class=" fr myprofile_item_right"></span>
                   </a>
                 </div>
               </div>
@@ -62,15 +70,17 @@
 	$(function(){
 	 var info = window.localStorage.info;
 	  var  data = JSON.parse(info);
-      var avatar_url = data.avatar_url == "" ? "images/icon_myinfo.png" : data.avatar_url;
-      var gender = data.gender == 1 ? "男" : data.gender == 2 ? "女" : "保密";
-      var is_auth = data.is_auth == 1 ? "已实名" : data.is_auth == 0  ? "未实名" :"实名审核中";
+    var avatar_url = data.avatar_url == "" ? "images/icon_myinfo.png" : data.avatar_url;
+    var gender = data.gender == 1 ? "男" : data.gender == 2 ? "女" : "保密";
+    var is_auth = data.is_auth == 1 ? "已实名" : data.is_auth == 0  ? "未实名" :"实名审核中";
 		// $(".myprofile_main").html(html);
     $('[data-name="pro-detail-img"]').attr("src",avatar_url) 
     $('[data-name="user-nickname"]').text(data.nickname) 
     $('[data-name="sex-name"]').text(gender) 
     $('[data-name="scholl-name"]').text(data.college) 
     $('[data-name="auth-name"]').text(is_auth) 
+    $('[data-name="leyu-name"]').text(data.introduction) 
+    $('[data-name="created-name"]').text(data.created_at) 
     loading(false)
 		
 		//即时注册路由
