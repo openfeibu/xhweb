@@ -360,8 +360,10 @@ $(function() {
 
                  if (data.shop.shop_status == 3) {
                         //店家休息 不显示加号
-                        pro_html += '<div class="shop-pro-bottom">\
-                                    <div class="shop-pro-money">￥<span>' + b.goods_price + '</span></div>\
+                          pro_html += '<div class="shop-pro-bottom">\
+                                    <div class="shop-pro-ed">库存：' + b.goods_number + '</div>\
+                                    <div class="addCar no" maxNum="' + b.goods_number + '">\
+                                    </div>\
                               </div>\
                             </dd>';
                     } else {
