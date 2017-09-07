@@ -88,7 +88,7 @@
             $('[ data-name="driver_name"]').text(data.name);
             $('[ data-name="driver_des"]').text(data.desc);
             $('[data-name="driver_tell"]').text(data.tell);
-            $('[data-name="content"]').text(data.content);
+            $('[data-name="content"]').html(data.content.replace(/\n/g,'</br>'));
             $('[data-name="driver_tellUrl"]').attr('href','tel:'+data.tell);
             var prodouct_html = '';
             $.each(data.prodoucts,function(a,b){

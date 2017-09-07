@@ -90,7 +90,7 @@ function getEnroll(){
             $('[data-name="records_desc"]').text(data.desc);
             $('[data-name="records_enroll_name"]').text(data.enroll_name);
             $('[data-name="records_mobile"]').text(data.mobile);
-            $('[data-name="records_content"]').html(data.content.replace(/\n/g,'</br>'));
+            $('[data-name="records_content"]').text(data.content);
 
           }else{
             fb_alert(data.detail)
@@ -107,7 +107,7 @@ function getEnroll(){
        $.post(locahost + 'education/cancel',postData, function(data) {
             is_alipay(false);
             if(data.code == 200){
-              fb_alert(fb_error['dri_003'])
+              fb_alert(fb_error['dri_003']);
               window.history.go(-1);
 
             }else{
