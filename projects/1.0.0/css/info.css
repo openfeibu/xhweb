@@ -88,7 +88,7 @@
 .schedule li.on:nth-of-type(2){width: 25%;background: url("../images/works/ic_light.png") no-repeat center top;background-size: 0.24rem 0.24rem;}
 .schedule li.on:nth-of-type(3){width: 25%;background: url("../images/works/ic_light.png") no-repeat center top;background-size: 0.24rem 0.24rem;}
 .schedule li.on:nth-of-type(4){width: 25%;background: url("../images/works/ic_light.png") no-repeat center top;background-size: 0.24rem 0.24rem;}
-.schedule li.on:nth-of-type(1):after,.schedule li.on:nth-of-type(2):after,.schedule li.on:nth-of-type(3):after{content: '';width: 0.99rem;height: 0.08rem;background: #dddddd;border-radius: 0.08rem;position: absolute;top: 0.08rem;left:70%;}
+.schedule li:nth-of-type(1):after,.schedule li:nth-of-type(2):after,.schedule li:nth-of-type(3):after{content: '';width: 0.99rem;height: 0.08rem;background: #dddddd;border-radius: 0.08rem;position: absolute;top: 0.08rem;left:70%;}
 /*设置*/
  .setting-container {width: 100%;position: relative;margin:0.32rem 0;background: #fff;}
  .setting-container  .social-introduction {height: 0.96rem;margin: 0 0.32rem;background: #fff url(../images/mine/ic_mine_more.png) no-repeat 98% center;background-size: 0.38rem auto;line-height: 0.96rem;border-bottom: 1px solid #eee;}
