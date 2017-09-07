@@ -56,7 +56,6 @@
 .addCar .Cinput{display: inline-block;vertical-align: top;width: 0.6rem;height: 0.8rem;text-align: center;color: #262626;font-size: 0.3rem;line-height: 0.8rem;}
 .addCar.no .prevC,.addCar.no .Cinput{display: none;}
 
-#noPro{padding-top: 4rem;color: #999;font-size: 0.26rem;color: #999;text-align: center;line-height: 0.41rem;background: url("../images/shop/noPro.png") no-repeat center 1.8rem;background-size: 2rem 2rem;}
 .shop-detail .ing{padding-top: 4rem;color: #999;font-size: 0.26rem;color: #999;text-align: center;line-height: 0.41rem;background: url("../images/shop/noPro.png") no-repeat center 1.8rem;background-size: 2rem 2rem;}
 
 

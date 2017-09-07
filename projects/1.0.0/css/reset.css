@@ -95,3 +95,4 @@ footer li:nth-of-type(4).on{background: url("../images/home/ic_mine_sel.png") no
 .fb-inlineBlock{display: inline-block;*display: inline;*zoom:1;vertical-align: top;}
 
 .m03{margin-top: 0.33rem;}
+#noPro{padding-top: 4rem;color: #999;font-size: 0.26rem;color: #999;text-align: center;line-height: 0.41rem;background: url("../images/shop/noPro.png") no-repeat center 1.8rem;background-size: 2rem 2rem;}
