@@ -142,10 +142,9 @@
                   //没数据
                   if (page == 1) {
                       myOrderBox.html("<div class='noWork'>暂无任务</div>");
-                      $("#loading").remove();
+                      $("#loading,#loaded").remove();
                   } else {
                       $("#loading,#loaded").remove();
-
                       $(".myOrder").append("<div id='loaded'>我是有底线的</div>")
                   }
               } else {
@@ -203,21 +202,8 @@
                         getOrder({"index":4});
                     }},
       };
-      // options={
-      //   "notfound":function(){
-      //     var locationName = getRouter();
-      //     if(locationName =='getSellerList' || locationName =='getCampusList' || locationName =='getStudentList'){
-      //       window.location.href="#/shop"
-      //     }else if(locationName =='personal' || locationName =='personal' || locationName =='business'){
-      //       window.location.replace("#/work/personal");
 
-      //     }else{
-      //       window.location.replace("#/home");
-      //     }
-      //   }
-      // }
       var router = new Router(routes);
-      // var router = new Router(routes).configure(options);
       router.init("/waitpay");
 
 </script>

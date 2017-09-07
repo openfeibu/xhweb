@@ -280,15 +280,12 @@
         }
         if(pay_id == 3){
           //余额支付
-          infoData.pay_id = 3;
           walletPay(infoData);
         }else if(pay_id == 1){
           //支付宝支付
-          infoData.pay_id = 1;
           payPay(infoData);
         }else if(pay_id == 2){
-          //微信支付
-          infoData.pay_id = 2;
+          //微信支付;
           wechatPay(infoData);
         }
     })

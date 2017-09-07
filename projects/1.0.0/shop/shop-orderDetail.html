@@ -28,6 +28,7 @@
   <script type="text/javascript" src="../js/common.js"></script>
   <script type="text/javascript" src="../js/director.js"></script>
   <script type="text/javascript" src="../js/updata.js"></script>
+  <script type="text/javascript" src="../js/xhPay.js"></script>
 </head>
 <body >
 	<section class='main' style="padding:0">
@@ -229,24 +230,7 @@
         //去付款
     function gopay(){
         is_alipay(true);
-        var alipay_info = {
-                "token":token,
-                "order_id":order_id
-          }
-         $.post(locahost+'orderInfo/pay',alipay_info, function(data){
-                    if(data.code == 2001){
-                        fb_alert(fb_error["2001"])
-                        window.location.href = "login.html";
-                        return;
-                    }else if(data.code == 200){
-                        is_alipay(false)
-                        $("body").append(data.data)
-                        $("#alipaysubmit").submit();
-                    }else{
-                      is_alipay(false)
-                       fb_alert(data.detail)
-                    }
-        })
+       getPayInfo(window.localStorage.total_fee);
     }
     //拨打电话
     $('[data-name="mobile_no"]').on("click",function(){
@@ -260,10 +244,29 @@
 
     })
 
+    $('body').on("click",".paySubmit",function(){
+      var pay_id =$("[name='payType']:checked").val();
+      var infoData = {'order_id':order_id,'pay_id' : pay_id,'payMap':'shopOrder','platform':'wap'}
+        if(pay_id == undefined){
+          fb_alert(fb_error["s_003"])
+        }
+        if(pay_id == 3){
+          //余额支付;
+          walletPay(infoData);
+        }else if(pay_id == 1){
+          //支付宝支付
+          payPay(infoData);
+        }else if(pay_id == 2){
+          //微信支付
+          wechatPay(infoData);
+        }
+    })
+
     window.returnMoney = returnMoney;
     window.closeOrder = closeOrder;
     window.takeGood = takeGood;
     window.gopay = gopay;
+
   })
 </script>
 </html>

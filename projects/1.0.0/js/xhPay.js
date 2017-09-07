@@ -40,7 +40,7 @@ $(function(){
      $('body').append(payHtml);
      setTimeout(function() {
          $(".payNum").addClass("top")
-     }, 1)
+     }, 1);
  }
 
  $('body').on("touchstart", ".payPass li", function() {
@@ -127,6 +127,35 @@ $(function(){
              })
          }else if(payMap == 'shop'){
             $.post(locahost + 'orderInfo/store', alipay_info, function(data) {
+                 is_alipay(false);
+                 if (data.code == 2001) {
+                     fb_alert(fb_error["2001"])
+                     window.location.href = "login.html";
+                     return;
+                 }
+                 if (data.code == 110) {
+                     $(".payPassVal span").text("");
+                     wallet_pass = '';   
+                     fb_alert(data.detail);
+                 }
+                 if (data.code == 3001) {
+                     $(".payPassVal span").text("");
+                     wallet_pass = '';   
+                     fb_alert(data.detail);
+                     locaGo("wallet/mywallet.html#/passWord");
+                 }
+                 if (data.code == 200) {
+                     fb_alert(fb_error["s_004"]);
+                     
+                     locaGo("shop/shop-paysucc.html?order_id=" + data.order_id);
+                 } else {
+                     fb_alert(data.detail)
+                 }
+             }).error(function() {
+                 fb_alert("服务器出小差啦")
+             })
+         }else if(payMap == 'shopOrder'){
+            $.post(locahost + 'orderInfo/pay', alipay_info, function(data) {
                  is_alipay(false);
                  if (data.code == 2001) {
                      fb_alert(fb_error["2001"])
@@ -352,6 +381,21 @@ $(function(){
                  fb_alert(data.detail)
              }
         })
+    }else if(payMap == 'shopOrder'){
+        $.post(locahost + 'orderInfo/pay', alipay_info, function(data) {
+             if (data.code == 2001) {
+                 fb_alert(fb_error["2001"])
+                 window.location.href = "login.html";
+                 return;
+             } else if (data.code == 200) {
+                 is_alipay(false)
+                 $("body").append(data.data);
+                 $("#alipaysubmit").submit();
+             } else {
+                 is_alipay(false)
+                 fb_alert(data.detail)
+             }
+        })
     }
  }
 
@@ -388,6 +432,25 @@ $(function(){
          })
     }else if(payMap == 'shop'){
         $.post(locahost + 'orderInfo/store', wechat_info, function(data) {
+             if (data.code == 2001) {
+                 fb_alert(fb_error["2001"])
+                 window.location.href = "login.html";
+                 return;
+             } else if (data.code == 200) {
+                 is_alipay(false)
+                 if(app){
+                    window.feibu.wechatPay(JSON.stringify(data))
+                }else{
+                  callpay(data.data) 
+                }
+                 // $("#alipaysubmit").submit();
+             } else {
+                 is_alipay(false)
+                 fb_alert(data.detail)
+             }
+         })
+    }else if(payMap == 'shopOrder'){
+        $.post(locahost + 'orderInfo/pay', wechat_info, function(data) {
              if (data.code == 2001) {
                  fb_alert(fb_error["2001"])
                  window.location.href = "login.html";
@@ -475,7 +538,6 @@ $(function(){
                                               <p class="fl">'+b.description+'</span></p>\
                                               <input class="fr" type="radio" value="'+a+'"  name="payType"/>\
                                             </dd>';
-                                             console.log(pay_html)
                               }else if(b.pay_name== 'wallet'){
                                 var wallet_number = window.localStorage.wallet_number;
                                 var total_fee = window.localStorage.total_fee
