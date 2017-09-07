@@ -140,42 +140,46 @@
   $.getJSON(locahost + 'topic/getTopicCommentsList',postData2, function(data) {
           if(data.code == 200){
               var comment = '';
-                $.each(data.data,function(a,b){
-                  if(b["be_review_username"] == ""){
-                    comment += '<div class="comment_item">\
-                                  <div class="topic_header">\
-                                      <div class="img fl">\
-                                        <img src="'+b.avatar_url+'" alt="">\
-                                      </div>\
-                                      <div class="name fl">\
-                                        <p >'+b.nickname+'</p><p class="date">'+afterTime(b.created_at)+'</p>\
-                                     </div>\
-                                   </div>\
-                                    <div class="topic_con">\
-                                      <a href="#/comment/'+b.tcid+'">\
-                                        <div class="test" >'+b.content+'</div>\
-                                      </a>\
+              if(data.data.length == 0){
+                $(".comment_list_con").html('<div id="noComment" style="display:block;">我要抢沙发</div>');
+                return false;
+              }
+              $.each(data.data,function(a,b){
+                if(b["be_review_username"] == ""){
+                  comment += '<div class="comment_item">\
+                                <div class="topic_header">\
+                                    <div class="img fl">\
+                                      <img src="'+b.avatar_url+'" alt="">\
                                     </div>\
-                              </div>';
-                   }else{
-                    comment += '<div class="comment_item">\
-                                  <div class="topic_header">\
-                                      <div class="img fl">\
-                                        <img src="'+b.avatar_url+'" alt="">\
-                                      </div>\
-                                      <div class="name fl">\
-                                        <p >'+b.nickname+'</p><p class="date">'+afterTime(b.created_at)+'</p>\
-                                     </div>\
+                                    <div class="name fl">\
+                                      <p >'+b.nickname+'</p><p class="date">'+b.created_at_desc+'</p>\
                                    </div>\
-                                    <div class="topic_con">\
-                                      <a href="#/comment/'+b.tcid+'">\
-                                        <div class="test" >回复<span>'+b.be_review_username+'</span>:'+b.content+'</div>\
-                                      </a>\
+                                 </div>\
+                                  <div class="topic_con">\
+                                    <a href="#/comment/'+b.tcid+'">\
+                                      <div class="test" >'+b.content+'</div>\
+                                    </a>\
+                                  </div>\
+                            </div>';
+                 }else{
+                  comment += '<div class="comment_item">\
+                                <div class="topic_header">\
+                                    <div class="img fl">\
+                                      <img src="'+b.avatar_url+'" alt="">\
                                     </div>\
-                              </div>';
-                   }
-                })
-                $(".comment_list_con").html(comment);
+                                    <div class="name fl">\
+                                      <p >'+b.nickname+'</p><p class="date">'+b.created_at_desc+'</p>\
+                                   </div>\
+                                 </div>\
+                                  <div class="topic_con">\
+                                    <a href="#/comment/'+b.tcid+'">\
+                                      <div class="test" >回复<span>'+b.be_review_username+'</span>:'+b.content+'</div>\
+                                    </a>\
+                                  </div>\
+                            </div>';
+                 }
+              })
+              $(".comment_list_con").html(comment);
           }else{
             fb_alert(data.detail)
           } 
@@ -256,7 +260,7 @@
                                         <img src="'+data.avatar_url+'" alt="">\
                                       </div>\
                                       <div class="name fl">\
-                                        <p >'+data.nickname+'</p><p class="date">'+afterTime(data.created_at)+'</p>\
+                                        <p >'+data.nickname+'</p><p class="date">'+data.created_at_desc+'</p>\
                                      </div>\
                                    </div>\
                                     <div class="topic_con">\
@@ -272,7 +276,7 @@
                                         <img src="'+data.avatar_url+'" alt="">\
                                       </div>\
                                       <div class="name fl">\
-                                        <p >'+data.nickname+'</p><p class="date">'+afterTime(data.created_at)+'</p>\
+                                        <p >'+data.nickname+'</p><p class="date">'+data.created_at_desc+'</p>\
                                      </div>\
                                    </div>\
                                     <div class="topic_con">\
@@ -282,6 +286,7 @@
                                     </div>\
                               </div>';
                    }
+                   $("#noComment").remove();
                    $(".comment_list_con").prepend(comment);
                    $(".comment_box_textarea textarea").val('');
                     window.history.go(-1);

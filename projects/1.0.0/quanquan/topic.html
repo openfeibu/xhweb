@@ -113,7 +113,7 @@ function topicGet(obj) {
                 }
               /*是否点赞过 E*/      
 
-             var time = afterTime(b["created_at"]); //获取时间
+
               htmldom += '<div class="topic_box clearfix  " tid='+b["tid"]+'>\
                           <a href="topic_detail.html?topic_id='+b["tid"]+'">\
                             <div class="topic_header">\
@@ -121,7 +121,7 @@ function topicGet(obj) {
                                <img src="'+b["avatar_url"]+'" alt="">\
                               </div>\
                               <div class="name fl">\
-                                <p>'+b["nickname"]+'</p><p class="date">'+time+'</p>\
+                                <p>'+b["nickname"]+'</p><p class="date">'+b.created_at_desc+'</p>\
                              </div>\
                             </div>\
                             <div class="topic_con">\
@@ -131,7 +131,7 @@ function topicGet(obj) {
                           <div class="topic_bottom">\
                             <div class="zanping">\
                               <div class="ping">'+b["comment_num"]+'</div>\
-                              <div class="zan '+zanEd+'"  onclick=thumbUp(this,'+b["tid"]+')>'+b["favourites_count"]+'</div>\
+                              <div class="zan '+zanEd+'"  onclick="thumbUp(this,'+b["tid"]+');return false;">'+b["favourites_count"]+'</div>\
                             </div>\
                           </div>\
                         </a>\

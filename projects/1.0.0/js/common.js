@@ -143,6 +143,7 @@ function thumbUp(obj,topic_id){
       }
     }
   })
+  return false;
 }
 
 //删除话题
