@@ -395,7 +395,8 @@ $(function(){
              } else if (data.code == 200) {
                  is_alipay(false)
                  if(app){
-                    window.feibu.wechatPay(data.data)
+                    console.log(data)
+                    window.feibu.wechatPay(data)
                 }else{
                   callpay(data.data) 
                 }
