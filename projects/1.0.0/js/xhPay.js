@@ -370,7 +370,6 @@ $(function(){
      }
      if(app){
          wechat_info.platform = 'and';
-
      }
      if(payMap == 'work'){
         $.post(locahost + 'order/createOrder', wechat_info, function(data) {
@@ -395,8 +394,11 @@ $(function(){
                  return;
              } else if (data.code == 200) {
                  is_alipay(false)
-                 
-                 callpay(data.data)
+                 if(app){
+                    window.feibu.wechatPay(data.data)
+                }else{
+                  callpay(data.data) 
+                }
                  // $("#alipaysubmit").submit();
              } else {
                  is_alipay(false)
