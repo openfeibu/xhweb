@@ -112,8 +112,7 @@ function topicGet(obj) {
               htmldom += '<div class="topic_box clearfix " tid='+b.tid+'>\
                           <a href="topic_detail.html?topic_id='+b.tid+'">\
                             <div class="topic_header">\
-                              <div class="img fl">\
-                               <img src="'+b.avatar_url+'" alt="">\
+                              <div class="img fl"  style="background:url('+b.avatar_url+') no-repeat center/cover">\
                               </div>\
                               <div class="name fl">\
                                 <p>'+b["nickname"]+'</p><p class="date">'+time+'</p>\
@@ -122,7 +121,6 @@ function topicGet(obj) {
                             <div class="topic_con">\
                                 <div class="test">'+ClearBr(b.content)+'</div>\
                              </div>\
-                            </a>\
                            '+img_url+'\
                           <div class="topic_bottom">\
                             <div class="zanping">\
@@ -131,6 +129,7 @@ function topicGet(obj) {
                               <div class="dele fr" onclick="deletopic(this,'+b.tid+')">删除</div>\
                             </div>\
                           </div>\
+                          </a>\
                         </div>';
           })
 
@@ -200,7 +199,7 @@ function topicGet(obj) {
             "opacity": "1"
         });
         mySwiper.slideTo(i, 0, false);
-        
+         return false;
     });
     $(".big_img").on("click", 
     function() {

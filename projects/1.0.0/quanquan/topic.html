@@ -117,8 +117,7 @@ function topicGet(obj) {
               htmldom += '<div class="topic_box clearfix  " tid='+b["tid"]+'>\
                           <a href="topic_detail.html?topic_id='+b["tid"]+'">\
                             <div class="topic_header">\
-                              <div class="img go_others fl"  openid="'+b.openid+'">\
-                               <img src="'+b["avatar_url"]+'" alt="">\
+                              <div class="img go_others fl"  openid="'+b.openid+'" style="background:url('+b.avatar_url+') no-repeat center/cover">\
                               </div>\
                               <div class="name fl">\
                                 <p>'+b["nickname"]+'</p><p class="date">'+b.created_at_desc+'</p>\
