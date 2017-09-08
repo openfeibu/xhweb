@@ -114,6 +114,12 @@ $(function(){
                      wallet_pass = '';
                      fb_alert(data.detail);
                  }
+                 if (data.code == 3001) {
+                     $(".payPassVal span").text("");
+                     wallet_pass = '';   
+                     fb_alert(data.detail);
+                     locaGo(webLoca+"wallet/mywallet.html#/passWord");
+                 }
                  if (data.code == 200) {
                      fb_alert(fb_error["s_004"]);
                      closePayPass();
@@ -142,7 +148,7 @@ $(function(){
                      $(".payPassVal span").text("");
                      wallet_pass = '';   
                      fb_alert(data.detail);
-                     locaGo("wallet/mywallet.html#/passWord");
+                     locaGo(webLoca+"wallet/mywallet.html#/passWord");
                  }
                  if (data.code == 200) {
                      fb_alert(fb_error["s_004"]);
@@ -196,6 +202,12 @@ $(function(){
                      wallet_pass = '';   
                      fb_alert(data.detail);
                  }
+                 if (data.code == 3001) {
+                     $(".payPassVal span").text("");
+                     wallet_pass = '';   
+                     fb_alert(data.detail);
+                     locaGo(webLoca+"wallet/mywallet.html#/passWord");
+                 }
                  if (data.code == 200) {
                      fb_alert(fb_error["10"]);
                      closePayPass();
@@ -215,6 +227,12 @@ $(function(){
                     fb_alert(fb_error["2001"]);
                         window.location.href = "login.html";
                     }
+                    if (data.code == 3001) {
+                     $(".payPassVal span").text("");
+                     wallet_pass = '';   
+                     fb_alert(data.detail);
+                     locaGo(webLoca+"wallet/mywallet.html#/passWord");
+                     }
                     if (data.code == 200) {
                         fb_alert(fb_error["10"]);
                         window.location.reload();
