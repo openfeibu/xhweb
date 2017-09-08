@@ -125,7 +125,7 @@ function topicGet(obj) {
                           <div class="topic_bottom">\
                             <div class="zanping">\
                               <div class="ping">'+b["comment_num"]+'</div>\
-                              <div class="zan '+zanEd+'"  onclick=thumbUp(this,'+b.tid+')>'+b.favourites_count+'</div>\
+                              <div class="zan '+zanEd+'"  onclick=thumbUp(this,'+b.tid+');return false;>'+b.favourites_count+'</div>\
                               <div class="dele fr" onclick="deletopic(this,'+b.tid+')">删除</div>\
                             </div>\
                           </div>\
