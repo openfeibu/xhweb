@@ -904,7 +904,7 @@ display: -webkit-box;
 .driver_prodoucts_item .driver_prodoucts_item_t .pro_name{font-size: 0.28rem;color: #262626;}
 .driver_prodoucts_item .driver_prodoucts_item_t .pro_money{font-size: 0.32rem;color: #519bff;font-weight: bold;}
 .driver_prodoucts_item .driver_prodoucts_item_b .pro_des{font-size: 0.24rem;color: #666;width:75%;}
-.driver_prodoucts_item .driver_prodoucts_item_b .pro_money{font-size: 0.24rem;color: #999;width:20%;}
+.driver_prodoucts_item .driver_prodoucts_item_b .pro_money{font-size: 0.24rem;color: #999;width:23%;}
 .driver_detail{margin:0.32rem 0;background: #fff;}
 .driver_detail .driver_detail_con{padding:0.25rem  0.32rem;color: #999;font-size: 0.28rem;line-height: 0.42rem;}
 .driver_submit{position: fixed;bottom: 0;left:0;width: 100%;height: 0.96rem;background: #ffe00f;color: #262626;font-size: 0.32rem;line-height: 0.96rem;text-align: center;}

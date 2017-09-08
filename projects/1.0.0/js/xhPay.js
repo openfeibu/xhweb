@@ -118,7 +118,7 @@ $(function(){
                      $(".payPassVal span").text("");
                      wallet_pass = '';   
                      fb_alert(data.detail);
-                     locaGo(webLoca+"wallet/mywallet.html#/passWord");
+                     locaGo("wallet/mywallet.html#/passWord");
                  }
                  if (data.code == 200) {
                      fb_alert(fb_error["s_004"]);
@@ -148,7 +148,7 @@ $(function(){
                      $(".payPassVal span").text("");
                      wallet_pass = '';   
                      fb_alert(data.detail);
-                     locaGo(webLoca+"wallet/mywallet.html#/passWord");
+                     locaGo("wallet/mywallet.html#/passWord");
                  }
                  if (data.code == 200) {
                      fb_alert(fb_error["s_004"]);
@@ -206,7 +206,7 @@ $(function(){
                      $(".payPassVal span").text("");
                      wallet_pass = '';   
                      fb_alert(data.detail);
-                     locaGo(webLoca+"wallet/mywallet.html#/passWord");
+                     locaGo("wallet/mywallet.html#/passWord");
                  }
                  if (data.code == 200) {
                      fb_alert(fb_error["10"]);
@@ -231,7 +231,7 @@ $(function(){
                      $(".payPassVal span").text("");
                      wallet_pass = '';   
                      fb_alert(data.detail);
-                     locaGo(webLoca+"wallet/mywallet.html#/passWord");
+                     locaGo("wallet/mywallet.html#/passWord");
                      }
                     if (data.code == 200) {
                         fb_alert(fb_error["10"]);
