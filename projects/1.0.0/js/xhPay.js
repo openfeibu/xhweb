@@ -322,7 +322,6 @@ $(function(){
                             setTimeout(function(){
                                  window.history.go(-1);
                             },1000)
-
                         } else {
                             $(".payPassVal span").text("");
                             wallet_pass = ''; 
@@ -351,9 +350,7 @@ $(function(){
          }else{
                 is_alipay(false);
                 fb_alert("未找到支付类型")
-
          }
-         
      } else {
          for (var j = 0, c = wallet_pass.length; j < c; j++) {
              $(".payPassVal span").eq(j).text("*");
@@ -516,13 +513,13 @@ $(function(){
          jsApiCall(wechatJson);
      }
  }
-
+ 
 
  //打开支付框
  function getPayInfo(count){
     var app = window.localStorage.app;
      if($(".shop-pay-box").length == 0){
-                var pay_html_box = '<div class="shop-pay-box  ">\
+                var pay_html_box = '<div class="shop-pay-box ">\
                                         <div class="shop-pay animate">\
                                             <div class="shop-pay-header">\
                                               <p class="fl">需要支付： <span data-name="count">'+count+'元</span></p>\
