@@ -134,13 +134,7 @@ function(data) {
 
         }else if(b.status == "cancelled"){
           tell =  '<div class="tell">联系</div>';
-          workType = "(接单人)";
-          state_index = 3;
-          work_status_class = 'ed';
-          input_submit = '<input style="width:100%" type="button" value="已完成" class="finishOrder opa_active"/>';
-        }else if(b.status == "completed"){
-          //退款
-          tell = '<div class="tell">联系</div>';
+          workType = "(发单人)";
           state_index = 1;
           work_status_class = 'ed';
           input_submit = '<input style="width:100%" type="button" value="'+b.order_status+'" class="finishOrder opa_active"/>';
@@ -170,6 +164,13 @@ function(data) {
           state_index = 2;
           work_status_class = 'ing';
           input_submit = '<input style="width:100%" type="button" value="等待结算" class="finishOrder opa_active"/>';
+        }else if(b.status == "completed"){
+          //已结算
+          tell = '<div class="tell">联系</div>';
+          state_index = 3;
+          work_status_class = 'ed';
+          input_submit = '<input style="width:100%" type="button" value="已完成" class="finishOrder opa_active"/>';
+
         }
         /*时间进程 E*/
     }
