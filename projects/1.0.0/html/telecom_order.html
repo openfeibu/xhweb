@@ -30,23 +30,11 @@
 	<script type="text/javascript" src="../js/common.js"></script>
 </head>
 <style>
-	html{background:#e09d5b url("../images/wel.png") no-repeat top center;background-size: 100% auto;}
-	.write-container{margin-top: 4rem;padding:0.2rem;}
-	.te_order_box{}
-	.te_order_box dl{font-size: 0.3rem;line-height: 0.5rem;background: rgba(255,255,255,1);padding: 0.25rem;margin-bottom:0.3rem;position: relative;}
-	.te_order_box dl:before{content: "";position: absolute;width:0.2rem;height: 0.2rem;background: #e09d5b;border-radius: 50%;top:0.1rem;left:50%;margin-left: -0.1rem;}
-	.te_order_box dt{font-size: 0.3rem;line-height: 0.5rem;border-bottom: 1px solid #ccc}
-	.te_order_box dt span{display: block;color: #333;}
-	.te_order_box dt span:nth-of-type(2){text-align: right;color: #ff5656}
-	
-	.te_order_box dd{border-bottom: 1px solid #f5f5f5;}
-	.te_order_box dd span{color: #666;line-height: 0.7rem;}
-	.te_order_box dd span:nth-of-type(1){width: 30%;float: left;text-align: right;}
-	.te_order_box dd span:nth-of-type(2){color: #999;padding-left: 0.5rem}
-	.te_order_box dd span.money{text-align: right;color: #ff5656}
-	.go{height: 1rem;width: 90%;font-size: 0.3rem;background: #5ac8fa;line-height: 1rem;border-radius: 0.1rem;color: #fff;margin:0.3rem auto;text-align: center;}
-	.go a{color: #fff;letter-spacing: 5px;}
-	aside{text-align: center;font-size: 0.4rem;line-height: 2rem;color:#fff;}
+		body{background:#8fcdff url("../images/wel.png") no-repeat center 0.96rem;background-size: 100% auto;}
+		.write-container{padding-top: 5.5rem;}
+		.write-container .te_order_box{padding:0 0.32rem;}
+		.write-container .te_order_box .te_order_box_item{padding:0.32rem;background: #fff;border-radius: 0.04rem;line-height: 0.64rem}
+
 </style>
 <body>
 	<section class="write-list">
@@ -65,55 +53,26 @@
 	</section>
 	<script>
 	/*android S*/
-	var is_app=0;
-	var android_token = "";
-	var token;
-	if(GetString("device") == "android" && window.localStorage.devi != "web"){
-		is_app = 1;
-		android_token = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;  //获取客户端token;
-		$(".header_title").hide();
-		//$(".write-container").css("marginTop","0");
-	}
-
-	/*android E*/
+	var token = window.localStorage.token;
 	loading(true)
-	if(is_app){
-		if(android_token == ""){
-			token = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
-		}else{	
-			token = android_token;
-		}
-	}else{
-		token = window.localStorage.token;
-	}
-
-      $.getJSON(locahost+'/telecom/getTelecomOrders?token='+token,  function(data){
+      $.getJSON(locahost+'telecom/getEnroll?token='+token,  function(data){
 			loading(false)
-           if(data.code == 2001){
-                fb_alert(fb_error["2001"])
-                window.location.href = "../login.html";
+           	if(data.code == 2001){
+                fb_alert(fb_error["2001"]);
+                window.localStorage.removeItem("token");
+                window.location.href = "telecom_welcome.html";
                 return;
              }
-             if(data.code == "200"){    
-             	if(data.data == ""){
-             		$(".te_order_box").html("<aside>暂无订单</aside>")
-                	return;
+             if(data.code == "200"){  
+             	if(data.data.length == 0 ){
+		     		window.location.href = 'telecom.html';
+             		return false;
              	}
-             	var html ='';
-               $.each(data.data,function(a,b){
-               	html += '<dl>\
-							<dt><span>订单号：'+b.trade_no+'</span><span>'+b.created_at+'</span></dt>\
-							<dd><span>套餐名:</span><span>'+b.package_name+'</span></dd>\
-							<dd><span>受理电信号码:</span><span>'+b.telecom_phone+'</span></dd>\
-							<dd><span>姓名:</span><span>'+b.name+'</span></dd>\
-							<dd><span>学号:</span><span>'+b.student_id+'</span></dd>\
-							<dd><span>专业:</span><span>'+b.major+'</span></dd>\
-							<dd><span>宿舍号:</span><span>'+b.dormitory_no+'</span></dd>\
-							<dd><span>常用手机号码:</span><span>'+b.telecom_outOrderNumber+'</span></dd>\
-							<dd><span>价格(元):</span><span class="money">'+b.fee+'</span></dd>\
-						</dl>';
+               var	html = '<div class="te_order_box_item">\
+               				<div class="name">预约姓名：'+data.data.name+'</div>\
+               				<div class="name">预约时间：'+data.data.time_start+'-'+data.data.time_end+'</div>\
+               			</div>';
 
-               })
                $(".te_order_box").html(html);
 
              }else{

@@ -17,7 +17,7 @@
 	  <meta name="x5-page-mode" content="app">
 	    <!-- UC禁止放大字体 -->
   	<meta name="wap-font-scale" content="no">
-	<title>校汇 </title>
+	<title>校汇 | 校园宽带预约平台 </title>
     <meta name="Keywords" content="校汇,广东农工商职业技术学院,AIB,农工商,能赚钱,大学生,大学生创业,大学生校园,大学生校园社团,大学生校园快递,大学生周边生活" />
     <meta name="Description" content="校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、社团文化、校园资讯、学生互动" />
     <link rel="apple-touch-icon-precomposed" href="./icon.png" />
@@ -30,86 +30,124 @@
 	<script type="text/javascript" src="../js/common.js"></script>
 </head>
 	<style>
-		html{background:#e09d5b url("../images/wel.png") no-repeat top center;background-size: 100% auto;}
-		#write-list-input .write-container{margin-top: 4rem;}
-		#write-list-input .write-container aside{text-align: center;font-size: 0.35rem;color: #fff;}
-		.goWrite,.goOrder,.goTuiOrder{width: 2.5rem;height: 2.5rem;background: #3CBDF7;border-radius: 50%;margin:0.5rem auto;}
-		.goWrite a,.goOrder a,.goTuiOrder a{color:#fff;font-size: 0.35rem;padding:0.8rem 0;width:100%;display: block;text-align: center;}
+		html{background:#8fcdff url("../images/wel.png") no-repeat top center;background-size: 100% auto;}
+		#write-list-input .write-container{padding-top: 4.5rem;}
+		#write-list-input .write-container aside{text-align: center;font-size: 0.32rem;color: #262626;}
+		/*reg*/
+		.write_form{margin-top: 0.96rem;width:6.5rem;height:4.35rem ;margin: 0 auto;background: url("../images/pic_reservation.png") no-repeat top center;background-size: 100% auto;overflow: hidden;}
+		.write_form .input_b{width: 4.05rem;margin:0 auto;height: 0.75rem;margin-bottom: 0.4rem;	}
+		#account,#code{width:100%;height: 0.75rem;line-height: 0.75rem;margin-bottom: 0.32rem;font-size: 0.28rem;color: #262626;background: #fff;border:1px solid #262626;border-radius: 0.04rem;text-indent:1em;}
+		#code{width:2rem;float: left;}
+		.getCode{float: right;line-height: 0.77rem;font-size: 0.28rem;color: #fff;line-height: 0.75rem;text-align: center;min-width: 1rem;width: 1.87rem;background: url("../images/ic_reservation_vercode.png") no-repeat top center;background-size:auto 100% ;}
+		#reg_code{border-bottom: 1px solid #fff;position: relative;}
+		.code_box{position: relative;}
+		#write{border:none;width:100%;height:0.88rem;background: #ccc;border-radius: 0.04rem;color: #fff;font-size: 0.32rem;text-align: center;margin-top: 0.32rem;}
+		#write.active{background: #ffe00f ;color: #262626;}
+		.write .login_inner-container .forgetPaw{color:#f29f5b;float: right;margin-right: 0.02rem;background:url("../images/xy.png") no-repeat left center;background-size: 0.3rem auto;text-indent: 0.35rem}
+		#lastStep{width: 3.65rem;height: 0.9rem;background: url("../images/ic_reservation_button.png") no-repeat top center;background-size: 100% 100%;margin:0.32rem auto;display: block;}
+		#account::-moz-placeholder,#code::-moz-placeholder{ color: #999999; }
+		#account:-ms-input-placeholder,#code:-ms-input-placeholder{ color: #999999; }
+		#account::-webkit-input-placeholder,#code::-webkit-input-placeholder{ color: #999999; }
 	</style>
 <body>
 	<section id="write-list-input">
 		<div class="write-container">
-			<aside>全天为新生开放开通<span>8M</span>校园宽带通道</aside>
-			<div class="goWrite box-shadow button_active">
-				<a href="javascript:void(0);">点击<br>填单</a>
-			</div>
-			<div class="goOrder box-shadow button_active">
-				<a href="javascript:void(0);">查看<br>订单</a>
-			</div>
-			<div class="goTuiOrder box-shadow button_active">
-				<a href="javascript:void(0);">我是<br>工作人员</a>
-			</div>
+			<form action="" class="write_form" onsubmit="return false">
+				<div class="input_b" style="margin-top: 1.5rem;">
+					<input type="text" placeholder="输入手机号码" id="account"/>
+				</div>
+				<div class="input_b">
+					<input type="text" placeholder="输入验证码" id="code"/>
+					<div class="getCode">获取验证码</div>
+				</div>
+			</form>
+			<input type="submit" value="下一步" id="lastStep" class="active">
 		</div>
 	</section>
 	<script>
+	try {
+        if (JSON.parse(window.feibu.getToken()).value != 'undefined' && JSON.parse(window.feibu.getToken()).value != undefined) {
+            window.localStorage.token = JSON.parse(window.feibu.getToken()).value;
+        }
+    } catch (e) {
+        // window.localStorage.token = document.location = "objc://" + getToken + ":/" + value;
+        // $("body").html(window.localStorage.token)
+         
+    }
+    var token = window.localStorage.token;
+    if(token != undefined){
+		window.location.href = 'telecom_order.html';
+    }
 
-		var is_app=0;
-		var android_token = "";
-		　try {
-		　　// 此处是可能产生例外的语句
-			android_token = JSON.parse(window.feibu.getToken()).value
-		　　} catch(error) {
-		　　// 此处是负责例外处理的语句
-			is_app = 1;
-		　　} finally {
-		　　// 此处是出口语句
-			is_app = 0;
-		　　}
-		if(is_app){
-			$(".goWrite a").on("click",function(){
-				android_token = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
-				if(android_token == ""){
-					fb_alert("请先登录");
-					return false;
-				}else{
-					window.location.href="telecom.html?device=android";
-				}
-			})
-			$(".goOrder a").on("click",function(){
-				android_token = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
-				if(android_token == ""){
-					fb_alert("请先登录");
-					return false;
-				}else{
-					window.location.href="telecom_order.html?device=android";
-				}
-			})
-			$(".goTuiOrder a").on("click",function(){
-				android_token = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
-				if(android_token == ""){
-					fb_alert("请先登录");
-					return false;
-				}else{
-					window.location.href="telecom_tui_order.html?device=android";
-				}
-			})
-			is_app = 1;
-			android_token = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;  //获取客户端token;			
-		}else{
 
-			$(".goWrite a").on("click",function(){
-				window.location.href="telecom.html";
-			});
-			$(".goOrder a").on("click",function(){
-					window.location.href="telecom_order.html";
-			});
-			$(".goTuiOrder a").on("click",function(){
-					window.location.href="telecom_tui_order.html";
-			});
-			window.localStorage.devi = "web";
-		}
+	//验证码获取 S
+	 $('.getCode').on('click',regGetcode);
+	function regGetcode(){
+	var account = $("#account").val();
 
+	if(account.length == 0){
+		fb_alert("请输入手机号码")
+		return false;
+	}
+	var _this = $(this);
+	$('.getCode').off('click',regGetcode);
+	is_alipay(true)
+	$.post(locahost+'user/sendRegisterVerifySMS/?mobile_no='+$("#account").val(),  function(data){
+		is_alipay(false)
+	     if(data.code == "200"){		
+				fb_alert("发送验证码成功")
+	    }else{
+	       $('.getCode').on('click',regGetcode)
+	    	fb_alert(data.detail);
+	    	_this.html('获取验证码');
+	       clearInterval(time);
+	    }
+	}).error(function(){
+		fb_alert("网络出错");
+	})
+	_this.html('60s');
+	var i = 60;
+	var time = setInterval(function(){
+	    i--;
+	    _this.html(i+'s');
+	    if(i == 0){
+	       _this.html('获取验证码');
+	       clearInterval(time);
+	       $('.getCode').on('click',regGetcode)
+	    }
+	},1000)
+	}
+	//验证码获取 E
+	$("#lastStep").on("click",function(){
 		
+		var mobile_no = $("#account").val();
+	
+		if(mobile_no.length == 0){
+			fb_alert("请输入手机号码")
+			return false;
+		}
+		is_alipay(true);
+		var postData= {
+			mobile_no : $("#account").val(),
+			sms_code : $("#code").val()
+		}
+		$.post(locahost+'user/registerVerify',postData, function(data){
+			is_alipay(false)
+		     if(data.code == "200"){
+		     		window.localStorage.token = data.token;
+		     		setTimeout(function(){
+		     			window.location.href = 'telecom_order.html';
+		     		},100)
+		    }else{
+		    	fb_alert(data.detail);
+		    }
+		}).error(function(){
+			fb_alert("网络出错");
+		})
+	})
+
+
+
 	</script>
 </body>
 </html>
