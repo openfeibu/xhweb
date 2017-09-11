@@ -111,7 +111,17 @@
 	<script>
 	if(window.localStorage.app == 1){
 		$(".header_title").hide();
-		$("body").css("background",'#8fcdff url("../images/wel.png") no-repeat center 0/100% auto')
+		$("body").css("background",'#8fcdff url("../images/wel.png") no-repeat center 0/100% auto');
+		$("#account").focus(function(){
+			$(".write-container").animate({
+				marginTop:"1rem"
+			})
+		})
+		$("#account").blur(function(){
+			$(".write-container").animate({
+				marginTop:"5.5rem"
+			})
+		})
 	}
 	var token = window.localStorage.token;
 	var time_id ;
