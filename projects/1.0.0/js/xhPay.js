@@ -106,7 +106,7 @@ $(function(){
                  is_alipay(false);
                  if (data.code == 2001) {
                      fb_alert(fb_error["2001"])
-                     window.location.href = "login.html";
+                     window.location.href =  webLoca+"login.html";
                      return;
                  }
                  if (data.code == 110) {
@@ -136,7 +136,7 @@ $(function(){
                  is_alipay(false);
                  if (data.code == 2001) {
                      fb_alert(fb_error["2001"])
-                     window.location.href = "login.html";
+                     window.location.href =  webLoca+"login.html";
                      return;
                  }
                  if (data.code == 110) {
@@ -165,7 +165,7 @@ $(function(){
                  is_alipay(false);
                  if (data.code == 2001) {
                      fb_alert(fb_error["2001"])
-                     window.location.href = "login.html";
+                     window.location.href =  webLoca+"login.html";
                      return;
                  }
                  if (data.code == 110) {
@@ -194,7 +194,7 @@ $(function(){
                  is_alipay(false);
                  if (data.code == 2001) {
                      fb_alert(fb_error["2001"])
-                     window.location.href = "login.html";
+                     window.location.href =  webLoca+"login.html";
                      return;
                  }
                  if (data.code == 110) {
@@ -225,7 +225,7 @@ $(function(){
                  is_alipay(false);
                     if (data.code == 2001) {
                     fb_alert(fb_error["2001"]);
-                        window.location.href = "login.html";
+                        window.location.href =  webLoca+"login.html";
                     }
                     if (data.code == 3001) {
                      $(".payPassVal span").text("");
@@ -256,7 +256,7 @@ $(function(){
                          is_alipay(false);
                         if (data.code == 2001) {
                         fb_alert(fb_error["2001"]);
-                            window.location.href = "login.html";
+                            window.location.href =  webLoca+"login.html";
                         }
                         if (data.code == 200) {
                             oldPass = '';
@@ -312,7 +312,7 @@ $(function(){
                          is_alipay(false);
                         if (data.code == 2001) {
                         fb_alert(fb_error["2001"]);
-                            window.location.href = "login.html";
+                            window.location.href =  webLoca+"login.html";
                         }
                         if (data.code == 200) {
                             oldPass = '';
@@ -369,7 +369,7 @@ $(function(){
         $.post(locahost+'order/createOrder',alipay_info, function(data){
             if(data.code == 2001){
                 fb_alert(fb_error["2001"])
-                window.location.href = "login.html";
+                window.location.href =  webLoca+"login.html";
                 return;
             }else if(data.code == 200){
                      is_alipay(false)
@@ -384,7 +384,7 @@ $(function(){
         $.post(locahost + 'orderInfo/store', alipay_info, function(data) {
              if (data.code == 2001) {
                  fb_alert(fb_error["2001"])
-                 window.location.href = "login.html";
+                 window.location.href =  webLoca+"login.html";
                  return;
              } else if (data.code == 200) {
                  is_alipay(false)
@@ -400,7 +400,7 @@ $(function(){
         $.post(locahost + 'orderInfo/pay', alipay_info, function(data) {
              if (data.code == 2001) {
                  fb_alert(fb_error["2001"])
-                 window.location.href = "login.html";
+                 window.location.href =  webLoca+"login.html";
                  return;
              } else if (data.code == 200) {
                  is_alipay(false)
@@ -431,10 +431,10 @@ $(function(){
          wechat_info.platform = 'and';
      }
      if(payMap == 'work'){
-        $.post(locahost + 'order/createOrder', wechat_info, function(data) {
+        $.post(locahost + 'order/createOrder',wechat_info, function(data) {
              if (data.code == 2001) {
                  fb_alert(fb_error["2001"])
-                 window.location.href = "login.html";
+                 window.location.href = webLoca+"login.html";
                  return;
              } else if (data.code == 200) {
                  is_alipay(false)
@@ -449,7 +449,7 @@ $(function(){
         $.post(locahost + 'orderInfo/store', wechat_info, function(data) {
              if (data.code == 2001) {
                  fb_alert(fb_error["2001"])
-                 window.location.href = "login.html";
+                 window.location.href =  webLoca+"login.html";
                  return;
              } else if (data.code == 200) {
                  is_alipay(false)
@@ -468,7 +468,7 @@ $(function(){
         $.post(locahost + 'orderInfo/pay', wechat_info, function(data) {
              if (data.code == 2001) {
                  fb_alert(fb_error["2001"])
-                 window.location.href = "login.html";
+                 window.location.href =  webLoca+"login.html";
                  return;
              } else if (data.code == 200) {
                  is_alipay(false)
