@@ -314,13 +314,12 @@
 			}else if($("#reg_code").val().length==0){
 				fb_alert("验证码不可为空")
 			}else{
-				 
 				 $.post(locahost+'user/register/?mobile_no='+$("#reg_account").val()+'&password='+$.md5($("#reg_password").val())+'&sms_code='+$("#reg_code").val(),  function(data){
 				   		if(data.code == "200"){	
 				   			// window.localStorage.token = data.token;	
 				    		fb_alert("注册成功");
 				    		setTimeout(function(){
-				    			window.location.href="/";
+				    			window.location.href="/login";
 				    		},1000)
 				    	}else{
 				    		// $('.regist-submit').on('click',regist_submit);
