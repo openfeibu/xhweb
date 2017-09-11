@@ -317,8 +317,8 @@
 				 
 				 $.post(locahost+'user/register/?mobile_no='+$("#reg_account").val()+'&password='+$.md5($("#reg_password").val())+'&sms_code='+$("#reg_code").val(),  function(data){
 				   		if(data.code == "200"){	
-				   			window.localStorage.token = data.token;	
-				    		fb_alert("注册成功")
+				   			// window.localStorage.token = data.token;	
+				    		fb_alert("注册成功");
 				    		setTimeout(function(){
 				    			window.location.href="/";
 				    		},1000)
