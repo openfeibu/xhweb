@@ -42,7 +42,7 @@
 		.enroll_select_val p label{color: #999;font-size: 0.24rem;}
 		.enroll_select{border-radius: 5px;width: 3.4rem;margin:0 auto;border:1px solid #262626;border-radius: 0.04rem;margin-bottom: 0.32rem;margin-top: 1.5rem;height: 0.75rem;line-height: 0.75rem;}
 		#lastStep{width: 3.65rem;height: 0.9rem;background: url("../images/ic_reservation_button.png") no-repeat top center;background-size: 100% 100%;margin:0.32rem auto;display: block;}
-		
+
 	</style>
 <body>
 	<section id="write-list-input">
@@ -109,6 +109,10 @@
     </div>
 	</section>
 	<script>
+	if(window.localStorage.app == 1){
+		$(".header_title").hide();
+		$("body").css("background",'#8fcdff url("../images/wel.png") no-repeat center 0/100% auto')
+	}
 	var token = window.localStorage.token;
 	var time_id ;
 	// 选择框
