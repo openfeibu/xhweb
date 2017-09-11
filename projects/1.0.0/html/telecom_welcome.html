@@ -68,11 +68,12 @@
 	try {
         if (JSON.parse(window.feibu.getToken()).value != 'undefined' && JSON.parse(window.feibu.getToken()).value != undefined) {
             window.localStorage.token = JSON.parse(window.feibu.getToken()).value;
+            window.localStorage.app = 1;
         }
     } catch (e) {
         // window.localStorage.token = document.location = "objc://" + getToken + ":/" + value;
         // $("body").html(window.localStorage.token)
-         
+         window.localStorage.app = 0;
     }
     var token = window.localStorage.token;
     if(token != undefined){

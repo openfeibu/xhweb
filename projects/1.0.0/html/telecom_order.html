@@ -42,7 +42,6 @@
 			<p>电信订单</p>
 			<div class="return" onclick="returnUp()">
 			</div>
-			
 		</div>
 		
 		<div class="write-container">
@@ -53,6 +52,10 @@
 	</section>
 	<script>
 	/*android S*/
+	if(window.localStorage.app == 1){
+		$(".header_title").hide();
+		$("body").css("background",'#8fcdff url("../images/wel.png") no-repeat center 0')
+	}
 	var token = window.localStorage.token;
 	loading(true)
       $.getJSON(locahost+'telecom/getEnroll?token='+token,  function(data){
