@@ -28,12 +28,12 @@
     <link rel="stylesheet" type="text/css" href="../css/reset.css">
     <link rel="stylesheet" type="text/css" href="../css/index.css">
     <link rel="stylesheet" type="text/css" href="../css/lf.css">
+  <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
     <script type="text/javascript" src="../js/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/common.js">
-    </script>
-    <script src="../js/director.js">
-    </script>
-   <script type="text/javascript" src="../js/upload.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script src="../js/director.js"></script>
+    <script type="text/javascript" src="../js/upload.js"></script>
+    <script src="../js/swiper.min.js"></script>
   </head>
   <body >
 	<section class='main '>
@@ -45,28 +45,35 @@
      
 			<div class="lf-de pt1">
           <div class="noLf">
-            该失物招领已被销毁
+            该失物招领已被销毁 
           </div>
           <div class="topic_list pt0" >
-      <div class="topic_box " >
-            <div class="topic_header">
-              <div class="img fl">
-                <img data-name="topic_img" src="" alt="">
+              <div class="topic_box " >
+                    <div class="topic_header">
+                      <div class="img fl">
+                        <img data-name="topic_img" src="" alt="">
+                      </div>
+                      <div class="name fl">
+                        <p data-name="topic_nickname"></p><p  data-name="topic_date" class="date"></p>
+                     </div>
+                   </div>
+                    <div class="topic_con">
+                        <div class="test" data-name="topic_content" ></div>
+                    </div>
+                    <div class="imgBox" style="margin-bottom: 0" data-name="imgBox">
+                        
+                    </div>
               </div>
-              <div class="name fl">
-                <p data-name="topic_nickname"></p><p  data-name="topic_date" class="date"></p>
-             </div>
-           </div>
-            <div class="topic_con">
-                <div class="test" data-name="topic_content" ></div>
-            </div>
-            <div class="imgBox" style="margin-bottom: 0" data-name="imgBox">
-                
-            </div>
-      </div>
-  </div>
+          </div>
 			</div>
-
+      <div class="big_img">
+            <div class="swiper-container2">
+              <div class="swiper-wrapper">
+               
+              </div>
+            </div>
+            <div class="swiper-pagination2"></div>
+      </div>
       <div class="lf-tell">
         <a data-name="tell" href="">联系TA</a>
       </div>
@@ -86,20 +93,23 @@
         }
          /*图片 S*/
        var img_url = '';
-        if(data.thumb != 'null' && data.thumb  != null && data.thumb  != "" ){
+       console.log(data.data.thumb)
+        if(data.data.thumb != 'null' && data.data.thumb  != null && data.data.thumb  != "" ){
           // var img_url = '<div class="img"><img src="'+b["img"].split(",")[0]+'" /></div>';
-          var img_array = data.thumb .split(",");
-          var big_img_array = data.img.split(",");
+          var img_array = data.data.thumb.split(",");
+          var big_img_array = data.data.img.split(",");
           $.each(img_array,function(a,b){
             img_url += '<span big="'+big_img_array[a]+'" style="background:url('+b+') no-repeat center;background-size:cover"></span>';
           })
         }
+
         /*图片 E*/
         $('[data-name="topic_img"]').attr("src",data.data.avatar_url);
         $('[data-name="topic_nickname"]').text(data.data.nickname);
         $('[data-name="topic_date"]').text(data.data.created_at);
         $('[data-name="topic_content"]').text(data.data.content);
         $('[data-name="tell"]').attr("href","tel:"+data.data.mobile);
+        $('[data-name="imgBox"]').html(img_url);
         // if(data.data.thumb){
         // $('[data-name="lf-img"]').html("<img src='"+data.data.thumb+"' />");
         // }
@@ -108,6 +118,39 @@
         fb_alert(data.detail)
       }
     })
+    /*调起大图 S*/
+   var mySwiper = new Swiper('.swiper-container2', {
+          loop: false,
+          pagination: '.swiper-pagination2',
+          })
+    $(".topic_list").on("click", ".imgBox span", 
+    function() {
+
+        var imgBox = $(this).parents(".imgBox").find("span");
+        var i = $(imgBox).index(this);
+        $(".big_img .swiper-wrapper").html("")
+        for(var j = 0 ,c = imgBox.length; j < c ;j++){
+         $(".big_img .swiper-wrapper").append('<div class="swiper-slide"><div class="cell"><img src="' + imgBox.eq(j).attr("big") + '" / ></div></div>');
+        }
+        mySwiper.updateSlidesSize();
+        mySwiper.updatePagination();
+        $(".big_img").css({
+            "z-index": 1001,
+            "opacity": "1"
+        });
+        mySwiper.slideTo(i, 0, false);
+        
+    });
+    $(".big_img").on("click", 
+    function() {
+        $(this).css({
+            "z-index": "-1",
+            "opacity": "0"
+        });
+
+    });
+  /*调起大图 E*/
+
    })
 </script>
 
