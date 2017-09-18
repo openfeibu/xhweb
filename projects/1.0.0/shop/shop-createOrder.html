@@ -265,8 +265,11 @@
           fb_alert(fb_error["s_002"]);
           return false;
       }
-      is_alipay(true);
-      getPayInfo(count-price);
+      alert_flag("如果遇到用餐高峰期，请耐心等待，我们将尽快送达",function(){
+        is_alipay(true);
+        getPayInfo(count-price);
+      })
+      
     })
 
 
