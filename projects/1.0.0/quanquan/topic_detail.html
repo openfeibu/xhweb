@@ -82,7 +82,7 @@
       </div>
       <p>评论</p>
       <div class="header_right commen_input_submit">
-        保存
+        发布
       </div>
     </div>
     <div class="pt1">
@@ -118,7 +118,6 @@
                 })
               }
               /*图片 E*/
-            $(".driver_de_header").css('background','url('+data.img_url+') no-repeat center/cover');
             $('[ data-name="topic_nickname"]').text(data.nickname);
             $('[ data-name="topic_date"]').text(afterTime(data.created_at));
             $('[data-name="topic_content"]').text(data.content);
