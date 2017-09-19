@@ -32,8 +32,8 @@
 <style>
 		body{background:#8fcdff url("../images/wel.png") no-repeat center 0.96rem;background-size: 100% auto;}
 		.write-container{padding-top: 5.5rem;}
-		.write-container .te_order_box{padding:0 0.32rem;}
-		.write-container .te_order_box .te_order_box_item{padding:0.32rem;background: #fff;border-radius: 0.04rem;line-height: 0.64rem}
+		.write-container .te_order_box{margin:0 auto;width:6.5rem;height:4.35rem ;background: url("../images/pic_reservation.png") no-repeat top center;background-size: 100% auto;}
+		.write-container .te_order_box .te_order_box_item{padding:1.28rem 0.96rem;border-radius: 0.04rem;line-height: 0.64rem;color: #262626;font-size: 0.28rem;}
 
 </style>
 <body>
@@ -72,8 +72,9 @@
              		return false;
              	}
                var	html = '<div class="te_order_box_item">\
-               				<div class="name">预约姓名：'+data.data.name+'</div>\
-               				<div class="name">预约时间：'+data.data.time_start+'-'+data.data.time_end+'</div>\
+               				<div class="name">预约时间：'+data.data.date+'</div>\
+               				<div class="name">姓名：'+data.data.name+'</div>\
+               				<div class="name">宿舍：'+data.data.dormitory_number+'</div>\
                			</div>';
 
                $(".te_order_box").html(html);

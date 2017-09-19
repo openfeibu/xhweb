@@ -137,7 +137,8 @@
 		     if(data.code == "200"){
 		     		window.localStorage.token = data.token;
 		     		setTimeout(function(){
-		     			window.location.href = 'telecom_order.html';
+		     			window.location.href = 'telecom.html';
+		     			// window.location.href = 'telecom_order.html';
 		     		},100)
 		    }else{
 		    	fb_alert(data.detail);
