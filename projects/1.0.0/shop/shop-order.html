@@ -85,7 +85,9 @@
       window.localStorage.token  = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
       window.localStorage.app = app =1;
     }
-
+    if( GetString("locahost") == "home"){
+      $(".return").attr("onclick","window.location.href='"+webLoca+"index.html#/mine'");
+    }
     /*头部切换事件 S*/
     $(".shopOrder-select a").on("click",function(){
       var url = $(this).attr("href");

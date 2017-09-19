@@ -389,11 +389,11 @@ $(function(){
              } else if (data.code == 200) {
                  is_alipay(false)
                  $("body").append(data.data);
-                 
                  $("#alipaysubmit").submit();
              } else {
-                 is_alipay(false)
-                 fb_alert(data.detail)
+                 is_alipay(false);
+                 fb_alert(data.detail);
+                 window.location.href =  webLoca+"shop/shop-order.html?locahost=home#/waitpay";
              }
         })
     }else if(payMap == 'shopOrder'){
@@ -456,12 +456,13 @@ $(function(){
                  if(app){
                     window.feibu.wechatPay(JSON.stringify(data))
                 }else{
-                  callpay(data.data) 
+                    callpay(data.data) 
                 }
                  // $("#alipaysubmit").submit();
              } else {
                  is_alipay(false)
-                 fb_alert(data.detail)
+                 fb_alert(data.detail);
+
              }
          })
     }else if(payMap == 'shopOrder'){
@@ -495,8 +496,10 @@ $(function(){
             window.location.href=webLoca+'shop/shop-paysucc.html'
          }else if(res.err_msg== "get_brand_wcpay_request:cancel"){
              fb_alert("你已取消微信支付");
+             window.location.href =  webLoca+"shop/shop-order.html?locahost=home#/waitpay";
          }else if(res.err_msg== "get_brand_wcpay_request:fail"){
             fb_alert("支付失败");
+            window.location.href =  webLoca+"shop/shop-order.html?locahost=home#/waitpay";
          }
      });
  }
