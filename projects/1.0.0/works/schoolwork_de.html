@@ -249,7 +249,7 @@ function workSubmit() {
         } else if (data.code == 200) {
             fb_alert(fb_error["2"]);
             // window.location.href = "../html/order.html";
-             window.location.reload();
+            replaceLocation(window.location.href)
         }
 
     })
@@ -263,11 +263,11 @@ $("body").on("click", ".DoneOrder",function() {
             is_alipay(false)
               if (data.code == 2001) {
                   fb_alert(fb_error["2001"]);
-                  window.location.href = "login.html";
+                  window.location.href = webLoca+"login.html";
               }
               if (data.code == 200) {
                   fb_alert(fb_error["3001"]);
-                  window.location.reload();
+                 replaceLocation(window.location.href)
               }else{
                 fb_alert(data.detail)
               }
@@ -285,11 +285,11 @@ $("body").on("click", ".closeOrder",function() {
             if (data.code == 2001) {
                 fb_alert(fb_error["2001"]);
                 window.localStorage.removeItem("faloca");
-                window.location.href = "login.html";
+                window.location.href = webLoca+"login.html";
             }
             if (data.code == 200) {
                 fb_alert(fb_error["3003"]);
-                window.location.reload();
+               replaceLocation(window.location.href)
             }else{
               fb_alert(data.detail)
             }
