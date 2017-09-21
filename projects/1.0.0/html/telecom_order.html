@@ -32,6 +32,7 @@
 		.write-container{padding-top: 5.5rem;}
 		.write-container .te_order_box{margin:0 auto;width:6.5rem;height:4.35rem ;background: url("http://web.feibu.info/images/pic_reservation.png") no-repeat top center;background-size: 100% auto;}
 		.write-container .te_order_box .te_order_box_item{padding:1.28rem 0.96rem;border-radius: 0.04rem;line-height: 0.64rem;color: #262626;font-size: 0.28rem;}
+	#exit{width: 3.65rem;height: 0.9rem;background: url("http://web.feibu.info/images/ic_reservation_button.png") no-repeat top center;background-size: 100% 100%;margin:0.32rem auto;display: block;}
 
 </style>
 <body>
@@ -46,9 +47,11 @@
 			<div class="te_order_box">
 				
 			</div>
+			<input type="submit" value="注销" id="exit" class="active" />
 		</div>
 	</section>
 	<script>
+
 	/*android S*/
 	if(window.localStorage.app == 1){
 		$(".header_title").hide();
@@ -72,7 +75,7 @@
                var	html = '<div class="te_order_box_item">\
                				<div class="name">预约时间：'+data.data.date+'</div>\
                				<div class="name">姓名：'+data.data.name+'</div>\
-               				<div class="name">宿舍：'+data.data.dormitory_number+'</div>\
+               				<div class="name">宿舍：'+data.data.building_name+data.data.dormitory_number+'</div>\
                			</div>';
 
                $(".te_order_box").html(html);
@@ -84,7 +87,13 @@
               alert('网络超时，请稍后再试')
           });
 
-		
+	$("#exit").on("click",function(){
+		window.localStorage.removeItem("token");
+        fb_alert("注销成功");    
+		setTimeout(function(){
+            window.location.href = "telecom_welcome.html";
+		},500)
+	})
 	</script>
 </body>
 </html>

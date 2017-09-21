@@ -102,6 +102,7 @@
 	       clearInterval(time);
 	    }
 	}).error(function(){
+		is_alipay(false);
 		fb_alert("网络出错");
 	})
 	_this.html('60s');
@@ -142,6 +143,7 @@
 		    	fb_alert(data.detail);
 		    }
 		}).error(function(){
+			is_alipay(false)
 			fb_alert("网络出错");
 		})
 	})
