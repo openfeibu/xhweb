@@ -46,6 +46,7 @@
 		#account::-moz-placeholder,#code::-moz-placeholder{ color: #999999; }
 		#account:-ms-input-placeholder,#code:-ms-input-placeholder{ color: #999999; }
 		#account::-webkit-input-placeholder,#code::-webkit-input-placeholder{ color: #999999; }
+				.number{text-align: center;	line-height: 0.42rem;color: #262626;font-size: 0.28rem;}
 	</style>
 <body>
 	<section id="write-list-input">
@@ -59,6 +60,10 @@
 					<div class="getCode">获取验证码</div>
 				</div>
 			</form>
+			<div class="number">
+				<p>粤垦校区可预约名额：<span data-name="count_1">--</span>个</p>
+				<p>增城校区可预约名额：<span data-name="count_2">--</span>个</p>
+			</div>
 			<input type="submit" value="下一步" id="lastStep" class="active">
 		</div>
 	</section>
@@ -148,6 +153,36 @@
 		})
 	})
 
+		is_alipay(true)
+		getTime();
+		function getTime(){
+			 $.getJSON(locahost+'telecom/getSchoolBuildings',  function(data){
+			is_alipay(false)
+           	if(data.code == 2001){
+                fb_alert(fb_error["2001"])
+                window.location.href = "telecom_welcome.html";
+                return;
+             }
+             if(data.code == "200"){  
+             	var html ='';
+               $.each(data.data,function(a,b){
+               	if(a == 0){
+               		building_id = b.building_id;
+               	}
+               	html += '<div class="enroll_select_val" data-building_id="'+b.building_id+'">\
+			           		<p>'+b.building_no+'<label>('+b.campus_name+')</label></p>\
+			           	</div>';
+               })
+               $(".enroll_select_con,.enroll_select").html(html);
+               $("[data-name='count_1']").text(data.count_1);
+               $("[data-name='count_2']").text(data.count_2);
+             }else{
+                 fb_alert(data.detail);
+              }
+      }).error(function(xhr,errorText,errorType){
+              alert('网络超时，请稍后再试')
+          });
+		}
 
 
 	</script>
