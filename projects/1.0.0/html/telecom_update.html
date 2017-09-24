@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+	<meta content="telephone=no" name="format-detection" />
+	 <!-- uc强制竖屏 -->
+	  <meta name="screen-orientation" content="portrait">
+	  <!-- UC应用模式 --> 
+	  <meta name="browsermode" content="application">
+	  <!-- QQ强制竖屏 -->
+	  <meta name="x5-orientation" content="portrait">
+	  <!-- QQ应用模式 -->
+	  <meta name="x5-page-mode" content="app">
+	    <!-- UC禁止放大字体 -->
+  	<meta name="wap-font-scale" content="no">
+	<title>AIB | 校园宽带预约平台</title>
+    <link rel="apple-touch-icon-precomposed" href="./icon.png" />
+  	<link rel="shortcut icon" href="../icon.png" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" href="http://web.feibu.info/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="http://web.feibu.info/css/index.css">
+	<link rel="stylesheet" type="text/css" href="http://web.feibu.info/css/info.css">
+	<script src="http://web.feibu.info/js/director.js"></script>
+    <script type="text/javascript" src="http://web.feibu.info/js/jquery.min.js"></script>
+	<script type="text/javascript" src="http://web.feibu.info/js/common.js"></script>
+</head>
+	<style>
+		body{background:#8fcdff url("http://web.feibu.info/images/wel.png") no-repeat center 0.96rem;background-size: 100% auto;height: auto;}
+		.write_form{margin-top: 0.96rem;width:6.5rem;height:4.35rem ;margin: 0 auto;background: url("http://web.feibu.info/images/pic_reservation.png") no-repeat top center;background-size: 100% auto;overflow: hidden;}
+		#write-list-input{width:100%;}
+		#write-list-input .write-container{padding:0.3rem 0.15rem;padding-top: 5.5rem;}
+		#account,#dormitory_number{width:100%;border-bottom: 1px solid #eee;height: 0.9rem;line-height: 0.9rem;margin-bottom: 0.32rem;font-size: 0.28rem;color: #fff;background: none;}
+		.write_form .input_b{width: 4.05rem;margin:0 auto;height: 0.75rem;margin-top: 0.2rem;}
+		#account,#dormitory_number{width:100%;height: 0.75rem;line-height: 0.75rem;margin-bottom: 0.32rem;font-size: 0.28rem;color: #262626;background: #fff;border:1px solid #262626;border-radius: 0.04rem;text-indent:1em;}
+		#account:-ms-input-placeholder,#code:-ms-input-placeholder{ color: #999; }
+		#account::-webkit-input-placeholder,#code::-webkit-input-placeholder{ color: #999; }
+		.enroll_select_val p label{color: #999;font-size: 0.24rem;}
+		.enroll_select{border-radius: 5px;width: 3.4rem;margin:0 auto;border:1px solid #262626;border-radius: 0.04rem;margin-top: 1.5rem;height: 0.75rem;line-height: 0.75rem;}
+		#lastStep{width: 3.65rem;height: 0.9rem;background: url("http://web.feibu.info/images/ic_reservation_button.png") no-repeat top center;background-size: 100% 100%;margin:0.32rem auto 0 auto;display: block;}
+		.number{text-align: center;	line-height: 0.42rem;color: #262626;font-size: 0.28rem;}
+	</style>
+<body>
+	<section id="write-list-input">
+		<div class="header_title">
+			<p>校园宽带预约平台</p>
+			<div class="return"  onclick="returnUp()">
+			</div>
+		</div>
+		<div class="write-container">
+			<form action="" class="write_form" onsubmit="return false">
+		        <div class="enroll_select">
+			            
+		        </div>
+				<div class="input_b">
+					<input type="text" placeholder="宿舍号|101" id="dormitory_number"/>
+				</div>
+			</form>
+			<div class="number">
+				<p>粤垦校区可预约名额：<span data-name="count_1">--</span>个</p>
+				<p>增城校区可预约名额：<span data-name="count_2">--</span>个</p>
+			</div>
+			<input type="submit" value="修改" id="lastStep" class="active" />
+		</div>
+	    <div class="enroll_select_bg ">
+	      <div class="enroll_select_box animate">
+	            <div class="enroll_select_title">
+	              请选择宿舍楼
+	            </div>
+	           <div class="enroll_select_con">
+	              
+	           </div>
+	            <div class="enroll_select_close">关闭</div>
+	      </div>
+	    </div>
+	</section>
+	<script>
+// var locahost ="http://txhapi.feibu.info/";
+	if(window.localStorage.app == 1){
+		$(".header_title").hide();
+		$("body").css("background",'#8fcdff url("../images/wel.png") no-repeat center 0/100% auto');
+		$("#account").focus(function(){
+			$(".write-container").animate({
+				paddingTop:"1rem"
+			})
+		})
+		$("#account").blur(function(){
+			$(".write-container").animate({
+				paddingTop:"5.5rem"
+			})
+		})
+	}
+	var token = window.localStorage.token;
+
+	var building_id ;
+	// 选择框
+	  $(".enroll_select").on("click",function(){
+	    $(".enroll_select_bg").show();
+	    setTimeout(function(){
+	      $(".enroll_select_box").addClass("top")
+	    },1)
+	  })
+
+	  $("body").on("click",".enroll_select_box .enroll_select_val",function(){
+	    var pro_id = $(this).data('building_id');
+	    var pro_index = $(this).index('.enroll_select_box .enroll_select_val');
+	    building_id = pro_id;
+	    $(".enroll_select .enroll_select_val").eq(pro_index).show().siblings(".enroll_select_val").hide();
+	    $(".enroll_select_box").removeClass("top");
+	    $(".enroll_select_bg").fadeOut("200");
+	    })
+	  $("body").on("click",".enroll_select_close",function(){
+	    $(".enroll_select_box").removeClass("top");
+	    $(".enroll_select_bg").fadeOut("200");
+	  })
+	// 选择框
+
+		is_alipay(true)
+		getTime();
+		function getTime(){
+			$.getJSON(locahost+'telecom/getSchoolBuildings',  function(data){
+           	if(data.code == 2001){
+                fb_alert(fb_error["2001"])
+                window.location.href = "telecom_welcome.html";
+                return;
+             }
+             if(data.code == "200"){  
+             	var html ='';
+               $.each(data.data,function(a,b){
+               	if(a == 0){
+               		building_id = b.building_id;
+               	}
+               	html += '<div class="enroll_select_val" data-building_id="'+b.building_id+'">\
+			           		<p>'+b.building_no+'<label>('+b.campus_name+')</label></p>\
+			           	</div>';
+               })
+               $(".enroll_select_con,.enroll_select").html(html);
+               $("[data-name='count_1']").text(data.count_1);
+               $("[data-name='count_2']").text(data.count_2);
+                     $.getJSON(locahost+'telecom/getEnroll?token='+token,  function(data){
+						is_alipay(false)
+			           	if(data.code == 2001){
+			                fb_alert(fb_error["2001"]);
+			                window.localStorage.removeItem("token");
+			                window.location.href = "telecom_welcome.html";
+			                return;
+			             }
+			             if(data.code == "200"){  
+			             	if(data.data.length == 0 ){
+					     		window.location.href = 'telecom.html';
+			             		return false;
+			             	}
+			               $(".enroll_select [data-building_id="+data.data.building_id+"]").show().siblings().hide();
+			               $("#dormitory_number").val(data.data.dormitory_number)
+
+			             }else{
+			                 fb_alert(data.detail);    
+			              }
+			      }).error(function(xhr,errorText,errorType){
+			              alert('网络超时，请稍后再试')
+			          });
+             }else{
+                 fb_alert(data.detail);
+              }
+      }).error(function(xhr,errorText,errorType){
+              alert('网络超时，请稍后再试')
+          });
+		}
+
+
+
+
+
+	$("#lastStep").on("click",verify)
+		function verify(){
+			var that = $(this);
+			var name = $("#account").val();
+			var dormitory_number = $("#dormitory_number").val();
+			if(dormitory_number.length == 0){
+				fb_alert("请填写正确的宿舍号");
+			}else{
+			 is_alipay(true);
+			 var postData = {
+			 	token : token,
+			 	dormitory_number : dormitory_number,
+			 	building_id:building_id,
+			 }
+		    $.post(locahost+'telecom/updateEnroll',postData, function(data){
+		      		is_alipay(false)
+		           if(data.code == 2001){
+		                fb_alert(fb_error["2001"]);
+		                window.localStorage.removeItem("token");
+		                window.location.href = "telecom_welcome.html";
+		                return;
+		             }
+		             if(data.code == "200"){
+		                fb_alert('修改成功');
+		                setTimeout(function(){
+		               	 window.location.href = "telecom_order.html";
+		                },1000)
+		               
+		             }else{
+		                fb_alert(data.detail);
+	
+		             }
+		      }).error(function(xhr,errorText,errorType){
+			        fb_alert('网络超时，请稍后再试');
+			   });
+			}
+		}
+	</script>
+</body>
+</html>
