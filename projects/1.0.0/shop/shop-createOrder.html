@@ -103,6 +103,12 @@
 </body>
 <script type="text/javascript" src="../js/xhPay.js"></script>
 <script>
+  window.addEventListener('pageshow', function(e) {
+      // 通过persisted属性判断是否存在 BF Cache
+      if (e.persisted) {
+          location.reload();
+      }
+  });
   window.localStorage.removeItem('user_coupon_id');
   var app = 0;
   if(window.localStorage.app == 1){
@@ -113,7 +119,7 @@
   // $("html").html(window.localStorage.token)
   $(function(){
     //获取数据
-    var shop_id = GetString("sid"),
+    var shop_id =  GetString("sid"),
     token = window.localStorage.token,
     nowIndex = 0,//当前分类索引
     address_id,//选中得地址ID
@@ -124,6 +130,7 @@
     getShopInfo();
     //获取初始数据
     function getShopInfo(){
+                    // alert(123)
          loading(true);
         $.getJSON(locahost+'orderInfo/create?shop_id='+shop_id+'&token='+token,function(data){
           if(data.carts.length == 0 ){

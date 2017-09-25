@@ -58,7 +58,6 @@
 	</section>
 </body>
 <script>
-
   var app = 0;
   if(GetString("device") == "android" || window.localStorage.app == 1 ){
     $(".header_title").remove();
@@ -86,7 +85,6 @@
     function getShopInfo(){
          loading(true);
         $.getJSON(locahost+'/userAddress/index?token='+token,function(data){
-
             if(data.code == 200){
                 if(data.user_addresses.length == 0 ){
                   //没有地址
@@ -149,7 +147,7 @@
       var i  = $(this).index(".shopMap ul li .li_click");
       $(this).parents("li").addClass("on").siblings("li").removeClass("on");
       window.localStorage.user_address = mapArray[i];
-      window.history.go(-1);
+      window.history.back(-1);
     })
     
      $(".shopMap ul").on("click",".updata",function(event){ 
