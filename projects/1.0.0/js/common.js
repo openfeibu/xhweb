@@ -204,7 +204,8 @@ function delecommentFun(obj,comment_id){
 }
 //返回上一页
 function returnUp(){  
-  window.history.back(-1);
+  window.history.go(-1);
+  // window.history.back(-1);
 }
 
 function replaceLocation(URL){
