@@ -423,13 +423,10 @@ $(function(){
     var wechat_info = xhAraay;
     wechat_info.token = token; 
     payMap = xhAraay.payMap;
-    
-    if(is_weixn()){
-         wechat_info.platform = 'wechat';
-     }
-     if(app){
+    wechat_info.platform = 'wechat';
+    if(app){
          wechat_info.platform = 'and';
-     }
+    }
      if(payMap == 'work'){
         $.post(locahost + 'order/createOrder',wechat_info, function(data) {
              if (data.code == 2001) {
@@ -536,7 +533,6 @@ $(function(){
                 $("body").append(pay_html_box)
             }
      $.getJSON(locahost+'user/getWallet',{token:token},function(data){
-            is_alipay(false);
            if(data.code == 200){
              window.localStorage.wallet_number = data.data.wallet;
                   $.getJSON(locahost+'pay',function(data){
@@ -558,7 +554,7 @@ $(function(){
                                             </dd>';
                               }else if(b.pay_name== 'wallet'){
                                 var wallet_number = window.localStorage.wallet_number;
-                                var total_fee = window.localStorage.total_fee
+                                var total_fee = count;
                                 //钱包支付
                                 if(parseFloat(wallet_number) < parseFloat(total_fee)){
                                   //余额不够
