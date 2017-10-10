@@ -419,7 +419,7 @@ $(function(){
 
  //微信支付
  function wechatPay(xhAraay) {
-     is_alipay(true)
+    is_alipay(true);
     var wechat_info = xhAraay;
     wechat_info.token = token; 
     payMap = xhAraay.payMap;
@@ -427,7 +427,10 @@ $(function(){
     if(app){
          wechat_info.platform = 'and';
     }
-     if(payMap == 'work'){
+    if(is_weixn()){
+        wechat_info.platform = 'wechat';
+    }
+    if(payMap == 'work'){
         $.post(locahost + 'order/createOrder',wechat_info, function(data) {
              if (data.code == 2001) {
                  fb_alert(fb_error["2001"])
