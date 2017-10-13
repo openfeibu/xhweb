@@ -13,7 +13,7 @@
 .shop-item .shop-right .shop-bottom{height: 0.4rem;line-height: 0.4rem;}
 .shop-item .shop-right .shop-bottom .shop-min{font-size: 0.25rem;color: #e48912;margin-right: 0.25rem;float: left;}
 .shop-item .shop-right .shop-bottom .shop-pei{font-size: 0.25rem;color: #5ac8fa;margin-right: 0.25rem;float: left;}
-.shop-item .shop-right .shop-map{font-size: 0.28rem;color: #999;line-height: 0.6rem;}
+.shop-item .shop-right .shop-map{font-size: 0.28rem;color: #999;line-height: 0.6rem;overflow: hidden;}
 
 
 /*店铺详情*/
