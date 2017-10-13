@@ -330,7 +330,7 @@
 
 .orderDetail_info p span.colorF{color: #ffac27;}
 
-.shop-header marquee{position: absolute;top:0;font-size: 0.28rem;color: #fff;background: rgba(0,0,0,0.3);height: 0.48rem;line-height: 0.48rem;}
+.shop-header marquee{position: absolute;top:0;font-size: 0.28rem;color: #fff;background: rgba(0,0,0,0.3);height: 0.48rem;line-height: 0.48rem;width: 100%;}
 
 /*加入购物车动画*/
 .addCarA

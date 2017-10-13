@@ -288,7 +288,7 @@ function fb_alert(msg){
 }
 
 //是否弹窗
-function alert_flag(str,succFun){
+function alert_flag(str,succFun,closeFun){
   var html = '<div class="flag_A"><div class="flag_B">\
                 <div class="flag_box_con">'+str+'</div>\
                 <div class="flag_true">确定</div>\
@@ -296,6 +296,9 @@ function alert_flag(str,succFun){
               </div></div>';
   $("body").append(html);
   $(".flag_close").on("click",function(){
+    if(closeFun){
+          closeFun();
+    }
     $(".flag_A").remove();
   })
   $(".flag_true").on("click",function(){

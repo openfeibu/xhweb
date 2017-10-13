@@ -167,16 +167,19 @@
     //获取初始数据
     //退款
     function returnMoney(){
-       alert_flag("是否退款？")
+       alert_flag("是否确定退款？")
         $(".flag_true").on("click",function(){
           $(".flag_A").remove();
            is_alipay(true);
            $.post(locahost+'/orderInfo/refund?order_id='+order_id+'&token='+token,function(data){
                 is_alipay(false);
                 if(data.code == 200){
-                  fb_alert(fb_error["s_005"]);
-                  window.history.go(-1);
-
+                  alert_flag(data.detail,function(){
+                    window.history.go(-1);
+                  },function(){
+                     window.history.go(-1);
+                  })
+                  
                 }else{
                   fb_alert(data.detail)
                 }
