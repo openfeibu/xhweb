@@ -330,8 +330,8 @@
 
 .orderDetail_info p span.colorF{color: #ffac27;}
 
-.shop-header marquee{position: absolute;top:0;font-size: 0.28rem;color: #fff;background: rgba(0,0,0,0.3);height: 0.48rem;line-height: 0.48rem;width: 100%;}
-
+#show_fee{width: 92%;height: 0.95rem;float: left;}
+.fee_que{float: right;width: 12%;height: 0.95rem;background: url("../images/shop/ic_money_question.png") no-repeat center/0.32rem auto;position: absolute;right: 0;}
 /*加入购物车动画*/
 .addCarA
 {

@@ -960,3 +960,36 @@ display: -webkit-box;
 .others_header .nameschoolname{height: 1rem;}
 .others_header .name{font-size: 0.32rem;color: #262626;margin:0.16rem 0;text-align: center;}
 .others_header .schoolName{font-size: 0.24rem;color: #a69001;text-align: center;}
+#ClassHome .marquee{padding: 0 0.32rem;background:#d6c593;position: relative;}
+#ClassHome .marquee marquee{font-size: 0.28rem;color: #fff;background:#d6c593;height: 0.6rem;line-height: 0.6rem;width: 100%;}
+
+#ClassHome .marquee .close{position: absolute;line-height: 0.6rem;top:0;right: 0.15rem;width:0.6rem;text-align: center;cursor: pointer;color: #fff;font-size: 0.3rem;height: 0.6rem;background: url("../images/ic_home_close.png") no-repeat center;background-size: 0.3rem auto; }
+
+
+
+/*奖励金*/
+.bonusRules{padding:0 0.33rem;}
+.bonusRules .bonusRules_title{text-align: center;}
+.bonusRules .bonusRules_title2{text-align: center;color: #6f98ff;font-size: 0.37rem;}
+.bonusRules .bonusRules_title p{font-size: 0.5rem;color: #fff;}
+.bonusRules .bonusRules_title span{font-size: 0.3rem;color: #3e61ba;}
+.bonusRules .bonusRulesDate{background: #fff;margin:0.65rem 0;border-radius: 5px;padding:  0.37rem;}
+.bonusRules .bonusRulesDate .bonusRulesDate_con{}
+.bonusRules .bonusRulesDate .bonusRulesDate_con .bonusRulesDate_item{height: 1.22rem;padding: 0.2rem 0;}
+.bonusRules .bonusRulesDate .bonusRulesDate_con .bonusRulesDate_item .date{float: left;color: #bbbbbb;font-size: 0.33rem;}
+.bonusRules .bonusRulesDate .bonusRulesDate_con .bonusRulesDate_item .num{float: right;color: #bbbbbb;font-size: 0.33rem;text-align: right;}
+.bonusRules .bonusRulesDate .bonusRulesDate_con .bonusRulesDate_item .num span{color: #bbbbbb;font-size: 0.3rem;line-height: 0.58rem;}
+.bonusRules .bonusRulesDate .bonusRulesDate_con .bonusRulesDate_item .num span.active{color: #58b951;}
+.bonusRules .bonusRulesDate .bonusRulesDate_con .bonusRulesDate_item.active .date{color: #6f98ff;}
+.bonusRules .bonusRulesDate .bonusRulesDate_con .bonusRulesDate_item.active .num{color: #6f98ff;}
+.bonusRules .bonusRulesDate .bonusRulesDate_count{border-top: 4px solid #e8efff;height: 1.25rem;line-height: 1.25rem;}
+.bonusRules .bonusRulesDate .bonusRulesDate_count label{float: left;color: #bbbbbb;font-size: 0.33rem;}
+.bonusRules .bonusRulesDate .bonusRulesDate_count .money{float: right;color: #58b951;font-size: 0.5rem;}
+.bonusRules .bonusRulesCon{margin:0.65rem 0;background: #fff;padding: 0.37rem;border-radius: 5px;}
+.bonusRules .bonusRulesCon .bonusRulesCon_item{height: 0.7rem;line-height: 0.7rem;}
+.bonusRules .bonusRulesCon .bonusRulesCon_item .label{float: left;color: #bbbbbb;font-size: 0.33rem;}
+.bonusRules .bonusRulesCon .bonusRulesCon_item .content{float: right;color: #bbbbbb;font-size: 0.33rem;text-align: right;}
+.bonusRules .bonusRulesCon .bonusRulesCon_item .money{color: #58b951;}
+.bonusRules .activeRules{margin:0.65rem 0;background: #fff;padding: 0.37rem;border-radius: 5px;min-height: 5.6rem;}
+.bonusRules .activeRules .activeRules_con{padding: 0.2rem 0;}
+.bonusRules .activeRules .activeRules_con .activeRules_item{color: #999999;font-size: 0.3rem;line-height: 0.45rem;}

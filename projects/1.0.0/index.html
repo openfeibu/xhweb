@@ -422,7 +422,7 @@
                               },
                               on:function(){
                                 getSchoolWork(function(){
-                                  getWork({"index":0});
+                                  getWork({"index":1});
                                 })
                               }
                             },
@@ -432,7 +432,7 @@
                               },
                               on:function(){
                                 getSchoolWork(function(){
-                                  getWork({"index":1});
+                                  getWork({"index":0});
                                 })
 
                               }
@@ -486,7 +486,7 @@
           if(locationName =='getSellerList' || locationName =='getCampusList' || locationName =='getStudentList'){
             window.location.href="#/shop"
           }else if(locationName =='personal' || locationName =='canteen' || locationName =='business'){
-            window.location.replace("#/work/personal");
+            window.location.replace("#/work/canteen");
 
           }else{
             window.location.replace("#/home");

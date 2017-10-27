@@ -28,9 +28,10 @@
   <script type="text/javascript" src="../js/common.js"></script>
   <script type="text/javascript" src="../js/director.js"></script>
   <script type="text/javascript" src="../js/updata.js"></script>
+  <script type="text/javascript" src="../js/weui.min.js"></script>
   <script src="../js/md5.js" type="text/javascript"></script>
 </head>
-<body  style="height:100%" >
+<body  style="height:100%" ontouchstart >
 	<section class='main' style="height:100%;padding:0">
         <div class="header_title">
           <p >创建订单</p>
@@ -66,6 +67,14 @@
               <label for="">配送费</label>
               <span>元</span>
               <span data-name="shipping_fee"></span>
+            </div>
+            <div class="dispatching" >
+              <div id="show_fee">
+                <label for="">额外费用</label>
+                <span>元</span>
+                <span data-name="other_fee"></span>
+              </div>
+              <div class="fee_que"></div>
             </div>
             <div class="coupon">
               <label for="">优惠卷</label>
@@ -313,9 +322,49 @@
       $(".shop-order").removeClass("top");
     })
    }
+
+    $('#show_fee').on('click', function () {
+        weui.picker([{
+            label: '1元',
+            value: 1
+        }, {
+            label: '2元',
+            value: 2
+        }, {
+            label: '3元',
+            value: 3
+        }, {
+            label: '4元',
+            value: 4
+        },{
+            label: '5元',
+            value: 5
+        }], {
+            onChange: function (result) {
+                console.log(result[0]);
+            },
+            onConfirm: function (result) {
+               var val = result[0].value;
+               $("[data-name='other_fee']").text(val);
+            }
+        });
+    });
+    $(".fee_que").on("click",function(){
+      weui.dialog({
+        title: '额外费用说明',
+        content: '若有特殊天气原因（高温、大雨等），用户需自行增加至少1元的额外费用。',
+        className: 'custom-classname',
+        buttons: [ {
+            label: '知道了',
+            type: 'primary',
+            onClick: function () { }
+        }]
+    });
+    })
+
   })
 
-
+  
 
 </script>
 </html>

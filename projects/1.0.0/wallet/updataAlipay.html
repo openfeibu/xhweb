@@ -4,40 +4,38 @@
       </div>
 </div>
 <div class="setAlipay pt1">
-    <div class="setAlipay_title">请绑定提现支付宝账号</div>
     <form id="setAlipay_form">
       <div class="input_b">
-        <label for="">支付宝姓名</label>
-        <input type="text" placeholder="" class="alipay_name"/>
+        <label for="">支付宝账号</label>
+        <input type="text" class="alipay_card" placeholder="支付宝账号（手机或邮箱）"/>
       </div>
       <div class="input_b">
-        <label for="">支付宝账号</label>
-        <input type="text" placeholder="" class="alipay_card"/>
+        <label for="">支付宝姓名</label>
+        <input type="text" class="alipay_name" placeholder="支付宝实名认证的姓名" />
       </div>
       <div class="input_b">
         <label for="">验证码</label>
-        <input type="text" placeholder="" class="alipay_code"/>
-        <div class="getcode">获取验证码</div>
+        <input type="text" class="sms_code" placeholder="请输入验证码" />
+        <div class="alipay_getcode">获取验证码</div>
       </div>
-      <aside>注：目前只支持支付宝账号提现，不便之处敬请谅解</aside>
     </form>
-    <div class="setAlipay_submit button_active">
-      绑定
+    <div class="setAlipay_submit_box">
+          <div class="setAlipay_submit">绑定支付宝</div>
     </div>
 </div>
 <script type="text/javascript">
     var token = window.localStorage.token;
-    $(".setAlipay_submit").on("click",updataAlipay_submit)
-    function updataAlipay_submit(){
+    $(".setAlipay_submit").on("click",setAlipay_submit)
+    function setAlipay_submit(){
      var alipay_name = $(".alipay_name").val(); 
      var alipay_card = $(".alipay_card").val(); 
-     var alipay_code = $(".alipay_code").val(); 
-     $(".setAlipay_submit").off("click",updataAlipay_submit)
-     if(alipay_name.length == 0 || alipay_card.length == 0 || alipay_code.length == 0){
+     var sms_code = $(".sms_code").val(); 
+     $(".setAlipay_submit").off("click",setAlipay_submit)
+     if(alipay_name.length == 0 || alipay_card.length == 0 || sms_code.length == 0){
       fb_alert(fb_error["8"])
      }else{
         is_alipay(true);
-        $.post(locahost+'/user/changeAlipay',{"token":token,"alipay_name":alipay_name,"alipay":alipay_card,"sms_code":alipay_code},  function(data){
+        $.post(locahost+'/user/changeAlipay/',{"token":token,"alipay_name":alipay_name,"alipay":alipay_card,"sms_code":sms_code},  function(data){
              if(data.code == 2001){
                   fb_alert(fb_error["2001"])
                   window.location.href = "../login.html";
@@ -45,17 +43,18 @@
                }
                if(data.code == "200"){    
                  fb_alert(fb_error["9"]);
-                is_alipay(false);
+                 is_alipay(false);
+                 window.localStorage.alipayName = alipay_name;
+                 window.localStorage.alipayCard = alipay_card;
+                 window.localStorage.is_alipay = 1;
                  setTimeout(function(){
                     history.go(-1);
-                 },1000);
-				 window.localStorage.alipayCard = alipay_card;
-				 window.localStorage.alipayName = alipay_name;
+                 },1000)
 
                }else{
                  fb_alert(data.detail);
                  is_alipay(false);
-                $(".setAlipay_submit").on("click",updataAlipay_submit)
+                  $(".setAlipay_submit").on("click",setAlipay_submit)
 
                }
         }).error(function(xhr,errorText,errorType){
@@ -63,19 +62,18 @@
             });
        }
     }
-       //验证码获取 S
-   $('.getcode').on('click',alipayGetcode)
-    function alipayGetcode(){
-      $('.getcode').off('click',alipayGetcode)
-      $.get(locahost+'/user/sendChangeAliSMS/?token='+token,  function(data){
-           if(data.code == "200"){    
-              fb_alert("发送验证码成功")
-          }else{
-              fb_alert(data.detail);
-               $('.getcode').on('click',alipayGetcode);
+   $('.alipay_getcode').on('click',alipayGetcode)
+        function alipayGetcode(){
+          $('.getcode').off('click',alipayGetcode)
+          $.get(locahost+'/user/sendChangeAliSMS/?token='+token,  function(data){
+               if(data.code == "200"){    
+                  fb_alert("发送验证码成功")
+              }else{
+                  fb_alert(data.detail);
+                   $('.getcode').on('click',alipayGetcode);
 
-          }
-      })
+              }
+          })
           var _this = $(this);
           _this.html('60s后可重新发生');
           var i = 60;
@@ -90,4 +88,15 @@
           },1000)
          }
          //验证码获取 E
+
+
+
+             //可下一步点击
+       $(".alipay_card,.alipay_name").on("input propertychange",function(){
+          if($(".alipay_card").val().length > 0&& $(".alipay_name").val().length > 0){
+            $(".setAlipay_submit").addClass("active");
+          }else{
+            $(".setAlipay_submit").removeClass("active");
+          }
+       })
 </script>
