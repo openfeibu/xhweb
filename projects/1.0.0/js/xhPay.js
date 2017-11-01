@@ -211,7 +211,6 @@ $(function(){
                  if (data.code == 200) {
                      fb_alert(fb_error["10"]);
                      closePayPass();
-                     
                      window.history.go(-1);
                      // locaGo("shop/shop-paysucc.html?order_id=" + data.order_id);
                  } else {
