@@ -100,7 +100,7 @@
                   </div>
                   <div class="bonusRulesDate_count">
                     <label for="">本周总计</label>
-                    <div class="money">28元</div>
+                    <div class="money" data-name="bonusRulesDate_count">28元</div>
                   </div>
                 </div>
                 <div class="bonusRulesCon">
@@ -110,31 +110,6 @@
                             <div class="label">每日完成</div>
                             <div class="content">奖励金额</div>
                         </div>
-                        <div class="bonusRulesCon_item clearfix">
-                            <div class="label">3单</div>
-                            <div class="content money">1元</div>
-                        </div>
-                        <div class="bonusRulesCon_item clearfix">
-                            <div class="label">5单</div>
-                            <div class="content money">3元</div>
-                        </div>
-                        <div class="bonusRulesCon_item clearfix">
-                            <div class="label">8单</div>
-                            <div class="content money">5元</div>
-                        </div>
-                        <div class="bonusRulesCon_item clearfix">
-                            <div class="label">12单</div>
-                            <div class="content money">8元</div>
-                        </div>
-                        <div class="bonusRulesCon_item clearfix">
-                            <div class="label">18单</div>
-                            <div class="content money">12元</div>
-                        </div>
-                        <div class="bonusRulesCon_item clearfix">
-                            <div class="label">28单</div>
-                            <div class="content money">18元</div>
-                        </div>
-
                     </div>
                 </div>
                 <div class="activeRules">
@@ -154,91 +129,82 @@
  
  
   var app = 0;
-  if(window.localStorage.app == 1 || GetString("device") == "android"){  
+  if (GetString("device") == "android" || window.localStorage.app == 1) {
     $(".header_title").remove();
     $(".pt1").removeClass("pt1");
-    $(".shop-detail-con").addClass("appheight");
-    window.localStorage.token = JSON.parse(window.feibu.getToken()).value;
-    app =1;
-    window.localStorage.app = 1;
-  }
+    app = window.localStorage.app = 1;
+    try {
+        if (JSON.parse(window.feibu.getToken()).value != 'undefined' && JSON.parse(window.feibu.getToken()).value != undefined) {
+            window.localStorage.token = JSON.parse(window.feibu.getToken()).value;
+        }
+    } catch (e) {
+        window.localStorage.token = document.location = "objc://" + getToken + ":/" + value;
+        
+    }
+}
 
-  $(function(){
-    var proArray = {};
-    var shop_id,
-    shop_status,nowIndex; 
+
+$(function(){
     //获取数据
-    // getShopInfo();
+    getInfo();
     //获取初始数据
-    function getShopInfo(){
+    function getInfo(){
         loading(true);
         var token = window.localStorage.token;
-        $.getJSON(locahost+'/goods/shopGoodses?&token='+token,function(data){
-          loading(false);
-          if(data.shop == null || data.code != 200){
-            //没店铺
-            $(".noAss").fadeIn(200);
-            $(".shop-detail").hide();
-
-            return false;
-          }
-          if(data.categories.length == 0 ){
-            //没有产品
-            $(".noGoods").show();
-            $(".shop-pro-class , .shop-pro-all").hide();
-          }    
-          var shop_html = "",categories_html="";
-          $.each(data.categories,function(a,b){       
-            if(a == 0){
-              categories_html += '<li cat_id="'+b.cat_id+'" class="on">'+b.cat_name+'</li>';
+        $.getJSON(locahost+'order/getOrderBonusSetting',function(data){
+            loading(false);
+            if(data.code == 200 ){
+              var dom = '';
+              $.each(data.date,function(a,b){
+                  dom += '<div class="bonusRulesCon_item clearfix">\
+                            <div class="label">'+b.number+'单</div>\
+                            <div class="content money">'+b.bonus+'元</div>\
+                        </div>'
+              })
+              $(".bonusRulesCon .bonusRulesCon_con").append(dom);
             }else{
-              categories_html += '<li cat_id="'+b.cat_id+'">'+b.cat_name+'</li>';
+               fb_alert(data.detail)
+
             }
-            $(".shop-detail-con").append("<div class='shop-pro-all nopaddingBottom' ></div>");
-          })
-          $.each(data.goodes,function(a,b){
-             proArray[b.goods_id] = JSON.stringify(b);
-             var pro_html = '<dd proid="'+b.goods_id+'">\
-                               <div class="shop-pro-img" style="background-image:url('+b.goods_thumb+')">\
-                               </div>\
-                                <div class="shop-pro-right">\
-                                  <div class="shop-pro-name">'+b.goods_name+'</div>\
-                                  <div class="shop-pro-d">'+b.goods_desc+'</div>\
-                                  <div class="shop-pro-ed">已售'+b.goods_sale_count+'件</div>\
-                                </div>\
-                                <div class="shop-pro-bottom">\
-                                    <div class="shop-pro-money">￥<span>'+b.goods_price+'</span></div>\
-                              </div>\
-                            </dd>';
-              shop_html += pro_html;
-          })
-          
-          $(".shop-pro-all").eq(0).show().html('<dl>'+shop_html+'</dl>').attr("loca",true);
-          $(".shop-pro-class ul").html(categories_html);
-          $("[data-name='shopName']").text(data.shop.shop_name);
-          $("[data-name='shopDescription']").text(data.shop.description);
-          $("[data-name='shopImg']").attr("src",data.shop.shop_img);
-          $("[data-name='sale_count']").text(data.shop.sale_count);
-          $("[data-name='income']").text(data.shop.income);
-          $("[data-name='goods_count']").text(data.shop.goods_count);
-          window.localStorage.categories = JSON.stringify(data.categories); //缓存分类信息
-          shop_id = data.shop.shop_id;
-          shop_status = data.shop.shop_status;
-          if(data.goodes == ''){
-              //没商品数据
-              $("#loading").remove();
-              $(".shop-pro-all").eq(0).append("<div id='loaded'>暂没数据</div>");
-          }else{
-               $(".shop-pro-all").eq(0).append("<div id='loaded'>我是有底线的</div>");
-          }
-          if(shop_status == 1){
-              $(".switchShop").addClass("off").text("我要关店")
-          }else{
-             $(".switchShop").removeClass("off").text("我要营业")
-          }
-          }).error(function(){
-            fb_alert("服务器出小差啦")
-          })
+        }).error(function(){
+          fb_alert("服务器出小差啦")
+        })
+
+        $.getJSON(locahost+'order/getOrderBonus',{'token':token},function(data){
+            loading(false);
+            if(data.code == 200 ){
+              var dom = '';
+              var count = 0;
+              $.each(data.date,function(a,b){
+                  count += b.bonus;
+                  if(b.is_today){
+                    dom += '<div class="bonusRulesDate_item clearfix active">\
+                            <div class="date">'+b.date+'</div>\
+                            <div class="num">\
+                              <p>'+b.number+'单</p>\
+                              <span class="active">'+b.bonus+'元奖励金</span>\
+                            </div>\
+                          </div>'
+                  }else{
+                    dom += '<div class="bonusRulesDate_item clearfix">\
+                            <div class="date">'+b.date+'</div>\
+                            <div class="num">\
+                              <p>'+b.number+'单</p>\
+                              <span class="active">'+b.bonus+'元奖励金</span>\
+                            </div>\
+                          </div>'
+                  }
+                  
+              })
+              $(".bonusRules .bonusRulesDate_con").html(dom);
+              $('[data-name="bonusRulesDate_count"]').text(parseFloat(count)+'元')
+            }else{
+               fb_alert(data.detail)
+
+            }
+        }).error(function(){
+          fb_alert("服务器出小差啦")
+        })
     }
     //获取初始数据
 

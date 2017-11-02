@@ -59,6 +59,7 @@
               </div>
               <ul>
               </ul>
+              <div class="mobile_no"><span data-name="mobile_task" phone="">联系接单人</span></div>
               <div class="mobile_no"><span data-name="mobile_no" phone="">联系卖家</span></div>
              <!--  <div class="applyReturn clearfix">
                 <a href="">申请退款</a>
@@ -137,6 +138,9 @@
             $("[data-name='buyerMessage']").text(data.order_info.postscript);
             $("[data-name='status_desc']").text(data.order_info.status_desc);
             window.localStorage.total_fee = data.order_info.total_fee;//缓存总价格
+            if(data.order_info.task){
+              $("[data-name='mobile_task']").show().attr("phone",data.order_info.task.courier_mobile_no);
+            }
             if(data.order_info.pay_time == null){
               $("[data-name='pay_time']").parents("p").remove();
             }else{
@@ -237,7 +241,7 @@
        getPayInfo(window.localStorage.total_fee);
     }
     //拨打电话
-    $('[data-name="mobile_no"]').on("click",function(){
+    $('[data-name="mobile_no"],[data-name="mobile_task"]').on("click",function(){
       var tel = $(this).attr("phone");
       if(app){
         window.feibu.CallPhone(tel);

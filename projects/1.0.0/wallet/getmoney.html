@@ -27,12 +27,12 @@
     <div class="container_type">
       <p>提现方式</p>
       <div class="container_type_item">
-        <input type="radio" name="container_type" checked/>
+        <input type="radio" name="container_type" value="common" checked/>
         <p>普通到账</p>
         <span>预计<label>3个工作日</label>内到账</span>
       </div>
       <div class="container_type_item">
-        <input type="radio" name="container_type" />
+        <input type="radio" name="container_type" value="quick"  />
         <p>快速到账</p>
         <span>预计<label>1个工作日</label>内到账(现阶段免费提现，不收取服务费)</span>
       </div>
@@ -95,7 +95,8 @@
 		}else if(pay_money > money){
        fb_alert(fb_error["15"])
     }else{
-      var infoData = {'money':pay_money,'payMap':'getmoney'}
+
+      var infoData = {'money':pay_money,'payMap':'getmoney','type':$('[name="container_type"]').val()}
       walletPay(infoData);
 		}
 

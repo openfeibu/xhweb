@@ -72,7 +72,7 @@
               <div id="show_fee">
                 <label for="">额外费用</label>
                 <span>元</span>
-                <span data-name="other_fee"></span>
+                <span data-name="adjust_fee"></span>
               </div>
               <div class="fee_que"></div>
             </div>
@@ -135,7 +135,9 @@
     cat_id,//当前分类ID
     price=0,//优惠卷额度
     user_coupon_id,//优惠卷ID
-    count;
+    count,
+    adjust_content,//额外费用详情
+    adjust_fee,adjust_fee_last//额外费用;
     getShopInfo();
     //获取初始数据
     function getShopInfo(){
@@ -196,7 +198,10 @@
           $("[data-name='shopImg']").css("background","url("+data.shop_img+")no-repeat center/0.6rem 0.6rem");
           $("[data-name='num']").text(data.goods_count);
           $("[data-name='shipping_fee']").text(data.shipping_fee);
+          $("[data-name='adjust_fee']").text(data.adjust_fee);
           $("[data-name='count']").text(data.total_fee+"元");
+          adjust_content = data.adjust_content;
+          adjust_fee = adjust_fee_last = parseFloat(data.adjust_fee);
           count = data.total_fee;
           window.localStorage.total_fee = data.total_fee;
           if(data.coupons.length == 0){
@@ -283,7 +288,7 @@
       }
       alert_flag("如果遇到用餐高峰期，请耐心等待，我们将尽快送达",function(){
         is_alipay(true);
-        getPayInfo(count-price);
+        getPayInfo(count-price+adjust_fee_last-adjust_fee);
       })
       
     })
@@ -293,7 +298,7 @@
  
     $('body').on("click",".paySubmit",function(){
       var pay_id =$("[name='payType']:checked").val();
-      var infoData = {'shop_id':shop_id,'address_id':address_id,'pay_id' : pay_id,'user_coupon_id':user_coupon_id,'postscript':$(".remark input").val(),'wap':1,'payMap':'shop','platform':'wap'}
+      var infoData = {'shop_id':shop_id,'address_id':address_id,'pay_id' : pay_id,'user_coupon_id':user_coupon_id,'postscript':$(".remark input").val(),'wap':1,'payMap':'shop','platform':'wap','raise_fee':adjust_fee}
         if(pay_id == undefined){
           fb_alert(fb_error["s_003"])
         }
@@ -325,6 +330,9 @@
 
     $('#show_fee').on('click', function () {
         weui.picker([{
+            label: '0元',
+            value: 0
+        },{
             label: '1元',
             value: 1
         }, {
@@ -341,25 +349,42 @@
             value: 5
         }], {
             onChange: function (result) {
-                console.log(result[0]);
+                // console.log(result[0]);
+                
             },
             onConfirm: function (result) {
-               var val = result[0].value;
-               $("[data-name='other_fee']").text(val);
+              var val = result[0].value;
+
+              if(val < adjust_fee){
+                 weui.dialog({
+                    title: '额外费用',
+                    content: '调整后的额外费用不可低于初费用',
+                    className: 'custom-classname',
+                    buttons: [ {
+                        label: '知道了',
+                        type: 'primary',
+                        onClick: function () { }
+                    }]
+                  });
+              }else{
+                $("[data-name='adjust_fee']").text(val);
+                adjust_fee_last = val;
+                $("[data-name='count']").text(count-price+adjust_fee_last-adjust_fee+"元");
+              } 
             }
         });
     });
     $(".fee_que").on("click",function(){
       weui.dialog({
         title: '额外费用说明',
-        content: '若有特殊天气原因（高温、大雨等），用户需自行增加至少1元的额外费用。',
+        content: adjust_content,
         className: 'custom-classname',
         buttons: [ {
             label: '知道了',
             type: 'primary',
             onClick: function () { }
         }]
-    });
+      });
     })
 
   })

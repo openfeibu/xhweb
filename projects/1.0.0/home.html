@@ -3,7 +3,7 @@
 </div>
 <div class="marquee">
   <div class="close" onclick="$('.marquee').slideUp(100)"></div>
-  <marquee  direction="left" behaviour="lide">如果出现微信支付失败，请注销账户重新登录即可</marquee>
+  <marquee  direction="left" behaviour="lide"></marquee>
 </div>
 <div class='index_nav'>
   <ul>
@@ -179,8 +179,18 @@
         });
     }else{
       //没有缓存
-      getHotGoods()
+      getHotGoods();
     }
+    //获取公告
+    newsGet();
+  }
+  function newsGet(){     
+        $.getJSON(locahost+'paper/announcement', function(data, status, xhr){
+          
+            if(data.code == "200"){
+                $(".marquee marquee").html("<a href='"+data.data.url+"'>"+data.data.papers+"</a>");
+             }
+        })
 
   }
 
