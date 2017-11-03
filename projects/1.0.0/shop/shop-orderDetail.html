@@ -139,7 +139,7 @@
             $("[data-name='status_desc']").text(data.order_info.status_desc);
             window.localStorage.total_fee = data.order_info.total_fee;//缓存总价格
             if(data.order_info.task){
-              $("[data-name='mobile_task']").show().attr("phone",data.order_info.task.courier_mobile_no);
+              $("[data-name='mobile_task']").attr("phone",data.order_info.task.courier_mobile_no).parents(".mobile_no").show();
             }
             if(data.order_info.pay_time == null){
               $("[data-name='pay_time']").parents("p").remove();
