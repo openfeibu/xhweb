@@ -50,50 +50,50 @@
                     <div class="bonusRulesDate_item clearfix">
                       <div class="date">周日 10-22</div>
                       <div class="num">
-                        <p>12单</p>
-                        <span class="active">8元奖励金</span>
+                        <p>0单</p>
+                        <span class="active">未接单</span>
                       </div>
                     </div>
                     <div class="bonusRulesDate_item clearfix">
                       <div class="date">周一 10-23</div>
                       <div class="num">
-                        <p>12单</p>
-                        <span class="active">8元奖励金</span>
+                        <p>0单</p>
+                        <span class="active">未接单</span>
                       </div>
                     </div>
                     <div class="bonusRulesDate_item clearfix">
                       <div class="date">周二 10-24</div>
                       <div class="num">
-                        <p>12单</p>
-                        <span class="active">8元奖励金</span>
+                        <p>0单</p>
+                        <span class="active">未接单</span>
                       </div>
                     </div>
                     <div class="bonusRulesDate_item clearfix active">
                       <div class="date">今天 10-25</div>
                       <div class="num">
-                        <p>12单</p>
-                        <span class="active">8元奖励金</span>
+                        <p>0单</p>
+                        <span class="active">未接单</span>
                       </div>
                     </div>
                     <div class="bonusRulesDate_item clearfix">
                       <div class="date">周四 10-26</div>
                       <div class="num">
                         <p>未接单</p>
-                        <span>0元奖励金</span>
+                        <span>未接单</span>
                       </div>
                     </div>
                     <div class="bonusRulesDate_item">
                       <div class="date">周五 10-27</div>
                       <div class="num">
                         <p>未接单</p>
-                        <span>0元奖励金</span>
+                        <span>未接单</span>
                       </div>
                     </div>
                     <div class="bonusRulesDate_item">
                       <div class="date">周六 10-28</div>
                       <div class="num">
                         <p>未接单</p>
-                        <span>0元奖励金</span>
+                        <span>未接单</span>
                       </div>
                     </div>
 
@@ -131,7 +131,7 @@
   var app = 0;
   if (GetString("device") == "android" || window.localStorage.app == 1) {
     $(".header_title").remove();
-    $(".pt1").removeClass("pt1");
+    // $(".pt1").removeClass("pt1");
     app = window.localStorage.app = 1;
     try {
         if (JSON.parse(window.feibu.getToken()).value != 'undefined' && JSON.parse(window.feibu.getToken()).value != undefined) {

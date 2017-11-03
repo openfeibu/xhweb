@@ -298,7 +298,7 @@
  
     $('body').on("click",".paySubmit",function(){
       var pay_id =$("[name='payType']:checked").val();
-      var infoData = {'shop_id':shop_id,'address_id':address_id,'pay_id' : pay_id,'user_coupon_id':user_coupon_id,'postscript':$(".remark input").val(),'wap':1,'payMap':'shop','platform':'wap','raise_fee':adjust_fee}
+      var infoData = {'shop_id':shop_id,'address_id':address_id,'pay_id' : pay_id,'user_coupon_id':user_coupon_id,'postscript':$(".remark input").val(),'wap':1,'payMap':'shop','platform':'wap','raise_fee':adjust_fee_last}
         if(pay_id == undefined){
           fb_alert(fb_error["s_003"])
         }

@@ -41,6 +41,12 @@ var photoarray = '' ;//头像数组缓存；
 var photoarray_thumb = '' ;//头像数组缓存；
 //html fontSize 重置
 
+window.addEventListener('pageshow', function(e) {
+    // 通过persisted属性判断是否存在 BF Cache
+    if (e.persisted) {
+        location.reload();
+    }
+});
 
 
 function htmlAddClass(className){

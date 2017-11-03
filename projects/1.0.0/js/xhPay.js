@@ -152,7 +152,7 @@ $(function(){
                  }
                  if (data.code == 200) {
                      fb_alert(fb_error["s_004"]);
-                     
+                     // return false;
                      locaGo("shop/shop-paysucc.html?order_id=" + data.order_id);
                  } else {
                      fb_alert(data.detail)
