@@ -197,8 +197,12 @@ $(function(){
               })
               $(".bonusRules .bonusRulesDate_con").html(dom);
               $('[data-name="bonusRulesDate_count"]').text(parseFloat(count)+'元')
+            }else if(data.code == 2001 || data.code == 110){
+
+                window.location.href = webLoca+"/login.html";
+
             }else{
-               fb_alert(data.detail)
+                 fb_alert(data.detail)
 
             }
         }).error(function(){
