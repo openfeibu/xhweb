@@ -86,74 +86,83 @@
           $.getJSON(locahost + work_locahost, workData, function(data) {
               loading(false);
               clearLoading()
-              var work_html = "";
-              var mine_id = window.localStorage.uid;
-              $.each(data.data, function(a, b) {
-                  var href = "";
-                  var work_status_class = 'will';
-                  var href = 'href="../works/schoolwork_de.html?oid=' + b.oid + '"';
-                  if (b.status == "new") {
-                      work_status_class = 'will';
-                  } else if (b.status == "completed") {
-                      //已完成
-                      work_status_class = 'ed';
-                  } else {
-                      //送货中
-                      work_status_class = 'ing';
-                  }
-                  work_html += '<div class="work_content ">\
-                  <a ' + href + '>\
-                  <div class="content-inner-container">\
-                    <div class="work_description ' + work_status_class + '">' + b.description + '</div>\
-                    <div class="work_group">\
-                      <div class="work_status ' + work_status_class + '">' + b.order_status + '</div>\
-                      <div class="work_money ' + work_status_class + '">' + parseFloat(b.fee) + '元</div>\
-                      <div class="work_date">' +b.created_at_desc + '</div>\
+              if(data.code == 200){
+                var work_html = "";
+                var mine_id = window.localStorage.uid;
+                $.each(data.data, function(a, b) {
+                    var href = "";
+                    var work_status_class = 'will';
+                    var href = 'href="../works/schoolwork_de.html?oid=' + b.oid + '"';
+                    if (b.status == "new") {
+                        work_status_class = 'will';
+                    } else if (b.status == "completed") {
+                        //已完成
+                        work_status_class = 'ed';
+                    } else {
+                        //送货中
+                        work_status_class = 'ing';
+                    }
+                    work_html += '<div class="work_content ">\
+                    <a ' + href + '>\
+                    <div class="content-inner-container">\
+                      <div class="work_description ' + work_status_class + '">' + b.description + '</div>\
+                      <div class="work_group">\
+                        <div class="work_status ' + work_status_class + '">' + b.order_status + '</div>\
+                        <div class="work_money ' + work_status_class + '">' + parseFloat(b.fee) + '元</div>\
+                        <div class="work_date">' +b.created_at_desc + '</div>\
+                      </div>\
+                      <div class="work_destination">' + b.destination + '</div>\
                     </div>\
-                    <div class="work_destination">' + b.destination + '</div>\
-                  </div>\
-                  </a>\
-                </div>';
-              })
-              if (data.data == '') {
-                  //没数据
-                  if (page == 1) {
-                      myOrderBox.html("<div class='noWork'>暂无任务</div>");
-                      $("#loading").remove();
-                  } else {
-                      $("#loading,#loaded").remove();
+                    </a>\
+                  </div>';
+                })
+                if (data.data == '') {
+                    //没数据
+                    if (page == 1) {
+                        myOrderBox.html("<div class='noWork'>暂无任务</div>");
+                        $("#loading").remove();
+                    } else {
+                        $("#loading,#loaded").remove();
 
-                      $(".myOrder").append("<div id='loaded'>我是有底线的</div>")
-                  }
-              } else {
-                  //是否为第一页 是替换数据 否追加数据 S
-                  if (page == 1) {
-                      myOrderBox.html(work_html);
-                      $("#loading").remove();
-                  } else {
-                      myOrderBox.append(work_html);
-                  }
-                  //是否为第一页 是替换数据 否追加数据 E
-                  //是否为最后一页  否追加滑动事件 S
-                  if (data.data.length < workPageNum) {
-                      //已经没数据
-                      $("#loading,#loaded").remove();
-                      $(".myOrder").append("<div id='loaded'>我是有底线的</div>");
-                  } else {
-                      $(window).on("scroll", function() {
-                          if ($(window).scrollTop() + 50 >= $(document).height() - $(window).height()) {
-                              //到底
-                              var workPage = page;
-                              workPage++;
-                              getWork({
-                                  'page': workPage,
-                                  'index': fb.index
-                              });
-                          }
-                      })
-                  }
-                  //是否为最后一页  否追加滑动事件 E
-              }
+                        $(".myOrder").append("<div id='loaded'>我是有底线的</div>")
+                    }
+                } else {
+                    //是否为第一页 是替换数据 否追加数据 S
+                    if (page == 1) {
+                        myOrderBox.html(work_html);
+                        $("#loading").remove();
+                    } else {
+                        myOrderBox.append(work_html);
+                    }
+                    //是否为第一页 是替换数据 否追加数据 E
+                    //是否为最后一页  否追加滑动事件 S
+                    if (data.data.length < workPageNum) {
+                        //已经没数据
+                        $("#loading,#loaded").remove();
+                        $(".myOrder").append("<div id='loaded'>我是有底线的</div>");
+                    } else {
+                        $(window).on("scroll", function() {
+                            if ($(window).scrollTop() + 50 >= $(document).height() - $(window).height()) {
+                                //到底
+                                var workPage = page;
+                                workPage++;
+                                getWork({
+                                    'page': workPage,
+                                    'index': fb.index
+                                });
+                            }
+                        })
+                    }
+                    //是否为最后一页  否追加滑动事件 E
+                }
+              }else if(data.code == 2001 || data.code == 110){
+
+                window.location.href = webLoca+"/login.html";
+
+            }else{
+                 fb_alert(data.detail)
+
+            }
           }).error(function(){
             fb_alert("网络出错")
           })

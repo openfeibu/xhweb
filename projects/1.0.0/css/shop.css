@@ -349,16 +349,16 @@
 
 @-moz-keyframes addCarA /* Firefox */
 {
-0%   {width:0.9rem;height: 0.9rem; top:0.05rem; left:0.1rem;background-color: #5ac8fa;}
-50%  {width:1.2rem;height: 1.2rem;top:-0.15rem; left:0rem;background-color: #008ece;}
-100% {width:0.9rem;height: 0.9rem;top:0.05rem; left:0.1rem;background-color: #5ac8fa;}
+0%   {width:0.9rem;height: 0.9rem; top:0.05rem; left:0.1rem;background-color: #262626;}
+50%  {width:1.2rem;height: 1.2rem;top:-0.15rem; left:0rem;background-color: #262626;}
+100% {width:0.9rem;height: 0.9rem;top:0.05rem; left:0.1rem;background-color: #262626;}
 }
 
 @-webkit-keyframes addCarA /* Safari and Chrome */
 {
-0%   {width:0.9rem;height: 0.9rem; top:0.05rem; left:0.1rem;background-color: #5ac8fa;}
-50%  {width:1.2rem;height: 1.2rem;top:-0.15rem; left:0rem;background-color: #008ece;}
-100% {width:0.9rem;height: 0.9rem;top:0.05rem; left:0.1rem;background-color: #5ac8fa;}
+0%   {width:0.9rem;height: 0.9rem; top:0.05rem; left:0.1rem;background-color: #262626;}
+50%  {width:1.2rem;height: 1.2rem;top:-0.15rem; left:0rem;background-color: #262626;}
+100% {width:0.9rem;height: 0.9rem;top:0.05rem; left:0.1rem;background-color: #262626;}
 }
 
 @-o-keyframes addCarA /* Opera */
