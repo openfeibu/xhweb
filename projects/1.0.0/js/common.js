@@ -284,7 +284,7 @@ function fb_alert(msg){
   clearTimeout(fb_time)
   $(".bottom_aside").remove();
   if(msg == undefined){
-    msg = "正在装修中..."
+    msg = "未知错误..."
   }
   var html = '<div class="bottom_aside">'+msg+'</div>';
   $("body").append(html);
