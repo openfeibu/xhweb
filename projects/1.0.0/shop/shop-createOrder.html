@@ -24,7 +24,8 @@
   <link rel="stylesheet" type="text/css" href="../css/reset.css"/>
   <link rel="stylesheet" type="text/css" href="../css/index.css"/>
   <link rel="stylesheet" type="text/css" href="../css/shop.css"/>
-    <script type="text/javascript" src="../js/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/weui.min.css">
+  <script type="text/javascript" src="../js/jquery.min.js"></script>
   <script type="text/javascript" src="../js/common.js"></script>
   <script type="text/javascript" src="../js/director.js"></script>
   <script type="text/javascript" src="../js/updata.js"></script>
@@ -72,7 +73,8 @@
               <div id="show_fee">
                 <label for="">额外费用</label>
                 <span>元</span>
-                <span data-name="adjust_fee"></span>
+                <input type="text" id="show_fee_val" data-name='adjust_fee'/>
+                <!-- <span data-name="adjust_fee"></span> -->
               </div>
               <div class="fee_que"></div>
             </div>
@@ -198,7 +200,7 @@
           $("[data-name='shopImg']").css("background","url("+data.shop_img+")no-repeat center/0.6rem 0.6rem");
           $("[data-name='num']").text(data.goods_count);
           $("[data-name='shipping_fee']").text(data.shipping_fee);
-          $("[data-name='adjust_fee']").text(data.adjust_fee);
+          $("[data-name='adjust_fee']").val(data.adjust_fee);
           $("[data-name='count']").text(data.total_fee+"元");
           adjust_content = data.adjust_content;
           adjust_fee = adjust_fee_last = parseFloat(data.adjust_fee);
@@ -327,64 +329,73 @@
       $(".shop-order").removeClass("top");
     })
    }
-
+$("#show_fee_val").picker({
+  title: "请选择额外费用",
+  cols: [
+    {
+      textAlign: 'center',
+      values: ['0', '1', '2', '3', '4', '5', '8', '10'],
+      displayValues: ['0元', '1元', '2元', '3元', '4元', '5元', '8元', '10元']
+    },
+    
+  ],
+  onClose:function(picker){
+    var val = picker.value[0];
+     if(val < adjust_fee){
+       $.alert("调整后的额外费用不可低于初费用", "额外费用");
+        $("#show_fee_val").val(adjust_fee)
+     }
+  }
+});
     $('#show_fee').on('click', function () {
-        weui.picker([{
-            label: '0元',
-            value: 0
-        },{
-            label: '1元',
-            value: 1
-        }, {
-            label: '2元',
-            value: 2
-        }, {
-            label: '3元',
-            value: 3
-        }, {
-            label: '4元',
-            value: 4
-        },{
-            label: '5元',
-            value: 5
-        }], {
-            onChange: function (result) {
-                // console.log(result[0]);
-                
-            },
-            onConfirm: function (result) {
-              var val = result[0].value;
 
-              if(val < adjust_fee){
-                 weui.dialog({
-                    title: '额外费用',
-                    content: '调整后的额外费用不可低于初费用',
-                    className: 'custom-classname',
-                    buttons: [ {
-                        label: '知道了',
-                        type: 'primary',
-                        onClick: function () { }
-                    }]
-                  });
-              }else{
-                $("[data-name='adjust_fee']").text(val);
-                adjust_fee_last = val;
-                $("[data-name='count']").text(count-price+adjust_fee_last-adjust_fee+"元");
-              } 
-            }
-        });
+        // weui.picker([{
+        //     label: '0元',
+        //     value: 0
+        // },{
+        //     label: '1元',
+        //     value: 1
+        // }, {
+        //     label: '2元',
+        //     value: 2
+        // }, {
+        //     label: '3元',
+        //     value: 3
+        // }, {
+        //     label: '4元',
+        //     value: 4
+        // },{
+        //     label: '5元',
+        //     value: 5
+        // }], {
+        //     onChange: function (result) {
+        //         // console.log(result[0]);
+                
+        //     },
+        //     onConfirm: function (result) {
+        //       var val = result[0].value;
+
+        //       if(val < adjust_fee){
+        //          weui.dialog({
+        //             title: '额外费用',
+        //             content: '调整后的额外费用不可低于初费用',
+        //             className: 'custom-classname',
+        //             buttons: [ {
+        //                 label: '知道了',
+        //                 type: 'primary',
+        //                 onClick: function () { }
+        //             }]
+        //           });
+        //       }else{
+        //         $("[data-name='adjust_fee']").text(val);
+        //         adjust_fee_last = val;
+        //         $("[data-name='count']").text(count-price+adjust_fee_last-adjust_fee+"元");
+        //       } 
+        //     }
+        // });
     });
     $(".fee_que").on("click",function(){
-      weui.dialog({
-        title: '额外费用说明',
-        content: adjust_content,
-        className: 'custom-classname',
-        buttons: [ {
-            label: '知道了',
-            type: 'primary',
-            onClick: function () { }
-        }]
-      });
+       $.alert(adjust_content, "额外费用说明");
     })
 
   })

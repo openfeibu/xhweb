@@ -1,5 +1,5 @@
+<div class="weui-pull-to-refresh__layer"><div class="weui-pull-to-refresh__arrow"></div><div class="weui-pull-to-refresh__preloader"></div><div class="down"></div><div class="up">松开即可刷新</div><div class="refresh">正在刷新...</div> </div>
 <div class='index_main'>
-  
 </div>
 <div class="marquee">
   <div class="close" onclick="$('.marquee').slideUp(100)"></div>
@@ -71,6 +71,12 @@
   <div class="alertAction-close" onclick="$('.alertAction').fadeOut(200)"></div>
 </div> -->
 <script type="text/javascript">
+  $(".down").text(loadingText[Math.floor(Math.random()*(max_loadingNum-0+1)+0)]);
+  $("#ClassHome").css("height",$('body').css("height")).pullToRefresh();
+  $("#ClassHome").on("pull-to-refresh", function() {
+      home(1)
+   // $("#ClassHome").pullToRefreshDone();
+  });
   // 是否弹出活动框
   // if(window.localStorage.alertAction != 'alertAction'){
   //   $(".alertAction").fadeIn(200);
@@ -78,7 +84,7 @@
   // }
    
   // 是否弹出活动框
-  loading(true)
+  loading(true);
   home();
   if(window.localStorage.token){
       getInfo();
@@ -198,7 +204,7 @@
         $.getJSON(locahost+'/home/getADList/', function(data, status, xhr){
           
             if(data.code == "200"){
-              clearLoading()//移除顶部动画
+              $("#ClassHome").pullToRefreshDone();
 		        var dom='' ,htmldom='';
 		        $.each(data.data,function(a,b){
               if(b["ad_url"] != ""){
@@ -279,6 +285,5 @@
             }
         })
   }
-  //
-  refresh["home"]= home;
+
 </script>

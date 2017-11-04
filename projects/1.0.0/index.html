@@ -22,14 +22,16 @@
   <meta name="Description" content="校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、社团文化、校园资讯、学生互动" />
   <link rel="apple-touch-icon-precomposed" href="./icon.png" />
   <link rel="shortcut icon" href="./icon.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="css/weui.min.css">
   <link rel="stylesheet" type="text/css" href="css/reset.css">
   <link rel="stylesheet" type="text/css" href="css/index.css">
   <link href="css/swiper.min.css" rel="stylesheet" type="text/css">
   <!--<script type="text/javascript" src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>-->
+
   <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/weui.min.js"></script>
   <script type="text/javascript" src="js/common.js"></script>
 	<script type="text/javascript" src="js/director.js"></script>
-  <script type="text/javascript" src="js/updata.js"></script>
 	<script src="js/swiper.min.js"></script>
 </head>
 <style>
@@ -67,6 +69,10 @@
 	</footer>
 </body>
 <script>
+    // $("body").pullToRefresh();
+    // $("body").on("pull-to-refresh", function() {
+    //  $("body").pullToRefreshDone();
+    // });
      if(!window.localStorage.splash){
       $(".splash").show();
       setTimeout(function(){
@@ -204,13 +210,14 @@
           }
           var page = fb.page;
           var work_list =  type == 'canteen' ? $(".work_list_canteen") : type == 'personal' ? $(".work_list_personal") : type == 'business' ? $(".work_list_business") : '';
+          var index =  type == 'canteen' ? 0 : type == 'personal' ? 1 : type == 'business' ? 2 : 0;
           //tab切换
-          $(".work_tab span").eq(fb.index).addClass("on").siblings("span").removeClass("on");
+          $(".work_tab span").eq(index).addClass("on").siblings("span").removeClass("on");
           work_list.show().siblings(".work_list").hide();
           //tab切换
-          $(window).off("scroll"); //清除滚动事件
+          work_list.off("scroll"); //清除滚动事件
           if ($("#loading").length == 0 && page != 1) {
-              $(".work_list_main").append("<div id='loading'>正在玩命的加载中...</div>");
+              work_list.append("<div id='loading'>正在玩命的加载中...</div>");
           }
           var workData = {
               page: page,
@@ -218,7 +225,8 @@
           }
           $.getJSON(locahost + 'order/getOrderList/', workData, function(data) {
               loading(false);
-              clearLoading()
+          
+              $(".work_list").pullToRefreshDone();
               var work_html = "";
               var mine_id = window.localStorage.uid;
               $.each(data.data, function(a, b) {
@@ -259,12 +267,12 @@
                       $("#loading").remove();
                   } else {
                       $("#loading").remove();
-                      $(".work_list_main").append("<div id='loaded'>我是有底线的</div>")
+                      work_list.append("<div id='loaded'>我是有底线的</div>")
                   }
               } else {
                   //是否为第一页 是替换数据 否追加数据 S
                   if (page == 1) {
-                      work_list.html(work_html);
+                      work_list.html('<div class="weui-pull-to-refresh__layer"><div class="weui-pull-to-refresh__arrow"></div><div class="weui-pull-to-refresh__preloader"></div><div class="down">'+loadingText[Math.floor(Math.random()*(max_loadingNum-0+1)+0)]+'</div><div class="up">松开即可刷新</div><div class="refresh">正在刷新...</div> </div>'+work_html);
                       $("#loading").remove();
                   } else {
                       work_list.append(work_html);
@@ -274,9 +282,9 @@
                   if (data.data.length < workPageNum) {
                       //已经没数据
                       $("#loading").remove()
-                      $(".work_list_main").append("<div id='loaded'>我是有底线的</div>");
+                      work_list.append("<div id='loaded'>我是有底线的</div>");
                   } else {
-                      $(window).on("scroll", function() {
+                      work_list.on("scroll", function() {
                           if ($(window).scrollTop() + 50 >= $(document).height() - $(window).height()) {
                               //到底
                               var workPage = page;
@@ -287,6 +295,7 @@
                               });
                           }
                       })
+
                   }
                   //是否为最后一页  否追加滑动事件 E
               }
@@ -308,8 +317,9 @@
             var page = fb.page;
             var shop_list = type == 'getCampusList' ? $(".shop-Campus-list") : type == 'getSellerList' ? $(".shop-Seller-list") : type == 'getStudentList' ? $(".shop-Student-list") : '';
             var shop_type = type == 'getCampusList' ? 3 : type == 'getSellerList' ? 2 : type == 'getStudentList' ? 1 : 3 ;
+            var index = type == 'getCampusList' ? 0 : type == 'getSellerList' ? 2 : type == 'getStudentList' ? 1 : 0 ;
             //tab切换
-            $(".shop_tab span").eq(fb.index).addClass("on").siblings("span").removeClass("on");
+            $(".shop_tab span").eq(index).addClass("on").siblings("span").removeClass("on");
             shop_list.show().siblings(".shop-list").hide();
             //tab切换
           $('.shop-list').off("scroll");
@@ -335,8 +345,9 @@
           $.getJSON(locahost + "shop/shops/",getData,
           function(data) {
             loading(false);
+            $(".shop-list").pullToRefreshDone();
             if (data.code == 200) {
-                clearLoading();
+            
                 var htmldom='';
                 $.each(data.data,function(a,b){
                   if(b.shop_status == 1){
@@ -374,7 +385,8 @@
                 } else {
                     //是否为第一页 是替换数据 否追加数据 S
                     if (page == 1) {
-                        shop_list.html(htmldom);
+                        shop_list.html('<div class="weui-pull-to-refresh__layer"><div class="weui-pull-to-refresh__arrow"></div><div class="weui-pull-to-refresh__preloader"></div><div class="down">'+loadingText[Math.floor(Math.random()*(max_loadingNum-0+1)+0)]+'</div><div class="up">松开即可刷新</div><div class="refresh">正在刷新...</div> </div>'+htmldom);
+
                     } else {
                         shop_list.append(htmldom);
                     }

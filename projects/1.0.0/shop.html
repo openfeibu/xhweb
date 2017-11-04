@@ -5,31 +5,36 @@
   <div class="myOrder-enter" onclick="winGo('/shop/shop-order.html')"></div>
 </div>
 <div class="shop_tab">
-  <span class="on"><a href="#/shop/getCampusList">校园食堂</a></span>
+  <span class="on"><a href="#/shop/getCampusList">校园饭堂</a></span>
   <span><a href="#/shop/getStudentList">学生店铺</a></span>
   <span><a href="#/shop/getSellerList">商家店铺</a></span>
 </div>
 <div class="shop pt2">
+  
 	<div class="shop-list shop-Campus-list">
+    
 	
 	</div>
   <div class="shop-list shop-Student-list">
-  
+    
   </div>
   <div class="shop-list shop-Seller-list">
-  
+    
   </div>
 
 </div>
 <script>
+   $(".shop-list").pullToRefresh();
+    $(".shop-list").on("pull-to-refresh", function() {
+        getShopList()
+     // $(".shop-list").pullToRefreshDone();
+    });
+
    //兼容低级浏览器设置高度
 
   var fontS = parseFloat($(window).width() / 7.5) > 100 ? 100 : parseFloat($(window).width() / 7.5);
-  if (app) {
-      $(".shop-list").css("height", $(window).height() - 2.88 * fontS)
-  } else {
-      $(".shop-list").css("height", $(window).height() - 2.88 * fontS)
-  }
+
+  $(".work_list").css("height", $(window).height() - 2.88 * fontS+50)
   loading(true); //动画
   var app = 0;
   if(GetString("device") == "android"){
@@ -38,290 +43,6 @@
     window.localStorage.app=1;
   }
 
-  // 校园食堂
-  // function getCampusList(a) {
-  //     tabNav(0);
-  //       // if (!getItemATime("shop") && a != 1) {
-  //       //     var loca = getItem("shop");
-  //       //     var htmldom = loca[0];
-  //       //     $(".shop-list").html(htmldom);
-  //       //     loading(false);
-  //       //   }else{
-  //           getCampusCon()
-  //         // };
-  //     }
-  // function getShopList(page) {
-  //       $('.shop-Campus-list').off("scroll");
-  //       $("#loaded").remove();
-  //       var page = page == undefined ? 1 : page;
-  //       if($("#loading").length == 0 && page!=1){
-  //   			$(".shop-Campus-list").append("<div id='loading'>正在玩命的加载中...</div>");
-  //   		}
-  //       var getData = {
-  //         "page" : page
-  //       }
-  //       if(app){
-  //         var token = window.localStorage.token;
-  //         if(token != undefined){
-  //           getData["token"] = token;
-  //         }
-  //       }else{
-  //         if( window.localStorage.token != undefined){
-  //           var token = window.localStorage.token;
-  //           getData["token"] = token;
-  //         }
-  //       }
-  //       $.getJSON(locahost + "/shop/shops/",getData,
-  //       function(data) {
-  //         loading(false);
-  //         if (data.code == 200) {
-  //             clearLoading();
-  //             var htmldom='';
-  //             $.each(data.data,function(a,b){
-  //               if(b.shop_status == 1){
-  //                 var shop_status = ""
-  //               }else if(b.shop_status == 3){
-  //                 var shop_status = "<span class='rest'>(打烊中)</span>"
-  //               }
-
-  //               var cart_countHtml =""
-  //               if(b.cart_count != undefined && b.cart_count !=  0 && b.shop_status != 3){
-  //                 //没有购物车
-  //                 cart_countHtml = "<span class='cart_count'>"+b.cart_count+"</span>"
-  //               }
-
-  //               htmldom += '<div class="shop-item opa_active">\
-		// 						<a onclick="winGo(\'shop/shop-detail.html?sid='+b.shop_id+'\')">\
-		// 							<div class="shop-img" style="background:url('+b.shop_img+') no-repeat center;background-size:cover;">\
-  //                   '+cart_countHtml+'\
-		// 							</div>\
-		// 							<div class="shop-right">\
-		// 								<div class="shop-name">'+b.shop_name+shop_status+'</div>\
-		// 								<div class="shop-map">'+b.address+'</div>\
-		// 							</div>\
-		// 						</a>\
-		// 					</div>';
-  //             })
-  //              if(page != 1){
-  //                 $('.shop-Campus-list').append(htmldom);
-  //                 if(data.data.length < 10 && $("#loaded").length == 0){
-  //                    $(".shop-Campus-list").append('<div id="loaded" >我是有底线的</div>')
-  //                 }
-  //               }else{
-  //                 if(data.data.length == 0){
-  //                   $(".noShop").show();
-  //                   $(".shop-Campus-list").hide();
-  //                 }else{
-  //                   $('.shop-Campus-list').html(htmldom);
-  //                   setItem("shop",htmldom);
-  //                   if( $("#loaded").length == 0){
-  //                     $(".shop-Campus-list").append('<div id="loaded" >我是有底线的</div>')
-  //                   }
-
-  //                 }
-  //               }
-
-  //             if ( data.data.length < 20) {
-  //                $('.shop-Campus-list').on("scroll",function(){
-  //                 if($('.shop-Campus-list').scrollTop()+50>=$('.shop-Campus-list').height()){
-  //                   //到底
-  //                   page++;
-  //                   getCampusCon(page);
-  //                 }
-  //                })
-  //             }
-  //           }
-  //       });
-  //     }
-  // 校园食堂
-  // 商家店铺
-  //  function getSellerList(a) {
-  //         tabNav(1);
-  //       // if (!getItemATime("shop") && a != 1) {
-  //       //     var loca = getItem("shop");
-  //       //     var htmldom = loca[0];
-  //       //     $(".shop-list").html(htmldom);
-  //       //     loading(false);
-  //       //   }else{
-  //           getSellerCon()
-  //         // };
-  //     }
-  // function getSellerCon(page) {
-  //       var page = page == undefined ? 1 : page;
-  //       if($("#loading").length == 0 && page!=1){
-  //         $(".shop").append("<div id='loading'>正在玩命的加载中...</div>");
-  //       }
-  //       var getData = {
-  //         "page" : page
-  //       }
-  //       if(app){
-  //         var token = window.localStorage.token;
-  //         if(token != undefined){
-  //           getData["token"] = token;
-  //         }
-  //       }else{
-  //         if( window.localStorage.token != undefined){
-  //           var token = window.localStorage.token;
-  //           getData["token"] = token;
-  //         }
-  //       }
-  //       $.getJSON(locahost + "/shop/shops/",getData,
-  //       function(data) {
-  //         loading(false);
-  //         if (data.code == 200) {
-  //             clearLoading();
-  //             var htmldom='';
-  //             $.each(data.data,function(a,b){
-  //               if(b.shop_status == 1){
-  //                 var shop_status = ""
-  //               }else if(b.shop_status == 3){
-  //                 var shop_status = "<span class='rest'>(打烊中)</span>"
-  //               }
-
-  //               var cart_countHtml =""
-  //               if(b.cart_count != undefined && b.cart_count !=  0 && b.shop_status != 3){
-  //                 //没有购物车
-  //                 cart_countHtml = "<span class='cart_count'>"+b.cart_count+"</span>"
-  //               }
-
-  //               htmldom += '<div class="shop-item opa_active">\
-  //               <a onclick="winGo(\'shop/shop-detail.html?sid='+b.shop_id+'\')">\
-  //                 <div class="shop-img" style="background:url('+b.shop_img+') no-repeat center;background-size:cover;">\
-  //                   '+cart_countHtml+'\
-  //                 </div>\
-  //                 <div class="shop-right">\
-  //                   <div class="shop-name">'+b.shop_name+shop_status+'</div>\
-  //                   <div class="shop-map">'+b.address+'</div>\
-  //                 </div>\
-  //               </a>\
-  //             </div>';
-  //             })
-  //              if(page != 1){
-  //                 $('.shop-list').append(htmldom);
-  //                 if(data.data.length < 10 && $("#loaded").length == 0){
-  //                    $(".shop").append('<div id="loaded" >我是有底线的</div>')
-  //                 }
-  //               }else{
-  //                 if(data.data.length == 0){
-  //                   $(".noShop").show();
-  //                   $(".shop-list").hide();
-  //                 }else{
-  //                   $('.shop-list').html(htmldom);
-  //                   setItem("shop",htmldom);
-  //                   if( $("#loaded").length == 0){
-  //                     $(".shop").append('<div id="loaded" >我是有底线的</div>')
-  //                   }
-
-  //                 }
-  //               }
-
-  //             if ( data.data.length == 10) {
-  //                $(window).on("scroll",function(){
-  //                 if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
-  //                   //到底
-  //                   page++;
-  //                   getShopCon(page);
-  //                 }
-  //                })
-  //             }
-  //           }
-  //       });
-  //     }
-  // // 商家店铺
-  // // 学生店铺
-  //  function getStudentList(a) {
-  //       tabNav(2);
-  //       // if (!getItemATime("shop") && a != 1) {
-  //       //     var loca = getItem("shop");
-  //       //     var htmldom = loca[0];
-  //       //     $(".shop-list").html(htmldom);
-  //       //     loading(false);
-  //       //   }else{
-  //           getStudentCon()
-  //         // };
-  //     }
-  // function getStudentCon(page) {
-  //       var page = page == undefined ? 1 : page;
-  //       if($("#loading").length == 0 && page!=1){
-  //         $(".shop").append("<div id='loading'>正在玩命的加载中...</div>");
-  //       }
-  //       var getData = {
-  //         "page" : page
-  //       }
-  //       if(app){
-  //         var token = window.localStorage.token;
-  //         if(token != undefined){
-  //           getData["token"] = token;
-  //         }
-  //       }else{
-  //         if( window.localStorage.token != undefined){
-  //           var token = window.localStorage.token;
-  //           getData["token"] = token;
-  //         }
-  //       }
-  //       $.getJSON(locahost + "/shop/shops/",getData,
-  //       function(data) {
-  //         loading(false);
-  //         if (data.code == 200) {
-  //             clearLoading();
-  //             var htmldom='';
-  //             $.each(data.data,function(a,b){
-  //               if(b.shop_status == 1){
-  //                 var shop_status = ""
-  //               }else if(b.shop_status == 3){
-  //                 var shop_status = "<span class='rest'>(打烊中)</span>"
-  //               }
-
-  //               var cart_countHtml =""
-  //               if(b.cart_count != undefined && b.cart_count !=  0 && b.shop_status != 3){
-  //                 //没有购物车
-  //                 cart_countHtml = "<span class='cart_count'>"+b.cart_count+"</span>"
-  //               }
-
-  //               htmldom += '<div class="shop-item opa_active">\
-  //               <a onclick="winGo(\'shop/shop-detail.html?sid='+b.shop_id+'\')">\
-  //                 <div class="shop-img" style="background:url('+b.shop_img+') no-repeat center;background-size:cover;">\
-  //                   '+cart_countHtml+'\
-  //                 </div>\
-  //                 <div class="shop-right">\
-  //                   <div class="shop-name">'+b.shop_name+shop_status+'</div>\
-  //                   <div class="shop-map">'+b.address+'</div>\
-  //                 </div>\
-  //               </a>\
-  //             </div>';
-  //             })
-  //              if(page != 1){
-  //                 $('.shop-list').append(htmldom);
-  //                 if(data.data.length < 10 && $("#loaded").length == 0){
-  //                    $(".shop").append('<div id="loaded" >我是有底线的</div>')
-  //                 }
-  //               }else{
-  //                 if(data.data.length == 0){
-  //                   $(".noShop").show();
-  //                   $(".shop-list").hide();
-  //                 }else{
-  //                   $('.shop-list').html(htmldom);
-  //                   setItem("shop",htmldom);
-  //                   if( $("#loaded").length == 0){
-  //                     $(".shop").append('<div id="loaded" >我是有底线的</div>')
-  //                   }
-
-  //                 }
-  //               }
-
-  //             if ( data.data.length == 10) {
-  //                $(window).on("scroll",function(){
-  //                 if($(window).scrollTop()+50>=$(document).height()-$(window).height()){
-  //                   //到底
-  //                   page++;
-  //                   getShopCon(page);
-  //                 }
-  //                })
-  //             }
-  //           }
-  //       });
-  //     }
-  // 学生店铺
       //打开搜索页面
       $(".shopSearch").focus(function(){
         winGo("shop/shop-search.html");

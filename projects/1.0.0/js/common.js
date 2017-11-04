@@ -31,6 +31,8 @@ var webLoca = 'http://192.168.2.3:33/';
 // var locahost ="http://192.168.0.99:8080/xh1.0.0/server.php";
 var tab =window.location.hash.replace(/#\//,"");
 var locaTime = 600000; //十分钟  全局缓存
+var loadingText =["钱包不鼓，接单赚钱","大学生服务平台","快来圈圈转转吧","肚子饿了吗"];
+var max_loadingNum = loadingText.length-1;
 var workPageNum = 20,shopPageNum=20,quanPageNum=20,pageNum=20;
 $.ajaxSetup({
           xhrFields: {

@@ -6,7 +6,7 @@ body{height: 100%;}
 .noPro{display: none;padding-top: 4rem;color: #999;font-size: 0.26rem;color: #999;text-align: center;line-height: 0.41rem;background: url("../images/shop/noPro.png") no-repeat center 1.8rem;background-size: 2rem 2rem;}
 
 /*index*/
-#ClassHome{background: #fff;}
+#ClassHome{background: #fff;overflow-y:auto}
 #ClassTopic{background: #f5f5f5;}
 /*banner s*/
 .banner .swiper-container{width: 100%;height: 4.2rem;overflow: hidden;}
@@ -647,7 +647,7 @@ body{height: 100%;}
 
 
 .work_list_main {height: 100%;padding-top: 1.92rem;}
-.work_list {display: none;padding:0 0.3rem;}
+.work_list {display: none;padding:0 0.3rem;overflow-y: scroll;}
 .work_list_personal{display: block;}
 .noWork{line-height: 2rem;text-align: center;font-size: 0.35rem;color: #999;}
 .postWork{width: 0.75rem;height:1.1rem;padding: 0.2rem;border-radius: 0.95rem 0.95rem 0 0;position: fixed;bottom:1rem;left:0;right:0;margin:0 auto;background:#fff url("../images/postTopic.png") no-repeat center 0.2rem ;background-size: 0.75rem 0.75rem;}

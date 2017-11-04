@@ -24,6 +24,14 @@
 	</div>
 <script> 	 
 	
+   var fontS = parseFloat($(window).width() / 7.5) > 100 ? 100 : parseFloat($(window).width() / 7.5);
+   $(".work_list").css("height", $(window).height() - 2.88 * fontS+50)
+   $(".work_list").pullToRefresh();
+    $(".work_list").on("pull-to-refresh", function() {
+        getWork()
+     // $(".work_list").pullToRefreshDone();
+    });
+
 	$(".work_list").on("click",".work_content a",function(){
 		if($(this).attr("href") == undefined){
 			fb_alert("该任务已被接")
