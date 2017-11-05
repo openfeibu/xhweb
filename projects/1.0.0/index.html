@@ -26,7 +26,6 @@
   <link rel="stylesheet" type="text/css" href="css/reset.css">
   <link rel="stylesheet" type="text/css" href="css/index.css">
   <link href="css/swiper.min.css" rel="stylesheet" type="text/css">
-  <!--<script type="text/javascript" src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>-->
 
   <script type="text/javascript" src="js/jquery.min.js"></script>
   <script type="text/javascript" src="js/weui.min.js"></script>
@@ -285,7 +284,8 @@
                       work_list.append("<div id='loaded'>我是有底线的</div>");
                   } else {
                       work_list.on("scroll", function() {
-                          if ($(window).scrollTop() + 50 >= $(document).height() - $(window).height()) {
+                        
+                          if (work_list.scrollTop() + 50 >= work_list[0].scrollHeight - work_list.height()) {
                               //到底
                               var workPage = page;
                               workPage++;
