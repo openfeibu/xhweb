@@ -75,7 +75,7 @@ html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{line-height:1.
 label > * {
   pointer-events: none;
 }
-
+/*
 @media only screen and (min-width: 400px) {
   html {
     font-size: 21.33333333px !important;
@@ -90,7 +90,7 @@ label > * {
   html {
     font-size: 25.6px !important;
   }
-}
+}*/
 .weui_navbar {
   z-index: 10;
 }
