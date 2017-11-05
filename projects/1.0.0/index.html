@@ -259,20 +259,18 @@
                   </a>\
                 </div>';
               })
+              $("#loading").remove()
               if (data.data == '') {
                   //没数据
                   if (page == 1) {
                       work_list.html("<div class='noPro' style='display:block;'>暂无任务</div>");
-                      $("#loading").remove();
                   } else {
-                      $("#loading").remove();
                       work_list.append("<div id='loaded'>我是有底线的</div>")
                   }
               } else {
                   //是否为第一页 是替换数据 否追加数据 S
                   if (page == 1) {
                       work_list.html('<div class="weui-pull-to-refresh__layer"><div class="weui-pull-to-refresh__arrow"></div><div class="weui-pull-to-refresh__preloader"></div><div class="down">'+loadingText[Math.floor(Math.random()*(max_loadingNum-0+1)+0)]+'</div><div class="up">松开即可刷新</div><div class="refresh">正在刷新...</div> </div>'+work_html);
-                      $("#loading").remove();
                   } else {
                       work_list.append(work_html);
                   }
@@ -280,11 +278,9 @@
                   //是否为最后一页  否追加滑动事件 S
                   if (data.data.length < workPageNum) {
                       //已经没数据
-                      $("#loading").remove()
                       work_list.append("<div id='loaded'>我是有底线的</div>");
                   } else {
                       work_list.on("scroll", function() {
-                        
                           if (work_list.scrollTop() + 50 >= work_list[0].scrollHeight - work_list.height()) {
                               //到底
                               var workPage = page;
