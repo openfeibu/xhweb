@@ -242,7 +242,8 @@ $(function() {
         //兼容低级浏览器设置高度
         var fontS = parseFloat($(window).width() / 7.5) > 100 ? 100 : parseFloat($(window).width() / 7.5);
         if (app) {
-            $(".shop-detail-con").css("height", $(window).height() - 3 * fontS)
+            
+            $(".shop-detail-con,.shop-detail-info").css("height", $(window).height() - 0.8 * fontS)
         } else {
             // $(".shop-detail-con").css("height", $(window).height() - 4 * fontS)
             $(".shop-detail-con,.shop-detail-info").css("height", $(window).height() - 1.8 * fontS)
