@@ -357,7 +357,7 @@ $(function() {
             } else if (data.shop.shop_status == 3) {
                 shopStatus = 3;
                 var shop_status = "<span class='rest'>(打烊中)</span>";
-                $(".shop-car").html("<div class='restText'>本店已打烊</div>");
+                $(".shop-car").html("<div class='restText'>店面已打烊,暂时不接单</div>");
             }
             // 营业状况  e
             $(".shop-pro-all").eq(0).show().html('<dl>' + shop_html + '</dl>').append("<div id='loaded'>我是有底线的</div>").attr("loca", true);

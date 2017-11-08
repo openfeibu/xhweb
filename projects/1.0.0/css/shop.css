@@ -74,7 +74,7 @@
 
 .shop-car{width: 100%;height: 1rem;background: #fff;position: fixed;bottom:0;left:0;max-width: 750px;right:0;margin:0 auto;z-index: 99;}
 .shop-car .shop-car-text{position: absolute;top:-0.42rem;height: 0.42rem;background: rgba(255,254,1,0.7);line-height:0.42rem;width: 100%;color: #232323;text-align: left;text-indent: 2em;}
-.shop-car .restText{font-size: 0.35rem;color: #262626;text-align: center;line-height: 0.96rem;height:0.96rem;letter-spacing: 0.2rem;background: rgba(255,250,218,.98)}
+.shop-car .restText{font-size: 0.28rem;color: #262626;text-align: center;line-height: 0.96rem;height:0.96rem;letter-spacing: 0.05rem;background: rgba(255,250,218,.98)}
 .shop-car .shop-car-icon{width: 0.64rem;height: 0.64rem;background: #ccc url("../images/shop/car.png") no-repeat center;background-size: 50% auto;border-radius: 50%;top:0.15rem;left:0.2rem;position: absolute;}
 .shop-car .shop-car-icon.on{transition:all 0.1s;width: 0.64rem;height: 0.64rem;background-color: #262626;}
 .shop-car .shop-car-icon span{position: absolute;top:0;right:-0.15rem;width: 0.35rem;height: 0.35rem;text-align: center;line-height: 0.35rem;background: #ffe00f;color: #262626;border-radius: 50%;font-size: 0.24rem;}
