@@ -38,7 +38,7 @@
 
 
 .shop-detail-info{background: #fff;font-size: 0.28rem;display: none;}
-.shop-detail-info .weui-cells__title{height: 0.9rem;line-height: 0.9rem;color: #232323;font-size: 0.32rem;}
+.shop-detail-info .weui-cells__title{height: 0.9rem;line-height: 0.9rem;color: #232323;font-size: 0.32rem;margin-top: 0}
 .shop-detail-info .weui-cell{font-size: 0.28rem;padding: 0.3rem;}
 .shop-detail-info .weui-cell__con{width: 70%;color: #999;line-height: 0.42rem;}
 
