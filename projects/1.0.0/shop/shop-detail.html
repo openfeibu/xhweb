@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="height:100%">
+<html lang="en" >
 
 <head>
     <meta charset="UTF-8">
@@ -34,7 +34,7 @@
     <script type="text/javascript" src="../js/weui.min.js"></script>
 </head>
 
-<body style="height:100%" >
+<body>
     <section class='main' style="height:100%;padding:0">
         <div class="header_title">
             <p data-name="shopName"></p>
@@ -51,6 +51,10 @@
                     </div>
                     </div>
             </div>
+            <div class="shop_detail_tab weui-flex">
+                <div class="shop_detail_tab_item weui-flex__item active">商品</div>
+                <div class="shop_detail_tab_item weui-flex__item">店铺</div>
+            </div>
             <div class="shop-detail-con">
                 <div class="shop-pro-class">
                     <ul>
@@ -60,9 +64,40 @@
                     等待商家上架
                 </div>
             </div>
+            <div class="shop-detail-info">
+                 <div class="weui-cells__title">商家信息</div>
+                 <div class="weui-cells">
+                      <div class="weui-cell weui-cell_access">
+                        <div class="weui-cell__bd">
+                          <p>商家电话</p>
+                        </div>
+                        <div class="weui-cell__ft" data-name="s_mobile_no"></div>
+                      </div>
+                      <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                          <p>地址</p>
+                        </div>
+                        <div class="weui-cell__ft" data-name="s_college_name"></div>
+                      </div>
+                      <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                          <p>营业时间</p>
+                        </div>
+                        <div class="weui-cell__ft" data-name="s_date"></div>
+                      </div>
+                      <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                          <p>店铺简介</p>
+                        </div>
+                        <div class="weui-cell__con" data-name="s_description"></div>
+                      </div>
+                    </div>
+
+            </div>
         </div>
         <!-- 购物车 S -->
         <div class="shop-car">
+            <div class="shop-car-text">如遇到用餐高峰期,请耐心等待,感谢你的支持</div>
             <div class="shop-car-icon">
                 <!--  <span>1</span> -->
             </div>
@@ -91,6 +126,7 @@
                 <div class="pro_detail_img"></div>
                 <div class="pro_detail_name">商品名称</div>
                 <div class="pro_detail_con">商品简介</div>
+                <div class="pro_detail_money">商品价格</div>
             </div>
         </div>
     </section>
@@ -208,7 +244,9 @@ $(function() {
         if (app) {
             $(".shop-detail-con").css("height", $(window).height() - 3 * fontS)
         } else {
-            $(".shop-detail-con").css("height", $(window).height() - 4 * fontS)
+            // $(".shop-detail-con").css("height", $(window).height() - 4 * fontS)
+            $(".shop-detail-con,.shop-detail-info").css("height", $(window).height() - 1.8 * fontS)
+            // $(".shop-detail").css("height", $(window).height() + 2 * fontS)
         }
 
     })
@@ -267,7 +305,7 @@ $(function() {
                 } else {
                     categories_html += '<li cat_id="' + b.cat_id + '">' + b.cat_name + '</li>';
                 }
-                $(".shop-detail-con").append("<div class='shop-pro-all' ></div>");
+                $(".shop-detail-con").append("<div class='shop-pro-all' onscroll='bindscroll($(this))'></div>");
             })
             $.each(data.goodes, function(a, b) {
                     if (b.goods_number == 0) {
@@ -328,6 +366,11 @@ $(function() {
             $("[data-name='shopDescription']").text(data.shop.description);
             $("[data-name='shopImg']").attr("src", data.shop.shop_img);
             $("[data-name='min_goods_amount']").text(data.shop.min_goods_amount);
+            $("[ data-name='s_mobile_no']").text(data.shop.mobile_no).attr("phone",data.shop.mobile_no);
+            $("[ data-name='s_college_name']").text(data.shop.college_name+data.shop.address);
+            $("[ data-name='s_date']").text(data.shop.open_time+"-"+data.shop.close_time);
+            $("[ data-name='s_description']").text(data.shop.description);
+
             min_goods_amount = data.shop.min_goods_amount;
             getCar(); //获取购物车
             if (data.goodes == '') {
@@ -928,13 +971,46 @@ $(function() {
         var names = $(that).parents("dd").find(".shop-pro-name").text();
         var dec = $(that).parents("dd").find(".shop-pro-d").text();
         var img = $(that).parents("dd").find(".shop-pro-img").attr("imgUrl");
+        var money = $(that).parents("dd").find(".shop-pro-money").html();
         // if (app) {
         //     window.feibu.callDialog('{"title":"' + names + '" , "content":"' + dec + '"}')
         // }else{
-            $(".pro_detail_bg").find(".pro_detail_img").css("background","url("+img+") no-repeat center/cover").end().find(".pro_detail_name").text(names).end().find(".pro_detail_con").text(dec).end().fadeIn(100);
+            $(".pro_detail_bg").find(".pro_detail_img").css("background","url("+img+") no-repeat center/cover").end().find(".pro_detail_name").text(names).end().find(".pro_detail_con").text(dec).end().find(".pro_detail_money").html(money).end().fadeIn(100);
         // }
     }
 
+    //滚动特效
+    function bindscroll(that){
+        var scrollTop = that.scrollTop();
+        if(scrollTop == 0){
+            $(".shop-detail").stop().animate({
+                scrollTop:0
+            },100)
+        }else{
+            if( $(".shop-detail").scrollTop() == 0){
+                $(".shop-detail").stop().animate({
+                    scrollTop:$(".shop-header").height()
+                },200)
+            }
+            
+        }
+       
+
+    }
+    $(".shop_detail_tab .shop_detail_tab_item").on("click",function(){
+        var i = $(this).index(".shop_detail_tab .shop_detail_tab_item");
+        $(this).addClass("active").siblings(".shop_detail_tab_item").removeClass("active");
+        if(i == 0){
+            $(".shop-detail-con").fadeIn(100);
+            $(".shop-detail-info").hide();
+        }else{
+            $(".shop-detail-con").hide();
+            $(".shop-detail-info").fadeIn(100);
+        }
+        
+    })
+
+    window.bindscroll = bindscroll;
     window.callDialog = callDialog;
     window.collection = collection;
 })

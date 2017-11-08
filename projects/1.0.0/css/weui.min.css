@@ -795,7 +795,7 @@ label > * {
   display: inline-block;
 /*  -webkit-transform: rotate(180deg) translate3d(0, 0, 0);
           transform: rotate(180deg) translate3d(0, 0, 0);*/
-   background: url("../images/loading.gif") no-repeat center/100% auto;
+   background: url("../images/1loading.gif") no-repeat center/100% auto;
 }
 .pull-up .weui-pull-to-refresh__layer .up {
   display: inline-block;
@@ -2306,12 +2306,12 @@ button.swiper-pagination-bullet {
 }
 
 .weui-pull-to-refresh__layer .weui-pull-to-refresh__arrow{
-	background: url("../images/loading.gif") no-repeat center/100% auto;
+	background: url("../images/1loading.gif") no-repeat center/100% auto;
 }
 .pull-up .weui-pull-to-refresh__layer .weui-pull-to-refresh__arrow{
   -webkit-transform: rotate(0deg) translate3d(0, 0, 0);
       transform: rotate(0deg) translate3d(0, 0, 0);
-   background: url("../images/loading.gif") no-repeat center/100% auto;
+   background: url("../images/1loading.gif") no-repeat center/100% auto;
 
 }
 .weui-pull-to-refresh__layer .weui-pull-to-refresh__arrow{width: 0.8rem;height: 0.5rem;vertical-align: middle;}

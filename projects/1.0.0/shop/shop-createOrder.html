@@ -288,11 +288,12 @@
           fb_alert(fb_error["s_002"]);
           return false;
       }
-      alert_flag("如果遇到用餐高峰期，请耐心等待，我们将尽快送达",function(){
-        is_alipay(true);
-        getPayInfo(count-price+adjust_fee_last-adjust_fee);
-      })
-      
+      // alert_flag("如果遇到用餐高峰期，请耐心等待，我们将尽快送达",function(){
+      //   is_alipay(true);
+      //   getPayInfo(count-price+adjust_fee_last-adjust_fee);
+      // })
+      is_alipay(true);
+      getPayInfo(count-price+adjust_fee_last-adjust_fee);
     })
 
 
