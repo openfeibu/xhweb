@@ -301,6 +301,12 @@ $("body").on("click", ".closeOrder",function() {
 //结算任务
 $("body").on("click", ".completedOrder",
 function() {
+      var is_paypassword = window.localStorage.is_paypassword;
+      if(!is_paypassword){
+        fb_alert(fb_error['1010']);
+        locaGo(webLoca+"wallet/mywallet.html#/passWord");
+        return false;
+      }
       var infoData = {'order_id':oid,'payMap':'completedOrder'}
       walletPay(infoData);
 });
