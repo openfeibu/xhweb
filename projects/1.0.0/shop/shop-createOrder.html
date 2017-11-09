@@ -342,9 +342,13 @@ $("#show_fee_val").picker({
   ],
   onClose:function(picker){
     var val = picker.value[0];
+
      if(val < adjust_fee){
        $.alert("调整后的额外费用不可低于初费用", "额外费用");
-        $("#show_fee_val").val(adjust_fee)
+        $("#show_fee_val").val(adjust_fee);
+        $("[data-name='count']").text(count-price+"元");
+     }else{
+        $("[data-name='count']").text(count-price+val-adjust_fee+"元");
      }
   }
 });
