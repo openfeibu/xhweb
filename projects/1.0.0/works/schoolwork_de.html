@@ -168,7 +168,7 @@ function(data) {
           tell = '<div class="tell totell box-shadow"><a href="tel:' + b.alt_phone + '">联系</a></div>';
           state_index = 1;
           work_status_class = 'ing';
-          input_submit = '<input style="width:50%" type="button" value="取消任务" class="closeOrder opa_active"/><input type="button" style="width:50%" value="确认送达" class="DoneOrder opa_active"/>';
+          input_submit = '<input style="width:33%" type="button" value="取消任务" class="closeOrder opa_active"/><input type="button" style="width:33%" value="确认送达" class="DoneOrder opa_active"/><input type="button" style="width:33%" value="校汇扫码支付" class="saoCode opa_active"/>';
         }else if(b.status == "finish"){
           //待结算
           tell = '<div class="tell totell box-shadow"><a href="tel:' + b.alt_phone + '">联系</a></div>';
@@ -366,6 +366,16 @@ function wxFun(){
 	})
 	
 }
+$("body").on("click",".saoCode",function(){
+	wx.scanQRCode({
+		needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+		scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+		success: function (res) {
+			var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+			console.log(result)
+		}
+	});
+})
 
 
 

@@ -32,6 +32,10 @@
   <script type="text/javascript" src="js/common.js"></script>
 	<script type="text/javascript" src="js/director.js"></script>
 	<script src="js/swiper.min.js"></script>
+
+    <!-- wx -->
+  <script type="text/javascript" src="../js/jweixin-1.2.0.js"></script>
+
 </head>
 <style>
   #ClassB:after, #ClassF:after{content: "";position: fixed;width: 100%;height: 1rem;background: #f5f5f5;bottom: 0;max-width: 750px;z-index: 1001}
@@ -503,5 +507,35 @@
       }
       var router = new Router(routes).configure(options);
       router.init("/home");
+	  
+	  //分享任务
+	wx.ready(function(){
+		wx.onMenuShareAppMessage({
+			  title: '校汇', // 分享标题
+			  desc: '校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、校园资讯、学生互动', // 分享描述
+			  link: 'http://web.feibu.info', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+			  imgUrl: 'http://web.feibu.info/icon.png', // 分享图标
+			  type: 'link', // 分享类型,music、video或link，不填默认为link
+			  dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+			  success: function () { 
+				  fb_toast("分享成功");
+				  
+			  },
+			  cancel: function () { 
+				fb_toast("取消分享", "cancel");
+			  } 
+		  });
+		wx.onMenuShareTimeline({
+			title: '校汇:'+'校汇是一个以校园任务为核心的移动互联网综合服务平台，立足于校园，致力打造完整的校园生态辐射圈。校汇一直专注于大学生活、校园资讯、学生互动', // 分享标题
+			link: 'http://web.feibu.info', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+			imgUrl: 'http://web.feibu.info/icon.png', // 分享图标
+			success: function () { 
+				fb_toast("分享成功");
+			},
+			cancel: function () { 
+				fb_toast("取消分享", "cancel");
+			}
+		});
+	})
     </script>
 </html>
