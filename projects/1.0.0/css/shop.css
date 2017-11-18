@@ -56,10 +56,12 @@
 .shop-detail-con .no-kuncun:before{content: "";position: absolute;width: 1.6rem;height: 1.2rem;background:rgba(255,255,255,0.5) url("../images/no_kucun_image.png") no-repeat center;background-size:cover;}
 .shop-detail-con .shop-pro-img img{max-width: 1.88rem;max-height: 1.88rem;width: 100%;height: 100%;}
 .shop-detail-con .shop-pro-right{margin-left: 2.1rem;}
-.shop-detail-con .shop-pro-right .shop-pro-name{font-size: 0.32rem;color: #333333;line-height: 0.32rem;}
+.shop-detail-con .shop-pro-right .shop-pro-name{font-size: 0.3rem;color: #333333;line-height: 0.3rem;}
+.shop-detail-con .shop-pro-right .shop-pro-des{width: 90%;font-size: 0.26rem;color: #aaaaaa;line-height: 0.4rem;height: 0.4rem; overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;}
 .shop-detail-con .shop-pro-right .shop-pro-d{font-size: 0.29rem;color: #aaaaaa;line-height: 0.4rem;margin: 0.15rem 0;height: 0.8rem; overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;display: none;}
-.shop-detail-con .shop-pro-bottom{height: 0.28rem;margin-left: 2.1rem;position: relative;}
-.shop-detail-con .shop-pro-money{font-size: 0.32rem;color: #fabe1a  ;line-height: 0.6rem;}
+.shop-detail-con .shop-pro-bottom{height: 0.28rem;margin-left: 2.1rem;position: relative;margin-top: 0.1rem;}
+.shop-detail-con .shop-pro-money{font-size: 0.32rem;color: #fabe1a  ;line-height: 0.42rem;}
+.shop-detail-con .shop-pro-money label{font-size: 0.24rem;color: #dc3b59}
 .shop-detail-con  .shop-pro-ed{font-size: 0.28rem;color: #aaaaaa;margin-right: 0.25rem;float: left;line-height: 0.28rem;}
 .shop-pro-all{overflow-y: auto;height:100%;display: none; padding-bottom:0.96rem;-webkit-box-flex: 1;-ms-flex: 1;flex: 1;height: 100%;box-sizing:border-box; -moz-box-sizing:border-box; /* Firefox */ -webkit-box-sizing:border-box; /* Safari */-webkit-overflow-scrolling:touch}  /*width: -webkit-calc(100% - 1.6rem);width: calc(100% - 1.6rem);width:-moz-calc(100%-1.6rem);*/
 
@@ -68,11 +70,11 @@
 .addCar .addC{display: inline-block;vertical-align: top;width: 0.7rem;height: 0.8rem;background: url("../images/shop/addIcon.png") no-repeat center;background-size: 0.45rem 0.45rem;text-align: center;font-size: 0.4rem;}
 .addCar .Cinput{display: inline-block;vertical-align: top;width: 0.6rem;height: 0.8rem;text-align: center;color: #262626;font-size: 0.3rem;line-height: 0.8rem;}
 .addCar.no .prevC,.addCar.no .Cinput{display: none;}
-
+.addCar .addC:active,.addCar .prevC:active{background-size: 0.55rem 0.55rem;}
 .shop-detail .ing{padding-top: 4rem;color: #999;font-size: 0.26rem;color: #999;text-align: center;line-height: 0.41rem;background: url("../images/shop/noPro.png") no-repeat center 1.8rem;background-size: 2rem 2rem;}
 
 
-.shop-car{width: 100%;height: 1rem;background: #fff;position: fixed;bottom:0;left:0;max-width: 750px;right:0;margin:0 auto;z-index: 99;}
+.shop-car{width: 100%;height: 1rem;background: #fff;position: fixed;bottom:0;left:0;right:0;margin:0 auto;z-index: 99;}
 .shop-car .shop-car-text{position: absolute;top:-0.42rem;height: 0.42rem;background: rgba(255,254,1,0.7);line-height:0.42rem;width: 100%;color: #232323;text-align: left;text-indent: 2em;}
 .shop-car .restText{font-size: 0.28rem;color: #262626;text-align: center;line-height: 0.96rem;height:0.96rem;letter-spacing: 0.05rem;background: rgba(255,250,218,.98)}
 .shop-car .shop-car-icon{width: 0.64rem;height: 0.64rem;background: #ccc url("../images/shop/car.png") no-repeat center;background-size: 50% auto;border-radius: 50%;top:0.15rem;left:0.2rem;position: absolute;}
@@ -118,6 +120,7 @@
 .shopOrder_info ul li .test .test-top{height: 0.45rem;}
 .shopOrder_info ul li .test .proName{font-size: 0.32rem;color: #333;line-height: 0.45rem;height: 0.45rem;overflow: hidden;float: left;}
 .shopOrder_info ul li .test .proMoney{float: right;font-size: 0.32rem;color: #fabe1a  ;}
+.shopOrder_info ul li .test .proMoney label{font-size: 0.24rem;color: #dc3b59}
 .shopOrder_info ul li .test .goods_desc{font-size: 0.24rem;color: #999;line-height: 0.3rem;height: 0.3rem;overflow: hidden;}
 .shopOrder_info ul li .test .moneyNum{font-size: 0.36rem;color: #000;line-height: 0.45rem;padding-top: .1rem;}
 .shopOrder_info ul li .test .moneyNum span{color: #999999;float: right;font-size: 0.32rem;line-height: 0.45rem;height: 0.45rem;}
@@ -133,7 +136,7 @@
 .coupon{height: 0.95rem;line-height: 0.95rem;padding: 0 0.25rem;color: #666666;font-size: 0.3rem;border-bottom: 1px solid #eee;background:#fff url("../images/icon01.png") no-repeat 98% center;background-size: auto 0.3rem}
 
 .coupon span{margin-right: 2%;}
-
+.fee_explain{padding:0 0.25rem;background: #c7c7c7;color: #fff;}
 .dispatching span,.procount span,.coupon span{float: right;}
 .remark,.procount{background: #fff;height: 0.95rem;line-height: 0.95rem;padding: 0 0.25rem;color: #666666;font-size: 0.3rem;border-bottom: 1px solid #eee;}
 .remark{margin-bottom: 1rem;}
@@ -345,9 +348,13 @@
 
 .orderDetail_info p span.colorF{color: #ffac27;}
 
-#show_fee{width: 92%;height: 0.95rem;float: left;}
-#show_fee_val{float: right;direction: rtl;height: 0.95rem;border:none;font-size: 0.32rem;color: #232323;margin-right: 0.1rem;}
-.fee_que{float: right;width: 12%;height: 0.95rem;background: url("../images/shop/ic_money_question.png") no-repeat center/0.32rem auto;position: absolute;right: 0;}
+#show_fee{width: 100%;height: 0.95rem;float: left;}
+#show_fee_val{float: right;direction: rtl;height: 0.95rem;border:none;font-size: 0.32rem;color: #232323;margin-right: 0.1rem;width: 55%;}
+.fee_que{float: right;width: 12%;height: 0.95rem;background: url("../images/shop/ic_money_question.png") no-repeat center/0.32rem auto;margin-right: -0.2rem;}
+.goods_service_fee{float: right;width: 12%;height: 0.95rem;background: url("../images/shop/ic_money_question.png") no-repeat center/0.32rem auto;margin-right: -0.2rem;}
+
+
+
 /*加入购物车动画*/
 .addCarA
 {
