@@ -175,7 +175,7 @@ $(function(){
               var dom = '';
               var count = 0;
               $.each(data.date,function(a,b){
-                  count += b.bonus;
+                  count +=parseFloat(b.bonus);
                   if(b.is_today){
                     dom += '<div class="bonusRulesDate_item clearfix active">\
                             <div class="date">'+b.date+'</div>\
