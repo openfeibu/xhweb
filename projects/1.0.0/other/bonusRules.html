@@ -196,7 +196,7 @@ $(function(){
                   
               })
               $(".bonusRules .bonusRulesDate_con").html(dom);
-              $('[data-name="bonusRulesDate_count"]').text(parseFloat(count)+'元')
+              $('[data-name="bonusRulesDate_count"]').text(parseFloat(count).toFixed(2)+'元')
             }else if(data.code == 2001 || data.code == 110){
                 if(app == 1){
                   fb_alert("请先登录");
