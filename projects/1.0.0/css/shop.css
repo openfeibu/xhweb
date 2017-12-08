@@ -3,9 +3,9 @@
 .shopSearch{width: 5rem;height: 0.6rem;border:1px solid #404040;border-radius: 0.6rem;position: absolute;top:0.2rem;left:0.5rem;background: url("../images/search-icon.png") no-repeat 0.15rem center;background-size:auto 0.4rem;text-indent: 0.8rem;}
 .myOrder-enter{position: absolute;width: 0.96rem;height: 0.96rem;background: url("../images/order-enter-icon.png") no-repeat center;background-size:auto 0.5rem;right:0;top:0;}
 .myOrder-enter a{display: block;width: 1rem;height: 1rem;}
-.shop-list{height:-webkit-calc(100% -2.88rem);height: calc(100% - 2.88rem);overflow-y: scroll;}
-.shop-item{background: #fff;padding:0.33rem 0.32rem;height: 1.2rem;border-bottom: 1px solid #eeeeee;}
-.shop-item .shop-img{float: left;width: 1.6rem;height: 1.2rem;position: relative;}
+.shop-list{height:-webkit-calc(100% -2.88rem);height: calc(100% - 2.88rem);overflow-y: scroll;display: none;}
+.shop-item{background: #fff;padding:0.33rem 0.32rem;min-height: 1.2rem;border-bottom: 1px solid #eeeeee;}
+.shop-item .shop-img{float: left;width: 1.6rem;height: 1.2rem;position: relative;} 
 .shop-item .shop-img img{max-width: 1.6rem;max-height: 1.2rem;}
 .shop-item .shop-right{margin-left: 1.96rem;}
 .shop-item .shop-right .shop-name{font-size: 0.32rem;color: #262626;line-height: 0.6rem;}
@@ -13,8 +13,8 @@
 .shop-item .shop-right .shop-bottom{height: 0.4rem;line-height: 0.4rem;}
 .shop-item .shop-right .shop-bottom .shop-min{font-size: 0.25rem;color: #e48912;margin-right: 0.25rem;float: left;}
 .shop-item .shop-right .shop-bottom .shop-pei{font-size: 0.25rem;color: #5ac8fa;margin-right: 0.25rem;float: left;}
-.shop-item .shop-right .shop-map{font-size: 0.28rem;color: #999;line-height: 0.6rem;overflow: hidden;height: 0.6rem;}
-
+.shop-item .shop-right .shop-map{font-size: 0.28rem;color: #999;line-height: 0.42rem;}
+ 
 
 /*店铺详情*/
 .shop-detail{height: -webkit-calc(100% - 1rem);height: calc(100% - 1rem);height: -moz-calc(100%-1rem);overflow-y: auto;-webkit-overflow-scrolling:touch}
@@ -75,7 +75,7 @@
 
 
 .shop-car{width: 100%;height: 1rem;background: #fff;position: fixed;bottom:0;left:0;right:0;margin:0 auto;z-index: 99;}
-.shop-car .shop-car-text{position: absolute;top:-0.42rem;height: 0.42rem;background: rgba(255,254,1,0.7);line-height:0.42rem;width: 100%;color: #232323;text-align: left;text-indent: 2em;}
+.shop-car .shop-car-text{position: absolute;bottom:1rem;min-height: 0.42rem;background: rgba(255,254,1,0.7);line-height:0.42rem;width: 98%;color: #232323;text-align: left;padding:0 1%;}
 .shop-car .restText{font-size: 0.28rem;color: #262626;text-align: center;line-height: 0.96rem;height:0.96rem;letter-spacing: 0.05rem;background: rgba(255,250,218,.98)}
 .shop-car .shop-car-icon{width: 0.64rem;height: 0.64rem;background: #ccc url("../images/shop/car.png") no-repeat center;background-size: 50% auto;border-radius: 50%;top:0.15rem;left:0.2rem;position: absolute;}
 .shop-car .shop-car-icon.on{transition:all 0.1s;width: 0.64rem;height: 0.64rem;background-color: #262626;}
@@ -139,7 +139,8 @@
 .fee_explain{padding:0 0.25rem;background: #c7c7c7;color: #fff;}
 .dispatching span,.procount span,.coupon span{float: right;}
 .remark,.procount{background: #fff;height: 0.95rem;line-height: 0.95rem;padding: 0 0.25rem;color: #666666;font-size: 0.3rem;border-bottom: 1px solid #eee;}
-.remark{margin-bottom: 1rem;}
+.red-remark{margin-bottom: 1rem;background: #fff;height: 0.95rem;line-height: 0.95rem;padding: 0 0.25rem;color: #666666;font-size: 0.26rem;border-bottom: 1px solid #eee;color: #fabe1a;}
+
 .remark label,.procount label{float: left;}
 .remark input{float: right;width: 5.1rem;height: 0.9rem;line-height: 0.9rem;color: #262626;font-size: 0.32rem;}
 .procount span{color: #fabe1a  ;font-size: 0.32rem;}
@@ -336,8 +337,8 @@
 .p01,.p02{display: none;}
 
 .shop_tab{width: 100%;text-align: center;background: #fff;height: 0.96rem;line-height: 0.91rem;position: fixed;top:0.96rem;z-index: 999;border-bottom: 1px solid #eeeeee;}
-.shop_tab span{display: inline-block;width:32%;color: #999999;font-size: 0.32rem;}
-.shop_tab span a{color: #999999}
+.shop_tab span{display: inline-block;width:49%;color: #999999;font-size: 0.32rem;}
+.shop_tab span a{color: #999999} 
 .shop_tab span.on{border-bottom: 3px solid #ffe00f;}
 .shop_tab span.on a{color: #262626;}
 
@@ -353,7 +354,7 @@
 .fee_que{float: right;width: 12%;height: 0.95rem;background: url("../images/shop/ic_money_question.png") no-repeat center/0.32rem auto;margin-right: -0.2rem;}
 .goods_service_fee{float: right;width: 12%;height: 0.95rem;background: url("../images/shop/ic_money_question.png") no-repeat center/0.32rem auto;margin-right: -0.2rem;}
 
-
+.myOrderBox {overflow: auto;}
 
 /*加入购物车动画*/
 .addCarA

@@ -66,7 +66,7 @@
 		<ul>
 			<li class="on animate"><a href="#/home">校园</a></li>
       <li class="animate"><a href="#/work/canteen">任务</a></li>
-      <li class="animate"><a href="#/shop/getCampusList">店铺</a></li>
+      <li class="animate"><a href="#/shop">店铺</a></li>
 			<li class="animate"><a href="#/mine">我的</a></li>
 		</ul>
 	</footer>
@@ -211,11 +211,12 @@
           } else {
               var type = getRouter();
           }
-          var page = fb.page;
-          var work_list =  type == 'canteen' ? $(".work_list_canteen") : type == 'personal' ? $(".work_list_personal") : type == 'business' ? $(".work_list_business") : '';
-          var index =  type == 'canteen' ? 0 : type == 'personal' ? 1 : type == 'business' ? 2 : 0;
-          //tab切换
+          var work_type = type == 'canteen' ? 'canteer' : type == 'scholl' ? 'personal,business' : 'canteer' ;
+          var index = type == 'canteen' ? 0 : type == 'scholl' ?  1 : 0 ;
           $(".work_tab span").eq(index).addClass("on").siblings("span").removeClass("on");
+          
+          var page = fb.page;
+          var work_list = type == 'canteen' ? $(".work_list_canteen") : type == 'scholl' ? $(".work_list_school") : $(".work_list_canteen") ;
           work_list.show().siblings(".work_list").hide();
           //tab切换
           work_list.off("scroll"); //清除滚动事件
@@ -224,14 +225,25 @@
           }
           var workData = {
               page: page,
-              type: type
+              type: work_type
           }
           $.getJSON(locahost + 'order/getOrderList/', workData, function(data) {
               loading(false);
-          
               $(".work_list").pullToRefreshDone();
               var work_html = "";
               var mine_id = window.localStorage.uid;
+              if(window.localStorage.autoWork){
+                if(window.localStorage.lastWorkOid ==  data.data[0].oid){
+                  //没有新订单
+                }else{
+                  var audio = new Audio("images/music.mp3");
+                  audio.play();
+                  window.localStorage.lastWorkOid =  data.data[0].oid;
+                }
+               
+
+              }
+
               $.each(data.data, function(a, b) {
                   var href = "";
                   var work_status_class = 'will';
@@ -242,7 +254,7 @@
                   }
                   if (b.status == "new") {
                       work_status_class = 'will';
-                  } else if (b.status == "completed") {
+                  } else if (b.status == "completed"){
                       //已完成
                       work_status_class = 'ed';
                   } else {
@@ -284,8 +296,9 @@
                       //已经没数据
                       work_list.append("<div id='loaded'>我是有底线的</div>");
                   } else {
+
                       work_list.on("scroll", function() {
-                          if (work_list.scrollTop() + 50 >= work_list[0].scrollHeight - work_list.height()) {
+                          if (work_list.scrollTop() + 150 >= work_list[0].scrollHeight - work_list.height()) {
                               //到底
                               var workPage = page;
                               workPage++;
@@ -315,9 +328,9 @@
                 var type = getRouter();
             }
             var page = fb.page;
-            var shop_list = type == 'getCampusList' ? $(".shop-Campus-list") : type == 'getSellerList' ? $(".shop-Seller-list") : type == 'getStudentList' ? $(".shop-Student-list") : '';
-            var shop_type = type == 'getCampusList' ? 3 : type == 'getSellerList' ? 2 : type == 'getStudentList' ? 1 : 3 ;
-            var index = type == 'getCampusList' ? 0 : type == 'getSellerList' ? 2 : type == 'getStudentList' ? 1 : 0 ;
+            var shop_list = type == 'getCampusList' ? $(".shop-Campus-list") : type == 'getSellerList' ? $(".shop-Seller-list") : $(".shop-Campus-list");
+            var shop_type = type == 'getCampusList' ? '3' : type == 'getSellerList' ? '1,2' : '3' ;
+            var index = type == 'getCampusList' ? 0 : type == 'getSellerList' ?  1  : 0 ;
             //tab切换
             $(".shop_tab span").eq(index).addClass("on").siblings("span").removeClass("on");
             shop_list.show().siblings(".shop-list").hide();
@@ -369,7 +382,7 @@
                     </div>\
                     <div class="shop-right">\
                       <div class="shop-name">'+b.shop_name+shop_status+'</div>\
-                      <div class="shop-map">'+b.description+'</div>\
+                      <div class="shop-map">'+b.description.replace(/\n/g,'</br>')+'</div>\
                     </div>\
                   </a>\
                 </div>';
@@ -449,17 +462,17 @@
 
                               }
                             },
-         '/work/business':{before:function(){
+         '/work/scholl':{before:function(){
                                  $("footer li").removeClass("on").eq(1).addClass("on")
                                   tab = window.location.hash.replace(/#\//,"");
                               },
                               on:function(){
                                 getSchoolWork(function(){
-                                  getWork({"index":2});
+                                  getWork({"index":1});
                                 })
                               }
                             },
-         '/shop/getCampusList': {before:function(){
+         '/shop': {before:function(){
                                  $("footer li").removeClass("on").eq(2).addClass("on")
                                   tab = window.location.hash.replace(/#\//,"");
                               },
@@ -475,7 +488,7 @@
                               },
                               on:function(){
                                 getShop(function(){
-                                  getShopList({"index":2});
+                                  getShopList({"index":1});
                                 })
 
                               }
@@ -486,7 +499,7 @@
                               },
                               on:function(){
                                 getShop(function(){
-                                  getShopList({"index":1});
+                                  getShopList({"index":2});
                                 })
                               }
                             },

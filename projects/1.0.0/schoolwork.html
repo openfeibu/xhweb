@@ -1,5 +1,5 @@
 	
-	<div class="work_list_main">
+	<div class="work_list_main pt2">
 		<div class="header_title">
 			<p>校园任务</p>
 			<div class="postTopic">
@@ -8,17 +8,13 @@
 			</div>
 		</div>
 		<div class="work_tab">
-			<span class="on"><a href="#/work/canteen">饭堂任务</a></span>
-			<span><a href="#/work/personal">校友任务</a></span>
-			<span><a href="#/work/business">店铺任务</a></span>
+			<span class="on"><a href="#/work/canteen">店铺任务</a></span>
+			<span><a href="#/work/scholl">校园任务</a></span>
 		</div>
-		<div class="work_list work_list_canteen " >
+		<div class="work_list work_list_canteen " style="display: block;	">
 			
 		</div>
-		<div class="work_list work_list_personal " >
-			
-		</div>
-		<div class="work_list work_list_business " >
+		<div class="work_list work_list_school " >
 			
 		</div>
 	</div>
@@ -37,6 +33,36 @@
 			fb_alert("该任务已被接")
 		}
 	});
-
+	if(window.localStorage.autoWork){
+       setInterval(function(){getWork();$.showLoading(); setTimeout(function() {
+          $.hideLoading();
+        }, 1000)},10000)
+      }
+	wx.onMenuShareTimeline({
+	    title: '校园任务', // 分享标题
+	    link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+	    imgUrl: 'http://web.feibu.info/icon.png', // 分享图标
+	    success: function () { 
+	    	fb_toast("分享成功");
+	    },
+	    cancel: function () { 
+	    	fb_toast("取消分享", "cancel");
+	    }
+	});
+	wx.onMenuShareAppMessage({
+			  title: '校园任务', // 分享标题
+			  desc: '赚钱就来校汇', // 分享描述
+			  link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+			  imgUrl: 'http://web.feibu.info/icon.png', // 分享图标
+			  type: 'link', // 分享类型,music、video或link，不填默认为link
+			  dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+			  success: function () { 
+				  fb_toast("分享成功");
+				  
+			  },
+			  cancel: function () { 
+				fb_toast("取消分享", "cancel");
+			  } 
+		  });
 
 </script>

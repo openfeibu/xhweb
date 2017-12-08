@@ -6,18 +6,14 @@
 </div>
 <div class="shop_tab">
   <span class="on"><a href="#/shop/getCampusList">校园饭堂</a></span>
-  <span><a href="#/shop/getStudentList">学生店铺</a></span>
   <span><a href="#/shop/getSellerList">商家店铺</a></span>
 </div>
 <div class="shop pt2">
   
-	<div class="shop-list shop-Campus-list">
+	<div class="shop-list shop-Campus-list" style="display: block;">
     
 	
 	</div>
-  <div class="shop-list shop-Student-list">
-    
-  </div>
   <div class="shop-list shop-Seller-list">
     
   </div>
@@ -30,11 +26,11 @@
      // $(".shop-list").pullToRefreshDone();
     });
 
-   //兼容低级浏览器设置高度
+  //兼容低级浏览器设置高度
 
   var fontS = parseFloat($(window).width() / 7.5) > 100 ? 100 : parseFloat($(window).width() / 7.5);
-
   $(".shop-list").css("height", $(window).height() - 2.88 * fontS+50)
+  
   loading(true); //动画
   var app = 0;
   if(GetString("device") == "android"){

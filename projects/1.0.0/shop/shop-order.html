@@ -27,7 +27,6 @@
   <script type="text/javascript" src="../js/jquery.min.js"></script>
   <script type="text/javascript" src="../js/common.js"></script>
   <script type="text/javascript" src="../js/director.js"></script>
-  <script type="text/javascript" src="../js/updata.js"></script>
   <!-- weui -->
   <link rel="stylesheet" type="text/css" href="../css/weui.min.css">
   <script type="text/javascript" src="../js/weui.min.js"></script>
@@ -49,17 +48,7 @@
         </div>
         <div class="myOrder pt2">
           <div class="myOrderBox waitpay">
-             <!--  <div class="shopOrder-item">
-                <a href="">
-                  <div class="img"><img src="../images/loaded.png" alt=""></div>
-                  <div class="test">
-                    <div class="shopName">我们之间</div>
-                    <div class="status_desc">状态：待付款</div>
-                    <div class="shopNum">数量：1</div>
-                    <div class="count">总价：￥129</div>
-                  </div>
-                 </a>
-              </div> -->
+             
           </div>
            <div class="myOrderBox beship">
 
@@ -78,15 +67,26 @@
 	</section>
 </body>
 <script>
+     //兼容低级浏览器设置高度
+    var fontS = parseFloat($(window).width() / 7.5) > 100 ? 100 : parseFloat($(window).width() / 7.5);
+    $(".myOrderBox").css("height", $(window).height() - 1.92* fontS+50);
+    $(".myOrderBox").pullToRefresh();
+    $(".myOrderBox").on("pull-to-refresh", function() {
+      getOrder();
+     // $(".shop-list").pullToRefreshDone();
+    });
     var app = 0;
     if(window.localStorage.app == 1 || GetString("device") == "android"){
       $(".header_title").remove();
       $(".pt2").addClass("pt1").removeClass("pt2");
+      $(".myOrderBox").css("height", $(window).height() - 0.92* fontS+50)
       // $(".shop-detail-con").addClass("appheight");
       $(".shopOrder-select").css("top","0");
       window.localStorage.token  = JSON.parse(window.feibu.interactive('{"action":"getToken"}')).value;
       window.localStorage.app = app =1;
     }
+
+
     if( GetString("locahost") == "home"){
       $(".return").attr("onclick","window.location.href='"+webLoca+"index.html#/mine'");
     }
@@ -110,13 +110,14 @@
           // var work_locahost = type == "meet" ? 'order/getMyWork/' : type == "hair" ? 'order/getMyOrder/' : 'order/getMyWork/';
           var page = fb.page;
           var myOrderBox = type == 'waitpay' ? $(".waitpay") : type == 'beship' ? $(".beship") : type == 'shipping' ? $(".shipping") : type == 'succ' ? $(".succ") : type == 'cancell' ? $(".cancell") : '';
+          var index = type == 'waitpay' ? 0 : type == 'beship' ? 1 : type == 'shipping' ? 2 : type == 'succ' ? 3 : type == 'cancell' ? 4 : 0;
           //tab切换
-          $(".shopOrder-select .left").eq(fb.index).addClass("on").siblings(".left").removeClass("on");
-          $(".myOrderBox").eq(fb.index).show().siblings(".myOrderBox").hide();
+          $(".shopOrder-select .left").eq(index).addClass("on").siblings(".left").removeClass("on");
+          $(".myOrderBox").eq(index).show().siblings(".myOrderBox").hide();
           //tab切换
-          $(window).off("scroll"); //清除滚动事件
+          myOrderBox.off("scroll"); //清除滚动事件
           if ($("#loading").length == 0 && page != 1) {
-              $(".myOrder").append("<div id='loading'>正在玩命的加载中...</div>");
+              myOrderBox.append("<div id='loading'>正在玩命的加载中...</div>");
           }
           var postData = {
               page: page,
@@ -124,6 +125,7 @@
               type: type,
           }
           $.getJSON(locahost +'orderInfo/index', postData, function(data) {
+              myOrderBox.pullToRefreshDone();
               loading(false);
               if(data.code == 2001){
                 fb_alert(fb_error["2001"]);
@@ -149,13 +151,14 @@
                       $("#loading,#loaded").remove();
                   } else {
                       $("#loading,#loaded").remove();
-                      $(".myOrder").append("<div id='loaded'>我是有底线的</div>")
+                      myOrderBox.append("<div id='loaded'>我是有底线的</div>")
                   }
               } else {
+                  $("#loading").remove();
                   //是否为第一页 是替换数据 否追加数据 S
                   if (page == 1) {
-                      myOrderBox.html(order_html);
-                      $("#loading").remove();
+                       myOrderBox.html('<div class="weui-pull-to-refresh__layer"><div class="weui-pull-to-refresh__arrow"></div><div class="weui-pull-to-refresh__preloader"></div><div class="down">'+loadingText[Math.floor(Math.random()*(max_loadingNum-0+1)+0)]+'</div><div class="up">松开即可刷新</div><div class="refresh">正在刷新...</div> </div>'+order_html)
+                      
                   } else {
                       myOrderBox.append(order_html);
                   }
@@ -164,15 +167,14 @@
                   if (data.order_infos.length < shopPageNum) {
                       //已经没数据
                       $("#loading,#loaded").remove();
-                      $(".myOrder").append("<div id='loaded'>我是有底线的</div>");
+                      myOrderBox.append("<div id='loaded'>我是有底线的</div>");
                   } else {
-                      $(window).on("scroll", function() {
-                          if ($(window).scrollTop() + 50 >= $(document).height() - $(window).height()) {
+                      myOrderBox.on("scroll", function() {
+                          if (myOrderBox.scrollTop() + 50 >= myOrderBox[0].scrollHeight - myOrderBox.height()) {
                               //到底
                               page++;
                               getOrder({
                                   'page': page,
-                                  'index': fb.index
                               });
                           }
                       })

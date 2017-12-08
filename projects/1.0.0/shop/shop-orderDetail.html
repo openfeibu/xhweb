@@ -71,6 +71,7 @@
                 <p><label for="">订单状态</label><span class="colorF" data-name="status_desc">0.00</span></p>
                 <p><label for="">订单金额</label><span class="colorF" data-name="goods_amount">13.5</span></p>
                 <p><label for="">运费</label><span class="colorF" data-name="shipping_fee">13.5</span></p>
+                <p><label for="" >交易服务费</label><span class="colorF" data-name="goods_service_fee">13.5</span></p>
                 <p><label for="">订单号</label><span data-name="order_sn">0.00</span></p>
                 <p><label for="">红包：</label>￥-<span data-name="coupon_price"></span>元</p>
                 <p><label for="">创建时间</label><span data-name="created_at">13.5</span></p>
@@ -130,7 +131,7 @@
             $("[data-name='addressMap']").text(data.order_info.address);
             $("[data-name='addressPhone']").text(data.order_info.mobile);
             $("[data-name='shipping_fee']").text(data.order_info.shipping_fee);
-            $("[data-name='goods_amount']").text(data.order_info.goods_amount);
+            $("[data-name='goods_amount']").text(data.order_info.total_fee);
             $("[data-name='total_fee']").text(data.order_info.total_fee);
             $("[data-name='order_sn']").text(data.order_info.order_sn);
             $("[data-name='created_at']").text(data.order_info.created_at);
@@ -140,6 +141,8 @@
             $("[data-name='coupon_price']").text(data.order_info.coupon_price);
             $("[data-name='buyerMessage']").text(data.order_info.postscript);
             $("[data-name='status_desc']").text(data.order_info.status_desc);
+            $("[data-name='goods_service_fee']").text(data.order_info.goods_service_fee);
+            $("[data-name='goods_service_fee_content']").text(data.order_info.goods_service_fee_content);
             window.localStorage.total_fee = data.order_info.total_fee;//缓存总价格
             if(data.order_info.task){
               $("[data-name='mobile_task']").attr("phone",data.order_info.task.courier_mobile_no).parents(".mobile_no").show();

@@ -42,7 +42,7 @@
     <section class='main' style="height:100%;padding:0">
         <div class="header_title">
             <p data-name="shopName"></p>
-            <div class="return" onclick="returnUp()">
+            <div class="return" onclick="replaceLocation('/#/shop')">
             </div>
         </div>
         <div class="shop-detail pt1">
@@ -287,7 +287,7 @@ $(function() {
                     window.location.href = "../login.html";
                 } else {
                     // window.feibu.closeWeb();
-                    fb_alert("亲，请登录后再来购买");
+                    fb_alert(fb_error["2001"]);
 
                     setTimeout(function() {
 
@@ -320,8 +320,8 @@ $(function() {
                                 </div>\
                                 <div class="shop-pro-right" onclick="callDialog(this)">\
                                   <div class="shop-pro-name">' + b.goods_name + '</div>\
+                                  <div class="shop-pro-des">' + b.goods_desc + '</div>\
                                   <div class="shop-pro-money">￥<span>' + b.goods_price + '</span></div>\
-                                  <div class="shop-pro-d">' + b.goods_desc + '</div>\
                                 </div>';
                     } else {
                         var pro_html = '<dd  proid="' + b.goods_id + '">\
@@ -329,8 +329,8 @@ $(function() {
                                 </div>\
                                 <div class="shop-pro-right" onclick="callDialog(this)">\
                                   <div class="shop-pro-name">' + b.goods_name + '</div>\
+                                  <div class="shop-pro-des">' + b.goods_desc + '</div>\
                                   <div class="shop-pro-money">￥<span>' + b.goods_price + '</span></div>\
-                                  <div class="shop-pro-d">' + b.goods_desc + '</div>\
                                 </div>';
                     }
                     if (data.shop.shop_status == 3) {
@@ -375,7 +375,7 @@ $(function() {
             $("[ data-name='s_college_name']").text(data.shop.college_name+data.shop.address);
             $("[ data-name='s_date']").text(data.shop.open_time+"-"+data.shop.close_time);
             $("[ data-name='s_description']").text(data.shop.description);
-			
+            $(".shop-car-text").text(data.shop.description)
             min_goods_amount = data.shop.min_goods_amount;
             getCar(); //获取购物车
             if (data.goodes == '') {
@@ -414,8 +414,8 @@ $(function() {
                                 </div>\
                                 <div class="shop-pro-right" onclick="callDialog(this)">\
                                   <div class="shop-pro-name">' + b.goods_name + '</div>\
+                                  <div class="shop-pro-des">' + b.goods_desc + '</div>\
                                   <div class="shop-pro-money">￥<span>' + b.goods_price + '</span></div>\
-                                  <div class="shop-pro-d">' + b.goods_desc + '</div>\
                                 </div>';
                     } else {
                         var pro_html = '<dd  proid="' + b.goods_id + '">\
@@ -423,8 +423,8 @@ $(function() {
                                 </div>\
                                 <div class="shop-pro-right" onclick="callDialog(this)">\
                                   <div class="shop-pro-name">' + b.goods_name + '</div>\
+                                  <div class="shop-pro-des">' + b.goods_desc + '</div>\
                                   <div class="shop-pro-money">￥<span>' + b.goods_price + '</span></div>\
-                                  <div class="shop-pro-d">' + b.goods_desc + '</div>\
                                 </div>';
                     }
 
@@ -489,7 +489,7 @@ $(function() {
             "goods_id": goods_id,
             "goods_number": goodes_num
         }
-        $.post(locahost + '/cart/updateCartGoodsNumber', postData, function(data) {
+        $.post(locahost + 'cart/updateCartGoodsNumber', postData, function(data) {
             if (data.code == 2001) {
                 fb_alert(fb_error["2001"])
                     // window.location.href = "../login.html";
@@ -981,7 +981,7 @@ $(function() {
     //商品详情
     function callDialog(that) {
         var names = $(that).parents("dd").find(".shop-pro-name").text();
-        var dec = $(that).parents("dd").find(".shop-pro-d").text();
+        var dec = $(that).parents("dd").find(".shop-pro-des").text();
         var img = $(that).parents("dd").find(".shop-pro-img").attr("imgUrl");
         var money = $(that).parents("dd").find(".shop-pro-money").html();
         // if (app) {

@@ -24,11 +24,18 @@
   <link rel="stylesheet" type="text/css" href="../css/reset.css">
   <link rel="stylesheet" type="text/css" href="../css/index.css">
   <link rel="stylesheet" type="text/css" href="../css/info.css">
-    <script type="text/javascript" src="../js/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/jquery.min.js"></script>
   <script type="text/javascript" src="../js/common.js"></script>
   <script type="text/javascript" src="../js/director.js"></script>
   <script type="text/javascript" src="../js/updata.js"></script>
   <script type="text/javascript" src="../js/md5.js"></script>
+
+   <!-- weui -->
+  <link rel="stylesheet" type="text/css" href="../css/weui.min.css">
+  <script type="text/javascript" src="../js/weui.min.js"></script>
+      <!-- wx -->
+  <script type="text/javascript" src="../js/jweixin-1.2.0.js"></script>
+
 </head>
 <body >
 	<section class='main' style="padding-bottom:0">
@@ -43,7 +50,7 @@
         </div>
         <div class="myOrder pt2">
           <div class="myOrderBox work_list  meet">
-
+  
           </div>
            <div class="myOrderBox work_list  hair">
 
@@ -52,12 +59,20 @@
 	</section>
 </body>
 <script>
+    //兼容低级浏览器设置高度
+    var fontS = parseFloat($(window).width() / 7.5) > 100 ? 100 : parseFloat($(window).width() / 7.5);
+    $(".work_list").css("height", $(window).height() - 1.92* fontS+50)
        /*头部切换事件 S*/
     $(".work_tab a").on("click",function(){
       var url = $(this).attr("href");
       replaceLocation(url);
       return false;
     })
+    $(".work_list").pullToRefresh();
+    $(".work_list").on("pull-to-refresh", function() {
+      getWork();
+     // $(".shop-list").pullToRefreshDone();
+    });
     /*头部切换事件 E*/
     var token = window.localStorage.token;
       // 我的任务
@@ -71,19 +86,21 @@
           var work_locahost = type == "meet" ? 'order/getMyWork/' : type == "hair" ? 'order/getMyOrder/' : 'order/getMyWork/';
           var page = fb.page;
           var myOrderBox = type == 'meet' ? $(".meet") : type == 'hair' ? $(".hair") : '';
+          var index  = type == 'meet' ? 0 : type == 'hair' ? 1 : 0;
           //tab切换
-          $(".work_tab span").eq(fb.index).addClass("on").siblings("span").removeClass("on");
-          $(".myOrderBox").eq(fb.index).show().siblings(".myOrderBox").hide();
+          $(".work_tab span").eq(index).addClass("on").siblings("span").removeClass("on");
+          $(".myOrderBox").eq(index).show().siblings(".myOrderBox").hide();
           //tab切换
-          $(window).off("scroll"); //清除滚动事件
+          myOrderBox.off("scroll"); //清除滚动事件
           if ($("#loading").length == 0 && page != 1) {
-              $(".myOrder").append("<div id='loading'>正在玩命的加载中...</div>");
+              myOrderBox.append("<div id='loading'>正在玩命的加载中...</div>");
           }
           var workData = {
               page: page,
               token: token
           }
           $.getJSON(locahost + work_locahost, workData, function(data) {
+              $(".work_list").pullToRefreshDone();
               loading(false);
               clearLoading()
               if(data.code == 200){
@@ -124,14 +141,15 @@
                     } else {
                         $("#loading,#loaded").remove();
 
-                        $(".myOrder").append("<div id='loaded'>我是有底线的</div>")
+                        myOrderBox.append("<div id='loaded'>我是有底线的</div>")
                     }
                 } else {
+                    $("#loading").remove();
                     //是否为第一页 是替换数据 否追加数据 S
                     if (page == 1) {
-                        myOrderBox.html(work_html);
-                        $("#loading").remove();
+                        myOrderBox.html('<div class="weui-pull-to-refresh__layer"><div class="weui-pull-to-refresh__arrow"></div><div class="weui-pull-to-refresh__preloader"></div><div class="down">'+loadingText[Math.floor(Math.random()*(max_loadingNum-0+1)+0)]+'</div><div class="up">松开即可刷新</div><div class="refresh">正在刷新...</div> </div>'+work_html)
                     } else {
+
                         myOrderBox.append(work_html);
                     }
                     //是否为第一页 是替换数据 否追加数据 E
@@ -139,16 +157,15 @@
                     if (data.data.length < workPageNum) {
                         //已经没数据
                         $("#loading,#loaded").remove();
-                        $(".myOrder").append("<div id='loaded'>我是有底线的</div>");
+                       myOrderBox.append("<div id='loaded'>我是有底线的</div>");
                     } else {
-                        $(window).on("scroll", function() {
-                            if ($(window).scrollTop() + 50 >= $(document).height() - $(window).height()) {
+                        myOrderBox.on("scroll", function() {
+                            if (myOrderBox.scrollTop() + 50 >= myOrderBox[0].scrollHeight - myOrderBox.height()) {
                                 //到底
                                 var workPage = page;
                                 workPage++;
                                 getWork({
                                     'page': workPage,
-                                    'index': fb.index
                                 });
                             }
                         })

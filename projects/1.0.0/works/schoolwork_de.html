@@ -28,7 +28,6 @@
     <script type="text/javascript" src="../js/jquery.min.js"></script>
   <script type="text/javascript" src="../js/common.js"></script>
   <script type="text/javascript" src="../js/director.js"></script>
-  <script type="text/javascript" src="../js/updata.js"></script>
   <script type="text/javascript" src="../js/md5.js"></script>
   <script type="text/javascript" src="../js/xhPay.js"></script>
   <script src="../js/swiper.min.js"></script>
@@ -44,7 +43,7 @@
 <section class='main' style="padding-bottom:0">
      <div class="header_title">
             <p>任务详情</p>
-            <div class="return" onclick="returnUp()">
+            <div class="return" onclick="replaceLocation('/#/work')">
             </div>
             <div class="topRight more_icon"></div>
         </div>
@@ -168,7 +167,7 @@ function(data) {
           tell = '<div class="tell totell box-shadow"><a href="tel:' + b.alt_phone + '">联系</a></div>';
           state_index = 1;
           work_status_class = 'ing';
-          input_submit = '<input style="width:33%" type="button" value="取消任务" class="closeOrder opa_active"/><input type="button" style="width:33%" value="确认送达" class="DoneOrder opa_active"/><input type="button" style="width:33%" value="校汇扫码支付" class="saoCode opa_active"/>';
+          input_submit = '<input style="width:50%" type="button" value="取消任务" class="closeOrder opa_active"/><input type="button" style="width:50%" value="确认送达" class="DoneOrder opa_active"/>';
         }else if(b.status == "finish"){
           //待结算
           tell = '<div class="tell totell box-shadow"><a href="tel:' + b.alt_phone + '">联系</a></div>';
