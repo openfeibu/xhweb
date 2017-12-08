@@ -211,7 +211,7 @@
           } else {
               var type = getRouter();
           }
-          var work_type = type == 'canteen' ? 'canteer' : type == 'scholl' ? 'personal,business' : 'canteer' ;
+          var work_type = type == 'canteen' ? 'canteen' : type == 'scholl' ? 'personal,business' : 'canteen' ;
           var index = type == 'canteen' ? 0 : type == 'scholl' ?  1 : 0 ;
           $(".work_tab span").eq(index).addClass("on").siblings("span").removeClass("on");
           
